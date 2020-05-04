@@ -1,0 +1,530 @@
+﻿@{
+    ViewData["Title"] = "Formulários";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="ui icon info message">
+    <i class="info icon"></i>
+    <div class="content">
+        <div class="header">
+            Nota importante:
+        </div>
+        <p>
+            Os elementos dos formulários devem ocupar 100% da largura
+            disponível, exceto quando a extensão do conteúdo justifique a
+            utilização de elementos mais pequenos.
+        </p>
+    </div>
+</div>
+
+<form class="ui form">
+    <div class="code example" data-text="default field">
+        <div class="field">
+            <label>Nome(s) próprio(s)</label>
+            <input name="nomes-próprios"
+                   placeholder="Ex: João Manuel"
+                   type="text" />
+        </div>
+    </div>
+
+    <div class="code example" data-text="required field">
+        <div class="required field">
+            <label>Apelido(s)</label>
+            <input name="apelidos"
+                   placeholder="Ex: da Silva Gomes"
+                   type="text" />
+        </div>
+    </div>
+
+    <div class="code example" data-text="equal width fields">
+        <div class="equal width fields">
+            <div class="field">
+                <label>Nome amigável</label>
+                <input name="nome-amigavel"
+                       placeholder="Ex: João Gomes"
+                       type="text" />
+            </div>
+            <div class="required field">
+                <label>Utizador universal</label>
+                <input name="utilizador-universal"
+                       placeholder="Ex: joao.xxxxxx@ua.pt"
+                       type="text" />
+            </div>
+        </div>
+    </div>
+
+    <div class="code example" data-text="error field">
+        <div class="field">
+            <label>Email externo</label>
+            <span class="error field">
+                <input name="email-externo"
+                       placeholder="Ex: joao.xxxxxx@gmail.com"
+                       type="text" />
+            </span>
+        </div>
+    </div>
+
+    <div class="code example" data-text="default dropdown">
+        <div class="js-remove ui icon message">
+            <i class="info icon"></i>
+            <div class="content">
+                <div class="header">
+                    Nota relativa à utilização de Dropdowns:
+                </div>
+                <p>
+                    Para que funcione corretamente, este componente precisa de
+                    jQuery (excepto a versão HTML, que existe como alternativa a
+                    este requisito) e deve ser inicializado da seguinte forma:
+                </p>
+                <code>
+                    <pre>$('.ui.dropdown').dropdown();</pre>
+                </code>
+                <p>
+                    Se necessário podem ser usados seletores mais específicos
+                    (ex.: '#degree')
+                </p>
+            </div>
+        </div>
+
+        <div class="ui field">
+            <label>Alguns países da UE</label>
+            <div class="ui selection dropdown">
+                <i class="dropdown icon"></i>
+                <span class="default text">Escolha o país pretendido</span>
+                <div class="menu">
+                    <div class="item" data-value="0">Espanha</div>
+                    <div class="item" data-value="1">Portugal</div>
+                    <div class="item" data-value="2">Irlanda</div>
+                    <div class="item" data-value="3">França</div>
+                    <div class="item" data-value="4">Alemanha</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="code example" data-text="fluid dropdown">
+        <div class="field">
+            <label>Lista de opções</label>
+            <div class="ui fluid selection dropdown">
+                <i class="dropdown icon"></i>
+                <span class="default text">Selecione uma das opções</span>
+                <div class="menu">
+                    <div class="item">
+                        Opção 1
+                    </div>
+                    <div class="item">
+                        Opção 2
+                    </div>
+                    <div class="item">
+                        Opção 3
+                    </div>
+                    <div class="item">
+                        Opção 4
+                    </div>
+                    <div class="item">
+                        Opção 5
+                    </div>
+                    <div class="item">
+                        Opção 6
+                    </div>
+                    <div class="item">
+                        Opção 7
+                    </div>
+                    <div class="item">
+                        Opção 8
+                    </div>
+                    <div class="item">
+                        Opção 9
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="code example" data-text="multiple dropdown">
+        <div class="field">
+            <label>Seleção de itens</label>
+            <select name="skills"
+                    multiple=""
+                    class="label ui selection fluid dropdown">
+                <option value="">
+                    Selecione as disciplinas que pretende
+                </option>
+                <option value="1">Estética Computacional</option>
+                <option value="2">Fundamentos de Sensores e Atuadores</option>
+                <option value="3">Interação Humano-Computador</option>
+                <option value="4">Narrativas Digitais</option>
+                <option value="5">Programação para a Arte Digital I</option>
+                <option value="6">
+                    Projeto Integrado de Tecnologia e Arte Digital I
+                </option>
+                <option value="7">Avaliação da Usabilidade</option>
+                <option value="8">Visão por Computador</option>
+                <option value="9">Som e Música Digitais</option>
+                <option value="10">
+                    Conceção de Objetos de Aprendizagem
+                </option>
+                <option value="11">Realidade Virtual e Aumentada</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="code example" data-text="html select">
+        <div class="field">
+            <label>Grau académico</label>
+            <select>
+                <option value="">Escolha o seu grau académico atual</option>
+                <option value="0">1º ciclo</option>
+                <option value="1">2º ciclo</option>
+                <option value="2">3º ciclo</option>
+                <option value="3">12º ano de escolaridade</option>
+                <option value="4">Bacharelato</option>
+                <option value="5">Licenciatura</option>
+                <option value="6">Mestrado</option>
+                <option value="7">Doutoramento</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="code example" data-text="textarea">
+        <div class="field">
+            <label>Morada</label>
+            <textarea rows="2"
+                      placeholder="Ex: Universidade de Aveiro Campus Universitário de Santiago 3810-193 Aveiro Portugal"></textarea>
+        </div>
+    </div>
+
+    <div class="code example" data-text="horizontal radio checkbox">
+        <div class="inline fields">
+            <label>Género</label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input name="frequency" checked="checked" type="radio" />
+                    <label>Feminino</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input name="frequency" type="radio" />
+                    <label>Masculino</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio disabled checkbox">
+                    <input name="frequency" type="radio" />
+                    <label>Prefiro não dizer</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui grid">
+        <div class="eight wide column">
+            <div class="code example" data-text="vertical radio checkbox">
+                <div class="grouped fields">
+                    <label>Estado civil</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="opcao 1" checked="checked" type="radio" />
+                            <label>Casado(a)</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="opcao 2" type="radio" />
+                            <label>Divorciado(a)</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="opcao 3" type="radio" />
+                            <label>Separado(a) judicialmente</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="opcao 4" type="radio" />
+                            <label>Solteiro(a)</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="opcao 5" type="radio" />
+                            <label>União de facto</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="opcao 6" type="radio" />
+                            <label>Viúvo(a)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="eight wide column">
+            <div class="code example" data-text="checkbox + grouped fields">
+                <div class="grouped fields">
+                    <label>Equipamentos que utiliza</label>
+                    <div class="field">
+                        <div class="ui checked checkbox">
+                            <input name="example1" type="checkbox" />
+                            <label>Computador</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <input name="example2" type="checkbox" />
+                            <label>Telemóvel</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <input name="example3" type="checkbox" />
+                            <label>Tablet</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui disabled checkbox">
+                            <input name="example4" type="checkbox" />
+                            <label>Outro(s)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="code example" data-text="mensagem num formulário">
+        <div class="inline field">
+            <div class="ui message">
+                <div class="header">Informação</div>
+                <ul class="list">
+                    <li>
+                        Deve preencher todos os campos obrigatórios deste
+                        formulário antes de o submeter.
+                    </li>
+                    <li>
+                        Receberá um e-mail de confirmação da submissão do
+                        formulário.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="code example" data-text="date picker">
+        <div class="two fields">
+            <div class="field">
+                <label>Data de início</label>
+                <div class="ui calendar" id="rangestart">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="date" placeholder="Início" />
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Data de fim</label>
+                <div class="ui calendar" id="rangeend">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="date" placeholder="Fim" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="code example" data-text="pointing up label">
+        <div class="field">
+            <label>Empresa</label>
+            <input name="empresa"
+                   placeholder="Ex: Vista Alegre"
+                   type="text" />
+            <div class="ui pointing up label">
+                A tecla Caps Lock está ligada.
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="code example" data-text="right + left floated button">
+    <button class="ui right floated button">Seguinte</button>
+    <button class="ui left floated button">Voltar</button>
+</div>
+
+<div class="ui hidden divider"></div>
+<div class="ui hidden divider"></div>
+
+<div class="code example" data-text="fluid button">
+    <button class="fluid ui button">Botão full width</button>
+</div>
+
+<div class="code example" data-text="botões">
+    <p>
+        <button class="ui primary button">
+            <i class="icon user"></i>
+            primário com ícone
+        </button>
+
+        <button class="ui basic primary button">
+            primário básico
+        </button>
+
+        <button class="ui loading button">carregamento</button>
+    </p>
+    <p>
+        <button class="ui mini button">mini</button>
+        <button class="ui button">regular</button>
+        <button class="ui big button">big</button>
+    </p>
+</div>
+
+<div class="code example" data-text="info message">
+    <div class="ui icon info message">
+        <i class="info circle icon"></i>
+        <i class="close icon"></i>
+        <div class="content">
+            <div class="header">
+                Informação
+            </div>
+            <p>Mensagem com informação útil para o(a) utilizador(a).</p>
+        </div>
+    </div>
+</div>
+
+<div class="code example" data-text="success message">
+    <div class="ui icon success message">
+        <i class="check circle icon"></i>
+        <i class="close icon"></i>
+        <div class="content">
+            <div class="header">
+                Confirmação
+            </div>
+            <p>
+                Mensagem de resposta positiva a uma ação do(a) utilizador(a).
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="code example" data-text="negative message">
+    <div class="ui icon negative message">
+        <i class="times circle icon"></i>
+        <i class="close icon"></i>
+        <div class="content">
+            <div class="header">
+                Erro
+            </div>
+            <p>
+                Mensagem de resposta negativa a uma ação do(a) utilizador(a),
+                ou quando ocorre um problema que impede o funcionamento normal
+                da aplicação.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="code example" data-text="warning message">
+    <div class="ui icon warning message">
+        <i class="exclamation circle icon"></i>
+        <i class="close icon"></i>
+        <div class="content">
+            <div class="header">
+                Aviso
+            </div>
+            <p>
+                Mensagem para alertar o(a) utilizador(a) para uma situação que
+                possa necessitar da sua intervenção.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="code example" data-text="default divider">
+    <div class="ui divider"></div>
+</div>
+
+<div class="code example" data-text="hidden divider">
+    <div class="ui hidden divider"></div>
+</div>
+
+<div class="code example" data-text="horizontal divider + icon">
+    <div class="ui horizontal divider header">
+        <i class="user icon" title="Dados pessoais"></i>
+    </div>
+</div>
+
+<div class="code example" data-text="ordered steps">
+    <div class="ui ordered five steps compact">
+        <div class="completed step">
+            <div class="content">
+                <div class="title">Dados pessoais</div>
+                <div class="description">Informação básica</div>
+            </div>
+        </div>
+        <div class="completed step">
+            <div class="content">
+                <div class="title">Dados profissionais</div>
+                <div class="description">Experiências relevantes</div>
+            </div>
+        </div>
+        <div class="active step">
+            <div class="content">
+                <div class="title">Dados académicos</div>
+                <div class="description">Graus obtidos</div>
+            </div>
+        </div>
+        <div class="step">
+            <div class="content">
+                <div class="title">Definir o UU</div>
+                <div class="description">Nome familiar</div>
+            </div>
+        </div>
+        <div class="step">
+            <div class="content">
+                <div class="title">Confirmação</div>
+                <div class="description">Verificação</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="code example" data-text="icon + link steps">
+    <div class="ui five steps compact">
+        <div class="active step">
+            <i class="user icon"></i>
+            <div class="content">
+                <div class="title">
+                    Dados pessoais
+                </div>
+                <div class="description">Informação básica</div>
+            </div>
+        </div>
+        <a class="step">
+            <i class="briefcase icon"></i>
+            <div class="content">
+                <div class="title">Dados profissionais</div>
+                <div class="description">Experiências relevantes</div>
+            </div>
+        </a>
+        <a class="step">
+            <i class="graduation cap icon"></i>
+            <div class="content">
+                <div class="title">Dados académicos</div>
+                <div class="description">Graus obtidos</div>
+            </div>
+        </a>
+
+        <a class="step">
+            <i class="check icon"></i>
+            <div class="content">
+                <div class="title">Confirmação</div>
+                <div class="description">Verificação</div>
+            </div>
+        </a>
+    </div>
+</div>

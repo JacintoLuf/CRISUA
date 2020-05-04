@@ -1,0 +1,668 @@
+﻿@{
+    Layout = "_3ColsLayout";
+    ViewData["Title"] = "Instruções";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>ATENÇÂO: a informação desta página encontra-se desatualizada!</p>
+
+<h3 id="altera%C3%A7%C3%B5es">Alterações</h3>
+<p><strong>30.09.2017</strong></p>
+<ul>
+    <li>versão inicial</li>
+</ul>
+<h3 id="introdu%C3%A7%C3%A3o">Introdução</h3>
+<p>
+    O projeto Semantic-UA foi desenvolvido para facilitar a criação de
+    interfaces para os <em>sites</em> e aplicações web desenvolvidos nos
+    sTIC, através da disponibilização de uma folha CSS completa,
+    incluindo layout, tipografia e componentes mais comuns. Este
+    trabalho assenta na versão 2.4 da framework Semantic-UI, que foi
+    alterada para suportar as linhas gráficas orientadoras definidas
+    para as páginas atuais da UA.
+</p>
+<h3 id="objetivos">Objetivos</h3>
+<ul>
+    <li>
+        Facilitar a aplicação da imagem da UA aos sistemas dos sTIC;
+    </li>
+    <li>
+        Promover a consistência entre os sistemas a nível da estrutura das
+        páginas e componentes;
+    </li>
+    <li>Criar aplicações sem a necessidade de escrever CSS.</li>
+</ul>
+<h3 id="configura%C3%A7%C3%A3o">Configuração</h3>
+<h4 id="ficheiros-a-incluir">Ficheiros a incluir</h4>
+<p>
+    Para usar o Semantic-UA é necessário incluir um ficheiro .css e um
+    ficheiro .js no template da aplicação, de forma a que estejam
+    disponíveis em todas as páginas.
+</p>
+<p>
+    O ficheiro .css está disponível em
+    <a href="https://static.ua.pt/css/semanticUA/1.0/semantic.min.css">https://static.ua.pt/css/semanticUA/1.0/semantic.min.css</a>
+    e deve ser incluído na secção HEAD do documento HTML. Exemplo:
+</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"//static.ua.pt/css/semanticUA/1.0/semantic.min.css"</span> &gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+</div></code></pre>
+<p>
+    Alguns componentes do Semantic-UA precisam de javascript para
+    funcionarem corretamente e nesses casos é necessário adicionar a
+    biblioteca jQuery (caso o projeto não a esteja já a utilizar) e a
+    biblioteca de javascript do Semantic que está disponível em
+    <a href="https://static.ua.pt/css/semanticUA/1.0/semantic.min.js">https://static.ua.pt/css/semanticUA/1.0/semantic.min.js</a>. Este código deve ser adicionado no fim da secção BODY do
+    documento HTML. Exemplo:
+</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- código da página aqui --&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//static.ua.pt/js/jquery/jquery-3.2.1.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//static.ua.pt/css/semanticUA/1.0/semantic.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</div></code></pre>
+<h4 id="estrutura">Estrutura</h4>
+<p>
+    Para usar o Semantic-UA, as aplicações <em>web</em> dos sTIC
+    precisam de seguir uma estrutura de HMTL rígida para a construção do
+    <em>layout</em>. Esta estrutura divide-se em 3 secções: header,
+    conteúdos e footer, podendo a secção de conteúdos subdividir-se em
+    colunas. Assim a estrutura base é a apresentada a seguir:
+</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ua responsive container"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
+            (...)
+<span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"content"</span>&gt;</span>
+            (...)
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>
+            (...)
+<span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="undefined">(...)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</div></code></pre>
+<p>
+    Relativamente à área <code>content</code>, o
+    <strong><em>layout</em> oficial</strong> dos sítios web da UA é
+    constituído por 3 colunas. Por predefinição este é o
+    <em>layout</em> recomendado. A primeira e a terceira colunas têm a
+    mesma largura, uma à esquerda e outra à direita. Ambas correspondem
+    a 25% da largura da página. A coluna à esquerda pode ser usada como
+    navegação vertical, e a coluna à direita pode ser usada, por
+    exemplo, para incluir notícias da UA. A terceira coluna está no
+    centro da página, e destina-se ao conteúdo. Este
+    <em>layout</em> deve ser criado da seguinte forma:
+</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ui grid"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"four wide column"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"eight wide column"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"four wide column"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<p>
+    O <em>layout</em> de 2 colunas inclui uma coluna à esquerda que pode
+    ser usada como barra de navegação vertical. A outra coluna ocupa a
+    restante área disponível, e destina-se ao conteúdo. Pode ser usado
+    em situações em que a largura disponível na coluna central do
+    <em>layout</em> anterior não é suficiente. Este <em>layout</em> deve
+    ser usado como se segue.
+</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ui grid"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"four wide column"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"twelve wide column"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<p>
+    O <em>layout</em> de 1 coluna pode usar-se apenas em sistemas
+    internos, em situações em que se pretende que o conteúdo da página
+    ocupe toda a largura disponível com informação contextual/específica
+    sobre o sistema. Para este <em>layout</em> não é necessário código
+    adicional.
+</p>
+<h4 id="vers%C3%A3o-responsiva--n%C3%A3o-responsiva">
+    Versão responsiva / não responsiva
+</h4>
+<p>
+    O layout do Semantic-UA está preparado para se ajustar ao
+    dispositivo em que é visto (responsivo/adaptativo), bastando para
+    isso adicionar a classe <code>responsive</code> ao elemento
+    <code>container</code> (ver exemplo). Isto fará com que a largura
+    ocupada seja igual à largura do dispositivo quando esta for inferior
+    a 960 píxeis.
+</p>
+<p>
+    No entanto, a técnica usada para desenhar o <em>header</em> das
+    páginas (CSS Grid) não é compatível com o IE nem com o Edge 15 ou
+    inferior, pelo que nas situações em que é necessário garantir a
+    compatibilidade com estes browsers deve ser usada a versão não
+    responsiva como indicado no exemplo abaixo.
+</p>
+<p><strong>Exemplo da versão responsiva</strong></p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ua responsive container"</span>&gt;</span>
+        (...)
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</div></code></pre>
+<p><strong>Exemplo da versão não responsiva</strong></p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ua non-responsive container"</span>&gt;</span>
+        (...)
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</div></code></pre>
+<h4 id="configura%C3%A7%C3%A3o-do-bannerheader">
+    Configuração do banner/header
+</h4>
+<p>
+    O <em>banner</em> dos sites/aplicações suportados por este template
+    continuará a ser gerido pelo
+    <strong><a href="http://banners.ua.pt">banners.ua.pt</a></strong>, mas agora é carregado em frontend, através de um plugin jQuery
+    desenvolvido para o efeito (<strong>jqHeaderImageUA</strong>) que
+    deverá ser adicionado ao template do sistema em causa, como no
+    exemplo seguinte:
+</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    (...)
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//static.ua.pt/js/jquery/jquery-3.2.1.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//static.ua.pt/css/semanticUA/1.0/semantic.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//static.ua.pt/js/jqHeaderImageUA/0.1/jqHeaderImageUA.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</div></code></pre>
+<p>
+    O <code>&lt;header&gt;</code> da página deve estar dentro do
+    <code>&lt;div class=&quot;container&quot;&gt;</code> e ter a
+    seguinte estrutura:
+</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://static.ua.pt/images/top.png"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"placeholder js-placeholder"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">""</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"bar left"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"username"</span>&gt;</span>Utilizador<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"icons"</span>&gt;</span>icons<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"bar menu"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"bar right icons"</span>&gt;</span>icons<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+</div></code></pre>
+<p>
+    <strong>Nota:</strong> a imagem com a classe
+    <code>placeholder</code> é opcional, podendo ser usada como fallback
+    para situações em que a execução do javascript falhe, mostrando
+    assim uma imagem genérica no lugar do banner.
+</p>
+<p>
+    A inicialização do <em>plugin</em>
+    <strong>jqHeaderImageUA</strong> deve ser feita a seguir à sua
+    importação (no fundo da página), como no exemplo:
+</p>
+<pre class="hljs"><code><div>$(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  $(<span class="hljs-string">"header"</span>).headerImage({
+<span class="hljs-attr">serviceId</span>: <span class="hljs-number">187</span>,     <span class="hljs-comment">// Id do serviço no banners</span>
+    subServiceId: <span class="hljs-number">911</span>,  <span class="hljs-comment">// Id do subserviço (banner)</span>
+    leftTextId: <span class="hljs-number">0</span>,      <span class="hljs-comment">// Id do texto à esquerda</span>
+    rightTextId: <span class="hljs-number">0</span>,     <span class="hljs-comment">// Id do texto à direita</span>
+    leftTextColorId: <span class="hljs-number">0</span>, <span class="hljs-comment">// Id da cor do texto à esquerda</span>
+    rightTextColorId: <span class="hljs-number">0</span>,<span class="hljs-comment">// Id da cor do texto à direita</span>
+    leftLogo: <span class="hljs-number">1</span>,        <span class="hljs-comment">// Id do logo do centro-esquerda</span>
+    leftLogoColorId: <span class="hljs-number">0</span>, <span class="hljs-comment">// Id da cor do logo do centro-esquerda</span>
+    rightLogo: <span class="hljs-number">1</span>        <span class="hljs-comment">// Id do logo do centro-direita</span>
+  });
+});
+</div></code></pre>
+<p>
+    A ordem dos parâmetros é arbitrária e todos são opcionais, sendo que
+    na sua ausência são assumidos os valores predefinidos apresentados
+    no exemplo anterior.
+</p>
+<p>
+    Este <em>plugin</em> irá injetar no <code>&lt;header&gt;</code> os
+    <em>tags</em> de imagem necessários para desenhar o banner, sendo a
+    obtenção dos ficheiros de imagem correspondentes feita pelo próprio
+    <em>browser</em>.
+</p>
+<h3 id="p%C3%A1ginas-de-exemplo">Páginas de exemplo</h3>
+<p>
+    Existem cinco páginas de exemplo disponíveis para consulta onde é
+    possível copiar o código de cada componente de forma simples. São as
+    seguintes:
+</p>
+<ol>
+    <li>
+        <a href="https://static.ua.pt/css/semanticUA/demo/index.html">Entrada</a>: exemplo de página de entrada de um sistema;
+    </li>
+    <li>
+        <a href="https://static.ua.pt/css/semanticUA/demo/form.html">Formulário</a>: página com elementos que se usam tipicamente num formulário,
+        tais como campos, botões ou mensagens;
+    </li>
+    <li>
+        <a href="https://static.ua.pt/css/semanticUA/demo/content.html">Conteúdo</a>: página com informação geral sobre um ou mais tópicos. Pode
+        utilizar medias diferentes, de acordo com o que for necessário,
+        ex: imagens, texto, etc;
+    </li>
+    <li>
+        <a href="https://static.ua.pt/css/semanticUA/demo/detail.html">Detalhe</a>: componentes tipicamente usados em páginas de detalhe ou de
+        listagem, incluindo labels, tabelas e popups;
+    </li>
+    <li>
+        <a href="https://static.ua.pt/css/semanticUA/demo/error.html">Erro</a>: exemplos de páginas com mensagens de erro.
+    </li>
+</ol>
+<p>
+    Em cada uma destas páginas incluimos exemplos de cada um dos
+    componentes disponíveis no template semantic-UA, existindo junto de
+    cada elemento um botão para copiar o código necessário.
+</p>
+<p>Os componentes disponíveis para cópia nessas páginas são:</p>
+<h4 id="formul%C3%A1rio">Formulário</h4>
+<p>
+    <strong>field</strong> - Elemento básico de um formulário com
+    <code>label</code> e <code>input</code>:
+</p>
+<ul>
+    <li>
+        <strong>default</strong> - Campo que deve ser usado por
+        predefinição.
+    </li>
+    <li>
+        <strong>required</strong> - Para campos de preenchimento
+        obrigatório.
+    </li>
+    <li>
+        <strong>equal width</strong> - Assegura a distribuição horizontal
+        entre campos <em>inline</em>. Pode ser usado quando há vários
+        campos consecutivos onde previsivelmente será inserida informação
+        pouco extensa, por exemplo, campos de morada segmentados ou datas.
+    </li>
+    <li>
+        <strong>error</strong> - Classe usada para assinalar campos que
+        falharam a validação do formulário.
+    </li>
+</ul>
+<p>
+    <strong>textarea</strong> - Campo de texto com várias linhas para
+    introdução de grandes blocos de texto.
+</p>
+<p>
+    <strong>dropdown</strong> * - Componente para listas de opções com 7
+    ou mais elementos, ou quando o número de listas o justifica (muitas
+    listas no mesmo formulário, o que o poderia tornar confuso).
+    Variações:
+</p>
+<ul>
+    <li><strong>default</strong> * - A usar por predefinição.</li>
+    <li>
+        <strong>fluid</strong> * - Deve ser usado quando se pretende que o
+        componente ocupe toda a largura disponível.
+    </li>
+    <li>
+        <strong>multiple</strong> * - Permite selecionar vários itens de
+        uma lista de opções.
+    </li>
+    <li>
+        <strong>html</strong> - Para situações em que não há Javascript
+        disponível.
+    </li>
+</ul>
+<p>
+    <strong>radio checkbox</strong> - Para selecionar apenas um valor de
+    um conjunto reduzido de opções. Versões:
+</p>
+<ul>
+    <li>
+        <strong>horizontal</strong> - Distribui horizontalmente as opções.
+        Indicado para uso até ao limite de 4 opções, caso o texto seja
+        curto. As classes <code>checked</code> e
+        <code>disabled</code> destinam-se a assinalar o estado do
+        componente ou da opção.
+    </li>
+    <li>
+        <strong>vertical</strong> - Distribui verticalmente as opções.
+        Deve ser usado quando a visibilidade é uma prioridade, e existem
+        até 6 opções.
+    </li>
+</ul>
+<p>
+    <strong>checkbox + grouped fields</strong> - Permite a escolha de
+    uma ou mais opções de um grupo de elementos limitado.
+</p>
+<p>
+    <strong>message</strong> - Para mostrar informação ao utilizador no
+    contexto de um formulário.
+</p>
+<p>
+    <strong>date picker</strong> - Para escolha de datas a partir de um
+    calendário (usa a implementação de <code>date input</code> do
+    <em>browser</em>).
+</p>
+<p>
+    <strong>pointing up label</strong> - Legenda que dá informação
+    específica de um campo, por exemplo, para indicar restrições de
+    preenchimento.
+</p>
+<p>
+    <strong>button</strong> - Para indicar possíveis ações dos
+    utilizadores. Variantes:
+</p>
+<ul>
+    <li>
+        <strong>right / left floated</strong> - Para alinhar o botão à
+        direita e/ou à esquerda do seu <em>container</em>.
+    </li>
+    <li><strong>fluid</strong> - Ocupa toda a largura disponível.</li>
+    <li>
+        <strong>primary + icon</strong> - Corresponde à ação principal
+        pretendida numa determinada página. A classe
+        <code>icon</code> permite adicionar um ícone.
+    </li>
+    <li>
+        <strong>basic</strong> - Usa-se em situações em que os botões
+        devem ter menos destaque, por exemplo em interfaces mais simples.
+    </li>
+    <li>
+        <strong>mini / medium / big + loading</strong> - Tamanhos
+        disponíveis para os botões. A classe <code>loading</code> permite
+        demonstrar ao utilizador que há uma operação em curso após clicar
+        num botão.
+    </li>
+</ul>
+<p>
+    <strong>message</strong> - Mensagens ou notificações que podem ser
+    de um dos seguintes tipos:
+</p>
+<ul>
+    <li>
+        <strong>message info</strong> - Informação que explica conteúdo
+        próximo ou uma operação.
+    </li>
+    <li>
+        <strong>message success</strong> - Resposta positiva a uma ação
+        do(a) utilizador(a).
+    </li>
+    <li>
+        <strong>message negative</strong> - Resposta negativa a uma ação
+        do(a) utilizador(a), ou quando ocorre um problema que impede o
+        funcionamento normal da aplicação.
+    </li>
+    <li>
+        <strong>message warning</strong> - Alerta para o(a) utilizador(a)
+        de uma situação que possa eventualmente necessitar da sua
+        intervenção.
+    </li>
+</ul>
+<p>
+    <strong>divider</strong> - Segmentação visual do conteúdo em grupos:
+</p>
+<ul>
+    <li>
+        <strong>default</strong> - A usar quando o pretendido é um
+        separador visível.
+    </li>
+    <li>
+        <strong>hidden</strong> - A usar quando apenas se pretende criar
+        um espaçamento vertical entre dois elementos.
+    </li>
+    <li>
+        <strong>horizontal + icon</strong> - Segmenta horizontalmente o
+        conteúdo com um ícone no meio. Deve usar-se quando se pretende
+        separar e destacar a secção a seguir.
+    </li>
+</ul>
+<p><strong>steps</strong> - Mostra o passo atual de uma série:</p>
+<ul>
+    <li>
+        <strong>ordered</strong> - Sequência de passos ordenada. Deve
+        utilizar-se quando se pretende enumerar as secções de um
+        formulário, por exemplo.
+    </li>
+    <li>
+        <strong>icon + link</strong> - Sequência de passos com links e
+        ícones. Cada ícone deve estar relacionado com cada passo,
+        dando-lhe portanto mais destaque.
+    </li>
+</ul>
+<h4 id="conte%C3%BAdo">Conteúdo</h4>
+<p>
+    <strong>icon input</strong> - Campo para situações em que é
+    necessária a entrada de dados pelo utilizador e quando o componente
+    não está dentro de um formulário, por exemplo, campos de pesquisa. A
+    classe icon permite indicar um ícone para o campo (a lista completa
+    de ícones disponíveis pode ser consultada
+    <a href="https://semantic-ui.com/elements/icon.html">aqui</a>). A
+    classe <code>fluid</code> pode ser retirada, caso se pretenda que o
+    campo não ocupe toda a largura disponível.
+</p>
+<p>
+    <strong>h1 / h2 / h3</strong> - Cabeçalhos que definem a hierarquia
+    da informação. Por questões de SEO todas as páginas devem ter pelo
+    menos um h3.
+</p>
+<p>
+    <strong>breadcrumb</strong> - Mostra a hierarquia do conteúdo em
+    relação à página atual.
+</p>
+<p>
+    <strong>icon message</strong> - Apresenta informação relativa a
+    conteúdos próximos com um ícone para reforço visual.
+</p>
+<p>
+    <strong>statistic</strong> - Elemento destinado a apresentar valores
+    absolutos ou estatísticos.
+</p>
+<ul>
+    <li>
+        <strong>evenly divided</strong> - Mantém a mesma largura entre os
+        vários elementos.
+    </li>
+</ul>
+<p>
+    <strong>tabs</strong> * - Componente de navegação que permite ao
+    utilizador alternar entre secções.
+</p>
+<p>
+    <strong>segment</strong> - Agrupamento de conteúdos relacionados.
+    Opções:
+</p>
+<ul>
+    <li><strong>simple</strong> - Segmento a usar por predefinição.</li>
+    <li>
+        <strong>basic horizontal</strong> - Segmentos agrupados lado a
+        lado na horizontal.
+    </li>
+    <li>
+        <strong>raised</strong> - Segmento sombreado para destacar
+        conteúdos.
+    </li>
+    <li>
+        <strong>padded</strong> - Cria mais espaçamento entre o conteúdo e
+        as margens.
+    </li>
+</ul>
+<h4 id="detalhe">Detalhe</h4>
+<p>
+    <strong>label</strong> - Dá ênfase a uma característica de um
+    elemento, por exemplo a sua categoria.
+</p>
+<ul>
+    <li><strong>colored</strong> - Versão a usar por predefinição.</li>
+    <li>
+        <strong>tag</strong> - Etiqueta estilizada, para uso em interfaces
+        mais informais.
+    </li>
+</ul>
+<p>
+    <strong>equal width grid</strong> - Grelha distribuída uniformemente
+    na horizontal que pode ser usada, por exemplo, em galerias de
+    imagens.
+</p>
+<ul>
+    <li>
+        <strong>centered image</strong> - Exemplos de molduras para
+        imagens (nota: por regra <strong>não</strong> se devem combinar
+        molduras diferentes na mesma interface).
+    </li>
+</ul>
+<p><strong>list</strong> - Agrupa conteúdos relacionados.</p>
+<ul>
+    <li><strong>simple</strong> - Lista a usar por predefinição.</li>
+    <li>
+        <strong>bulleted</strong> - Inclui marcadores para destacar itens
+        do texto sem implicar uma ordem específica.
+    </li>
+    <li>
+        <strong>ordered</strong> - Conjunto com elementos numerados de
+        forma ascendente ou descendente.
+    </li>
+    <li>
+        <strong>floated</strong> - A linha itens relacionados de um grupo
+        à esquerda ou à direita. Por exemplo, pode ser usado para
+        adicionar botões de navegação a uma lista.
+    </li>
+</ul>
+<p>
+    <strong>table</strong> - Elemento que deve usado
+    <strong>apenas</strong> para apresentação de informação tabular.
+</p>
+<ul>
+    <li>
+        <strong>default</strong> - A usar por predefinição, caso nenhuma
+        das variações seguintes seja mais adequada.
+    </li>
+    <li>
+        <strong>very basic</strong> - Reduz a complexidade gráfica,
+        aumentando a legibilidade do conteúdo.
+    </li>
+    <li>
+        <strong>sortable</strong> * - Permite ao utilizador ordenar o
+        conteúdo por coluna clicando no cabeçalho.
+    </li>
+    <li>
+        <strong>compact</strong> - Ocupa menos área permitindo mostrar
+        mais linhas no mesmo espaço.
+    </li>
+    <li>
+        <strong>striped</strong> - Alterna linhas de conteúdo com uma cor
+        mais escura para aumentar o contraste, é adequada para grandes
+        volumes de informação.
+    </li>
+    <li>
+        <strong>padded</strong> - Inclui mais espaçamento entre o conteúdo
+        para aumentar a legibilidade, é adequada para tabelas para
+        pequenos a médios volumes de informação.
+    </li>
+</ul>
+<p>
+    <strong>label ribbon</strong> - Destaca um bloco de informação com
+    um marcador de topo à esquerda ou à direita.
+</p>
+<p>
+    <strong>segment loader</strong> - Animação de loading para alertar o
+    utilizador que deve aguardar que uma atividade seja concluída. Nota:
+    pode ser usado dentro de um <em>container</em> específico (por
+    exemplo, o <code>segment</code>) ou sobrepondo-se a toda a página.
+</p>
+<p>
+    <strong>accordion</strong> * - Permite aos utilizadores alternarem a
+    visualização de secções.
+</p>
+<ul>
+    <li><strong>default</strong> - Versão a usar por predefinição.</li>
+    <li>
+        <strong>fluid</strong> - Para blocos de informação extensos,
+        permite que ocupem toda a largura disponível.
+    </li>
+</ul>
+<p>
+    <strong>basic modal</strong> * - Mensagem de interação com o
+    utilizador que ocupa o ecrã inteiro, aparecendo em primeiro plano
+    sobre o fundo obscurecido.
+</p>
+<p>
+    <strong>tooltip popup</strong> - Mostra informação adicional quando
+    o rato passa por cima de um elemento.
+</p>
+<ul>
+    <li><strong>default</strong> - A usar por predefinição.</li>
+    <li><strong>inverted</strong> - Versão com cores invertidas.</li>
+</ul>
+<p>
+    <strong>progress bar</strong> * - Indica ao utilizador o progresso
+    de uma determinada ação/tarefa.
+</p>
+<h3 id="anexos">Anexos</h3>
+<h4 id="c%C3%B3digo-emmet">Código Emmet</h4>
+<p><strong>Layout completo</strong></p>
+<p>
+    <code>
+        .ua.non-responsive.container&gt;header&gt;img[class=&quot;placeholder
+        js-placeholder&quot;]+.bar.left&gt;.username+.icons^.bar.menu+.bar.right.icons^.content&gt;.ui.grid&gt;.four.wide.column+.eight.wide.column+.four.wide.column^^footer{&amp;copy;
+        UA 2018}
+    </code>
+</p>
+<p><strong>Layout sem elementos na zona de conteúdos</strong></p>
+<p>
+    <code>
+        .ua.non-responsive.container&gt;header&gt;img[class=&quot;placeholder
+        js-placeholder&quot;]+.bar.left&gt;.username+.icons^.bar.menu+.bar.right.icons^.content+footer{&amp;copy;
+        UA 2018}
+    </code>
+</p>
+<p><strong>Zona de conteúdos com 3 colunas</strong></p>
+<p>
+    <code>.ui.grid&gt;.four.wide.column+.eight.wide.column+.four.wide.column</code>
+</p>
+<p><strong>Zona de conteúdos com 2 colunas</strong></p>
+<p><code>.ui.grid&gt;.four.wide.column+.twelve.wide.column</code></p>
+
+<h3 id="refer%C3%AAncias">Referências</h3>
+<ul>
+    <li><a href="https://semantic-ui.com">Semantic-UI</a></li>
+    <li><a href="https://www.emmet.io">Emmet</a></li>
+</ul>
+
+@section RightColumn{
+    
+    Tabela de conteúdos:
+    <ul>
+        <li><a href="#altera%C3%A7%C3%B5es">Alterações</a></li>
+        <li><a href="#introdu%C3%A7%C3%A3o">Introdução</a></li>
+        <li><a href="#objetivos">Objetivos</a></li>
+        <li>
+            <a href="#configura%C3%A7%C3%A3o">Configuração</a>
+            <ul>
+                <li><a href="#ficheiros-a-incluir">Ficheiros a incluir</a></li>
+                <li><a href="#estrutura">Estrutura</a></li>
+                <li>
+                    <a href="#vers%C3%A3o-responsiva--n%C3%A3o-responsiva">Versão responsiva / não responsiva</a>
+                </li>
+                <li>
+                    <a href="#configura%C3%A7%C3%A3o-do-bannerheader">Configuração do banner/header</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#p%C3%A1ginas-de-exemplo">Páginas de exemplo</a>
+            <ul>
+                <li><a href="#formul%C3%A1rio">Formulário</a></li>
+                <li><a href="#conte%C3%BAdo">Conteúdo</a></li>
+                <li><a href="#detalhe">Detalhe</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#anexos">Anexos</a>
+            <ul>
+                <li><a href="#c%C3%B3digo-emmet">Código Emmet</a></li>
+            </ul>
+        </li>
+        <li><a href="#refer%C3%AAncias">Referências</a></li>
+    </ul>
+    
+}

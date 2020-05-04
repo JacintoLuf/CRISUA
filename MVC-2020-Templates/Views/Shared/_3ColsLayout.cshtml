@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+<div class="content">
+    @RenderBody()
+</div>
+<div class="side">
+    @if (IsSectionDefined("RightColumn"))
+    {
+        @RenderSection("RightColumn")
+    }
+</div>

@@ -1,0 +1,115 @@
+﻿@{
+    //Layout = "_3ColsLayout";
+    ViewData["Title"] = "Publicações";
+    //List<MVC_2020_Business.Models.Product> publicacoes = ViewBag.Publicacoes;
+    List<MVC_2020_Business.Models.Product> publicacoes = ViewBag.PublicacoesRIA;
+    List<MVC_2020_Business.Models.Work> works = ViewBag.PublicacoesPTCris;
+    var worksMeu = ViewBag.PublicacoesOrcid;
+
+    //List<MVC_2020_Business.Models.Orcid.Works> works2 = ViewBag.PublicacoesOrcid;
+}
+
+
+<h2>@ViewData["Title"]</h2>
+<div class="container">
+    <div class="ui grid">
+        <div class="five wide column">ORCID</div>
+        <div class="one wide column"></div>
+        <div class="five wide column">RIA</div>
+        <div class="one wide column"><button class="ui primary button" onclick="saveAll()">Save</button></div>
+    </div>
+    <div class="ui grid">
+        @{ var count = 0; }
+        @foreach (var work in works)
+        {
+            count++;
+            <div class="five wide column">@work.title.title</div>
+            <div class="two wide column"><i class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i></div>
+            <div id="@count" class="five wide column"></div>
+        }
+    </div>
+</div>
+
+
+    @*<div class="container">
+        @{ var count = 0;}
+        @foreach (var publicacao in publicacoes)
+        {
+            count2++;
+            <h2>@count2</h2>
+            <div class="card">
+                <div class="card-img"></div>
+                <div class="card-body">
+                    <h5 class="card-title">@publicacao.Name</h5>
+                    @foreach (var metadata in publicacao.Contributors)
+                    {
+                        <p>@metadata.Value</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>*@
+
+<div>
+    @*<div class="card-colums">
+        @{ var count2 = 0;}
+        @foreach (var work in works.Group)
+        {
+            count2++;
+            <h2>@count2</h2>
+            <div class="card">
+                <div class="card-img"></div>
+                <div class="card-body">
+                    <h5 class="card-title">@work.WorkSummary.First().Title.Title.Value</h5>
+                </div>
+            </div>
+         }
+    </div>*@
+</div>
+
+
+<script>
+    var objs = [];
+
+    function OrcidToRia(obj, idDiv) {
+        console.log(obj);
+        var div = document.getElementById("" + idDiv);
+        if (typeof (div) != 'undefined' && div != null) {
+            div.innerHTML = obj.title.title;
+            objs.push(obj);
+        }
+    }
+
+    function saveAll() {
+        $.post("Home/SavePub", { works: JSON.stringify(objs) }, function (data) {
+                alert("Data: " + data);
+        });
+
+        //var workss = JSON.stringify({ 'works': objs });
+
+        //$.ajax({
+        //    contentType: 'application/json; charset=utf-8',
+        //    dataType: 'json',
+        //    type: 'POST',
+        //    url: '/Home/SavePub',
+        //    data: workss,
+        //    success: function (data) {
+        //        alert("Data: " + data);
+        //    },
+        //    failure: function (data) {
+        //        alert("Data: " + data);
+        //    }
+        //});
+    }
+
+
+</script> 
+
+@*@section RightColumn{
+    Recursos adicionais:
+    <ul>
+        <li>
+            <a href="https://fomantic-ui.com" target="_blank">Fomantic-UI</a>
+        </li>
+    </ul>
+}*@

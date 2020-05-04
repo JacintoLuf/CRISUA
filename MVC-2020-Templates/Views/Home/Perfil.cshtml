@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "_3ColsLayout";
+    ViewData["Title"] = "Perfil";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <img src="" alt="img of person" style="width:100%">
+                <div class="container">
+                    <h2>Nome da Pessoa</h2>
+                    <p class="title">CEO &amp; Founder</p>
+                    <p>Some text that describes something</p>
+                    <p>example@example.com</p>
+                    <p><button class="button">Contact</button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    @section RightColumn{
+        Recursos adicionais:
+        <ul>
+            <li>
+                <a href="https://fomantic-ui.com" target="_blank">Fomantic-UI</a>
+            </li>
+        </ul>
+    }

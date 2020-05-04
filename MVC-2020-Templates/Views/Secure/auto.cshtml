@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Sem permissões";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@{
+    bool isLoggedin = ViewBag.isLoggedin != null ? ViewBag.isLoggedin : false;
+}
+@if (isLoggedin)
+{
+    <p>Login bem Sucedido</p>
+}
+else
+{
+    <p>Logout bem Sucedido</p>
+}
+

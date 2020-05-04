@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Mensagens de erro";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="code example">
+    <div class="ui center aligned basic segment">
+        <i class="ui huge red times circle outline icon"></i>
+
+        <div class="ui header">
+            erro de sistema
+        </div>
+
+        <div class="ui red sub header">
+            500 internal server error
+        </div>
+
+        <div class="ui left aligned content">
+            Ocorreu um erro. A equipa de desenvolvimento foi notificada para
+            intervir se necessário. Pode tentar a ação novamente ou visitar
+            a
+            <a href="/" title="página de entrada">página de entrada</a>.
+        </div>
+    </div>
+
+    <div class="ui basic segment"></div>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="code example">
+    <div class="ui center aligned basic segment">
+        <i class="huge red question circle outline icon"></i>
+
+        <div class="ui header">
+            página não encontrada
+        </div>
+
+        <div class="ui red sub header">
+            404 not found
+        </div>
+    </div>
+
+    <div class="ui basic segment">
+        A página que pediu não existe. Pode voltar à
+        <a href="/" title="página de entrada">página de entrada</a>.
+    </div>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="code example">
+    <div class="ui center aligned basic segment">
+        <i class="huge red lock icon"></i>
+
+        <div class="ui header">
+            sem permissões de acesso
+        </div>
+
+        <div class="ui red sub header">
+            401 unauthorized
+        </div>
+    </div>
+
+    <div class="ui basic segment">
+        Não tem permissões para executar a ação selecionada. Pode voltar à
+        <a href="/" title="página de entrada">página de entrada</a>.
+    </div>
+</div>

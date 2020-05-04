@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MVC 2020 Template</title>
+    <link rel="shortcut icon" href="//static.ua.pt/favicon.ico" />
+    <link rel="stylesheet" href="//static.ua.pt/css/semanticua/2.0b/dist/semantic.min.css" />
+    <link rel="stylesheet" href="~/css/site.min.css" />
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="service area">
+        <div class="limiter">
+            <div class="common">
+                <a href="#">Notícias</a> | <a href="#">Agenda</a> |
+                <a href="#"><i class="facebook f icon"></i></a> |
+                <a href="#"><i class="instagram icon"></i></a>
+            </div>
+            <div class="shortcuts">
+                <a href="#">Comunidade ua</a>
+                <a href="#">Utilizador externo</a>
+            </div>
+            <div class="session">
+                @{ var session = new MVC_2020_Template.Helpers.Session(Context.Session);
+                    bool isLoggedin = ViewBag.isLoggedin != null ? ViewBag.isLoggedin : false;
+
+                }
+                @if (isLoggedin) //session.SessionActive)
+                {
+                    <span style="color:white">@session.FullName</span>
+                    <a href="/Secure/Logout">&nbsp; Logout <i class="outline user icon"></i></a>
+                    //@Html.ActionLink("logout", "Logout", "Home", null, new { @class = "image-button logout", @title = "logout", @alt = "logout" })
+                }
+                else
+                {
+                    <a href="/Secure/Auto"> Entrar <i class="outline user icon"></i></a>
+                    //@Html.ActionLink("login", "Auto", "Secure", null, new { @class = "image-button login", @title = "login", @alt = "login" })
+                }
+                @*<a href="/Secure/auto">Entrar <i class="outline user icon"></i></a>*@
+            </div>
+            @*<div id="IconsLeft">
+                <div class="float_right">
+                    <span class="top-menu-name">
+
+                </span>
+            </div>
+            <div class="float_right">
+                @if (session.SessionActive)
+                {
+                    @Html.ActionLink("logout", "Logout", "Home", null, new { @class = "image-button logout", @title = "logout", @alt = "logout" })
+                }
+                else
+                {
+                    @Html.ActionLink("login", "Auto", "Secure", null, new { @class = "image-button login", @title = "login", @alt = "login" })
+                }
+            </div>
+            <div class="clear"></div>
+        </div>*@
+        </div>
+    </div>
+
+    <div class="system area">
+        <div class="limiter">
+            <div class="logo">
+                <a href="https://www.ua.pt/">
+                    <img src="//static.ua.pt/images/ua/logo-black.svg" alt="" />
+                </a>
+            </div>
+            <div class="identity">
+                <h1>Demo Semantic-UA MVC</h1>
+            </div>
+            <div class="tools">
+                <a href="#" title="pesquisa" aria-label="pesquisa">
+                    <i class="search icon"></i>
+                </a>
+                <a href="#" title="versão inglesa">EN</a>
+            </div>
+            <div class="menu">
+                <a class="js-menu-toggle" href="#"><i class="bars icon"></i></a>
+            </div>
+            <nav class="ua"></nav>
+        </div>
+    </div>
+
+    <div class="main area">
+        <div class="limiter">
+            <div class="menu">
+                <nav class="ua">
+                    <ul data-arrow="before">
+                        <li>
+                            <a asp-action="Readme">Instruções</a>
+                        </li>
+                        <li>
+                            <a asp-action="Perfil">Perfil</a>
+                        </li>
+                        <li>
+                            <a asp-action="Publicacoes">Publicações</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index">Exemplos</a>
+                            <ul>
+                                <li><a asp-action="Content">Conteúdo</a></li>
+                                <li><a asp-action="Detail">Detalhe</a></li>
+                                <li><a asp-action="Forms">Formulário</a></li>
+                                <li><a asp-action="Errors">Erro</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="section">
+            <div class="limiter">
+                <div class="info">
+                    Links rápidos
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="limiter">
+                <div class="info">
+                    &copy; Universidade de Aveiro 2020
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="//static.ua.pt/js/jquery/jquery-3.2.1.min.js"></script>
+    <script src="//static.ua.pt/css/semanticua/2.0b/dist/semantic.min.js"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
