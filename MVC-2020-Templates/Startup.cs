@@ -65,7 +65,7 @@ namespace MVC_2020_Template
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Publicacoes}/{id?}");
+                    pattern: "{controller=Home}/{action=Readme}/{id?}");
             });
         }
     }

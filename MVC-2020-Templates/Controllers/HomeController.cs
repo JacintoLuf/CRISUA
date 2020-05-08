@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC_2020_Business.Models;
 using MVC_2020_Business.Services;
+using MVC_2020_Database.DataModels;
+using MVC_2020_Template.Helpers;
 using MVC_2020_Template.Models;
 using Newtonsoft.Json;
 
@@ -15,9 +18,9 @@ namespace MVC_2020_Template.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MVC_2020_Database.DataModels.MyDbContext _db;// acesso db
+        private readonly MyDbContext _db;// acesso db
 
-        public HomeController(ILogger<HomeController> logger, MVC_2020_Database.DataModels.MyDbContext db)// acesso db
+        public HomeController(ILogger<HomeController> logger, MyDbContext db)// acesso db
         {
             _logger = logger;
             _db = db;// acesso db
@@ -35,11 +38,11 @@ namespace MVC_2020_Template.Controllers
 
         public IActionResult Publicacoes()
         {
-            ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db);
+            ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(
                                         PublicacoesService.ConvertProductToWork(
-                                        PublicacoesService.GetProducts(_db)));
+                                        PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
             return View();
         }
 
@@ -67,6 +70,12 @@ namespace MVC_2020_Template.Controllers
         {
             return View();
         }
+
+        public IActionResult Extra()
+        {
+            return View();
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

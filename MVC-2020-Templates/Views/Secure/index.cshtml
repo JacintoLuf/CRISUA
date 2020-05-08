@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Sem permissões";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+@if (@MVC_2020_Template.Helpers.Session.SessionActive)
+{
+<p>Login bem Sucedido</p>
+}
+else
+{
+<p>Logout bem Sucedido</p>
+}
+
+@*<div>
+    <p>@MVC_2020_Template.Helpers.Session.Email</p>
+    <p>@MVC_2020_Template.Helpers.Session.IUPI</p>
+    <p>@MVC_2020_Template.Helpers.Session.FullName</p>
+</div>*@

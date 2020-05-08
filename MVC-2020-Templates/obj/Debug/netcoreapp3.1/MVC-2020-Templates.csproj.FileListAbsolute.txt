@@ -378,7 +378,6 @@ C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Raz
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Perfil.cshtml.g.cs
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Publicacoes.cshtml.g.cs
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Readme.cshtml.g.cs
-C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Secure\auto.cshtml.g.cs
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_2ColsLayout.cshtml.g.cs
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_3ColsLayout.cshtml.g.cs
@@ -394,3 +393,6 @@ C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\sta
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.dll
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.pdb
 C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.genruntimeconfig.cache
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Secure\index.cshtml.g.cs
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Extra.cshtml.g.cs
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Logout.cshtml.g.cs

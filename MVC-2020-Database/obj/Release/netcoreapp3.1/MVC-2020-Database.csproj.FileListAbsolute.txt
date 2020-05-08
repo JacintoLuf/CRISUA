@@ -1,0 +1,9 @@
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\bin\Release\netcoreapp3.1\MVC-2020-Database.deps.json
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\bin\Release\netcoreapp3.1\MVC-2020-Database.dll
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\bin\Release\netcoreapp3.1\MVC-2020-Database.pdb
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\obj\Release\netcoreapp3.1\MVC-2020-Database.csprojAssemblyReference.cache
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\obj\Release\netcoreapp3.1\MVC-2020-Database.csproj.CoreCompileInputs.cache
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\obj\Release\netcoreapp3.1\MVC-2020-Database.AssemblyInfoInputs.cache
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\obj\Release\netcoreapp3.1\MVC-2020-Database.AssemblyInfo.cs
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\obj\Release\netcoreapp3.1\MVC-2020-Database.dll
+C:\Users\Asus\OneDrive\Documentos\MVC-2020-Database\obj\Release\netcoreapp3.1\MVC-2020-Database.pdb

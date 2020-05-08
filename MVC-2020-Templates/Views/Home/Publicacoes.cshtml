@@ -23,15 +23,15 @@
         @foreach (var work in works)
         {
             count++;
-            <div class="five wide column">@work.title.title</div>
-            <div class="two wide column"><i class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i></div>
-            <div id="@count" class="five wide column"></div>
+        <div class="five wide column">@work.title.title</div>
+        <div class="two wide column"><i class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i></div>
+        <div id="@count" class="five wide column"></div>
         }
     </div>
 </div>
 
 
-    @*<div class="container">
+@*<div class="container">
         @{ var count = 0;}
         @foreach (var publicacao in publicacoes)
         {
@@ -52,19 +52,19 @@
 
 <div>
     @*<div class="card-colums">
-        @{ var count2 = 0;}
-        @foreach (var work in works.Group)
-        {
-            count2++;
-            <h2>@count2</h2>
-            <div class="card">
-                <div class="card-img"></div>
-                <div class="card-body">
-                    <h5 class="card-title">@work.WorkSummary.First().Title.Title.Value</h5>
+            @{ var count2 = 0;}
+            @foreach (var work in works.Group)
+            {
+                count2++;
+                <h2>@count2</h2>
+                <div class="card">
+                    <div class="card-img"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">@work.WorkSummary.First().Title.Title.Value</h5>
+                    </div>
                 </div>
-            </div>
-         }
-    </div>*@
+             }
+        </div>*@
 </div>
 
 
@@ -82,7 +82,7 @@
 
     function saveAll() {
         $.post("Home/SavePub", { works: JSON.stringify(objs) }, function (data) {
-                alert("Data: " + data);
+            alert("Data: " + data);
         });
 
         //var workss = JSON.stringify({ 'works': objs });
@@ -103,13 +103,13 @@
     }
 
 
-</script> 
+</script>
 
 @*@section RightColumn{
-    Recursos adicionais:
-    <ul>
-        <li>
-            <a href="https://fomantic-ui.com" target="_blank">Fomantic-UI</a>
-        </li>
-    </ul>
-}*@
+        Recursos adicionais:
+        <ul>
+            <li>
+                <a href="https://fomantic-ui.com" target="_blank">Fomantic-UI</a>
+            </li>
+        </ul>
+    }*@

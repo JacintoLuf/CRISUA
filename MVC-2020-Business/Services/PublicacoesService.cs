@@ -23,7 +23,7 @@ namespace MVC_2020_Business.Services
         private const string urlParameter = "0000-0002-5228-0329";
         private const string urlParameter2 = "0000-0002-0417-9402";
         private const string urlParameter3 = "0000-0002-4356-4522"; //vieira
-        private const string urlParameter4 = "0000-0003-4186-7332"; //rosalino
+        private const string urlParameter4 = "0000-0002-3488-6570"; //Renato
 
         //public static IEnumerable<Product> GetProducts()
         //{
@@ -35,7 +35,7 @@ namespace MVC_2020_Business.Services
         //    return JsonConvert.DeserializeObject<List<Product>>(queryResult.Content);
         //}
 
-        public static List<Product> GetProducts(MyDbContext _db)
+        public static List<Product> GetProducts(MyDbContext _db, string IUPI)
         {
             //Save<jobs>(new jobs() { job_desc = "Renato2 Artigo", min_lvl = 12, max_lvl = 22 });
             var per = _db.Person
@@ -48,7 +48,7 @@ namespace MVC_2020_Business.Services
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "Y3Jpczo4ZjNqRXhnUXdoUmNmc2x5NkZyLg==");
 
-            var queryResult = client.GetAsync("66c74f1f-8c45-4f43-9a85-be4975eecc09").Result;//"7f8b8645-515e-48bf-bf58-613ab7a6244d" dg
+            var queryResult = client.GetAsync(IUPI).Result;//"7f8b8645-515e-48bf-bf58-613ab7a6244d" dg
 
             if (!queryResult.IsSuccessStatusCode || queryResult.Content == null) { return new List<Product>(); }
 
@@ -78,7 +78,7 @@ namespace MVC_2020_Business.Services
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            var request = client.GetStringAsync("https://pub.orcid.org/v2.1/0000-0003-4186-7332/works");
+            var request = client.GetStringAsync("https://pub.orcid.org/v2.1/0000-0002-3488-6570/works");
             return JsonConvert.DeserializeObject<Models.Orcid.Works>(request.Result);
         }
 

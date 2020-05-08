@@ -9,12 +9,12 @@ namespace MVC_2020_Template.Helpers
 {
 	public class Session
 	{
-		public ISession session { get; set; }
+		public static ISession session { get; set; }
 		public Session(ISession ses)
 		{
 			session = ses;
 		}
-		public string FullName
+		public static string FullName
 		{
 			get
 			{
@@ -69,7 +69,7 @@ namespace MVC_2020_Template.Helpers
 			}
 		}
 
-		public Guid IUPI
+		public static Guid IUPI
 		{
 			get
 			{
@@ -92,7 +92,7 @@ namespace MVC_2020_Template.Helpers
 			}
 		}
 
-		public string Email
+		public static string Email
 		{
 			get
 			{
@@ -280,7 +280,7 @@ namespace MVC_2020_Template.Helpers
 			}
 		}
 
-		public bool SessionActive
+		public static bool SessionActive
 		{
 			get
 			{
@@ -299,7 +299,6 @@ namespace MVC_2020_Template.Helpers
 			}
 		}
 
-
 		protected const string s_UserRoles = "a_user-roles";
 		protected const string s_UserFullName = "a_full-name";
 		protected const string s_UserShortName = "a_user-short-name";
@@ -315,6 +314,14 @@ namespace MVC_2020_Template.Helpers
 		protected const string s_Unit = "a_unit";
 		protected const string s_UserActive = "a_active-user";
 		protected const string s_SessionActive = "a_active-session";
+
+
+		public static void Logout()
+		{
+			session.Clear();
+			//SessionActive = false;
+		}
+
 
 		//public class History
 		//{
@@ -339,26 +346,26 @@ namespace MVC_2020_Template.Helpers
 		//		return last;
 		//	}
 
-			//private   string VisitedPages
-			//{
-			//	get
-			//	{
-			//		string s = "";
-			//		try
-			//		{
-			//			if (HttpContext.Current.Session[s_History] != null)
-			//				s = HttpContext.Current.Session[s_History].ToString();
-			//		}
-			//		catch { }
-			//		return s;
-			//	}
-			//	set
-			//	{
-			//		HttpContext.Current.Session[s_History] = value;
-			//	}
-			//}
+		//private   string VisitedPages
+		//{
+		//	get
+		//	{
+		//		string s = "";
+		//		try
+		//		{
+		//			if (HttpContext.Current.Session[s_History] != null)
+		//				s = HttpContext.Current.Session[s_History].ToString();
+		//		}
+		//		catch { }
+		//		return s;
+		//	}
+		//	set
+		//	{
+		//		HttpContext.Current.Session[s_History] = value;
+		//	}
+		//}
 
-			//private const string s_History = "red_history";
+		//private const string s_History = "red_history";
 		//}
 	}
 

@@ -27,19 +27,21 @@
             </div>
             <div class="session">
                 @{ var session = new MVC_2020_Template.Helpers.Session(Context.Session);
-                    bool isLoggedin = ViewBag.isLoggedin != null ? ViewBag.isLoggedin : false;
 
-                }
-                @if (isLoggedin) //session.SessionActive)
+
+                @if (@MVC_2020_Template.Helpers.Session.SessionActive)
                 {
-                    <span style="color:white">@session.FullName</span>
-                    <a href="/Secure/Logout">&nbsp; Logout <i class="outline user icon"></i></a>
-                    //@Html.ActionLink("logout", "Logout", "Home", null, new { @class = "image-button logout", @title = "logout", @alt = "logout" })
+                <span style="color:white">@MVC_2020_Template.Helpers.Session.FullName</span>
+                @*<a href="/Secure/Logout">&nbsp; Logout <i class="outline user icon"></i></a>*@
+                    <i class="outline user icon"></i>@Html.ActionLink("Sair", "Logout", "Secure", null)
                 }
                 else
                 {
-                    <a href="/Secure/Auto"> Entrar <i class="outline user icon"></i></a>
-                    //@Html.ActionLink("login", "Auto", "Secure", null, new { @class = "image-button login", @title = "login", @alt = "login" })
+                @*<span style="color:white">@MVC_2020_Template.Helpers.Session.FullName</span>*@
+                @*<a href="/Secure/Index"> Entrar <i class="outline user icon"></i></a>*@
+                    <i class="outline user icon"></i>@Html.ActionLink("Entrar", "Index", "Secure", null)
+                    //@Html.ActionLink("login", "Index", "Secure", null, new { @class = "image-button login", @title = "login", @alt = "login" })
+                }
                 }
                 @*<a href="/Secure/auto">Entrar <i class="outline user icon"></i></a>*@
             </div>
@@ -93,23 +95,31 @@
                 <nav class="ua">
                     <ul data-arrow="before">
                         <li>
-                            <a asp-action="Readme">Instruções</a>
+                            @Html.ActionLink("Intruções", "Readme", "Home", null)
                         </li>
-                        <li>
-                            <a asp-action="Perfil">Perfil</a>
-                        </li>
-                        <li>
-                            <a asp-action="Publicacoes">Publicações</a>
-                        </li>
-                        <li>
-                            <a asp-action="Index">Exemplos</a>
-                            <ul>
-                                <li><a asp-action="Content">Conteúdo</a></li>
-                                <li><a asp-action="Detail">Detalhe</a></li>
-                                <li><a asp-action="Forms">Formulário</a></li>
-                                <li><a asp-action="Errors">Erro</a></li>
-                            </ul>
-                        </li>
+                        @{if (MVC_2020_Template.Helpers.Session.SessionActive)
+                            {
+                            
+                            <li>
+                                 @Html.ActionLink("Perfil", "Perfil", "Home", null)
+                            </li>
+                            <li>
+                                @Html.ActionLink("Publicações", "Publicacoes", "Home", null)
+                            </li>
+                            <li>
+                                @Html.ActionLink("Extra", "Extra", "Home", null)
+                            </li>
+                            <li>
+                                @Html.ActionLink("Exemplo", "Index", "Home", null)
+                                <ul>
+                                    <li>@Html.ActionLink("Conteúdo", "Content", "Home", null)</li>
+                                    <li>@Html.ActionLink("Detalhes", "Detail", "Home", null)</li>
+                                    <li>@Html.ActionLink("Formulário", "Forms", "Home", null)</li>
+                                    <li>@Html.ActionLink("Erro", "Errors", "Home", null)</li>
+                                </ul>
+                            </li>
+                            }
+                          }
                     </ul>
                 </nav>
             </div>
