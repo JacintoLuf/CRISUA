@@ -1,0 +1,250 @@
+﻿
+@{
+    ViewData["Title"] = "PublicationMetaData2";
+    Layout = "~/Views/Shared/Form_Layout.cshtml";
+}
+
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Describe this Item | Repositório Institucional da Universidade de Aveiro</title>
+
+    <meta name="Generator" content="DSpace 5.2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://ria.ua.pt/favicon.ico?v=2" type="image/x-icon">
+    <link rel="stylesheet" href="~/5-PublicationMetaData2_files/jquery-ui-1.10.3.custom.css" type="text/css">
+    <link rel="stylesheet" href="~/5-PublicationMetaData2_files/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/5-PublicationMetaData2_files/bootstrap-theme.min.css" type="text/css">
+    <link rel="stylesheet" href="~/5-PublicationMetaData2_files/dspace-theme.css" type="text/css">
+    <link rel="stylesheet" href="~/5-PublicationMetaData2_files/ua-style.css" type="text/css">
+
+    <link rel="search" type="application/opensearchdescription+xml" href="https://ria.ua.pt/open-search/description.xml" title="DSpace">
+
+
+    <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script>
+    <script type="text/javascript" async="" src="~/5-PublicationMetaData2_files/ga.js"></script>
+    <script type="text/javascript" src="~/5-PublicationMetaData2_files/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/5-PublicationMetaData2_files/jquery-ui-1.10.3.custom.min.js"></script>
+    <script type="text/javascript" src="~/5-PublicationMetaData2_files/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/5-PublicationMetaData2_files/holder.js"></script>
+    <script type="text/javascript" src="~/5-PublicationMetaData2_files/utils.js"></script>
+    <script type="text/javascript" src="~/5-PublicationMetaData2_files/choice-support.js"></script>
+
+
+
+    <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-11801506-24']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+    </script>
+
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="/static/js/html5shiv.js"></script>
+      <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+    <style id="holderjs-style" type="text/css">
+        .holderjs-fluid {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            font-family: sans-serif;
+            margin: 0
+        }
+
+        .holderjs-fluid {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            font-family: sans-serif;
+            margin: 0
+        }
+    </style>
+</head>
+
+
+
+<body class="undernavigation" style="">
+    <a class="sr-only" href="https://ria.ua.pt/submit#content">Skip navigation</a>
+
+    <main id="content" role="main">
+        <div class="container submission-container">
+
+
+            <c:set var="dspace.layout.head.last" scope="request">
+                <script type="text/javascript" src="~/5-PublicationMetaData2_files/prototype.js"></script>
+                <script type="text/javascript" src="~/5-PublicationMetaData2_files/builder.js"></script>
+                <script type="text/javascript" src="~/5-PublicationMetaData2_files/effects.js"></script>
+                <script type="text/javascript" src="~/5-PublicationMetaData2_files/controls.js"></script>
+            </c:set>
+
+            <form action="https://ria.ua.pt/submit#null" method="post" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
+
+
+                <!--Progress Bar-->
+                <div class="row container btn-group">
+
+                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.1" value="Describe">
+
+                    <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_2.2" value="Describe">
+
+                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_3.1" value="Upload">
+
+                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_4.1" value="Verify">
+
+                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_5.1" value="License">
+
+                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6.1" value="Complete">
+
+                </div>
+
+
+                <h1>
+                    Submit: Describe this Item
+                </h1>
+
+
+                <p>Please fill further information about this submission below.</p>
+
+
+                <div class="help-block">
+                    Introduza as palavras-chave.
+
+                </div>
+                <div class="row"><label class="col-md-2">palavras-chave</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_subject_1" id="dc_subject_1" size="50" value="802.11 networks; Ad-hoc networks; Broadcast communication; Fountain codes; LT codes; Operating system installation"></div><button class="btn btn-danger col-md-2" name="submit_dc_subject_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_subject" id="dc_subject" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_dc_subject_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br>
+                <div class="help-block">
+                    Introduza em baixo o resumo (abstract) no idioma principal do documento. Caso tenha um resumo noutro idioma clique no botão adicionar mais.
+
+                </div>
+                <div class="row">
+                    <label class="col-md-2">resumo</label><div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10"><textarea class="form-control" name="dc_description_abstract_1" rows="4" cols="45" id="dc_description_abstract_1_id">This article describes and evaluates the performance of DETIboot, a system conceived for securely deploying temporary Linux systems into countless receiving hosts close enough to a Wi-Fi DETIboot server. This system was created with the ultimate goal of installing, in numerous students’ laptops and just-in-time, special Linux distributions for being temporarily used in practical classes. In this document we present an overview of DETIboot, a comprehensive description of the coding used in the broadcast communication and a detailed performance evaluation in a spacious auditorium. This evaluation did not involve security features to reduce the amount of variables influencing the final results. However, previous experiments allow us to extrapolate a maximum of 5% increase in the download time due to security. On average, it took us 50.1 s to download a 225 MiB Slax Linux over 802.11g, taking on average 15% more time than the theoretical lower bound of our setup (43.4 s). The influence of the position of receivers in the auditorium was not prominent.</textarea></div><button class="btn btn-danger col-md-2" name="submit_dc_description_abstract_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button>
+                        </div><div class="row col-md-12">
+                            <div class="col-md-10"><textarea class="form-control" name="dc_description_abstract" rows="4" cols="45" id="dc_description_abstract_id"></textarea></div><button class="btn btn-default col-md-2" name="submit_dc_description_abstract_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="help-block">
+                    Caso a publicação tenha resultado de projeto(s) financiado(s) pela Comissão Europeia (FP7, H2020, ERC), Fundação para a Ciência e Tecnologia ou Wellcome Trust, identifique esse(s) projeto(s) aqui. Essa identificação é geralmente um requisito dos financiadores.
+                    Para identificar o(s) projeto(s) insira um dos seus elementos identificativos (número, nome, acrónimo ou referência) e selecione da lista que lhe é apresentada. Dúvidas ou mais informações aceda <a href="http://projeto.rcaap.pt/index.php/lang-pt/como-auto-arquivar-documentos/politica-fct" target="_blank">aqui</a>
+
+                </div>
+                <div class="row">
+                    <label class="col-md-2">projeto financiado</label><div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="dc_relation" id="dc_relation" size="50" value="" autocomplete="off"></div><div class="col-md-2">
+                                    <img id="dc_relation_confidence_indicator_id" title="Checked" class="pull-left ds-authority-confidence cf-blank " src="~/5-PublicationMetaData2_files/invisible.gif"><input type="text" value="" id="dc_relation_authority" name="dc_relation_authority" class="ds-authority-value form-control"><input type="hidden" value="blank" id="dc_relation_confidence" name="dc_relation_confidence" class="ds-authority-confidence-input"><span id="dc_relation_indicator" style="display: none;"><img src="~/5-PublicationMetaData2_files/load-indicator.gif" alt="Loading..."></span><div id="dc_relation_autocomplete" class="autocomplete" style="display: none;"> </div>
+                                    <script type="text/javascript">var gigo = DSpaceSetupAutocomplete('edit_metadata', { metadataField: 'dc_relation', isClosed: 'false', inputName: 'dc_relation', authorityName: 'dc_relation_authority', containerID: 'dc_relation_autocomplete', indicatorID: 'dc_relation_indicator', contextPath: '', confidenceName: 'dc_relation_confidence', confidenceIndicatorID: 'dc_relation_confidence_indicator_id', collection: 377 });</script>
+                                </div>
+                            </div><button class="btn btn-default col-md-2" name="submit_dc_relation_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="help-block">
+                    Introduza os nomes de eventuais patrocinadores na caixa em baixo.
+
+                </div>
+                <div class="row">
+                    <label class="col-md-2">patrocinadores</label><div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10"><textarea class="form-control" name="dc_description_sponsorship" rows="4" cols="45" id="dc_description_sponsorship_id"></textarea></div>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="help-block">
+                    Esta coleção é de acesso aberto, deve ter em conta a condição de depósito presente na política da publicação onde foi publicado o seu documento. As políticas das editoras/revistas científicas podem ser consultadas em <a href="http://www.sherpa.ac.uk/romeo/" target="_blank">SHERPA RoMEO</a>
+
+                </div>
+                <div class="row"><label class="col-md-2 label-required">nível de acesso</label><span class="col-md-8"><select class="form-control" name="dc_rights"><option value="">Select Value</option><option value="openAccess">Acesso Aberto</option><option selected="selected" value="restrictedAccess">Acesso Restrito</option><option value="embargoedAccess">Acesso Embargado</option></select></span></div><br>
+                <div class="help-block">
+                    Caso tenha indicado "acesso embargado" no campo "nível de acesso", indique a data do final do embargo, a partir da qual o documento passará a estar disponível em acesso aberto. Deve indicar pelo menos o ano e o mês.
+
+                </div>
+                <div class="row">
+                    <label class="col-md-2">data final do embargo</label><div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="input-group col-md-10"><div class="row"><span class="input-group col-md-2"><span class="input-group-addon">Day:</span><input class="form-control" type="text" name="dc_date_embargo_day" size="2" maxlength="2" value=""></span><span class="input-group col-md-6"><span class="input-group-addon">Month:</span><select class="form-control" name="dc_date_embargo_month"><option value="-1" selected="selected">(No Month)</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></span><span class="input-group col-md-4"><span class="input-group-addon">Year:</span><input class="form-control" type="text" name="dc_date_embargo_year" size="4" maxlength="4" value=""></span></div></div>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="help-block">
+                    Associe uma licença <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons 4.0 Internacional</a> ao seu trabalho, escolhendo-a da lista apresentada. No caso de trabalhos financiados pela FCT o uso da licença CC-BY é recomendado.
+
+                </div>
+                <div class="row"><label class="col-md-2">licenças Creative Commons (CC)</label><span class="col-md-8"><select class="form-control" name="dc_rights_uri"><option value="">Sem Licença</option><option value="https://creativecommons.org/licenses/by/4.0/">Atribuição (CC-BY)</option><option value="http://creativecommons.org/licenses/by-nd/4.0/">Atribuição, Sem Trabalhos Derivados (CC-BY-ND)</option><option value="http://creativecommons.org/licenses/by-sa/4.0/">Atribuição, Partilha nos Termos da Mesma Licença (CC-BY-SA)</option><option value="http://creativecommons.org/licenses/by-nc/4.0/">Atribuição, Uso Não Comercial (CC-BY-NC)</option><option value="http://creativecommons.org/licenses/by-nc-nd/4.0/">Atribuição, Não Comercial, Sem Derivações (CC-BY-NC-ND)</option><option value="http://creativecommons.org/licenses/by-nc-sa/4.0/">Atribuição, Uso Não Comercial, Partilha nos Termos da Mesma Licença (CC-BY-NC-SA)</option></select></span></div><br>
+
+
+                <input type="hidden" name="workspace_item_id" value="44987"><input type="hidden" name="step" value="2"><input type="hidden" name="page" value="2"><input type="hidden" name="jsp" value="/submit/edit-metadata.jsp">
+                <div class="row">
+
+                    <div class="col-md-6 pull-right btn-group">
+                        <input class="btn btn-default col-md-4" type="submit" name="submit_prev" value="< Previous">
+                        <input class="btn btn-default col-md-4" type="submit" name="submit_cancel" value="Cancel/Save">
+                        <input class="btn btn-primary col-md-4" type="submit" name="submit_next" value="Next >">
+
+                    </div><br>
+                </div>
+            </form>
+
+            <div class="ua-user-info" id="autocomplete_details">
+                <div>
+                    <div>
+                        <img class="ua-details-photo" id="details_photo">
+                    </div>
+                    <div>
+                        <div>
+                            <div><h4 class="ua-user-name" id="details_name"></h4></div>
+                        </div>
+                        <div>
+                            <div><p id="details_uu"></p></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <table class="ua-bonds" id="details_bonds">
+                    </table>
+                </div>
+            </div>
+
+            <!-- <span id="string-measurer" class="ua-string-measurer" >
+                 </span> -->
+
+            <script type="text/javascript">
+     function decodeHtml(html) {
+         const txt = document.createElement("textarea");
+         txt.innerHTML = html;
+         return txt.value;
+     }
+
+     const SEARCH_HINT_STRING = decodeHtml("Provide the name of the author or its institutional mail address to start searching");
+     const NO_RESULTS_STRING = decodeHtml("Your search did not yield any result");
+     const EXTERNAL_USER_STRING = decodeHtml("External user");
+     const EXTERNAL_USER_LOCK_LABEL = decodeHtml("external user");
+     const NO_AUTH_STRING = decodeHtml("Some author fields have no authority attributed.");
+     const NO_NAME_STRING = decodeHtml("???jsp.submit.edit-metadata.ca.no-name???");
+     const AUTHOR_ERROR_STRING = decodeHtml("Please fix the issues present in the author fields.");
+     const UNIT_STRING = decodeHtml("Unit");
+     const BOND_STRING = decodeHtml("Bond");
+     const POPOVER_STRING = decodeHtml("Click here if you wish to remove the selected authority.");
+
+            </script>
+            <script type="text/javascript" src="~/5-PublicationMetaData2_files/ua-script.js"></script>
+
+        </div>
+    </main><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: none;"></ul><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: none;"></ul>
+    <br />
+
+
+</body>
+</html>

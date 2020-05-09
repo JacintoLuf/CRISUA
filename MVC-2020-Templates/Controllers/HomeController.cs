@@ -80,6 +80,16 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        public IActionResult PublicationMetaData2()
+        {
+            return View();
+        }
+
+        public IActionResult PublicationMetaData3()
+        {
+            return View();
+        }
+
         public IActionResult Sobre()
         {
             return View();

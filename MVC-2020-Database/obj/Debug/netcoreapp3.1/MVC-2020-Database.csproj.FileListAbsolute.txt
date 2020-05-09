@@ -34,3 +34,12 @@ C:\Users\Asus\Desktop\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.AssemblyInfo.cs
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.dll
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.pdb
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\bin\Debug\netcoreapp3.1\MVC-2020-Database.deps.json
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\bin\Debug\netcoreapp3.1\MVC-2020-Database.dll
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\bin\Debug\netcoreapp3.1\MVC-2020-Database.pdb
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.csprojAssemblyReference.cache
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.csproj.CoreCompileInputs.cache
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.AssemblyInfoInputs.cache
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.AssemblyInfo.cs
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.dll
+C:\Users\pedra\Ambiente de Trabalho\CRISUA\MVC-2020-Database\obj\Debug\netcoreapp3.1\MVC-2020-Database.pdb
