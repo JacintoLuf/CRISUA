@@ -71,7 +71,7 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
-        public IActionResult Extra()
+        public IActionResult Home()
         {
             return View();
         }
