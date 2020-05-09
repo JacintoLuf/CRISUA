@@ -75,6 +75,10 @@ namespace MVC_2020_Template.Controllers
         {
             return View();
         }
+        public IActionResult PublicationMetaData1()
+        {
+            return View();
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

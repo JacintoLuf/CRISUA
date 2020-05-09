@@ -7405,19 +7405,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pmate\\.nuget\\packages\\": {}
+    "C:\\Users\\samue\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pmate\\Documents\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj",
+      "projectUniqueName": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj",
       "projectName": "MVC-2020-Business",
-      "projectPath": "C:\\Users\\pmate\\Documents\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj",
-      "packagesPath": "C:\\Users\\pmate\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pmate\\Documents\\CRISUA\\MVC-2020-Business\\obj\\",
+      "projectPath": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj",
+      "packagesPath": "C:\\Users\\samue\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Business\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pmate\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\samue\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7430,8 +7430,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\pmate\\Documents\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj": {
-              "projectPath": "C:\\Users\\pmate\\Documents\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj"
+            "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj": {
+              "projectPath": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj"
             }
           }
         }
