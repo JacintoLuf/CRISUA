@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "teste";
+    Layout = "Form_Layout";
 
 
 }
@@ -13,6 +13,7 @@
     <meta name="Generator" content="DSpace 5.2">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://ria.ua.pt/favicon.ico?v=2" type="image/x-icon">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> <!-- bootstrap para icons-->
     <link rel="stylesheet" href="~/5-PublicationMetaData1_files/jquery-ui-1.10.3.custom.css" type="text/css">
     <link rel="stylesheet" href="~/5-PublicationMetaData1_files/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="~/5-PublicationMetaData1_files/bootstrap-theme.min.css" type="text/css">
@@ -65,7 +66,7 @@
 
 
 <body class="undernavigation" style="">
-                     
+
 
     <main id="content" role="main">
 
@@ -182,12 +183,6 @@
                 <h1>
                     Submit: Describe this Item
 
-                    <script type="text/javascript">
-<!--    Javascript starts here
-                        document.write('<a href="#" onClick="var popupwin = window.open(\'/help/index.html#describe2\',\'dspacepopup\',\'height=600,width=550,resizable,scrollbars\');popupwin.focus();return false;"><span class="glyphicon glyphicon-question-sign"></span></a>');
-                        // -->
-                    </script><a href="https://ria.ua.pt/submit#" onclick="var popupwin = window.open(&#39;/help/index.html#describe2&#39;,&#39;dspacepopup&#39;,&#39;height=600,width=550,resizable,scrollbars&#39;);popupwin.focus();return false;"><span class="glyphicon glyphicon-question-sign"></span></a><noscript><a href="/help/index.html#describe2" target="dspacepopup"><span class="glyphicon glyphicon-question-sign"></span></a></noscript>
-
                 </h1>
 
 
@@ -215,8 +210,18 @@
                     <br>Exemplo: <b>Nature</b>
 
                 </div>
-                <div class="row"><label class="col-md-2 label-required">título da revista</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="degois_publication_title" id="degois_publication_title" size="50" value="Wireless Networks" autocomplete="off"></div><div class="col-md-2"> <img id="degois_publication_title_confidence_indicator_id" title="Confidence was never recorded for this value" class="pull-left ds-authority-confidence cf-blank " src="~/5-PublicationMetaData1_files/invisible.gif"><input type="text" value="" id="degois_publication_title_authority" name="degois_publication_title_authority" class="ds-authority-value form-control"><input type="hidden" value="unset" id="degois_publication_title_confidence" name="degois_publication_title_confidence" class="ds-authority-confidence-input"><span id="degois_publication_title_indicator" style="display: none;"><img src="~/5-PublicationMetaData1_files/load-indicator.gif" alt="Loading..."></span><div id="degois_publication_title_autocomplete" class="autocomplete" style="display: none;"> </div>
-                <script type="text/javascript">var gigo = DSpaceSetupAutocomplete('edit_metadata', { metadataField: 'degois_publication_title', isClosed: 'false', inputName: 'degois_publication_title', authorityName: 'degois_publication_title_authority', containerID: 'degois_publication_title_autocomplete', indicatorID: 'degois_publication_title_indicator', contextPath: '', confidenceName: 'degois_publication_title_confidence', confidenceIndicatorID: 'degois_publication_title_confidence_indicator_id', collection: 377 });</script></div></div></div></div></div><br>
+                <div class="row">
+                    <label class="col-md-2 label-required">título da revista</label><div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="degois_publication_title" id="degois_publication_title" size="50" value="Wireless Networks" autocomplete="off"></div><div class="col-md-2">
+                                    <img id="degois_publication_title_confidence_indicator_id" title="Confidence was never recorded for this value" class="pull-left ds-authority-confidence cf-blank " src="~/5-PublicationMetaData1_files/invisible.gif"><input type="text" value="" id="degois_publication_title_authority" name="degois_publication_title_authority" class="ds-authority-value form-control"><input type="hidden" value="unset" id="degois_publication_title_confidence" name="degois_publication_title_confidence" class="ds-authority-confidence-input"><span id="degois_publication_title_indicator" style="display: none;"><img src="~/5-PublicationMetaData1_files/load-indicator.gif" alt="Loading..."></span><div id="degois_publication_title_autocomplete" class="autocomplete" style="display: none;"> </div>
+                                    <script type="text/javascript">var gigo = DSpaceSetupAutocomplete('edit_metadata', { metadataField: 'degois_publication_title', isClosed: 'false', inputName: 'degois_publication_title', authorityName: 'degois_publication_title_authority', containerID: 'degois_publication_title_autocomplete', indicatorID: 'degois_publication_title_indicator', contextPath: '', confidenceName: 'degois_publication_title_confidence', confidenceIndicatorID: 'degois_publication_title_confidence_indicator_id', collection: 377 });</script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
                 <div class="help-block">
                     Introduza a data da publicação ou distribuição pública. Pode deixar o mês e/ou o dia em branco se não se aplicar.
 
@@ -253,8 +258,18 @@
                     <br>Exemplo: <b>Elsevier</b>
 
                 </div>
-                <div class="row"><label class="col-md-2">editor</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="dc_publisher" id="dc_publisher" size="50" value="" autocomplete="off"></div><div class="col-md-2"><span id="dc_publisher_indicator" style="display: none;"><img src="~/5-PublicationMetaData1_files/load-indicator.gif" alt="Loading..."></span><div id="dc_publisher_autocomplete" class="autocomplete" style="display: none;"> </div>
-                <script type="text/javascript">var gigo = DSpaceSetupAutocomplete('edit_metadata', { metadataField: 'dc_publisher', isClosed: 'false', inputName: 'dc_publisher', authorityName: 'dc_publisher_authority', containerID: 'dc_publisher_autocomplete', indicatorID: 'dc_publisher_indicator', contextPath: '', confidenceName: 'dc_publisher_confidence', confidenceIndicatorID: 'dc_publisher_confidence_indicator_id', collection: 377 });</script></div></div></div></div></div><br>
+                <div class="row">
+                    <label class="col-md-2">editor</label><div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="dc_publisher" id="dc_publisher" size="50" value="" autocomplete="off"></div><div class="col-md-2">
+                                    <span id="dc_publisher_indicator" style="display: none;"><img src="~/5-PublicationMetaData1_files/load-indicator.gif" alt="Loading..."></span><div id="dc_publisher_autocomplete" class="autocomplete" style="display: none;"> </div>
+                                    <script type="text/javascript">var gigo = DSpaceSetupAutocomplete('edit_metadata', { metadataField: 'dc_publisher', isClosed: 'false', inputName: 'dc_publisher', authorityName: 'dc_publisher_authority', containerID: 'dc_publisher_autocomplete', indicatorID: 'dc_publisher_indicator', contextPath: '', confidenceName: 'dc_publisher_confidence', confidenceIndicatorID: 'dc_publisher_confidence_indicator_id', collection: 377 });</script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
                 <div class="help-block">
                     Código de 8 dígitos que identifica a revista.
                     <br>Exemplo: <b>0028-0836</b>

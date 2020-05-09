@@ -1197,4 +1197,4 @@ C:\Users\samue\OneDrive\Documentos\CRISUA\MVC-2020-Templates\obj\Debug\netcoreap
 C:\Users\samue\OneDrive\Documentos\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.dll
 C:\Users\samue\OneDrive\Documentos\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.pdb
 C:\Users\samue\OneDrive\Documentos\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.genruntimeconfig.cache
-C:\Users\samue\OneDrive\Documentos\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Shared\teste.cshtml.g.cs
+C:\Users\samue\OneDrive\Documentos\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Form_Layout.cshtml.g.cs
