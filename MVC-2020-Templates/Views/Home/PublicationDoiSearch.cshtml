@@ -1,0 +1,554 @@
+﻿
+@{
+    ViewData["Title"] = "PublicationDoiSearch";
+    Layout = "~/Views/Shared/Form_Layout.cshtml";
+}
+
+    <html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>New submission | Repositório Institucional da Universidade de Aveiro</title>
+
+        <meta name="Generator" content="DSpace 5.2">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="https://ria.ua.pt/favicon.ico?v=2" type="image/x-icon">
+        <link rel="stylesheet" href="~/2-DOI_Search_files/jquery-ui-1.10.3.custom.css" type="text/css">
+        @*<link rel="stylesheet" href="~/2-DOI_Search_files/bootstrap.min.css" type="text/css">*@
+        <link rel="stylesheet" href="~/2-DOI_Search_files/bootstrap-theme.min.css" type="text/css">
+        <link rel="stylesheet" href="~/2-DOI_Search_files/dspace-theme.css" type="text/css">
+        <link rel="stylesheet" href="~/2-DOI_Search_files/ua-style.css" type="text/css">
+
+        <link rel="search" type="application/opensearchdescription+xml" href="https://ria.ua.pt/open-search/description.xml" title="DSpace">
+
+        <style type="text/css">
+
+            #link-ricerca-identificatore {
+                cursor: pointer;
+                font-weight: bold;
+                color: #FF6600;
+            }
+
+            .sl-result {
+                padding: 10px;
+            }
+
+                .sl-result:HOVER {
+                    background-color: #5C9CCC;
+                }
+
+            .sl-result-title, .sl-result-authors, .sl-result-date {
+                display: block;
+            }
+
+            .sl-result-title {
+                font-weight: bold;
+            }
+
+            .sl-result-authors {
+                font-style: italic;
+            }
+
+            .sl-result-date {
+                margin-bottom: 10px;
+            }
+
+            .invalid-value {
+                border: 1px solid #FF6600;
+            }
+        </style>
+        <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script>
+        <script type="text/javascript" async="" src="~/2-DOI_Search_files/ga.js"></script>
+        <script type="text/javascript">var dspaceContextPath = "";</script>
+
+
+        <script type="text/javascript" src="~/2-DOI_Search_files/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="~/2-DOI_Search_files/jquery-ui-1.10.3.custom.min.js"></script>
+        <script type="text/javascript" src="~/2-DOI_Search_files/bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/2-DOI_Search_files/holder.js"></script>
+        <script type="text/javascript" src="~/2-DOI_Search_files/utils.js"></script>
+        <script type="text/javascript" src="~/2-DOI_Search_files/choice-support.js"></script>
+
+
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-11801506-24']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+        <script type="text/javascript" src="~/2-DOI_Search_files/submission-lookup.js"></script>
+
+
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+      <script src="/static/js/html5shiv.js"></script>
+      <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+        <style id="holderjs-style" type="text/css">
+            .holderjs-fluid {
+                font-size: 16px;
+                font-weight: bold;
+                text-align: center;
+                font-family: sans-serif;
+                margin: 0
+            }
+
+            .holderjs-fluid {
+                font-size: 16px;
+                font-weight: bold;
+                text-align: center;
+                font-family: sans-serif;
+                margin: 0
+            }
+        </style>
+    </head>
+
+
+
+    <body class="undernavigation" style="">
+        <a class="sr-only" href="https://ria.ua.pt/submit#content">Skip navigation</a>
+        
+        <main id="content" role="main">
+
+            <div class="container submission-container">
+
+                <h1>New submission: get data from bibliographic external service</h1>
+                <div id="jserrormessage" style="display: none">Sorry, an error occurred. Try again. If this message shows again, please, contact administrators and continue to insert the submission manually. Thank you!</div>
+                <div id="jsseedetailsbuttonmessage" style="display: none">See details &amp; import the record</div>
+                <div id="jsfilldatabuttonmessage" style="display: none">Fill data and start submission</div>
+
+
+
+                <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                    <ul class="nav nav-tabs ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist">
+                        <li class="active ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-search" aria-labelledby="ui-id-1" aria-selected="true"><a href="https://ria.ua.pt/submit#tabs-search" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-1">Search Form</a></li>
+                        <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-result" aria-labelledby="ui-id-2" aria-selected="false"><a href="https://ria.ua.pt/submit#tabs-result" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-2">Results</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane ui-tabs-panel ui-widget-content ui-corner-bottom" id="tabs-search" aria-labelledby="ui-id-1" role="tabpanel" aria-expanded="true" aria-hidden="false" style="display: block;" aria-live="polite">
+
+
+                            <div id="tabs-search-accordion" class="ui-accordion ui-widget ui-helper-reset" role="tablist">
+                                <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-accordion-header-active ui-state-active ui-corner-top" role="tab" id="ui-accordion-tabs-search-accordion-header-0" aria-controls="manual-accordion" aria-selected="true" tabindex="0"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span><a href="https://ria.ua.pt/submit#">Default mode Submission</a></h3>
+                                <div id="manual-accordion" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" aria-labelledby="ui-accordion-tabs-search-accordion-header-0" role="tabpanel" aria-expanded="true" aria-hidden="false" style="">
+                                    &nbsp;<div id="manual-submission">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label for="select-collection-manual">Select collections:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <select class="form-control" id="select-collection-manual">
+                                                    <option value="-1" selected="selected">Select...</option>
+                                                    <option value="105">DETI - Artigos</option>
+                                                    <option value="107">DETI - Capítulo de livro</option>
+                                                    <option value="108">DETI - Comunicações</option>
+                                                    <option value="110">DETI - Livro</option>
+                                                    <option value="113">DETI - Relatórios</option>
+                                                    <option value="377">IEETA - Artigos</option>
+                                                    <option value="378">IEETA - Capitulo de livro</option>
+                                                    <option value="379">IEETA - Comunicações</option>
+                                                    <option value="380">IEETA - Livro</option>
+                                                    <option value="382">IEETA - Relatórios</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <form class="form-horizontal" id="form-submission" action="https://ria.ua.pt/submit" method="post">
+                                            <input type="hidden" id="iuuid" name="iuuid" value="">
+                                            <input type="hidden" id="fuuid" name="fuuid" value="">
+                                            <input type="hidden" id="suuid" name="suuid" value="c8a6c929-deb6-4309-aba5-003c4f088ff8">
+                                            <input type="hidden" id="collectionid" name="collectionid" value="">
+                                            <div class="btn-group">
+                                                <button class="btn btn-success col-md-offset-5" id="manual-submission-button" type="button">Manual submission </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+
+                                <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-accordion-header-active ui-state-active ui-corner-top ui-state-focus ui-corner-all" role="tab" id="ui-accordion-tabs-search-accordion-header-1" aria-controls="identifier-accordion" aria-selected="false" tabindex="-1"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span><a href="https://ria.ua.pt/submit#">Search for identifier</a></h3>
+                                <div id="identifier-accordion" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" aria-labelledby="ui-accordion-tabs-search-accordion-header-1" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
+                                    <form class="form-horizontal" id="form-submission-identifier" action="https://ria.ua.pt/submit" method="post">
+                                        <input type="hidden" id="suuid-identifier" name="suuid" value="c8a6c929-deb6-4309-aba5-003c4f088ff8">
+                                        <input type="hidden" id="iuuid-identifier" name="iuuid" value="">
+                                        <input type="hidden" id="fuuid-identifier" name="fuuid" value="">
+                                        <input type="hidden" id="collectionid-identifier" name="collectionid" value="">
+
+
+                                        <p class="help-block">Fill in publication identifiers (DOI is preferable) and then press "Search". A list of all matching publications will be shown to you to select in order to proceed with the submission process.</p>
+
+
+                                        <div class="form-group">
+                                            <label class="col-md-3" for="identifier_tid">
+                                                <span class="submission-lookup-label">TID Thesis identifier :</span>
+                                                <span class="help-block submission-lookup-hint">e.g. 201002744</span>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <div class="col-md-4">
+                                                    <input class="form-control  submission-lookup-identifier" type="text" name="identifier_tid" id="identifier_tid">
+                                                </div>
+                                                <div class="col-md-7">
+
+
+                                                    <img class="img-thumbnail" src="~/2-DOI_Search_files/submission-lookup-small-renates.jpg">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3" for="identifier_pubmed">
+                                                <span class="submission-lookup-label">PubMed ID:</span>
+                                                <span class="help-block submission-lookup-hint">e.g. 20524090</span>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <div class="col-md-4">
+                                                    <input class="form-control  submission-lookup-identifier" type="text" name="identifier_pubmed" id="identifier_pubmed">
+                                                </div>
+                                                <div class="col-md-7">
+
+
+                                                    <img class="img-thumbnail" src="~/2-DOI_Search_files/submission-lookup-small-pubmed.jpg">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3" for="identifier_doi">
+                                                <span class="submission-lookup-label">DOI (Digital Object Identifier)		:</span>
+                                                <span class="help-block submission-lookup-hint">e.g. 10.1021/ac0354342</span>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <div class="col-md-4">
+                                                    <input class="form-control  submission-lookup-identifier" type="text" name="identifier_doi" id="identifier_doi">
+                                                </div>
+                                                <div class="col-md-7">
+
+
+                                                    <img class="img-thumbnail" src="~/2-DOI_Search_files/submission-lookup-small-pubmed.jpg">
+
+
+
+                                                    <img class="img-thumbnail" src="~/2-DOI_Search_files/submission-lookup-small-crossref.jpg">
+
+
+
+                                                    <img class="img-thumbnail" src="~/2-DOI_Search_files/submission-lookup-small-arxiv.jpg">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3" for="identifier_arxiv">
+                                                <span class="submission-lookup-label">arXiv ID:</span>
+                                                <span class="help-block submission-lookup-hint">e.g. arXiv:1302.1497</span>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <div class="col-md-4">
+                                                    <input class="form-control  submission-lookup-identifier" type="text" name="identifier_arxiv" id="identifier_arxiv">
+                                                </div>
+                                                <div class="col-md-7">
+
+
+                                                    <img class="img-thumbnail" src="~/2-DOI_Search_files/submission-lookup-small-arxiv.jpg">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3" for="identifier_cinii">
+                                                <span class="submission-lookup-label">CiNii NAID:</span>
+                                                <span class="help-block submission-lookup-hint">e.g. 110004744915</span>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <div class="col-md-4">
+                                                    <input class="form-control  submission-lookup-identifier" type="text" name="identifier_cinii" id="identifier_cinii">
+                                                </div>
+                                                <div class="col-md-7">
+
+
+                                                    <img class="img-thumbnail" src="~/2-DOI_Search_files/submission-lookup-small-cinii.jpg">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            &nbsp;<button class="btn btn-primary col-md-2 pull-right" type="button" id="lookup_idenfifiers">Search</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+
+                                <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ui-accordion-icons" role="tab" id="ui-accordion-tabs-search-accordion-header-2" aria-controls="file-accordion" aria-selected="false" tabindex="-1"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span><a href="https://ria.ua.pt/submit#">Upload a file</a></h3>
+                                <div id="file-accordion" class="container ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" aria-labelledby="ui-accordion-tabs-search-accordion-header-2" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
+                                    <form class="form-horizontal" id="form-submission-loader" action="https://ria.ua.pt/submit" method="post">
+                                        <input type="hidden" id="suuid-loader" name="suuid" value="c8a6c929-deb6-4309-aba5-003c4f088ff8">
+                                        <input type="hidden" id="iuuid-loader" name="iuuid" value="">
+                                        <input type="hidden" id="fuuid-loader" name="fuuid" value="">
+                                        <input type="hidden" id="collectionid-loader" name="collectionid" value="">
+                                        <p class="help-block">Select a file to upload and its type from the drop-down menu. If "Preview Mode" is enabled, the list of the publications in the file will be shown to you to select the one for submission. If it is disabled, all publications will be imported in your MyDSpace page as "Unfinished Submissions" while the first one will go through the submission process.</p>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3" for="provider_loader"><span class="submission-lookup-label">Select data type:</span></label>
+                                            <div class="col-md-6">
+                                                <select class="form-control submission-file-loader" name="provider_loader" id="provider_loader">
+                                                    <option value="-1">Select...</option>
+
+                                                    <option value="pubmedXML">pubmedXML</option>
+
+                                                    <option value="crossRefXML">crossRefXML</option>
+
+                                                    <option value="arXivXML">arXivXML</option>
+
+                                                    <option value="ciniiXML">ciniiXML</option>
+
+                                                    <option value="bibtex">bibtex</option>
+
+                                                    <option value="ris">ris</option>
+
+                                                    <option value="endnote">endnote</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3" for="file_upload">File:</label>
+                                            <div class="col-md-7">
+                                                <input class="form-control submission-file-loader" type="file" name="file_upload" id="file_upload">
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group" id="select-collection-file-div">
+                                            <label class="col-md-3" for="select-collection-file">Collection:</label>
+                                            <div class="col-md-6">
+                                                <select name="select-collection-file" class="form-control submission-file-loader" id="select-collection-file">
+                                                    <option value="-1" selected="selected">Select...</option>
+                                                    <option value="105">DETI - Artigos</option>
+                                                    <option value="107">DETI - Capítulo de livro</option>
+                                                    <option value="108">DETI - Comunicações</option>
+                                                    <option value="110">DETI - Livro</option>
+                                                    <option value="113">DETI - Relatórios</option>
+                                                    <option value="377">IEETA - Artigos</option>
+                                                    <option value="378">IEETA - Capitulo de livro</option>
+                                                    <option value="379">IEETA - Comunicações</option>
+                                                    <option value="380">IEETA - Livro</option>
+                                                    <option value="382">IEETA - Relatórios</option>
+                                                </select>
+
+                                            </div>
+                                            <button class="btn btn-primary col-md-2 pull-right" type="button" id="loadfile_go">Process</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane ui-tabs-panel ui-widget-content ui-corner-bottom" id="tabs-result" aria-labelledby="ui-id-2" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;" aria-live="polite">
+                            <div id="empty-result">
+                                <p class="alert alert-warning">No results available!</p>
+                            </div>
+                            <div id="result-list"></div>
+
+                        </div>
+                        <div class="row container">
+                            <button type="button" class="btn btn-default col-md-2 pull-right exit">Exit</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="hidden-area" style="display: none;">
+                    <div id="select-collection-div">
+                        <select class="form-control" id="select-collection">
+                            <option value="-1" selected="selected">Select...</option>
+                            <option value="105">DETI - Artigos</option>
+                            <option value="107">DETI - Capítulo de livro</option>
+                            <option value="108">DETI - Comunicações</option>
+                            <option value="110">DETI - Livro</option>
+                            <option value="113">DETI - Relatórios</option>
+                            <option value="377">IEETA - Artigos</option>
+                            <option value="378">IEETA - Capitulo de livro</option>
+                            <option value="379">IEETA - Comunicações</option>
+                            <option value="380">IEETA - Livro</option>
+                            <option value="382">IEETA - Relatórios</option>
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <div id="no-collection-warn" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Warning, no collection</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="alert alert-warning">The collection of the publication is required.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">I understand</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                <div id="loading-search-result" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Loading...</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="help-block">Quering the external service to retrieve the requested publications. Please, wait for the request to complete. If you close this window, the request will be aborted. </p>
+                            </div>
+                            <div class="modal-footer">
+                                <img src="~/2-DOI_Search_files/ajax-loader-big.gif">
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                <div id="loading-file-result" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Loading...</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="help-block">Quering the external service to retrieve the requested publications. Please, wait for the request to complete. If you close this window, the request will be aborted. </p>
+                            </div>
+                            <div class="modal-footer">
+                                <img src="~/2-DOI_Search_files/ajax-loader-big.gif">
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                <div id="loading-details" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Publication details</h4>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+                <br>
+                <p>
+                    Go to<br>
+                    <a href="https://ria.ua.pt/submit">DSpace Home</a><br>
+                    <a href="https://ria.ua.pt/mydspace">My Account</a>
+                </p>
+                <script type="text/javascript">
+<!--
+    	var j = jQuery.noConflict();
+    	j("#tabs").tabs({
+    		beforeActivate: function( event, ui ) {
+    			/* if ('tabs-result' == j(ui.newPanel).attr('id'))
+   				   {
+    			   j('#manual-submission').appendTo(j(ui.newPanel));
+    			   }
+    			   else
+   				   {
+    			   j('#manual-submission').appendTo(j('#manual-accordion'));
+   				   } */
+
+                if('tabs-result' != j(ui.newPanel).attr('id'))
+   				{
+    				j('#manual-submission').appendTo(j('#manual-accordion'));
+   				}
+    		}
+    	});
+    	j('#tabs-search-accordion').accordion({
+    			heightStyle: "content",
+    			collapsible: true,
+    			active: false,
+    			beforeActivate: function( event, ui ) {
+    				if ('manual-accordion' == ui.newPanel.attr('id'))
+   					{
+    					j('#manual-submission').appendTo(ui.newPanel);
+   					}
+    			}
+    	});
+    	j('#link-ricerca-identificatore').click(function(){
+    		j('#tabs-search-accordion').accordion({'active': 2});
+    	});
+    	j('button').button();
+    	j('#manual-submission-button').click(function(event){
+    		var colman = j('#select-collection-manual').val();
+    		if (colman != -1)
+    		{
+    			j('#collectionid').val(colman);
+    			j('#form-submission').submit();
+    		}
+    		else
+   			{
+    			j('#no-collection-warn').modal('show');
+   			}
+    	});
+    	j('#lookup_idenfifiers').click(function(){
+    		submissionLookupIdentifiers(j('input.submission-lookup-identifier'));
+    	});
+    	j('#search_go').click(function(){
+    		submissionLookupSearch(j('.submission-lookup-search'));
+    	});
+    	j('#loadfile_go').click(function(){
+    		j('#select-collection').val(j('#select-collection-file').val());
+    		submissionLookupFile(j('#form-submission-loader'));
+    	});
+    	j('button.exit').click(function(event){
+    		event.preventDefault();
+    		window.location = "/mydspace";
+    	});
+    	j('#loading-search-result').on('hide.bs.modal', function () {
+    		j(this).data('ajaxCall').abort();
+    	});
+    	j('#loading-details').on('hidden.bs.modal', function () {
+  			 j('#hidden-area').append(j('#select-collection-div'));
+  			 j('#loading-details .modal-body').empty();
+  			 j('#loading-details .modal-footer').empty();
+   		});
+    	j(".submission-preview-loader").click(function() {
+    		if(j(this).is (':checked')) {
+    			j("#select-collection-file-div").hide();
+    		}
+    		else {
+    			j("#select-collection-file-div").show();
+    		}
+    	});
+    	j('#tabs-search-accordion').accordion({'active': 0});
+    --></script>
+            </div>
+        </main>
+        <br />
+
+    </body>
+    </html>
