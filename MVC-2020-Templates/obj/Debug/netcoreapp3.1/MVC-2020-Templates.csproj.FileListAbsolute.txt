@@ -1600,3 +1600,6 @@ C:\Users\Asus\Desktop\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\staticwe
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.dll
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.pdb
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\MVC-2020-Templates.genruntimeconfig.cache
+C:\Users\pmate\Documents\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\PublicationMetaData1.cshtml.g.cs
+C:\Users\pmate\Documents\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Sobre.cshtml.g.cs
+C:\Users\pmate\Documents\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Form_Layout.cshtml.g.cs

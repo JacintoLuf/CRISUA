@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "_3ColsLayout";
+    ViewData["Title"] = "Conheça o UA CRIS";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<br />
+
+<div>
+    <h4>O que é um CRIS ?</h4>
+    <p>
+        CRIS ou <i>Current Research Information System</i> é um sistema de informação que guarda, gere e troca metadados para uma
+        determinada instituição de investigação.
+    </p>
+</div>
+
+<br />
+<br />
+
+<div>
+    <h4>O CRIS na UA</h4>
+    <p>O propósito do CRIS na UA será alimentar o <b>RIA</b> com publicações vindas do <b>ORCID</b> via <b>PTCRISync</b>.</p>
+    <p>Com esta ferramenta, os investigadores poderão:</p>
+    <ol>
+        <li>Escolher as publicações que desejam sincronizar</li>
+        <li>Ter os campos das páginas de submissão de uma publicação preenchidos automaticamente</li>
+    </ol>
+</div>
+
+
+@section RightColumn{
+    <h5>Plataformas</h5>
+    <ol>
+        <li><a href="https://ria.ua.pt/">RIA</a></li>
+        <li><a href="https://orcid.org/">ORCID</a></li>
+        <li><a href="https://ptcris.pt/hub-ptcris/">PTCRISync</a></li>
+    </ol>
+}

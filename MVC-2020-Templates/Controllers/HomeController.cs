@@ -38,7 +38,7 @@ namespace MVC_2020_Template.Controllers
 
         public IActionResult Publicacoes()
         {
-            ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
+            //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(
                                         PublicacoesService.ConvertProductToWork(
@@ -76,6 +76,11 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
         public IActionResult PublicationMetaData1()
+        {
+            return View();
+        }
+
+        public IActionResult Sobre()
         {
             return View();
         }
