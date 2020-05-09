@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj": {}
+    "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj": {}
   },
   "projects": {
-    "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj": {
+    "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj",
+        "projectUniqueName": "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj",
         "projectName": "MVC-2020-Business",
-        "projectPath": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj",
-        "packagesPath": "C:\\Users\\samue\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Business\\obj\\",
+        "projectPath": "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Business\\MVC-2020-Business.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Business\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\samue\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -27,8 +27,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj": {
-                "projectPath": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj"
+              "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj": {
+                "projectPath": "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj"
               }
             }
           }
@@ -73,17 +73,17 @@
         }
       }
     },
-    "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj": {
+    "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj",
+        "projectUniqueName": "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj",
         "projectName": "MVC-2020-Database",
-        "projectPath": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj",
-        "packagesPath": "C:\\Users\\samue\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\samue\\OneDrive\\Documentos\\CRISUA\\MVC-2020-Database\\obj\\",
+        "projectPath": "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Asus\\Desktop\\CRISUA\\MVC-2020-Database\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\samue\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

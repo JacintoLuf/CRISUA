@@ -89,7 +89,7 @@ namespace MVC_2020_Business.Services
 
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = client.GetAsync(urlParameter4).Result;
+            HttpResponseMessage response = client.GetAsync(urlParameter3).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -117,7 +117,7 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter4, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(urlParameter3, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;

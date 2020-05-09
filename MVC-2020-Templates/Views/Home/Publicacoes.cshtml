@@ -19,13 +19,21 @@
         <div class="one wide column"><button class="ui primary button" onclick="saveAll()">Save</button></div>
     </div>
     <div class="ui grid">
-        @{ var count = 0; }
+        @{ var count = 0;
+            var seta1 = "seta1_" + count;
+            var seta2 = "seta2_" + count;
+        }
         @foreach (var work in works)
         {
             count++;
-        <div class="five wide column">@work.title.title</div>
-        <div class="two wide column"><i class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i></div>
-        <div id="@count" class="five wide column"></div>
+            seta1 = "seta1_" + count;
+            seta2 = "seta2_" + count;
+            <div class="five wide column">@work.title.title</div>
+            <div class="two wide column">
+                <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
+                <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
+            </div>
+            <div id="@count" class="five wide column"></div>
         }
     </div>
 </div>
@@ -75,8 +83,25 @@
         console.log(obj);
         var div = document.getElementById("" + idDiv);
         if (typeof (div) != 'undefined' && div != null) {
+            var seta1 = document.getElementById("seta1_" + idDiv);
+            seta1.style.display = "none";
+            var seta2 = document.getElementById("seta2_" + idDiv);
+            seta2.style.display = "block";
             div.innerHTML = obj.title.title;
             objs.push(obj);
+        }
+    }
+
+    function CancelOrcidToRia(obj, idDiv) {
+        console.log(obj);
+        var div = document.getElementById("" + idDiv);
+        if (typeof (div) != 'undefined' && div != null) {
+            var seta1 = document.getElementById("seta1_" + idDiv);
+            seta1.style.display = "block";
+            var seta2 = document.getElementById("seta2_" + idDiv);
+            seta2.style.display = "none";
+            div.innerHTML = null;
+            objs.pop(obj);
         }
     }
 
