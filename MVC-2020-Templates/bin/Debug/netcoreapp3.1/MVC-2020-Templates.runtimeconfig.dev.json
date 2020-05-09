@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\pedra\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\pedra\\.nuget\\packages"
+      "C:\\Users\\pmate\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\pmate\\.nuget\\packages"
     ]
   }
 }

@@ -7321,19 +7321,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pedra\\.nuget\\packages\\": {}
+    "C:\\Users\\pmate\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pedra\\Ambiente de Trabalho\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj",
+      "projectUniqueName": "C:\\Users\\pmate\\Documents\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj",
       "projectName": "MVC-2020-Database",
-      "projectPath": "C:\\Users\\pedra\\Ambiente de Trabalho\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj",
-      "packagesPath": "C:\\Users\\pedra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pedra\\Ambiente de Trabalho\\CRISUA\\MVC-2020-Database\\obj\\",
+      "projectPath": "C:\\Users\\pmate\\Documents\\CRISUA\\MVC-2020-Database\\MVC-2020-Database.csproj",
+      "packagesPath": "C:\\Users\\pmate\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pmate\\Documents\\CRISUA\\MVC-2020-Database\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pedra\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pmate\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
