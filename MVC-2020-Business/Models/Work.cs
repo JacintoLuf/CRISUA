@@ -165,6 +165,16 @@ namespace MVC_2020_Business.Models
 
         [JsonProperty("day")]
         public Day day { get; set; }
+
+        public override string ToString()
+        {
+            if (day is null)
+            {
+                if (month is null) return year.value + "/01/01";
+                else return year.value + "/" + month.value + "/01";
+            }
+            return year.value + "/" + month.value + "/" + day.value;
+        }
     }
 
     public class ExternalId

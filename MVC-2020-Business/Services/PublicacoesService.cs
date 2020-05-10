@@ -53,23 +53,27 @@ namespace MVC_2020_Business.Services
             if (!queryResult.IsSuccessStatusCode || queryResult.Content == null) { return new List<Product>(); }
 
             var desPub = JsonConvert.DeserializeObject<List<Product>>(queryResult.Content.ReadAsStringAsync().Result);
+            DatabaseServices.insertPublicationsRIA(_db, desPub);// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
 
-            var dois = _db.Publication_Identifier.Select(x => x.Value).ToList();
-            var pubs = new List<Publication>();
-            var pubsId = new List<Publication_Identifier>();
-            var contador = 2;
-            foreach (var pub in desPub)
-            {
-                if ( !dois.Contains(pub.Doi) && !String.IsNullOrWhiteSpace(pub.Doi))
-                {
-                    pubs.Add(new Publication() { LanguageId = 1, Date = DateTime.Now, Source = "RIA", Synced = true }); //parametros mal dados
-                    //pubsId.Add(new Publication_Identifier() { PublicationId=pubs.First().PublicationId, IdentifierId=1, StartDate= DateTime.Now, EndDate= DateTime.Now, Value=pub.Doi });
+
+
+
+            //var dois = _db.Publication_Identifier.Select(x => x.Value).ToList();
+            //var pubs = new List<Publication>();
+            //var pubsId = new List<Publication_Identifier>();
+            //var contador = 2;
+            //foreach (var pub in desPub)
+            //{
+            //    if ( !dois.Contains(pub.Doi) && !String.IsNullOrWhiteSpace(pub.Doi))
+            //    {
+            //        pubs.Add(new Publication() { LanguageId = 1, Date = DateTime.Now, Source = "RIA", Synced = true }); //parametros mal dados
+            //        //pubsId.Add(new Publication_Identifier() { PublicationId=pubs.First().PublicationId, IdentifierId=1, StartDate= DateTime.Now, EndDate= DateTime.Now, Value=pub.Doi });
                     
-                }
-            }
-            _db.Set<Publication>().AddRange(pubs);
-            //_db.Set<Publication_Identifier>().AddRange(pubsId);
-            _db.SaveChanges();
+            //    }
+            //}
+            //_db.Set<Publication>().AddRange(pubs);
+            ////_db.Set<Publication_Identifier>().AddRange(pubsId);
+            //_db.SaveChanges();
             return desPub;
         }
 
@@ -102,7 +106,7 @@ namespace MVC_2020_Business.Services
             }
         }
 
-        public static List<Work> GetDifWorks(List<Work> locals)
+        public static List<Work> GetDifWorks(MyDbContext _db, List<Work> locals)
         {
             //using (var db = new PersingContext())
             //{
@@ -121,7 +125,9 @@ namespace MVC_2020_Business.Services
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<List<Work>>(resultado);
+                var ls= JsonConvert.DeserializeObject<List<Work>>(resultado);
+                DatabaseServices.insertPublicationsPTCRIS(_db, ls); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+                return ls;
             }
             else
             {

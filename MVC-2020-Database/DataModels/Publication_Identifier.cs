@@ -3,6 +3,7 @@ using ServiceStack.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Text;
 
@@ -10,14 +11,17 @@ namespace MVC_2020_Database.DataModels
 {
     public class Publication_Identifier
     {
-        [Key, PrimaryKey]
+        [Key, Column(Order =0)]
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("Publication")]
         public int PublicationId { get; set; }
-        [PrimaryKey]
+
+        [Key, Column(Order =1)]
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("Identifier")]
         public int IdentifierId { get; set; }
-        [PrimaryKey]
         public DateTime StartDate { get; set; }
-        [PrimaryKey]
         public DateTime EndDate { get; set; }
+
+        [Key]
         public string Value { get; set; }
     }
 }
