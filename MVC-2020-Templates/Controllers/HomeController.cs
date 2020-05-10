@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
@@ -86,6 +87,26 @@ namespace MVC_2020_Template.Controllers
         }
 
         public IActionResult PublicationMetaData3()
+        {
+            return View();
+        }
+
+        public IActionResult PublicationDoiSearch()
+        {
+            return View();
+        }
+
+        public IActionResult PublicationSubmission()
+        {
+            return View();
+        }
+
+        public IActionResult dSPaceLicense()
+        {
+            return View();
+        }
+
+        public IActionResult Publication_Details()
         {
             return View();
         }
