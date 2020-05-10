@@ -4,17 +4,27 @@
 }
 
 
+@{
+    var redirectUrl = Url.Action("Perfil", "Home", null);
+}
+
+
 @if (@MVC_2020_Template.Helpers.Session.SessionActive)
 {
-<p>Login bem Sucedido</p>
+    <p>Login bem Sucedido</p>
+    {
+        redirectUrl = Url.Action("Perfil", "Home", null);
+    }
 }
 else
 {
-<p>Logout bem Sucedido</p>
+    <p>Logout bem Sucedido</p>
+    {
+        redirectUrl = Url.Action("Home", "Home", null);
+    }
 }
 
-@*<div>
-    <p>@MVC_2020_Template.Helpers.Session.Email</p>
-    <p>@MVC_2020_Template.Helpers.Session.IUPI</p>
-    <p>@MVC_2020_Template.Helpers.Session.FullName</p>
-</div>*@
+<script>
+    var redirectUrl = '@redirectUrl';
+    window.location.href = redirectUrl;
+</script>

@@ -22,13 +22,17 @@
         @{ var count = 0;
             var seta1 = "seta1_" + count;
             var seta2 = "seta2_" + count;
+            var info = "info_" + count;
         }
         @foreach (var work in works)
         {
             count++;
             seta1 = "seta1_" + count;
             seta2 = "seta2_" + count;
-            <div class="five wide column">@work.title.title</div>
+            info = "info_" + count;
+            <div class="five wide column" data-tooltip="@string.Join(", ", work.contributors.ToString(work.publicationDate.year.value, work.source.sourceName.content))" data-position="top left">
+                @work.title.title
+            </div>
             <div class="two wide column">
                 <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
                 <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
@@ -106,8 +110,9 @@
     }
 
     function saveAll() {
-        $.post("Home/SavePub", { works: JSON.stringify(objs) }, function (data) {
-            alert("Data: " + data);
+        $.post("PublicationMetaData1", { works: JSON.stringify(objs) }, function (data) {
+            //alert("Data: " + data);
+            //window.location.href = data;
         });
 
         //var workss = JSON.stringify({ 'works': objs });
