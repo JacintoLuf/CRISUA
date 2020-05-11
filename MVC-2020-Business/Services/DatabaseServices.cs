@@ -1,11 +1,13 @@
-﻿//using BibTeXLibrary;
+﻿using BibTeXLibrary;
+using Microsoft.EntityFrameworkCore;
 using MVC_2020_Business.Models;
 using MVC_2020_Database.DataModels;
 using ServiceStack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -271,6 +273,116 @@ namespace MVC_2020_Business.Services
 
 
 
+
+        }
+
+        public static Hashtable retrieveAllInfo(MyDbContext _db, string titulo)
+        {
+            Hashtable map = new Hashtable();
+
+            var query = from tmp in _db.PublicationTitle where tmp.Title == titulo select tmp.PublicationId;
+            var id = query.FirstOrDefault();
+
+            map.Add("titulo", titulo);
+
+            var queryDOI = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId == 1 select tmp.Value;
+            map.Add("DOI", queryDOI.FirstOrDefault());
+
+            var queryExt = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId != 1 select tmp.Value;
+            map.Add("Identificadores Externos", queryExt.FirstOrDefault());
+
+            var queryAuth = from tmp in _db.Person_Publication
+                            join person in _db.PersonName
+                            on tmp.PersonId equals person.PersonId
+                            where tmp.PublicationId == id select person.Name;
+
+            var a= queryAuth.ToList();
+            map.Add("Autores", queryAuth.ToList());
+
+            var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
+            map.Add("Data", queryData.FirstOrDefault().ToString()); ;
+
+            map.Add("Estado", "published");
+
+            var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
+            var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym ;
+
+            map.Add("Language", qL.FirstOrDefault());
+
+
+            return map;
+        }
+        public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor)
+        {
+            string var = tabela;
+
+            switch (var)
+            {
+                //case "Person":
+                //    selectPerson(_db, coluna, valor);
+                //    break;
+
+                case "Publication":
+                    List<String> ret = new List<string>();
+
+                    bool hlp= false;
+                    if (valor == "1") hlp = true;
+
+                    var query = from tmp in _db.Publication where tmp.Synced == hlp
+                                join tit in _db.PublicationTitle on tmp.PublicationId equals tit.PublicationId
+                                select tit.Title;
+                    
+                    foreach(var i in query.ToList())
+                    {
+                        ret.Add(i);
+                    }
+
+                    return ret;
+
+                    break;
+
+                //case "PublicationTitle":
+                //    selectPublicationTitle(_db, coluna, valor);
+                //    break;
+
+                //case "PublicationIdentifier":
+                //    selectPublicationIdentifier(_db, coluna, valor);
+                //    break;
+
+
+
+            }
+
+            return null;
+        }
+
+        //private static void selectPublicationIdentifier(MyDbContext db, string coluna, string valor)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //private static void selectPublicationTitle(MyDbContext db, string coluna, string valor)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //private static void selectPerson(MyDbContext db, string coluna, string valor)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public static void updateState(MyDbContext _db, String titulo, int valor)
+        {
+            bool f = false;
+
+            var query = from tit in _db.PublicationTitle where tit.Title == titulo select tit.PublicationId;
+            Publication a = new Publication();
+            a = _db.Publication.Find(query.FirstOrDefault());
+            if (valor == 1) f = true;
+            
+            a.Synced = f;
+            _db.Entry(a).State = EntityState.Modified;
+            _db.SaveChanges();
 
         }
     }
