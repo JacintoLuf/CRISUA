@@ -68,7 +68,7 @@ namespace MVC_2020_Business.Services
             //    {
             //        pubs.Add(new Publication() { LanguageId = 1, Date = DateTime.Now, Source = "RIA", Synced = true }); //parametros mal dados
             //        //pubsId.Add(new Publication_Identifier() { PublicationId=pubs.First().PublicationId, IdentifierId=1, StartDate= DateTime.Now, EndDate= DateTime.Now, Value=pub.Doi });
-                    
+
             //    }
             //}
             //_db.Set<Publication>().AddRange(pubs);
@@ -77,14 +77,29 @@ namespace MVC_2020_Business.Services
             return desPub;
         }
 
-
-        public static Models.Orcid.Works GetWorksFromXml() //Buscar ao Orcid
+        public static List<Product> GetProducts2(MyDbContext _db, string IUPI)
         {
             HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            var request = client.GetStringAsync("https://pub.orcid.org/v2.1/0000-0002-3488-6570/works");
-            return JsonConvert.DeserializeObject<Models.Orcid.Works>(request.Result);
+            client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "Y3Jpczo4ZjNqRXhnUXdoUmNmc2x5NkZyLg==");
+
+            var queryResult = client.GetAsync(IUPI).Result;//"7f8b8645-515e-48bf-bf58-613ab7a6244d" dg
+
+            if (!queryResult.IsSuccessStatusCode || queryResult.Content == null) { return new List<Product>(); }
+
+            var desPub = JsonConvert.DeserializeObject<List<Product>>(queryResult.Content.ReadAsStringAsync().Result);
+            return desPub;
         }
+
+
+        //public static Models.Orcid.Works GetWorksFromXml() //Buscar ao Orcid
+        //{
+        //    HttpClient client = new HttpClient();
+        //    client.DefaultRequestHeaders.Add("Accept", "application/json");
+        //    var request = client.GetStringAsync("https://pub.orcid.org/v2.1/0000-0002-3488-6570/works");
+        //    return JsonConvert.DeserializeObject<Models.Orcid.Works>(request.Result);
+        //}
 
         public static List<Work> GetWorks() //Buscar ao PTCRIS
         {
@@ -125,8 +140,29 @@ namespace MVC_2020_Business.Services
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
-                var ls= JsonConvert.DeserializeObject<List<Work>>(resultado);
+                var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
                 DatabaseServices.insertPublicationsPTCRIS(_db, ls); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+                return ls;
+            }
+            else
+            {
+                return new List<Work>();
+            }
+        }
+
+        public static List<Work> GetDifWorks2(MyDbContext _db, List<Work> locals)
+        {
+            HttpClient client2 = new HttpClient();
+            client2.BaseAddress = new Uri(importDifURL);
+
+            client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var json = JsonConvert.SerializeObject(locals);
+            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response2 = client2.PostAsync(urlParameter3, stringContent).Result;
+            if (response2.IsSuccessStatusCode)
+            {
+                var resultado = response2.Content.ReadAsStringAsync().Result;
+                var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
                 return ls;
             }
             else

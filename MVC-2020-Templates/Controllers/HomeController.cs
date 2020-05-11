@@ -19,13 +19,19 @@ namespace MVC_2020_Template.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MyDbContext _db;// acesso db
+        private static MyDbContext _db;// acesso db
 
         public HomeController(ILogger<HomeController> logger, MyDbContext db)// acesso db
         {
             _logger = logger;
             _db = db;// acesso db
         }
+
+        public static MyDbContext DB()
+        {
+            return _db;
+        }
+
 
         public IActionResult Index()
         {
@@ -40,7 +46,7 @@ namespace MVC_2020_Template.Controllers
         public IActionResult Publicacoes()
         {
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
-            ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
+            //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
                                         PublicacoesService.ConvertProductToWork(
                                         PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
@@ -54,7 +60,13 @@ namespace MVC_2020_Template.Controllers
 
         public IActionResult Detail()
         {
+            //ViewBag.Details = JsonConvert.DeserializeObject<List<Work>>(works);
+            ViewBag.Details = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1");
+            ViewBag.PublicacoesPTCris2 = PublicacoesService.GetDifWorks2(_db,
+                                        PublicacoesService.ConvertProductToWork(
+                                        PublicacoesService.GetProducts2(_db, Session.IUPI.ToString())));
             return View();
+            //return Json(Url.Action("Detail", "Home"));
         }
 
         public IActionResult Errors()
@@ -126,8 +138,8 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult SavePub(String works)
         {
-            var w = JsonConvert.DeserializeObject<List<Work>>(works);
-            return Json("Foram inseridas as publicações no RIA \n\nAcabou por hoje! :)");
+            MVC_2020_Business.Services.DatabaseServices.updateState2(_db, works, 1);
+            return Json(Url.Action("Detail", "Home"));
         }
     }
 }

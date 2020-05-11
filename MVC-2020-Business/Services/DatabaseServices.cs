@@ -1,13 +1,14 @@
-﻿using BibTeXLibrary;
+﻿//using BibTeXLibrary;
 using Microsoft.EntityFrameworkCore;
 using MVC_2020_Business.Models;
 using MVC_2020_Database.DataModels;
+using Newtonsoft.Json;
 using ServiceStack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.ModelConfiguration.Conventions;
+//using System.Data.Entity.ModelConfiguration.Conventions;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -384,6 +385,24 @@ namespace MVC_2020_Business.Services
             _db.Entry(a).State = EntityState.Modified;
             _db.SaveChanges();
 
+        }
+
+        public static void updateState2(MyDbContext _db, String works, int valor)
+        {
+            var work = JsonConvert.DeserializeObject<List<Work>>(works);
+            foreach (var w in work)
+            {
+                bool f = false;
+
+                var query = from tit in _db.PublicationTitle where tit.Title == w.title.title select tit.PublicationId;
+                Publication a = new Publication();
+                a = _db.Publication.Find(query.FirstOrDefault());
+                if (valor == 1) f = true;
+
+                a.Synced = f;
+                _db.Entry(a).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
         }
     }
 }

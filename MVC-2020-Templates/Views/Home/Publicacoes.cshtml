@@ -6,7 +6,7 @@
     List<MVC_2020_Business.Models.Work> works = ViewBag.PublicacoesPTCris;
     var worksMeu = ViewBag.PublicacoesOrcid;
 
-    //List<MVC_2020_Business.Models.Orcid.Works> works2 = ViewBag.PublicacoesOrcid;
+    var listTitle = @MVC_2020_Business.Services.DatabaseServices.select(@MVC_2020_Template.Controllers.HomeController.DB(), "Publication", "Synced", "0");
 }
 
 
@@ -16,7 +16,8 @@
         <div class="five wide column">ORCID</div>
         <div class="one wide column"></div>
         <div class="five wide column">RIA</div>
-        <div class="one wide column"><button class="ui primary button" onclick="saveAll()">Save</button></div>
+        @*<div class="one wide column"><button class="ui primary button" onclick="saveAll()" href="@Url.Action("Detail", "Home")">Save</button></div>*@
+        <div class="one wide column"><button class="ui primary button" onclick="saveAll()">save@*@Html.ActionLink("GO", "Detail", "Home", null)*@</button></div>
     </div>
     <div class="ui grid">
         @{ var count = 0;
@@ -26,57 +27,23 @@
         }
         @foreach (var work in works)
         {
-            count++;
-            seta1 = "seta1_" + count;
-            seta2 = "seta2_" + count;
-            info = "info_" + count;
-            <div class="five wide column" data-tooltip="@string.Join(", ", work.contributors.ToString(work.publicationDate.year.value, work.source.sourceName.content))" data-position="top left">
-                @work.title.title
-            </div>
-            <div class="two wide column">
-                <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
-                <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
-            </div>
-            <div id="@count" class="five wide column"></div>
+            if (listTitle.Contains(work.title.title))
+            {
+                count++;
+                seta1 = "seta1_" + count;
+                seta2 = "seta2_" + count;
+                info = "info_" + count;
+                <div class="five wide column" data-tooltip="@string.Join(", ", work.contributors.ToString(work.publicationDate.year.value, work.source.sourceName.content))" data-position="top left">
+                    @work.title.title
+                </div>
+                <div class="two wide column">
+                    <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
+                    <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
+                </div>
+                <div id="@count" class="five wide column"></div>
+            }
         }
     </div>
-</div>
-
-
-@*<div class="container">
-        @{ var count = 0;}
-        @foreach (var publicacao in publicacoes)
-        {
-            count2++;
-            <h2>@count2</h2>
-            <div class="card">
-                <div class="card-img"></div>
-                <div class="card-body">
-                    <h5 class="card-title">@publicacao.Name</h5>
-                    @foreach (var metadata in publicacao.Contributors)
-                    {
-                        <p>@metadata.Value</p>
-                    }
-                </div>
-            </div>
-        }
-    </div>*@
-
-<div>
-    @*<div class="card-colums">
-            @{ var count2 = 0;}
-            @foreach (var work in works.Group)
-            {
-                count2++;
-                <h2>@count2</h2>
-                <div class="card">
-                    <div class="card-img"></div>
-                    <div class="card-body">
-                        <h5 class="card-title">@work.WorkSummary.First().Title.Title.Value</h5>
-                    </div>
-                </div>
-             }
-        </div>*@
 </div>
 
 
@@ -110,11 +77,13 @@
     }
 
     function saveAll() {
-        $.post("PublicationMetaData1", { works: JSON.stringify(objs) }, function (data) {
-            //alert("Data: " + data);
-            //window.location.href = data;
+        $.post("SavePub", { works: JSON.stringify(objs) }, function (data) {
+            //alert("Go to Details");
+            window.location.href = "Detail";
+            //$("#main_area").html(data);
         });
-
+        //window.open('@Url.Action("Detail", "Home")', "_blank");
+        //window.open('@Url.Action("Detail", "Home")');
         //var workss = JSON.stringify({ 'works': objs });
 
         //$.ajax({
