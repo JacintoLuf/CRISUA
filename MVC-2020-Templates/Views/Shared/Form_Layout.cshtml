@@ -19,13 +19,13 @@
     <div class="service area">
         <div class="limiter">
             <div class="common">
-                <a href="#">Notícias</a> | <a href="#">Agenda</a> |
-                <a href="#"><i class="facebook f icon"></i></a> |
-                <a href="#"><i class="instagram icon"></i></a>
+                <a href="https://www.ua.pt/pt/noticias" target="_blank">Notícias</a> | <a href="https://www.ua.pt/pt/agenda" target="_blank">Agenda</a> |
+                <a href="https://www.facebook.com/universidadedeaveiro/" target="_blank"><i class="facebook f icon"></i></a> |
+                <a href="https://www.instagram.com/universidadedeaveiro/?hl=pt" target="_blank"><i class="instagram icon"></i></a>
             </div>
             <div class="shortcuts">
-                <a href="#">Comunidade ua</a>
-                <a href="#">Utilizador externo</a>
+                <a href="https://www.ua.pt/pt/comunidade" target="_blank">Comunidade ua</a>
+                <a href="https://www.ua.pt/sbidm/biblioteca/externos" target="_blank">Utilizador externo</a>
             </div>
             <div class="session">
                 @{ var session = new MVC_2020_Template.Helpers.Session(Context.Session);
@@ -48,23 +48,23 @@
                 @*<a href="/Secure/auto">Entrar <i class="outline user icon"></i></a>*@
             </div>
             @*<div id="IconsLeft">
-                        <div class="float_right">
-                            <span class="top-menu-name">
+                <div class="float_right">
+                    <span class="top-menu-name">
 
-                        </span>
-                    </div>
-                    <div class="float_right">
-                        @if (session.SessionActive)
-                        {
-                            @Html.ActionLink("logout", "Logout", "Home", null, new { @class = "image-button logout", @title = "logout", @alt = "logout" })
-                        }
-                        else
-                        {
-                            @Html.ActionLink("login", "Auto", "Secure", null, new { @class = "image-button login", @title = "login", @alt = "login" })
-                        }
-                    </div>
-                    <div class="clear"></div>
-                </div>*@
+                </span>
+            </div>
+            <div class="float_right">
+                @if (session.SessionActive)
+                {
+                    @Html.ActionLink("logout", "Logout", "Home", null, new { @class = "image-button logout", @title = "logout", @alt = "logout" })
+                }
+                else
+                {
+                    @Html.ActionLink("login", "Auto", "Secure", null, new { @class = "image-button login", @title = "login", @alt = "login" })
+                }
+            </div>
+            <div class="clear"></div>
+        </div>*@
         </div>
     </div>
 
@@ -89,13 +89,13 @@
     
 
     <footer>
-        <div class="section">
+        @*<div class="section">
             <div class="limiter">
                 <div class="info">
                     Links rápidos
                 </div>
             </div>
-        </div>
+        </div>*@
         <div class="section">
             <div class="limiter">
                 <div class="info">
