@@ -9,7 +9,7 @@
 }
 
 
-@if (@MVC_2020_Template.Helpers.Session.SessionActive)
+@*@if (@MVC_2020_Template.Helpers.Session.SessionActive)
 {
     <p>Login bem Sucedido</p>
     {
@@ -22,7 +22,7 @@ else
     {
         redirectUrl = Url.Action("Home", "Home", null);
     }
-}
+}*@
 
 <script>
     var redirectUrl = '@redirectUrl';

@@ -325,14 +325,14 @@ namespace MVC_2020_Business.Models
         [JsonProperty("contributor")]
         public List<Contributor> contributor { get; set; }
 
-        public string ToString(string year, string sourceName)
+        public string ToString(string year)
         {
             var ListToReturn = new List<string>();
             foreach (var item in contributor)
             {
                 ListToReturn.Add(item.creditName.value);
             }
-            return "Contributors: " + string.Join("; ", ListToReturn) + Environment.NewLine + " || Year: " + year + Environment.NewLine + " || SourceName: " + sourceName;
+            return "Contributors: " + string.Join("; ", ListToReturn) + "\n Year: " + year;
         }
     }
 

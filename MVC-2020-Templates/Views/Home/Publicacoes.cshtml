@@ -10,16 +10,53 @@
 }
 
 
-<h2>@ViewData["Title"]</h2>
-<div class="container">
-    <div class="ui grid">
-        <div class="five wide column">ORCID</div>
-        <div class="one wide column"></div>
-        <div class="five wide column">RIA</div>
-        @*<div class="one wide column"><button class="ui primary button" onclick="saveAll()" href="@Url.Action("Detail", "Home")">Save</button></div>*@
-        <div class="one wide column"><button class="ui primary button" onclick="saveAll()">save@*@Html.ActionLink("GO", "Detail", "Home", null)*@</button></div>
+<div class="ui grid">
+    <div class="six wide column"><h2>@ViewData["Title"]</h2></div>
+
+
+
+    <div class="six wide column">
+        <div class="ui category search">
+            <div class="ui icon input">
+                <input class="prompt" type="text" placeholder="Search articles...">
+                <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+        </div>
     </div>
+</div>
+<br />
+<div class="container">
+    
+    <form action="~/Home/Publicacoes" method="post">
+        <div class="ui two column centered grid">
+            <div class="column">
+                <input type="submit" class="ui primary button" value="Importar"></input>
+                <button class="ui primary button" onclick="saveAll()">save@*@Html.ActionLink("GO", "Detail", "Home", null)*@</button>
+            </div>
+        </div>
+    </form>
+    <br />
+    <div id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
+        <br />
+        <p>&nbsp Utilize as setas <i class="arrow alternate circle right icon"></i> e <i class="arrow alternate circle left icon"></i> para escolher as publicações que quer colocar no RIA.</p>
+        <br />
+        <p>&nbsp Utilize o botão <button class="ui primary button">save</button> para confirmar e guardar a esolha das publicações. As  publicações irão para a página @Html.ActionLink("Detalhes", "Detail", "Home", null)</p>
+    </div>
+    <br />
     <div class="ui grid">
+        <div class="six wide column">ORCID</div>
+        <div class="one wide column"></div>
+        <div class="six wide column">RIA</div>
+        @*<div class="one wide column"><button class="ui primary button" onclick="saveAll()" href="@Url.Action("Detail", "Home")">Save</button></div>*@
+        <div class="two wide column">
+            <button type="button" class="ui primary button" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
+        </div>
+    </div>
+
+    <div id="scrollPub" class="ui grid">
+
+        <br />
         @{ var count = 0;
             var seta1 = "seta1_" + count;
             var seta2 = "seta2_" + count;
@@ -33,22 +70,25 @@
                 seta1 = "seta1_" + count;
                 seta2 = "seta2_" + count;
                 info = "info_" + count;
-                <div class="five wide column" data-tooltip="@string.Join(", ", work.contributors.ToString(work.publicationDate.year.value, work.source.sourceName.content))" data-position="top left">
+                <div class="six wide column" data-tooltip="@string.Join("\n ", work.contributors.ToString(work.publicationDate.year.value))" data-position="bottom left">
                     @work.title.title
                 </div>
                 <div class="two wide column">
                     <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
                     <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
                 </div>
-                <div id="@count" class="five wide column"></div>
+                <div id="@count" class="six wide column"></div>
+
             }
         }
+
     </div>
 </div>
 
 
 <script>
     var objs = [];
+    
 
     function OrcidToRia(obj, idDiv) {
         console.log(obj);
@@ -100,7 +140,22 @@
         //    }
         //});
     }
+    function toggleText() {
+        var text = document.getElementById("hidden_info");
+        if (text.style.display === "none") {
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+        }
+    }
 
+
+
+    var tag = document.getElementById('hidden_info');
+    var button = document.querySelector('button');
+    button.addEventListener('click', function () {
+        tag.classList.toggle('hidden_info');
+    });
 
 </script>
 
