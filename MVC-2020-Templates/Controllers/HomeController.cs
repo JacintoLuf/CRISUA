@@ -42,14 +42,30 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Publicacoes()
         {
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "0");
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "0"));
+            //ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
+            //                            PublicacoesService.ConvertProductToWork(
+            //                            PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
+            ViewBag.import = "false";
+            return View();
+        }
+        
+        [HttpPost]
+        public IActionResult Publicacoes(string import)
+        {
+            //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
+            //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
                                         PublicacoesService.ConvertProductToWork(
                                         PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "0"));
+            
+            ViewBag.import = import;
             return View();
         }
         public IActionResult HelpPublicacoes()

@@ -2,14 +2,16 @@
     //Layout = "_3ColsLayout";
     ViewData["Title"] = "Publicações";
     //List<MVC_2020_Business.Models.Product> publicacoes = ViewBag.Publicacoes;
-    List<MVC_2020_Business.Models.Product> publicacoes = ViewBag.PublicacoesRIA;
+    //List<MVC_2020_Business.Models.Product> publicacoes = ViewBag.PublicacoesRIA;
     List<MVC_2020_Business.Models.Work> works = ViewBag.PublicacoesPTCris;
-    var worksMeu = ViewBag.PublicacoesOrcid;
+    //var worksMeu = ViewBag.PublicacoesOrcid;
+    var pubsInBD = ViewBag.worksInBD;
 
-    var listTitle = @MVC_2020_Business.Services.DatabaseServices.select(@MVC_2020_Template.Controllers.HomeController.DB(), "Publication", "Synced", "0");
+    //var listTitle = @MVC_2020_Business.Services.DatabaseServices.select(@MVC_2020_Template.Controllers.HomeController.DB(), "Publication", "Synced", "0");
+    var importPub = ViewBag.import;
 }
 
-
+<h2>@importPub</h2>
 <div class="ui grid">
     <div class="six wide column"><h2>@ViewData["Title"]</h2></div>
 
@@ -25,13 +27,12 @@
         </div>
     </div>
 </div>
-<br />
 <div class="container">
-    
-    <form action="~/Home/Publicacoes" method="post">
+    <form action="~/home/publicacoes" method="post">
         <div class="ui two column centered grid">
             <div class="column">
-                <input type="submit" class="ui primary button" value="Importar"></input>
+                <input type="hidden" name="import" value="True"/>
+                <button type="submit" class="ui primary button">Importar</button>
                 <button class="ui primary button" onclick="saveAll()">save@*@Html.ActionLink("GO", "Detail", "Home", null)*@</button>
             </div>
         </div>
@@ -53,7 +54,7 @@
             <button type="button" class="ui primary button" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
         </div>
     </div>
-
+    
     <div id="scrollPub" class="ui grid">
 
         <br />
@@ -62,9 +63,7 @@
             var seta2 = "seta2_" + count;
             var info = "info_" + count;
         }
-        @foreach (var work in works)
-        {
-            if (listTitle.Contains(work.title.title))
+            @*@foreach (var work in works)
             {
                 count++;
                 seta1 = "seta1_" + count;
@@ -79,16 +78,35 @@
                 </div>
                 <div id="@count" class="six wide column"></div>
 
+            }*@
+            @foreach (var pub in pubsInBD)
+            {
+                count++;
+                seta1 = "seta1_" + count;
+                seta2 = "seta2_" + count;
+                info = "info_" + count;
+                <div class="six wide column" data-tooltip="oi">
+                    @pub["titulo"]
+                </div>
+                <div class="two wide column">
+                    <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
+                    <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
+                </div>
+                <div id="@count" class="six wide column"></div>
             }
-        }
 
     </div>
 </div>
-
+@if (works != null)
+{
+    foreach (var work in works)
+    {
+        <p>@work.title.title</p>
+    }
+}
 
 <script>
     var objs = [];
-    
 
     function OrcidToRia(obj, idDiv) {
         console.log(obj);
@@ -119,7 +137,7 @@
     function saveAll() {
         $.post("SavePub", { works: JSON.stringify(objs) }, function (data) {
             //alert("Go to Details");
-            window.location.href = "Detail";
+            window.location.href = "PublicacoesSalvas";
             //$("#main_area").html(data);
         });
         //window.open('@Url.Action("Detail", "Home")', "_blank");
