@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Detalhes";
+    //var works = ViewBag.Titulos;
+    var worksPTCris = ViewBag.PublicacoesPTCris2;
+    var worksAllInfo = ViewBag.PubSaved;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    @if (worksAllInfo != null)
+    {
+        var count = 0;
+        //var worksTitles = new List<string>();
+        <div>
+            @foreach (var work in worksAllInfo)
+            {
+                count++;
+                <div>
+                    @work["titulo"]
+                    <i id="@count" class="external alternate icon" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))"></i>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div>
+            <p>Zero publicações adicionadas!!</p>
+        </div>
+    }
+</div>
+
+
+
+@*<i class="external alternate icon" onclick="OpenFirstPageRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)></i>*@
+
+
+<script>
+
+    function OpenFirstPageRia(obj, idDiv) {
+        var div = document.getElementById("" + idDiv);
+        if (typeof (div) != 'undefined' && div != null) {
+
+        }
+    }
+
+    function SendToRIA(obj) {
+        console.log(obj);
+        $.post("PublicationMetaData1_Help", { obj: JSON.stringify(obj) }, function (data) {
+            //alert("Go to Details");
+            window.location.href = data;
+            //window.location.href = "PublicationMetaData1";
+            //$("#main_area").html(data);
+        });
+    }
+
+</script>

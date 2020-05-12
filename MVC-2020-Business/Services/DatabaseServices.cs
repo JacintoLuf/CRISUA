@@ -1,13 +1,13 @@
-﻿using BibTeXLibrary;
+﻿//using BibTeXLibrary;
 using Microsoft.EntityFrameworkCore;
 using MVC_2020_Business.Models;
 using MVC_2020_Database.DataModels;
+using Newtonsoft.Json;
 using ServiceStack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity.ModelConfiguration.Conventions;
+//using System.Data.Entity.ModelConfiguration.Conventions;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,7 +51,7 @@ namespace MVC_2020_Business.Services
                 if (go == 1)
                 {
                     num++;
-                    pubs.Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false, State=0 });
+                    pubs.Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false });
 
                     var doi = inp.Doi;
                     var handle = inp.Handle;
@@ -176,7 +176,7 @@ namespace MVC_2020_Business.Services
                     var date = DateTime.Parse(tmp0);
                     source = inp.source.sourceName.content;
 
-                    pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State=0 });
+                    pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false });
 
                     //IDENTIFIERS
 
@@ -221,7 +221,7 @@ namespace MVC_2020_Business.Services
                 }*/
 
 
-               
+
             }
 
             _db.Set<Publication>().AddRange(pubs);
@@ -275,7 +275,6 @@ namespace MVC_2020_Business.Services
 
 
         }
-
         public static Hashtable retrieveAllInfo(MyDbContext _db, string titulo)
         {
             Hashtable map = new Hashtable();
@@ -294,9 +293,10 @@ namespace MVC_2020_Business.Services
             var queryAuth = from tmp in _db.Person_Publication
                             join person in _db.PersonName
                             on tmp.PersonId equals person.PersonId
-                            where tmp.PublicationId == id select person.Name;
+                            where tmp.PublicationId == id
+                            select person.Name;
 
-            var a= queryAuth.ToList();
+            var a = queryAuth.ToList();
             map.Add("Autores", queryAuth.ToList());
 
             var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
@@ -305,12 +305,10 @@ namespace MVC_2020_Business.Services
             map.Add("Estado", "published");
 
             var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
-            var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym ;
+            var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
 
             map.Add("Language", qL.FirstOrDefault());
 
-            var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
-            map.Add("State", queryState.FirstOrDefault().ToString()); ;
 
             return map;
         }
@@ -326,32 +324,82 @@ namespace MVC_2020_Business.Services
 
                 case "Publication":
                     List<String> ret = new List<string>();
-                    int hlp = Int32.Parse(valor);
 
-                    var query = from tmp in _db.Publication where tmp.State == hlp
+                    bool hlp = false;
+                    if (valor == "1") hlp = true;
+
+                    var query = from tmp in _db.Publication
+                                where tmp.Synced == hlp
                                 join tit in _db.PublicationTitle on tmp.PublicationId equals tit.PublicationId
                                 select tit.Title;
-                    
-                    foreach(var i in query.ToList())
+
+                    foreach (var i in query.ToList())
                     {
                         ret.Add(i);
                     }
 
                     return ret;
 
-                //case "PublicationTitle":
-                //    selectPublicationTitle(_db, coluna, valor);
-                //    break;
+                    break;
 
-                //case "PublicationIdentifier":
-                //    selectPublicationIdentifier(_db, coluna, valor);
-                //    break;
+                    //case "PublicationTitle":
+                    //    selectPublicationTitle(_db, coluna, valor);
+                    //    break;
+
+                    //case "PublicationIdentifier":
+                    //    selectPublicationIdentifier(_db, coluna, valor);
+                    //    break;
 
 
 
             }
 
             return null;
+        }
+
+        public static List<Hashtable> selectToRIA(MyDbContext _db, List<string> titulos)
+        {
+
+            Hashtable map;
+            List<Hashtable> map2 = new List<Hashtable>();
+
+            foreach (var titulo in titulos)
+            {
+                map = new Hashtable();
+                var query = from tmp in _db.PublicationTitle where tmp.Title == titulo select tmp.PublicationId;
+                var id = query.FirstOrDefault();
+
+                map.Add("titulo", titulo);
+
+                var queryDOI = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId == 1 select tmp.Value;
+                map.Add("DOI", queryDOI.FirstOrDefault());
+
+                var queryExt = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId != 1 select tmp.Value;
+                map.Add("Identificadores Externos", queryExt.FirstOrDefault());
+
+                var queryAuth = from tmp in _db.Person_Publication
+                                join person in _db.PersonName
+                                on tmp.PersonId equals person.PersonId
+                                where tmp.PublicationId == id
+                                select person.Name;
+
+                var a = queryAuth.ToList();
+                map.Add("Autores", queryAuth.ToList());
+
+                var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
+                map.Add("Data", queryData.FirstOrDefault().ToString()); ;
+
+                map.Add("Estado", "published");
+
+                var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
+                var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
+
+                map.Add("Language", qL.FirstOrDefault());
+
+                map2.Add(map);
+            }
+
+            return map2;
         }
 
         //private static void selectPublicationIdentifier(MyDbContext db, string coluna, string valor)
@@ -369,18 +417,24 @@ namespace MVC_2020_Business.Services
         //    throw new NotImplementedException();
         //}
 
-        public static void updateState(MyDbContext _db, String titulo, int valor)
+        public static void updateState(MyDbContext _db, String works, int valor)
         {
-            bool f = false;
+            var work = JsonConvert.DeserializeObject<List<Work>>(works);
+            foreach (var w in work)
+            {
 
-            var query = from tit in _db.PublicationTitle where tit.Title == titulo select tit.PublicationId;
-            
-            Publication a = new Publication();
-            a = _db.Publication.Find(query.FirstOrDefault());
-            a.State = valor;
-            _db.Entry(a).State = EntityState.Modified;
-            _db.SaveChanges();
 
+                bool f = false;
+
+                var query = from tit in _db.PublicationTitle where tit.Title == w.title.title select tit.PublicationId;
+                Publication a = new Publication();
+                a = _db.Publication.Find(query.FirstOrDefault());
+                if (valor == 1) f = true;
+
+                a.Synced = f;
+                _db.Entry(a).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
         }
     }
 }

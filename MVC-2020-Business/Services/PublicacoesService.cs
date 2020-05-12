@@ -22,7 +22,8 @@ namespace MVC_2020_Business.Services
         private const string importDifURL = "https://ptcrisync-api.herokuapp.com/rest/import/works/";
         private const string urlParameter = "0000-0002-5228-0329";
         private const string urlParameter2 = "0000-0002-0417-9402";
-        private const string urlParameter3 = "0000-0002-4356-4522"; //vieira
+        private const string urlParameter5 = "0000-0002-4356-4522"; //Vieira
+        private const string urlParameter3 = "0000-0002-7128-2805"; //Filipe Trancho
         private const string urlParameter4 = "0000-0002-3488-6570"; //Renato
 
         //public static IEnumerable<Product> GetProducts()

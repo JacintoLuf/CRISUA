@@ -1,8 +1,13 @@
 ﻿@{
     Layout = "Form_Layout";
-
-
+    var dados = ViewBag.dados;
 }
+
+<div>
+    @dados
+</div>
+
+
 <!DOCTYPE html>
 <!-- saved from url=(0043)https://ria.ua.pt/submit#ua_dados_aliasiupi -->
 <html>
@@ -123,7 +128,7 @@
                     <br>Exemplo: <b>ICT and literacy: information and communications technology, media, reading and writing</b>
 
                 </div>
-                <div class="row"><label class="col-md-2 label-required">título</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_title" id="dc_title" size="50" value="Fast, scalable and secure over-the-air bootstrap of Linux operating systems with Wi-Fi ad hoc networks"></div></div></div></div><br>
+                <div class="row"><label class="col-md-2 label-required">título</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_title" id="dc_title" size="50" value=@dados["titulo"]></div></div></div></div><br>
                 <div class="help-block">
                     Se o artigo tiver títulos noutro idioma, insira-os em baixo.
 

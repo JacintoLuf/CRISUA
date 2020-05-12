@@ -32,7 +32,6 @@ namespace MVC_2020_Template.Controllers
             return _db;
         }
 
-
         public IActionResult Index()
         {
             return View();
@@ -47,9 +46,18 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "0");
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
                                         PublicacoesService.ConvertProductToWork(
                                         PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
+            return View();
+        }
+        public IActionResult HelpPublicacoes()
+        {
+            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
+                                        PublicacoesService.ConvertProductToWork(
+                                        PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "0");
             return View();
         }
 
@@ -58,13 +66,14 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
-        public IActionResult Detail()
+        public IActionResult PublicacoesSalvas(string works)
         {
             //ViewBag.Details = JsonConvert.DeserializeObject<List<Work>>(works);
-            ViewBag.Details = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1");
-            ViewBag.PublicacoesPTCris2 = PublicacoesService.GetDifWorks2(_db,
-                                        PublicacoesService.ConvertProductToWork(
-                                        PublicacoesService.GetProducts2(_db, Session.IUPI.ToString())));
+            //ViewBag.Titulos = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1");
+            ViewBag.PubSaved = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1"));
+            //ViewBag.PublicacoesPTCris2 = PublicacoesService.GetDifWorks2(_db,
+            //                            PublicacoesService.ConvertProductToWork(
+            //                            PublicacoesService.GetProducts2(_db, Session.IUPI.ToString())));
             return View();
             //return Json(Url.Action("Detail", "Home"));
         }
@@ -88,9 +97,17 @@ namespace MVC_2020_Template.Controllers
         {
             return View();
         }
-        public IActionResult PublicationMetaData1()
+
+        public IActionResult PublicationMetaData1(String obj)
         {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
             return View();
+        }
+
+        public IActionResult PublicationMetaData1_Help(String obj)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
+            return Json(Url.Action("PublicationMetaData1", "Home", new { obj = obj }));
         }
 
         public IActionResult PublicationMetaData2()
@@ -138,8 +155,8 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult SavePub(String works)
         {
-            MVC_2020_Business.Services.DatabaseServices.updateState2(_db, works, 1);
-            return Json(Url.Action("Detail", "Home"));
+            MVC_2020_Business.Services.DatabaseServices.updateState(_db, works, 1);
+            return Json(Url.Action("PublicacoesSalvas", "Home"));
         }
     }
 }
