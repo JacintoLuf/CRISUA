@@ -2594,3 +2594,7 @@ C:\Users\Asus\Desktop\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Vi
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\PublicationSubmission.cshtml.g.cs
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Publication_Details.cshtml.g.cs
 C:\Users\Asus\Desktop\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Sobre.cshtml.g.cs
+C:\Users\pmate\Documents\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\dSPaceLicense.cshtml.g.cs
+C:\Users\pmate\Documents\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\PublicationDoiSearch.cshtml.g.cs
+C:\Users\pmate\Documents\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\PublicationSubmission.cshtml.g.cs
+C:\Users\pmate\Documents\CRISUA\MVC-2020-Templates\obj\Debug\netcoreapp3.1\Razor\Views\Home\Publication_Details.cshtml.g.cs
