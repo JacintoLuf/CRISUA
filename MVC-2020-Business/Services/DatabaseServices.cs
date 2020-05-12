@@ -1,14 +1,13 @@
-﻿//using BibTeXLibrary;
+﻿using BibTeXLibrary;
 using Microsoft.EntityFrameworkCore;
 using MVC_2020_Business.Models;
 using MVC_2020_Database.DataModels;
-using Newtonsoft.Json;
 using ServiceStack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-//using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +51,7 @@ namespace MVC_2020_Business.Services
                 if (go == 1)
                 {
                     num++;
-                    pubs.Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false });
+                    pubs.Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false, State=0 });
 
                     var doi = inp.Doi;
                     var handle = inp.Handle;
@@ -177,7 +176,7 @@ namespace MVC_2020_Business.Services
                     var date = DateTime.Parse(tmp0);
                     source = inp.source.sourceName.content;
 
-                    pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false });
+                    pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State=0 });
 
                     //IDENTIFIERS
 
@@ -310,6 +309,8 @@ namespace MVC_2020_Business.Services
 
             map.Add("Language", qL.FirstOrDefault());
 
+            var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
+            map.Add("State", queryState.FirstOrDefault().ToString()); ;
 
             return map;
         }
@@ -325,11 +326,9 @@ namespace MVC_2020_Business.Services
 
                 case "Publication":
                     List<String> ret = new List<string>();
+                    int hlp = Int32.Parse(valor);
 
-                    bool hlp= false;
-                    if (valor == "1") hlp = true;
-
-                    var query = from tmp in _db.Publication where tmp.Synced == hlp
+                    var query = from tmp in _db.Publication where tmp.State == hlp
                                 join tit in _db.PublicationTitle on tmp.PublicationId equals tit.PublicationId
                                 select tit.Title;
                     
@@ -339,8 +338,6 @@ namespace MVC_2020_Business.Services
                     }
 
                     return ret;
-
-                    break;
 
                 //case "PublicationTitle":
                 //    selectPublicationTitle(_db, coluna, valor);
@@ -377,32 +374,13 @@ namespace MVC_2020_Business.Services
             bool f = false;
 
             var query = from tit in _db.PublicationTitle where tit.Title == titulo select tit.PublicationId;
+            
             Publication a = new Publication();
             a = _db.Publication.Find(query.FirstOrDefault());
-            if (valor == 1) f = true;
-            
-            a.Synced = f;
+            a.State = valor;
             _db.Entry(a).State = EntityState.Modified;
             _db.SaveChanges();
 
-        }
-
-        public static void updateState2(MyDbContext _db, String works, int valor)
-        {
-            var work = JsonConvert.DeserializeObject<List<Work>>(works);
-            foreach (var w in work)
-            {
-                bool f = false;
-
-                var query = from tit in _db.PublicationTitle where tit.Title == w.title.title select tit.PublicationId;
-                Publication a = new Publication();
-                a = _db.Publication.Find(query.FirstOrDefault());
-                if (valor == 1) f = true;
-
-                a.Synced = f;
-                _db.Entry(a).State = EntityState.Modified;
-                _db.SaveChanges();
-            }
         }
     }
 }
