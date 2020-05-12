@@ -1,6 +1,2 @@
-MVC-2020-Business/**/obj
-MVC-2020-Business/**/bin
-MVC-2020-Database/**/obj
-MVC-2020-Database/**/bin
-MVC-2020-Templates/**/obj
-MVC-2020-Templates/**/bin
+**/obj
+**/bin
