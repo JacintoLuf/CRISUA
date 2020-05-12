@@ -2,7 +2,75 @@
 @{
     ViewData["Title"] = "Publication_Details";
     Layout = "~/Views/Shared/_2ColsLayout.cshtml";
+    var dados = ViewBag.dados;
 }
 
 <h2>Detalhes da Publicação</h2>
+<br />
+
+<div>
+    <table class="ui very basic table">
+        <tbody>
+            <tr><b>@dados["titulo"]</b></tr>
+            <tr>
+                <th>DOI</th>
+                <td><a href="@dados["DOI"]" target="_blank">@dados["DOI"]</a></td>
+            </tr>
+            <tr>
+                <th>Identificadores Externos</th>
+                <td>@dados["Identificadores Externos"]</td>
+            </tr>
+            <tr>
+                <th>Autores</th>
+                <td>@string.Join(" ; ", dados["Autores"])</td>
+
+            </tr>
+            @*<tr>
+                <th>Editora</th>
+                <td>@dados[""]</td>
+                </tr>*@
+            @*<tr>
+                    <th>Revista</th>
+                    <td>@dados[""]</td>
+                </tr>*@
+            @*<tr>
+                    <th>ISSN</th>
+                    <td>@dados[""]</td>
+                </tr>*@
+            @*<tr>
+                    <th>Volume</th>
+                    <td>@dados[""]</td>
+                </tr>*@
+            @*<tr>
+                    <th>Numero</th>
+                    <td>@dados[""]</td>
+                </tr>*@
+            @*<tr>
+                    <th>Pág.Inicial - Pág.Final</th>
+                    <td>@dados[""]</td>
+                </tr>*@
+            <tr>
+                <th>Data</th>
+                <td>@dados["Data"]</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>@dados["Estado"]</td>
+            </tr>
+            <tr>
+                <th>Língua</th>
+                <td>@dados["Language"]</td>
+            </tr>
+            @*<tr>
+                    <th>Palavras-Chave</th>
+                    <td>@dados[""]</td>
+                </tr>*@
+            @*<tr>
+                    <th>Resumo</th>
+                    <td>@dados[""]</td>
+                </tr>*@
+        </tbody>
+
+    </table>
+</div>
 

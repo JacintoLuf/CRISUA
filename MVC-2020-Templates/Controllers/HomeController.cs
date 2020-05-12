@@ -68,14 +68,6 @@ namespace MVC_2020_Template.Controllers
             ViewBag.import = import;
             return View();
         }
-        public IActionResult HelpPublicacoes()
-        {
-            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
-                                        PublicacoesService.ConvertProductToWork(
-                                        PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "0");
-            return View();
-        }
 
         public IActionResult Content()
         {
@@ -151,9 +143,16 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
-        public IActionResult Publication_Details()
+        public IActionResult Publication_Details(String obj)
         {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
             return View();
+        }
+
+        public IActionResult PublicationDetails_Helper(String obj)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
+            return Json(Url.Action("Publication_Details", "Home", new { obj = obj }));
         }
 
         public IActionResult Sobre()
@@ -171,7 +170,7 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult SavePub(String works)
         {
-            MVC_2020_Business.Services.DatabaseServices.updateState(_db, works, 1);
+            MVC_2020_Business.Services.DatabaseServices.updateState(_db, works, 2);
             return Json(Url.Action("PublicacoesSalvas", "Home"));
         }
     }

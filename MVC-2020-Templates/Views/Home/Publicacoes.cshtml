@@ -31,7 +31,7 @@
     <form action="~/home/publicacoes" method="post">
         <div class="ui two column centered grid">
             <div class="column">
-                <input type="hidden" name="import" value="True"/>
+                <input type="hidden" name="import" value="True" />
                 <button type="submit" class="ui primary button">Importar</button>
                 <button class="ui primary button" onclick="saveAll()">save@*@Html.ActionLink("GO", "Detail", "Home", null)*@</button>
             </div>
@@ -54,7 +54,7 @@
             <button type="button" class="ui primary button" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
         </div>
     </div>
-    
+
     <div id="scrollPub" class="ui grid">
 
         <br />
@@ -63,7 +63,7 @@
             var seta2 = "seta2_" + count;
             var info = "info_" + count;
         }
-            @*@foreach (var work in works)
+        @*@foreach (var work in works)
             {
                 count++;
                 seta1 = "seta1_" + count;
@@ -79,6 +79,8 @@
                 <div id="@count" class="six wide column"></div>
 
             }*@
+       
+
             @foreach (var pub in pubsInBD)
             {
                 count++;
@@ -94,8 +96,10 @@
                 </div>
                 <div id="@count" class="six wide column"></div>
             }
+        
 
     </div>
+
 </div>
 @if (works != null)
 {
@@ -116,8 +120,8 @@
             seta1.style.display = "none";
             var seta2 = document.getElementById("seta2_" + idDiv);
             seta2.style.display = "block";
-            div.innerHTML = obj.title.title;
-            objs.push(obj);
+            div.innerHTML = obj["titulo"];
+            objs.push(obj["titulo"]);
         }
     }
 
@@ -130,7 +134,7 @@
             var seta2 = document.getElementById("seta2_" + idDiv);
             seta2.style.display = "none";
             div.innerHTML = null;
-            objs.pop(obj);
+            objs.pop(obj["titulo"]);
         }
     }
 

@@ -16,10 +16,10 @@
             @foreach (var work in worksAllInfo)
             {
                 count++;
-                <div>
-                    @work["titulo"]
-                    <i id="@count" class="external alternate icon" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))"></i>
-                </div>
+            <div>
+                <href onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(work))" target="_blank">@work["titulo"] &nbsp</href>
+                <button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Submit</button>
+            </div>
             }
         </div>
     }
@@ -37,6 +37,13 @@
 
 
 <script>
+    function sendToDetails(obj) {
+        console.log(obj);
+        $.post("PublicationDetails_Helper", { obj: JSON.stringify(obj) }, function (data) {
+            window.location.href = data;
+        });
+        @* window.open('@Url.Action("Publication_details","Home")');*@
+    }
 
     function OpenFirstPageRia(obj, idDiv) {
         var div = document.getElementById("" + idDiv);
