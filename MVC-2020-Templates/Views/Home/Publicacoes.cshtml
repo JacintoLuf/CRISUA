@@ -11,7 +11,7 @@
     var importPub = ViewBag.import;
 }
 
-<h2>@importPub</h2>
+@*<h2>@importPub</h2>*@
 <div class="ui grid">
     <div class="six wide column"><h2>@ViewData["Title"]</h2></div>
 
@@ -28,15 +28,17 @@
     </div>
 </div>
 <div class="container">
-    <form action="~/home/publicacoes" method="post">
+    
         <div class="ui two column centered grid">
             <div class="column">
-                <input type="hidden" name="import" value="True" />
-                <button type="submit" class="ui primary button">Importar</button>
-                <button class="ui primary button" onclick="saveAll()">save@*@Html.ActionLink("GO", "Detail", "Home", null)*@</button>
+                <form action="publicacoes" method="post">
+                    <input type="hidden" name="import" value="True" />
+                    <button type="submit" class="ui primary button">Importar</button>
+                </form>
+                    <button class="ui primary button" onclick="saveAll()">Guardar@*@Html.ActionLink("GO", "Detail", "Home", null)*@</button>
             </div>
         </div>
-    </form>
+    
     <br />
     <div id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
         <br />
@@ -87,8 +89,8 @@
                 seta1 = "seta1_" + count;
                 seta2 = "seta2_" + count;
                 info = "info_" + count;
-                <div class="six wide column" data-tooltip="oi">
-                    @pub["titulo"]
+                <div class="six wide column" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left">
+                    <href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</href>
                 </div>
                 <div class="two wide column">
                     <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
@@ -111,6 +113,14 @@
 
 <script>
     var objs = [];
+
+    function sendToDetails(obj) {
+        console.log(obj);
+        $.post("PublicationDetails_Helper", { obj: JSON.stringify(obj) }, function (data) {
+            window.location.href = data;
+        });
+        @* window.open('@Url.Action("Publication_details","Home")');*@
+    }
 
     function OrcidToRia(obj, idDiv) {
         console.log(obj);

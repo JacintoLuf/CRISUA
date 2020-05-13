@@ -315,6 +315,8 @@ namespace MVC_2020_Business.Services
 
             return map;
         }
+
+
         public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor)
         {
             string var = tabela;
@@ -371,18 +373,23 @@ namespace MVC_2020_Business.Services
         //    throw new NotImplementedException();
         //}
 
-        public static void updateState(MyDbContext _db, String titulo, int valor)
+        public static void updateState(MyDbContext _db, String titulos, int valor) //ainda não funciona
         {
             bool f = false;
 
-            var query = from tit in _db.PublicationTitle where tit.Title == titulo select tit.PublicationId;
+            List<string> pubsTitulos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(titulos);
 
-            Publication a = new Publication();
-            a = _db.Publication.Find(query.FirstOrDefault());
-            a.State = valor;
-            _db.Entry(a).State = EntityState.Modified;
-            _db.SaveChanges();
+            foreach(var title in pubsTitulos)
+            {
+                Console.WriteLine(title);
+                var query = from tit in _db.PublicationTitle where tit.Title == title select tit.PublicationId;
 
+                Publication a = new Publication();
+                a = _db.Publication.Find(query.FirstOrDefault());
+                a.State = valor;
+                _db.Entry(a).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
         }
 
         public static List<Hashtable> selectToRIA(MyDbContext _db, List<string> titulos)

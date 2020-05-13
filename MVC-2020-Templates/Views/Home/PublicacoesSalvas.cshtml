@@ -17,7 +17,7 @@
             {
                 count++;
             <div>
-                <href onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(work))" target="_blank">@work["titulo"] &nbsp</href>
+                <href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(work))" target="_blank">@work["titulo"] &nbsp</href>
                 <button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Submit</button>
             </div>
             }

@@ -39,10 +39,10 @@ namespace MVC_2020_Business.Services
         public static List<Product> GetProducts(MyDbContext _db, string IUPI)
         {
             //Save<jobs>(new jobs() { job_desc = "Renato2 Artigo", min_lvl = 12, max_lvl = 22 });
-            var per = _db.Person
+            /*var per = _db.Person
                 //.Where(b => b.GenderId > 2)
                 //.OrderBy(b => b.GenderId)
-                .ToList();
+                .ToList();*/
 
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
@@ -109,7 +109,7 @@ namespace MVC_2020_Business.Services
 
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = client.GetAsync(urlParameter3).Result;
+            HttpResponseMessage response = client.GetAsync(urlParameter5).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -137,7 +137,7 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter3, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(urlParameter5, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
@@ -159,7 +159,7 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter3, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(urlParameter5, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
