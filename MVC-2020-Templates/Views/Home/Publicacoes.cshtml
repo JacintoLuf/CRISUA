@@ -12,34 +12,27 @@
 }
 
 @*<h2>@importPub</h2>*@
+<div><h2>@ViewData["Title"]</h2></div><br />
+
 <div class="ui grid">
-    <div class="six wide column"><h2>@ViewData["Title"]</h2></div>
-
-
-
     <div class="six wide column">
-        <div class="ui category search">
-            <div class="ui icon input">
-                <input class="prompt" type="text" placeholder="Search articles...">
-                <i class="search icon"></i>
-            </div>
-            <div class="results"></div>
+        <div class="column">
+            <form action="publicacoes" method="post">
+                <input type="hidden" name="import" value="True" />
+                <button type="submit" class="ui primary button">Importar</button>
+            </form>
         </div>
     </div>
+    <div class="six wide column"></div>
+    <div class="two wide column">
+        <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
+    </div>
+    <div class="two wide column ">
+        <button class="ui primary button" onclick="saveAll()">Guardar</button>
+    </div>
 </div>
-<div class="container">
-    
-        <div class="ui two column centered grid">
-            <div class="column">
-                <form action="publicacoes" method="post">
-                    <input type="hidden" name="import" value="True" />
-                    <button type="submit" class="ui primary button">Importar</button>
-                </form>
-                    <button class="ui primary button" onclick="saveAll()">Guardar@*@Html.ActionLink("GO", "Detail", "Home", null)*@</button>
-            </div>
-        </div>
-    
-    <br />
+<br />
+<div class="ui grid">
     <div id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
         <br />
         <p>&nbsp Utilize as setas <i class="arrow alternate circle right icon"></i> e <i class="arrow alternate circle left icon"></i> para escolher as publicações que quer colocar no RIA.</p>
@@ -47,62 +40,61 @@
         <p>&nbsp Utilize o botão <button class="ui primary button">save</button> para confirmar e guardar a esolha das publicações. As  publicações irão para a página @Html.ActionLink("Detalhes", "Detail", "Home", null)</p>
     </div>
     <br />
-    <div class="ui grid">
-        <div class="six wide column">ORCID</div>
-        <div class="one wide column"></div>
-        <div class="six wide column">RIA</div>
-        @*<div class="one wide column"><button class="ui primary button" onclick="saveAll()" href="@Url.Action("Detail", "Home")">Save</button></div>*@
-        <div class="two wide column">
-            <button type="button" class="ui primary button" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
-        </div>
-    </div>
-
-    <div id="scrollPub" class="ui grid">
-
-        <br />
-        @{ var count = 0;
-            var seta1 = "seta1_" + count;
-            var seta2 = "seta2_" + count;
-            var info = "info_" + count;
-        }
-        @*@foreach (var work in works)
-            {
-                count++;
-                seta1 = "seta1_" + count;
-                seta2 = "seta2_" + count;
-                info = "info_" + count;
-                <div class="six wide column" data-tooltip="@string.Join("\n ", work.contributors.ToString(work.publicationDate.year.value))" data-position="bottom left">
-                    @work.title.title
-                </div>
-                <div class="two wide column">
-                    <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
-                    <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
-                </div>
-                <div id="@count" class="six wide column"></div>
-
-            }*@
-       
-
-            @foreach (var pub in pubsInBD)
-            {
-                count++;
-                seta1 = "seta1_" + count;
-                seta2 = "seta2_" + count;
-                info = "info_" + count;
-                <div class="six wide column" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left">
-                    <href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</href>
-                </div>
-                <div class="two wide column">
-                    <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
-                    <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
-                </div>
-                <div id="@count" class="six wide column"></div>
-            }
-        
-
-    </div>
+</div>
+<div class="ui grid">
+    <div class="six wide column text-center">ORCID</div>
+    <div class="two wide column"></div>
+    <div class="six wide column text-center">RIA</div>
+    @*<div class="one wide column"><button class="ui primary button" onclick="saveAll()" href="@Url.Action("Detail", "Home")">Save</button></div>*@
 
 </div>
+
+<div id="scrollPub" class="ui grid">
+
+    <br />
+    @{ var count = 0;
+        var seta1 = "seta1_" + count;
+        var seta2 = "seta2_" + count;
+        var info = "info_" + count;
+    }
+    @*@foreach (var work in works)
+{
+    count++;
+    seta1 = "seta1_" + count;
+    seta2 = "seta2_" + count;
+    info = "info_" + count;
+    <div class="six wide column" data-tooltip="@string.Join("\n ", work.contributors.ToString(work.publicationDate.year.value))" data-position="bottom left">
+        @work.title.title
+    </div>
+    <div class="two wide column">
+        <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
+        <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)"></i>
+    </div>
+    <div id="@count" class="six wide column"></div>
+
+}*@
+
+
+    @foreach (var pub in pubsInBD)
+    {
+        count++;
+        seta1 = "seta1_" + count;
+        seta2 = "seta2_" + count;
+        info = "info_" + count;
+        <div class="seven wide column" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left">
+            <href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</href>
+        </div>
+        <div class="two wide column">
+            <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
+            <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
+        </div>
+        <div id="@count" class="seven wide column"></div>
+
+    }
+
+
+</div>
+
 @if (works != null)
 {
     foreach (var work in works)
@@ -189,13 +181,13 @@
         tag.classList.toggle('hidden_info');
     });
 
-</script>
+            </script>
 
-@*@section RightColumn{
-        Recursos adicionais:
-        <ul>
-            <li>
-                <a href="https://fomantic-ui.com" target="_blank">Fomantic-UI</a>
-            </li>
-        </ul>
-    }*@
+            @*@section RightColumn{
+            Recursos adicionais:
+            <ul>
+                <li>
+                    <a href="https://fomantic-ui.com" target="_blank">Fomantic-UI</a>
+                </li>
+            </ul>
+        }*@
