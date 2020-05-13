@@ -11,10 +11,17 @@
 <div>
     <table class="ui very basic table">
         <tbody>
-            <tr><b>@dados["titulo"]</b></tr>
+            <tr>
+                <th>Título</th>
+                <td><b>@dados["titulo"]</b></td>
+            </tr>
             <tr>
                 <th>DOI</th>
                 <td><a href="@dados["DOI"]" target="_blank">@dados["DOI"]</a></td>
+            </tr>
+            <tr>
+                <th>ISSN</th>
+                <td>@dados["ISSN"]</td>
             </tr>
             <tr>
                 <th>Identificadores Externos</th>
@@ -26,29 +33,45 @@
 
             </tr>
             @*<tr>
-                <th>Editora</th>
-                <td>@dados[""]</td>
-                </tr>*@
+        <th>Editora</th>
+        <td>@dados[""]</td>
+        </tr>*@
             @*<tr>
-                    <th>Revista</th>
-                    <td>@dados[""]</td>
-                </tr>*@
+            <th>Revista</th>
+            <td>@dados[""]</td>
+        </tr>*@
             @*<tr>
-                    <th>ISSN</th>
-                    <td>@dados[""]</td>
-                </tr>*@
+            <th>ISSN</th>
+            <td>@dados[""]</td>
+        </tr>*@
+            <tr>
+                <th>Volume</th>
+                <td>@dados["Volume"]</td>
+            </tr>
+            <tr>
+                <th>Número de Edição</th>
+                <td>@dados["Edition"]</td>
+            </tr>
+            <tr>
+                <th>Número Total de Páginas</th>
+                <td>@dados["TotalPages"]</td>
+            </tr>
+            <tr>
+                <th>Página Inicial</th>
+                <td>@dados["StartPage"]</td>
+            </tr>
+            <tr>
+                <th>Página Final</th>
+                <td>@dados["EndPage"]</td>
+            </tr>
             @*<tr>
-                    <th>Volume</th>
-                    <td>@dados[""]</td>
-                </tr>*@
+            <th>Numero</th>
+            <td>@dados[""]</td>
+        </tr>*@
             @*<tr>
-                    <th>Numero</th>
-                    <td>@dados[""]</td>
-                </tr>*@
-            @*<tr>
-                    <th>Pág.Inicial - Pág.Final</th>
-                    <td>@dados[""]</td>
-                </tr>*@
+            <th>Pág.Inicial - Pág.Final</th>
+            <td>@dados[""]</td>
+        </tr>*@
             <tr>
                 <th>Data</th>
                 <td>@dados["Data"]</td>
@@ -62,13 +85,13 @@
                 <td>@dados["Language"]</td>
             </tr>
             @*<tr>
-                    <th>Palavras-Chave</th>
-                    <td>@dados[""]</td>
-                </tr>*@
+            <th>Palavras-Chave</th>
+            <td>@dados[""]</td>
+        </tr>*@
             @*<tr>
-                    <th>Resumo</th>
-                    <td>@dados[""]</td>
-                </tr>*@
+            <th>Resumo</th>
+            <td>@dados[""]</td>
+        </tr>*@
         </tbody>
 
     </table>

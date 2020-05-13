@@ -89,7 +89,7 @@
 
 
 
-            <form action="~/Home/PublicationMetaData2" method="post" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
+            <form action="PublicationMetaData2" method="post" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
 
                 <!--Progress Bar-->
                 <div class="row container btn-group">
@@ -117,27 +117,113 @@
 
                 <p>Please fill in the requested information about this submission below.  In most browsers, you can use the tab key to move the cursor to the next input box or button, to save you having to use the mouse each time.</p>
 
+
+                @*----------------AUTORES-------------------*@
                 <div class="help-block">
                     Introduza em baixo os nome(s) do(s) autore(s) do artigo.
                     <br>Exemplo: <b>Harnad, Stevan</b>
-
                 </div>
-                <div class="row"><label class="col-md-2 label-required">autores</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10 input-group"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible">André Ventura da Cruz Marnoto Zúquete</span><input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author_1" id="dc_contributor_author_1" size="50" value="Zúquete, André" autocomplete="off"><div id="details_dc_contributor_author_1" name="66eccbc8-c131-45bb-ab10-04ab220e4423" class="input-group-addon ua-uu-tag"><div title="" id="remove_dc_contributor_author_1" class="glyphicon glyphicon-remove ua-uu-tag-remove" data-original-title="Remover autoridade"></div><div class="popover fade top in" style="top: -35px; left: 718px; display: block;" data-original-title="" title=""><div class="arrow"></div><h3 class="popover-title">Remover autoridade</h3><div class="popover-content">Click here if you wish to remove the selected authority.</div></div>andre.zuquete@ua.pt</div></div><button class="btn btn-danger col-md-2" name="submit_dc_contributor_author_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10 input-group"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible">José Manuel Neto Vieira</span><input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author_2" id="dc_contributor_author_2" size="50" value="Vieira, José" autocomplete="off"><div id="details_dc_contributor_author_2" name="66c74f1f-8c45-4f43-9a85-be4975eecc09" class="input-group-addon ua-uu-tag"><div title="Remover autoridade" id="remove_dc_contributor_author_2" class="glyphicon glyphicon-remove ua-uu-tag-remove"></div>jnvieira@ua.pt</div></div><button class="btn btn-danger col-md-2" name="submit_dc_contributor_author_remove_1" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author" id="dc_contributor_author" size="50" value="" placeholder="Provide the name of the author or its institutional mail address to start searching" autocomplete="off"></div><button class="btn btn-default col-md-2" name="submit_dc_contributor_author_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br><div class="row" style="display:none;"><label class="col-md-2">IUPI do autor</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi_1" id="ua_dados_iupi_1" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_iupi_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi_2" id="ua_dados_iupi_2" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_iupi_remove_1" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi_3" id="ua_dados_iupi_3" size="50" value=""></div></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi" id="ua_dados_iupi" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_ua_dados_iupi_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br><div class="row" style="display:none;"><label class="col-md-2">forma de nome e IUPI do autor</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_1" id="ua_dados_aliasiupi_1" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_2" id="ua_dados_aliasiupi_2" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_1" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_3" id="ua_dados_aliasiupi_3" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_2" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi" id="ua_dados_aliasiupi" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_ua_dados_aliasiupi_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br>
+
+                <div class="row">
+                    <label class="col-md-2 label-required">autores</label>
+                    <div class="col-md-10">
+
+                        @foreach (var name in dados["Autores"])
+                        {
+                        <div class="row col-md-12">
+                            <div class="col-md-10 input-group">
+                                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible">André Ventura da Cruz Marnoto Zúquete</span>
+                                <input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author_1" id="dc_contributor_author_1" size="50" value="@name" autocomplete="off">
+                                <div id="details_dc_contributor_author_1" name="66eccbc8-c131-45bb-ab10-04ab220e4423" class="input-group-addon ua-uu-tag">
+                                    <div title="" id="remove_dc_contributor_author_1" class="glyphicon glyphicon-remove ua-uu-tag-remove" data-original-title="Remover autoridade"></div>
+                                    <div class="popover fade top in" style="top: -35px; left: 718px; display: block;" data-original-title="" title="">
+                                        <div class="arrow"></div><h3 class="popover-title">Remover autoridade</h3>
+                                        <div class="popover-content">Click here if you wish to remove the selected authority.</div>
+                                    </div>
+                                    andre.zuquete@ua.pt
+                                </div>
+                            </div>
+                            <button class="btn btn-danger col-md-2" name="submit_dc_contributor_author_remove_0" value="Remove Entry">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                &nbsp;
+                                &nbsp;
+                                Remove Entry
+                            </button>
+                        </div>
+                        }
+
+                        
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                                <input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author" id="dc_contributor_author" size="50" value="" placeholder="Provide the name of the author or its institutional mail address to start searching" autocomplete="off">
+                            </div>
+                            <button class="btn btn-default col-md-2" name="submit_dc_contributor_author_add" value="Add More">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                &nbsp;
+                                &nbsp;
+                                Add More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row" style="display:none;">
+                    <label class="col-md-2">IUPI do autor</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="ua_dados_iupi_1" id="ua_dados_iupi_1" size="50" value="empty">
+                            </div>
+                            <button class="btn btn-danger col-md-2" name="submit_ua_dados_iupi_remove_0" value="Remove Entry">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                &nbsp;&nbsp;Remove Entry
+                            </button>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="ua_dados_iupi_2" id="ua_dados_iupi_2" size="50" value="empty">
+                            </div>
+                            <button class="btn btn-danger col-md-2" name="submit_ua_dados_iupi_remove_1" value="Remove Entry">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                &nbsp;&nbsp;Remove Entry
+                            </button>
+                        </div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi_3" id="ua_dados_iupi_3" size="50" value=""></div></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi" id="ua_dados_iupi" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_ua_dados_iupi_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br><div class="row" style="display:none;"><label class="col-md-2">forma de nome e IUPI do autor</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_1" id="ua_dados_aliasiupi_1" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_2" id="ua_dados_aliasiupi_2" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_1" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_3" id="ua_dados_aliasiupi_3" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_2" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi" id="ua_dados_aliasiupi" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_ua_dados_aliasiupi_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br>
+
+
+                @*-----------TITULO---------*@
+
                 <div class="help-block">
                     Introduza o título do artigo.O título não deve terminar com pontuação. Não é possível inseri-lo em itálico. Se tiver um subtítulo coloque [ : ]. Use maiúsculas apenas para a primeira letra e nomes próprios.
                     <br>Exemplo: <b>ICT and literacy: information and communications technology, media, reading and writing</b>
-
                 </div>
-                <div class="row"><label class="col-md-2 label-required">título</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_title" id="dc_title" size="50" value=@dados["titulo"]></div></div></div></div><br>
+
+                <div class="row">
+                    <label class="col-md-2 label-required">título</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="dc_title" id="dc_title" size="50" value="@dados["titulo"]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                @*----------OUTROS TITULOS----------*@
                 <div class="help-block">
                     Se o artigo tiver títulos noutro idioma, insira-os em baixo.
-
                 </div>
                 <div class="row"><label class="col-md-2">outros títulos</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_title_alternative" id="dc_title_alternative" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_dc_title_alternative_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br>
+
+
+                @*----------TITULO REVISTA------------*@
                 <div class="help-block">
                     Introduza o título da revista onde o artigo foi publicado.
                     <br>Exemplo: <b>Nature</b>
-
                 </div>
                 <div class="row">
                     <label class="col-md-2 label-required">título da revista</label><div class="col-md-10">
@@ -150,99 +236,282 @@
                             </div>
                         </div>
                     </div>
-                </div><br>
+                </div>
+
+                <br>
+
+                @*---------------DATA----------------*@
+
                 <div class="help-block">
                     Introduza a data da publicação ou distribuição pública. Pode deixar o mês e/ou o dia em branco se não se aplicar.
-
                 </div>
+
                 <div class="row">
                     <label class="col-md-2 label-required">data</label><div class="col-md-10">
                         <div class="row col-md-12">
-                            <div class="input-group col-md-10"><div class="row"><span class="input-group col-md-2"><span class="input-group-addon">Day:</span><input class="form-control" type="text" name="dc_date_issued_day" size="2" maxlength="2" value=""></span><span class="input-group col-md-6"><span class="input-group-addon">Month:</span><select class="form-control" name="dc_date_issued_month"><option value="-1" selected="selected">(No Month)</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></span><span class="input-group col-md-4"><span class="input-group-addon">Year:</span><input class="form-control" type="text" name="dc_date_issued_year" size="4" maxlength="4" value="2017"></span></div></div>
+                            <div class="input-group col-md-10">
+                                <div class="row">
+                                    <span class="input-group col-md-2">
+                                        <span class="input-group-addon">Day:</span>
+                                        <input class="form-control" type="text" name="dc_date_issued_day" size="2" maxlength="2" value="@dados["Dia"]">
+                                    </span>
+                                    <span class="input-group col-md-6">
+                                        <span class="input-group-addon">Month:</span>
+                                        <select class="form-control" name="dc_date_issued_month">
+                                            <option value="-1" selected="selected">(No Month)</option>      @*NAO TA A FUNCIONAR BEM (SÓ O MES)*@
+                                            <option value="1" selected=@(dados["Mes"] == "1" ? "selected" : "")>January</option>
+                                            <option value="2" selected=@(dados["Mes"] == "2" ? "selected" : "")>February</option>
+                                            <option value="3" selected=@(dados["Mes"] == "3" ? "selected" : "")>March</option>
+                                            <option value="4" selected=@(dados["Mes"] == "4" ? "selected" : "")>April</option>
+                                            <option value="5" selected=@(dados["Mes"] == "5" ? "selected" : "")>May</option>
+                                            <option value="6" selected=@(dados["Mes"] == "6" ? "selected" : "")>June</option>
+                                            <option value="7" selected=@(dados["Mes"] == "7" ? "selected" : "")>July</option>
+                                            <option value="8" selected=@(dados["Mes"] == "8" ? "selected" : "")>August</option>
+                                            <option value="9" selected=@(dados["Mes"] == "9" ? "selected" : "")>September</option>
+                                            <option value="10" selected=@(dados["Mes"] == "10" ? "selected" : "")>October</option>
+                                            <option value="11" selected=@(dados["Mes"] == "11" ? "selected" : "")>November</option>
+                                            <option value="12" selected=@(dados["Mes"] == "12" ? "selected" : "")>December</option>
+                                        </select>
+                                    </span>
+                                    <span class="input-group col-md-4">
+                                        <span class="input-group-addon">Year:</span>
+                                        <input class="form-control" type="text" name="dc_date_issued_year" size="4" maxlength="4" value="@dados["Ano"]">
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div><br>
+                </div>
+
+                <br>
+
+
+                @*----------Volume-----------*@
                 <div class="help-block">
                     Introduza o número do volume ou a série da revista em que foi publicado.
-
                 </div>
-                <div class="row"><label class="col-md-2">volume</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="degois_publication_volume" id="degois_publication_volume" size="50" value="24"></div></div></div></div><br>
+                <div class="row">
+                    <label class="col-md-2">volume</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="degois_publication_volume" id="degois_publication_volume" size="50" value="@dados["Volume"]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                @*-------------num EDICAO--------*@
                 <div class="help-block">
                     Se o registo tiver um número de edição associado.
-
                 </div>
-                <div class="row"><label class="col-md-2">número da edição</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="degois_publication_issue" id="degois_publication_issue" size="50" value="6"></div></div></div></div><br>
+                <div class="row">
+                    <label class="col-md-2">número da edição</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="degois_publication_issue" id="degois_publication_issue" size="50" value="@dados["Edition"]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                @*---------PAG INI---------*@
                 <div class="help-block">
                     Introduza o número da página inicial do artigo.
-
                 </div>
-                <div class="row"><label class="col-md-2">página inicial</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="degois_publication_firstPage" id="degois_publication_firstPage" size="50" value="2043"></div></div></div></div><br>
+                <div class="row">
+                    <label class="col-md-2">página inicial</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="degois_publication_firstPage" id="degois_publication_firstPage" size="50" value="@dados["StartPage"]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                @*---------PAG FINAL---------*@
                 <div class="help-block">
                     Introduza o número da última página do artigo (página final).
-
                 </div>
-                <div class="row"><label class="col-md-2">página final</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="degois_publication_lastPage" id="degois_publication_lastPage" size="50" value="2060"></div></div></div></div><br>
+                <div class="row">
+                    <label class="col-md-2">página final</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="degois_publication_lastPage" id="degois_publication_lastPage" size="50" value="@dados["EndPage"]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                @*--------------NOME EDITOR---------*@
                 <div class="help-block">
                     Introduza o nome do editor da publicação
                     <br>Exemplo: <b>Elsevier</b>
-
                 </div>
+
                 <div class="row">
                     <label class="col-md-2">editor</label><div class="col-md-10">
                         <div class="row col-md-12">
                             <div class="col-md-10">
-                                <div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="dc_publisher" id="dc_publisher" size="50" value="" autocomplete="off"></div><div class="col-md-2">
+                                <div class="row col-md-10">
+                                    <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                                    <input class="form-control ui-autocomplete-input" type="text" name="dc_publisher" id="dc_publisher" size="50" value="" autocomplete="off">
+                                </div>
+                                <div class="col-md-2">
                                     <span id="dc_publisher_indicator" style="display: none;"><img src="~/5-PublicationMetaData1_files/load-indicator.gif" alt="Loading..."></span><div id="dc_publisher_autocomplete" class="autocomplete" style="display: none;"> </div>
                                     <script type="text/javascript">var gigo = DSpaceSetupAutocomplete('edit_metadata', { metadataField: 'dc_publisher', isClosed: 'false', inputName: 'dc_publisher', authorityName: 'dc_publisher_authority', containerID: 'dc_publisher_autocomplete', indicatorID: 'dc_publisher_indicator', contextPath: '', confidenceName: 'dc_publisher_confidence', confidenceIndicatorID: 'dc_publisher_confidence_indicator_id', collection: 377 });</script>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div><br>
+                </div>
+
+                <br>
+
+                @*-------------ISSN----------*@
                 <div class="help-block">
                     Código de 8 dígitos que identifica a revista.
                     <br>Exemplo: <b>0028-0836</b>
-
                 </div>
-                <div class="row"><label class="col-md-2">ISSN</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_identifier_issn" id="dc_identifier_issn" size="50" value=""></div></div></div></div><br>
+
+                <div class="row">
+                    <label class="col-md-2">ISSN</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="dc_identifier_issn" id="dc_identifier_issn" size="50" value="@dados["ISSN"]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <br>
+
+
+                @*---------------e-ISSN-----------*@
                 <div class="help-block">
                     Código de 8 dígitos que identifica a versão digital da revista.
                     <br>Exemplo: <b>1476-4687</b>
-
                 </div>
                 <div class="row"><label class="col-md-2">e-ISSN</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_identifier_essn" id="dc_identifier_essn" size="50" value=""></div></div></div></div><br>
+
+                @*---------------------DOI-----------------*@
                 <div class="help-block">
                     Se este registo tiver algum identificador DOI associado, insira em baixo.
                     <br>Exemplo: <b>10.1016/j.ensm.2018.04.026</b>
-
                 </div>
-                <div class="row"><label class="col-md-2">DOI</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_identifier_doi" id="dc_identifier_doi" size="50" value="10.1007/s11276-017-1450-0"></div></div></div></div><br>
+
+                <div class="row">
+                    <label class="col-md-2">DOI</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="dc_identifier_doi" id="dc_identifier_doi" size="50" value="@dados["DOI"]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
                 <div class="help-block">
                     Introduza o endereço electrónico da versão publicada do artigo. Algumas revistas exigem a colocação de um link para a sua versão (versão final do editor).
-
                 </div>
                 <div class="row"><label class="col-md-2">versão da editora</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_relation_publisherversion" id="dc_relation_publisherversion" size="50" value=""></div></div></div></div><br>
+                
+                
                 <div class="help-block">
                     Indique se a versão que está a depositar foi revista por pares especialistas (refereeing / peer review).
-
                 </div>
                 <div class="row"><label class="col-md-2">revisão por pares (peer-review)</label><span class="col-md-8"><select class="form-control" name="dc_peerreviewed"><option selected="selected" value="yes">sim</option><option value="no">não</option></select></span></div><br>
+
+
+                @*--------------------TIPO-----------------*@
                 <div class="help-block">
                     Selecione o tipo do conteúdo que está a depositar.
-
                 </div>
-                <div class="row"><label class="col-md-2 label-required">tipologia do documento</label><span class="col-md-8"><select class="form-control" name="dc_type"><option selected="selected" value="article">article</option><option value="bachelorThesis">bachelorThesis</option><option value="masterThesis">masterThesis</option><option value="doctoralThesis">doctoralThesis</option><option value="book">book</option><option value="bookPart">bookPart</option><option value="review">review</option><option value="conferenceObject">conferenceObject</option><option value="lecture">lecture</option><option value="preprint">preprint</option><option value="workingPaper">workingPaper</option><option value="report">report</option><option value="annotation">annotation</option><option value="contributionToPeriodical">contributionToPeriodical</option><option value="patent">patent</option><option value="other">other</option></select></span></div><br>
+                <div class="row">
+                    <label class="col-md-2 label-required">tipologia do documento</label>
+                    <span class="col-md-8">
+                        <select class="form-control" name="dc_type">
+                            <option selected="selected" value="article">article</option>
+                            <option value="bachelorThesis">bachelorThesis</option>
+                            <option value="masterThesis">masterThesis</option>
+                            <option value="doctoralThesis">doctoralThesis</option>
+                            <option value="book">book</option>
+                            <option value="bookPart">bookPart</option>
+                            <option value="review">review</option>
+                            <option value="conferenceObject">conferenceObject</option>
+                            <option value="lecture">lecture</option>
+                            <option value="preprint">preprint</option>
+                            <option value="workingPaper">workingPaper</option>
+                            <option value="report">report</option>
+                            <option value="annotation">annotation</option>
+                            <option value="contributionToPeriodical">contributionToPeriodical</option>
+                            <option value="patent">patent</option>
+                            <option value="other">other</option>
+                        </select>
+                    </span>
+                </div>
+
+                <br>
+
+
+                @*------------------ESTADO---------------*@
                 <div class="help-block">
                     Indique o estado atual da publicação
-
                 </div>
-                <div class="row"><label class="col-md-2 label-required">estado da publicação</label><span class="col-md-8"><select class="form-control" name="dc_description_version"><option selected="selected" value="published">Publicado</option><option value="in publication">Em publicação</option><option value="submitted">Submetido</option><option value="Not Published">Não publicado</option></select></span></div><br>
+
+                <div class="row">
+                    <label class="col-md-2 label-required">estado da publicação</label>
+                    <span class="col-md-8">
+                        <select class="form-control" name="dc_description_version">
+                            <option value="published" selected=@(dados["Estado"] == "published" ? "selected" : "")>Publicado</option>
+                            <option value="in publication">Em publicação</option>
+                            <option value="submitted">Submetido</option>
+                            <option value="Not Published">Não publicado</option>
+                        </select>
+                    </span>
+                </div>
+
+                <br>
+
+                @*-------------IDIOMA-------------*@
                 <div class="help-block">
                     Selecione o idioma do conteúdo principal do trabalho. Se o idioma não aparecer na lista em baixo selecione "Outra". Se ao conteúdo não se aplicar um idioma (por exemplo, uma imagem) selecione "N/A".
-
                 </div>
-                <div class="row"><label class="col-md-2 label-required">idioma</label><span class="col-md-8"><select class="form-control" name="dc_language_iso"><option value="">N/A</option><option value="por">português</option><option value="eng">inglês</option><option value="spa">espanhol</option><option value="deu">alemão</option><option value="fra">francês</option><option value="ita">italiano</option><option value="jpn">japonês</option><option value="cmn">chinês</option><option value="other">(outro)</option></select></span></div><br>
 
+                <div class="row">
+                    <label class="col-md-2 label-required">idioma</label><span class="col-md-8">
+                        <select class="form-control" name="dc_language_iso">
+                            <option value="">N/A</option>
+                            <option value="por" selected=@(dados["Language"] == "pt-PT" ? "selected" : "")>português</option>
+                            <option value="por" selected=@(dados["Language"] == "pt-BR" ? "selected" : "")>português</option>
+                            <option value="eng" selected=@(dados["Language"] == "en-GB" ? "selected" : "")>inglês</option>
+                            <option value="eng" selected=@(dados["Language"] == "en-US" ? "selected" : "")>inglês</option>
+                            <option value="spa">espanhol</option>
+                            <option value="deu">alemão</option>
+                            <option value="fra">francês</option>
+                            <option value="ita">italiano</option>
+                            <option value="jpn">japonês</option>
+                            <option value="cmn">chinês</option>
+                            <option value="other">(outro)</option>
+                        </select>
+                    </span>
+                </div>
+
+                <br>
 
                 <input type="hidden" name="workspace_item_id" value="44987"><input type="hidden" name="step" value="2"><input type="hidden" name="page" value="1"><input type="hidden" name="jsp" value="/submit/edit-metadata.jsp">
                 <div class="row">

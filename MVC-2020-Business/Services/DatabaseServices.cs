@@ -301,13 +301,17 @@ namespace MVC_2020_Business.Services
             map.Add("Autores", queryAuth.ToList());
 
             var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
-            map.Add("Data", queryData.FirstOrDefault().ToString()); ;
+            string data_hora = queryData.FirstOrDefault().ToString();
+            
+            map.Add("Data", Partir_data(data_hora)[0]);
+            map.Add("Dia", Partir_data(data_hora)[1]);
+            map.Add("Mes", Partir_data(data_hora)[2]);
+            map.Add("Ano", Partir_data(data_hora)[3]);
 
             map.Add("Estado", "published");
 
             var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
             var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
-
             map.Add("Language", qL.FirstOrDefault());
 
             var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
@@ -315,7 +319,6 @@ namespace MVC_2020_Business.Services
 
             return map;
         }
-
 
         public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor)
         {
@@ -373,23 +376,18 @@ namespace MVC_2020_Business.Services
         //    throw new NotImplementedException();
         //}
 
-        public static void updateState(MyDbContext _db, String titulos, int valor) //ainda não funciona
+        public static void updateState(MyDbContext _db, String titulo, int valor)
         {
             bool f = false;
 
-            List<string> pubsTitulos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(titulos);
+            var query = from tit in _db.PublicationTitle where tit.Title == titulo select tit.PublicationId;
 
-            foreach(var title in pubsTitulos)
-            {
-                Console.WriteLine(title);
-                var query = from tit in _db.PublicationTitle where tit.Title == title select tit.PublicationId;
+            Publication a = new Publication();
+            a = _db.Publication.Find(query.FirstOrDefault());
+            a.State = valor;
+            _db.Entry(a).State = EntityState.Modified;
+            _db.SaveChanges();
 
-                Publication a = new Publication();
-                a = _db.Publication.Find(query.FirstOrDefault());
-                a.State = valor;
-                _db.Entry(a).State = EntityState.Modified;
-                _db.SaveChanges();
-            }
         }
 
         public static List<Hashtable> selectToRIA(MyDbContext _db, List<string> titulos)
@@ -405,6 +403,50 @@ namespace MVC_2020_Business.Services
                 var id = query.FirstOrDefault();
 
                 map.Add("titulo", titulo);
+
+                var queryISSN = from tmp in _db.PublicationDetail
+                                join pub in _db.Publication
+                                on tmp.PublicationId equals pub.PublicationId
+                                select tmp.ISSN;
+                map.Add("ISSN", queryISSN.FirstOrDefault());
+
+                var queryStartPage = from tmp in _db.PublicationDetail
+                                join pub in _db.Publication
+                                on tmp.PublicationId equals pub.PublicationId
+                                select tmp.StartPage;
+                map.Add("StartPage", queryStartPage.FirstOrDefault());
+
+                var queryEndPage = from tmp in _db.PublicationDetail
+                                     join pub in _db.Publication
+                                     on tmp.PublicationId equals pub.PublicationId
+                                     select tmp.EndPage;
+                map.Add("EndPage", queryEndPage.FirstOrDefault());
+
+                var queryTotalPages = from tmp in _db.PublicationDetail
+                                     join pub in _db.Publication
+                                     on tmp.PublicationId equals pub.PublicationId
+                                     select tmp.TotalPages;
+                map.Add("TotalPages", queryTotalPages.FirstOrDefault());
+
+                var queryVolume = from tmp in _db.PublicationDetail
+                                      join pub in _db.Publication
+                                      on tmp.PublicationId equals pub.PublicationId
+                                      select tmp.Volume;
+                map.Add("Volume", queryVolume.FirstOrDefault());
+
+                var queryEdition = from tmp in _db.PublicationDetail
+                                  join pub in _db.Publication
+                                  on tmp.PublicationId equals pub.PublicationId
+                                  select tmp.Edition;
+                map.Add("Edition", queryEdition.FirstOrDefault());
+
+
+                var querySeries = from tmp in _db.PublicationDetail
+                                   join pub in _db.Publication
+                                   on tmp.PublicationId equals pub.PublicationId
+                                   select tmp.Series;
+                map.Add("Series", querySeries.FirstOrDefault());
+
 
                 var queryDOI = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId == 1 select tmp.Value;
                 map.Add("DOI", queryDOI.FirstOrDefault());
@@ -422,7 +464,12 @@ namespace MVC_2020_Business.Services
                 map.Add("Autores", queryAuth.ToList());
 
                 var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
-                map.Add("Data", queryData.FirstOrDefault().ToString()); ;
+                string data_hora = queryData.FirstOrDefault().ToString();
+
+                map.Add("Data", Partir_data(data_hora)[0]);
+                map.Add("Dia", Partir_data(data_hora)[1]);
+                map.Add("Mes", Partir_data(data_hora)[2]);
+                map.Add("Ano", Partir_data(data_hora)[3]);
 
                 map.Add("Estado", "published");
 
@@ -435,6 +482,19 @@ namespace MVC_2020_Business.Services
             }
 
             return map2;
+        }
+
+        private static List<String> Partir_data(string data_hora)
+        {
+            List<String> l = new List<String>();
+
+            string[] s = data_hora.Split(" ");
+            string data = s[0];
+            string hora = s[1]; /*-- nao usamos--*/
+
+            l.Add(data);
+
+            return l.Concat(data.Split("/").ToList()).ToList(); /*e.g ["1/2/3333", "1", "2", "3333"]*/
         }
     }
 }
