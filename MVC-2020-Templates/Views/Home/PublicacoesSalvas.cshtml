@@ -40,7 +40,7 @@
     function sendToDetails(obj) {
         console.log(obj);
         $.post("PublicationDetails_Helper", { obj: JSON.stringify(obj) }, function (data) {
-            window.location.href = data;
+            window.open(data, '_blank');
         });
         @* window.open('@Url.Action("Publication_details","Home")');*@
     }
