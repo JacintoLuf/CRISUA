@@ -10,25 +10,18 @@
     <div class="row">
         <div class="column">
             <div class="card">
-                <img src="" alt="img of person" style="width:100%">
+                <div>
+                    <img src="~/images/perfil.png" alt="img of person">
+                </div>
+                <br />
                 <div class="container">
                     <p>Nome: @MVC_2020_Template.Helpers.Session.FullName</p>
                     @*<label>email: </label> @ViewBag.emailSession*@
                     <p>Mail: @MVC_2020_Template.Helpers.Session.Email</p>
                     @*<p><button class="button">Contact</button></p>*@
-                    <p>IUPI: @MVC_2020_Template.Helpers.Session.IUPI</p>
+                    <p>IUPI: @MVC_2020_Template.Helpers.Session.IUPI</p> 
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-    @section RightColumn{
-        Recursos adicionais:
-        <ul>
-            <li>
-                <a href="https://fomantic-ui.com" target="_blank">Fomantic-UI</a>
-            </li>
-        </ul>
-    }
