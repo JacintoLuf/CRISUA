@@ -361,6 +361,27 @@ namespace MVC_2020_Business.Services
             return null;
         }
 
+        public static List<String> selectAllPubsInBD(MyDbContext _db, string tabela, string coluna)
+        {
+            string var = tabela;
+            switch (var)
+            {
+                case "Publication":
+                    List<String> ret = new List<string>();
+
+                    var query = from tmp in _db.Publication
+                                join tit in _db.PublicationTitle on tmp.PublicationId equals tit.PublicationId
+                                select tit.Title;
+
+                    foreach (var i in query.ToList())
+                    {
+                        ret.Add(i);
+                    }
+                    return ret;
+            }
+            return null;
+        }
+
         //private static void selectPublicationIdentifier(MyDbContext db, string coluna, string valor)
         //{
         //    throw new NotImplementedException();
@@ -477,6 +498,10 @@ namespace MVC_2020_Business.Services
                 var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
 
                 map.Add("Language", qL.FirstOrDefault());
+
+                var queryFnt = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Source;
+                var qF = from f in _db.Publication where f.Source == queryFnt.FirstOrDefault() select f.Source;
+                map.Add("Fonte", qF.FirstOrDefault());
 
                 map2.Add(map);
             }

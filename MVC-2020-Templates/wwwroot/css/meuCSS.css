@@ -4,3 +4,8 @@ for details on configuring this project to bundle and minify static web assets. 
     overflow-y: auto;
     max-height: 300px;
 }
+
+#scrollPubBig {
+    overflow-y: auto;
+    max-height: 600px;
+}

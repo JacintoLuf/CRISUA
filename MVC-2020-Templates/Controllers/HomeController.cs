@@ -41,6 +41,11 @@ namespace MVC_2020_Template.Controllers
         {
             return View();
         }
+        public IActionResult MyPublications()
+        {
+            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State"));
+            return View();
+        }
 
         [HttpGet]
         public IActionResult Publicacoes()

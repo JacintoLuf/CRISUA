@@ -1,0 +1,29 @@
+﻿@{
+    //Layout = "_3ColsLayout";
+    ViewData["Title"] = "Minhas Publicações";
+    var pubsInBD = ViewBag.pubsInBD;
+}
+
+@*<h2>@importPub</h2>*@
+<div><h2>@ViewData["Title"]</h2></div>
+<br />
+<br />
+<div id="scrollPubBig" class="ui grid">
+    @foreach (var pub in pubsInBD)
+    {
+        <div class="fourteen wide column" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left">
+            <href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</href>
+        </div>
+        <div class="two wide column">@pub["Fonte"]</div>
+    }
+</div>
+
+
+<script>
+    function sendToDetails(obj) {
+        console.log(obj);
+        $.post("PublicationDetails_Helper", { obj: JSON.stringify(obj) }, function (data) {
+            window.open(data, '_blank');
+        });
+    }
+</script>
