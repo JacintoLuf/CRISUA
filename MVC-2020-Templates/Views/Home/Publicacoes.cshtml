@@ -1,6 +1,6 @@
 ﻿@{
     //Layout = "_3ColsLayout";
-    ViewData["Title"] = "Publicações";
+    ViewData["Title"] = "Importar para UA CRIS";
     //List<MVC_2020_Business.Models.Product> publicacoes = ViewBag.Publicacoes;
     //List<MVC_2020_Business.Models.Product> publicacoes = ViewBag.PublicacoesRIA;
     List<MVC_2020_Business.Models.Work> works = ViewBag.PublicacoesPTCris;
@@ -88,7 +88,7 @@
             <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
             <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
         </div>
-        <div id="@count" class="seven wide column"></div>
+        <div id="@count" class="seven wide column">@count</div>
 
     }
 
@@ -97,9 +97,11 @@
 
 @if (works != null)
 {
+    var c = 0;
     foreach (var work in works)
     {
-        <p>@work.title.title</p>
+        <p>@work.title.title - @c</p>
+            c++;
     }
 }
 

@@ -175,7 +175,15 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult SavePub(String works)
         {
-            MVC_2020_Business.Services.DatabaseServices.updateState(_db, works, 2);
+            var work = Newtonsoft.Json.JsonConvert.DeserializeObject<List<String>>(works);
+            var w = work.FirstOrDefault();
+            if (w != null)  MVC_2020_Business.Services.DatabaseServices.updateState(_db, w, 2);
+            return Json(Url.Action("PublicacoesSalvas", "Home"));
+        }
+
+        [HttpPost]
+        public IActionResult BackToSavedPubs(String works)
+        {
             return Json(Url.Action("PublicacoesSalvas", "Home"));
         }
     }

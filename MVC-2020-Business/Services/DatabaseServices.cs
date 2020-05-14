@@ -400,7 +400,7 @@ namespace MVC_2020_Business.Services
         public static void updateState(MyDbContext _db, String titulo, int valor)
         {
             bool f = false;
-
+            
             var query = from tit in _db.PublicationTitle where tit.Title == titulo select tit.PublicationId;
 
             Publication a = new Publication();
@@ -496,12 +496,14 @@ namespace MVC_2020_Business.Services
 
                 var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
                 var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
+                //var queryLng2 = from tmp in _db.Publication           //Dário desta forma fazes apenas um pedido à BD, mas depois vê se funciona!
+                //                join p in _db.Language on tmp.LanguageId equals p.LanguageID 
+                //                select p.Acronym; 
 
                 map.Add("Language", qL.FirstOrDefault());
 
                 var queryFnt = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Source;
-                var qF = from f in _db.Publication where f.Source == queryFnt.FirstOrDefault() select f.Source;
-                map.Add("Fonte", qF.FirstOrDefault());
+                map.Add("Fonte", queryFnt.FirstOrDefault());
 
                 map2.Add(map);
             }
