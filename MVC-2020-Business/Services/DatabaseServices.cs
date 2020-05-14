@@ -397,7 +397,7 @@ namespace MVC_2020_Business.Services
         //    throw new NotImplementedException();
         //}
 
-        public static void updateState(MyDbContext _db, String titulo, int valor)
+        public static void updateState(MyDbContext _db, string titulo, int valor)
         {
             bool f = false;
             
