@@ -173,9 +173,19 @@ namespace MVC_2020_Template.Controllers
         }
 
         [HttpPost]
-        public IActionResult SavePub(String works)
+        public IActionResult SavePub(string works)
         {
-            MVC_2020_Business.Services.DatabaseServices.updateState(_db, works, 2);
+            List<string> titulos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(works);
+            foreach(string t in titulos)
+            {
+                if (t != null) MVC_2020_Business.Services.DatabaseServices.updateState(_db, t, 2);
+            }
+            return Json(Url.Action("PublicacoesSalvas", "Home"));
+        }
+
+        [HttpPost]
+        public IActionResult BackToSavedPubs(String works)
+        {
             return Json(Url.Action("PublicacoesSalvas", "Home"));
         }
     }

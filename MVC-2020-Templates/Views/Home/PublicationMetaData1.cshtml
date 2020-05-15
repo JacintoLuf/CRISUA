@@ -85,10 +85,6 @@
             </c:set>
 
 
-
-
-
-
             <form action="PublicationMetaData2" method="post" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
 
                 <!--Progress Bar-->
@@ -130,29 +126,29 @@
 
                         @foreach (var name in dados["Autores"])
                         {
-                        <div class="row col-md-12">
-                            <div class="col-md-10 input-group">
-                                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible">André Ventura da Cruz Marnoto Zúquete</span>
-                                <input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author_1" id="dc_contributor_author_1" size="50" value="@name" autocomplete="off">
-                                <div id="details_dc_contributor_author_1" name="66eccbc8-c131-45bb-ab10-04ab220e4423" class="input-group-addon ua-uu-tag">
-                                    <div title="" id="remove_dc_contributor_author_1" class="glyphicon glyphicon-remove ua-uu-tag-remove" data-original-title="Remover autoridade"></div>
-                                    <div class="popover fade top in" style="top: -35px; left: 718px; display: block;" data-original-title="" title="">
-                                        <div class="arrow"></div><h3 class="popover-title">Remover autoridade</h3>
-                                        <div class="popover-content">Click here if you wish to remove the selected authority.</div>
+                            <div class="row col-md-12">
+                                <div class="col-md-10 input-group">
+                                    <span role="status" aria-live="polite" class="ui-helper-hidden-accessible">André Ventura da Cruz Marnoto Zúquete</span>
+                                    <input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author_1" id="dc_contributor_author_1" size="50" value="@name" autocomplete="off">
+                                    <div id="details_dc_contributor_author_1" name="66eccbc8-c131-45bb-ab10-04ab220e4423" class="input-group-addon ua-uu-tag">
+                                        <div title="" id="remove_dc_contributor_author_1" class="glyphicon glyphicon-remove ua-uu-tag-remove" data-original-title="Remover autoridade"></div>
+                                        <div class="popover fade top in" style="top: -35px; left: 718px; display: block;" data-original-title="" title="">
+                                            <div class="arrow"></div><h3 class="popover-title">Remover autoridade</h3>
+                                            <div class="popover-content">Click here if you wish to remove the selected authority.</div>
+                                        </div>
+                                        andre.zuquete@ua.pt
                                     </div>
-                                    andre.zuquete@ua.pt
                                 </div>
+                                <button class="btn btn-danger col-md-2" name="submit_dc_contributor_author_remove_0" value="Remove Entry">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    &nbsp;
+                                    &nbsp;
+                                    Remove Entry
+                                </button>
                             </div>
-                            <button class="btn btn-danger col-md-2" name="submit_dc_contributor_author_remove_0" value="Remove Entry">
-                                <span class="glyphicon glyphicon-trash"></span>
-                                &nbsp;
-                                &nbsp;
-                                Remove Entry
-                            </button>
-                        </div>
                         }
 
-                        
+
                         <div class="row col-md-12">
                             <div class="col-md-10">
                                 <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
@@ -190,7 +186,9 @@
                                 <span class="glyphicon glyphicon-trash"></span>
                                 &nbsp;&nbsp;Remove Entry
                             </button>
-                        </div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi_3" id="ua_dados_iupi_3" size="50" value=""></div></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi" id="ua_dados_iupi" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_ua_dados_iupi_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br><div class="row" style="display:none;"><label class="col-md-2">forma de nome e IUPI do autor</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_1" id="ua_dados_aliasiupi_1" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_2" id="ua_dados_aliasiupi_2" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_1" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_3" id="ua_dados_aliasiupi_3" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_2" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi" id="ua_dados_aliasiupi" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_ua_dados_aliasiupi_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br>
+                        </div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi_3" id="ua_dados_iupi_3" size="50" value=""></div></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_iupi" id="ua_dados_iupi" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_ua_dados_iupi_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div>
+                    </div>
+                </div><br><div class="row" style="display:none;"><label class="col-md-2">forma de nome e IUPI do autor</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_1" id="ua_dados_aliasiupi_1" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_2" id="ua_dados_aliasiupi_2" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_1" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi_3" id="ua_dados_aliasiupi_3" size="50" value="empty"></div><button class="btn btn-danger col-md-2" name="submit_ua_dados_aliasiupi_remove_2" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="ua_dados_aliasiupi" id="ua_dados_aliasiupi" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_ua_dados_aliasiupi_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br>
 
 
                 @*-----------TITULO---------*@
@@ -258,19 +256,20 @@
                                     <span class="input-group col-md-6">
                                         <span class="input-group-addon">Month:</span>
                                         <select class="form-control" name="dc_date_issued_month">
-                                            <option value="-1" selected="selected">(No Month)</option>      @*NAO TA A FUNCIONAR BEM (SÓ O MES)*@
-                                            <option value="1" selected=@(dados["Mes"] == "1" ? "selected" : "")>January</option>
-                                            <option value="2" selected=@(dados["Mes"] == "2" ? "selected" : "")>February</option>
-                                            <option value="3" selected=@(dados["Mes"] == "3" ? "selected" : "")>March</option>
-                                            <option value="4" selected=@(dados["Mes"] == "4" ? "selected" : "")>April</option>
-                                            <option value="5" selected=@(dados["Mes"] == "5" ? "selected" : "")>May</option>
-                                            <option value="6" selected=@(dados["Mes"] == "6" ? "selected" : "")>June</option>
-                                            <option value="7" selected=@(dados["Mes"] == "7" ? "selected" : "")>July</option>
-                                            <option value="8" selected=@(dados["Mes"] == "8" ? "selected" : "")>August</option>
-                                            <option value="9" selected=@(dados["Mes"] == "9" ? "selected" : "")>September</option>
-                                            <option value="10" selected=@(dados["Mes"] == "10" ? "selected" : "")>October</option>
-                                            <option value="11" selected=@(dados["Mes"] == "11" ? "selected" : "")>November</option>
-                                            <option value="12" selected=@(dados["Mes"] == "12" ? "selected" : "")>December</option>
+                                            @{ String mes = dados["Mes"]; }
+                                            <option value="-1" selected="selected">(No Month)</option>      @*Seleciona sempre o ultimo*@
+                                            <option value="1" selected=@(mes == "1" ? "true" : null)>January</option>
+                                            <option value="2" selected=@(mes == "2" ? "selected" : null)>February</option>
+                                            <option value="3" selected=@(mes == "3" ? "selected" : null)>March</option>
+                                            <option value="4" selected=@(mes == "4" ? "selected" : null)>April</option>
+                                            <option value="5" selected=@(mes == "5" ? "selected" : null)>May</option>
+                                            <option value="6" selected=@(mes == "6" ? "selected" : null)>June</option>
+                                            <option value="7" selected=@(mes == "7" ? "selected" : null)>July</option>
+                                            <option value="8" selected=@(mes == "8" ? "selected" : null)>August</option>
+                                            <option value="9" selected=@(mes == "9" ? "selected" : null)>September</option>
+                                            <option value="10" selected=@(mes == "10" ? "selected" : null)>October</option>
+                                            <option value="11" selected=@(mes == "11" ? "selected" : null)>November</option>
+                                            <option value="12" selected=@(mes == "12" ? "selected" : null)>December</option>
                                         </select>
                                     </span>
                                     <span class="input-group col-md-4">
@@ -395,7 +394,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <br>
 
 
@@ -429,8 +428,8 @@
                     Introduza o endereço electrónico da versão publicada do artigo. Algumas revistas exigem a colocação de um link para a sua versão (versão final do editor).
                 </div>
                 <div class="row"><label class="col-md-2">versão da editora</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_relation_publisherversion" id="dc_relation_publisherversion" size="50" value=""></div></div></div></div><br>
-                
-                
+
+
                 <div class="help-block">
                     Indique se a versão que está a depositar foi revista por pares especialistas (refereeing / peer review).
                 </div>
@@ -477,7 +476,7 @@
                     <label class="col-md-2 label-required">estado da publicação</label>
                     <span class="col-md-8">
                         <select class="form-control" name="dc_description_version">
-                            <option value="published" selected=@(dados["Estado"] == "published" ? "selected" : "")>Publicado</option>
+                            <option value="published" selected=@(dados["Estado"] == "published" ? "selected" : null)>Publicado</option>
                             <option value="in publication">Em publicação</option>
                             <option value="submitted">Submetido</option>
                             <option value="Not Published">Não publicado</option>
@@ -496,10 +495,10 @@
                     <label class="col-md-2 label-required">idioma</label><span class="col-md-8">
                         <select class="form-control" name="dc_language_iso">
                             <option value="">N/A</option>
-                            <option value="por" selected=@(dados["Language"] == "pt-PT" ? "selected" : "")>português</option>
-                            <option value="por" selected=@(dados["Language"] == "pt-BR" ? "selected" : "")>português</option>
-                            <option value="eng" selected=@(dados["Language"] == "en-GB" ? "selected" : "")>inglês</option>
-                            <option value="eng" selected=@(dados["Language"] == "en-US" ? "selected" : "")>inglês</option>
+                            <option value="por" selected=@(dados["Language"] == "pt-PT" ? "selected" : null)>português</option>
+                            <option value="por" selected=@(dados["Language"] == "pt-BR" ? "selected" : null)>português</option>
+                            <option value="eng" selected=@(dados["Language"] == "en-GB" ? "selected" : null)>inglês</option>
+                            <option value="eng" selected=@(dados["Language"] == "en-US" ? "selected" : null)>inglês</option>
                             <option value="spa">espanhol</option>
                             <option value="deu">alemão</option>
                             <option value="fra">francês</option>
@@ -514,15 +513,16 @@
                 <br>
 
                 <input type="hidden" name="workspace_item_id" value="44987"><input type="hidden" name="step" value="2"><input type="hidden" name="page" value="1"><input type="hidden" name="jsp" value="/submit/edit-metadata.jsp">
-                <div class="row">
 
-                    <div class="col-md-4 pull-right btn-group">
-                        <input class="btn btn-default col-md-6" type="submit" name="submit_cancel" value="Cancel/Save">
-                        <input class="btn btn-primary col-md-6" type="submit" name="submit_next" value="Next">
-
-                    </div><br>
-                </div>
             </form>
+
+            <div class="row">
+                <div class="col-md-4 pull-right btn-group">
+                    <input class="btn btn-default col-md-6" type="submit" name="submit_cancel" value="Cancel/Save" onclick="BackToPubSaved()" />
+                    <input class="btn btn-primary col-md-6" type="submit" name="submit_next" value="Next">
+                </div><br>
+            </div>
+
             <br />
 
             <div class="ua-user-info" id="autocomplete_details" style="top: 358px; left: 463px; display: none;">
@@ -547,7 +547,7 @@
             </div>
 
             <!-- <span id="string-measurer" class="ua-string-measurer" >
-                 </span> -->
+    </span> -->
 
             <script type="text/javascript">
                 function decodeHtml(html) {
@@ -575,3 +575,13 @@
 
 </body>
 </html>
+
+
+<script>
+    var objs = [];
+    function BackToPubSaved() {
+        $.post("BackToSavedPubs", { works: JSON.stringify(objs) }, function (data) {
+            window.location.href = "PublicacoesSalvas";
+        });
+    }
+</script>
