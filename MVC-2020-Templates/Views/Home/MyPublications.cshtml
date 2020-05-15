@@ -2,21 +2,41 @@
     //Layout = "_3ColsLayout";
     ViewData["Title"] = "Minhas Publicações";
     var pubsInBD = ViewBag.pubsInBD;
+    var count = 0;
 }
 
-@*<h2>@importPub</h2>*@
+
 <div><h2>@ViewData["Title"]</h2></div>
 <br />
 <br />
-<div id="scrollPubBig" class="ui grid">
+
+<div class="ui category search">
+    <div class="ui icon input">
+        <input id="myInput" class="prompt" type="text" placeholder="Pesquisar...">
+        <i class="search icon"></i>
+    </div>
+    <div class="results">
+    </div>
+</div>
+<br />
+<br />
+
+<div id="scrollPub">
     @foreach (var pub in pubsInBD)
     {
-        <div class="fourteen wide column" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left">
-            <href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</href>
+        count++;
+        <div id="esconderDiv_@count" class="ui grid">
+            <div class="twelve wide column">
+                <div data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left">
+                    <a data-id="@count" onmouseover="" style="cursor:pointer; color:black;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</a>
+                </div>
+            </div>
+            <div class="two wide column">@pub["Data"]</div>
+            <div class="two wide column">@pub["Fonte"]</div>
         </div>
-        <div class="two wide column">@pub["Fonte"]</div>
     }
 </div>
+
 
 
 <script>
@@ -26,4 +46,13 @@
             window.open(data, '_blank');
         });
     }
+
+    $('#myInput').on('keyup', function () {  //Partial View Search
+        var value = $(this).val().toLowerCase();
+        $("#scrollPub a").filter(function () {
+            var id = $(this).data("id");
+            $('#esconderDiv_' + id).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
 </script>
