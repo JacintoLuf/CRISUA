@@ -199,5 +199,90 @@ namespace MVC_2020_Business.Services
             }
             return works;
         }
+
+        public static List<Work> RemoveDuplicates(List<Work> works)
+        {
+            var titulosDuplicados = works.GroupBy(x => x.title.title).Where(x => x.Count() > 1).Select(x => x.Key).ToList(); //lista de titulos duplicados
+            //titulosDuplicados.ForEach(x => Console.WriteLine(x));
+            //Console.WriteLine("count: " + titulosDuplicados.Count + "\n||||||||||||||||||||");
+            List<Work> juntos = new List<Work>(); //lista para guardar as publicações que se fez o merge
+            foreach (string d in titulosDuplicados)
+            {
+                List<Work> listToMerge = works.FindAll(x => x.title.title.Equals(d)); //buscar as publicações repetidas
+                works = works.Except(listToMerge).ToList(); //tira do works as publicações repetidas
+                //Console.WriteLine("Works count after remove duplicates: " + works.Count);
+                Work toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("crossref")
+                                                    || x.source.sourceName.content.ToLower().Contains("scopus")
+                                                    || !x.source.sourceName.content.ToLower().Contains("trancho")
+                                                    || !x.source.sourceName.content.ToLower().Contains("datacite")); //escolhe a publicação que vem do crossref, scopus ou o que não vem do autor e datacite
+                if (toStay == null) toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("trancho")); //se não escolheu nenhuma escolhe a do autor
+
+                listToMerge.Remove(toStay);// remove a publicação escolhida da lista das publicações repetidas
+                while (listToMerge.Count != 0) //ve os duplicados todos
+                {
+                    Work temp;
+                    if (listToMerge.Count > 1)
+                    {
+                        temp = listToMerge.Find(x => !x.source.sourceName.content.ToLower().Contains("trancho")
+                                                    || x.source.sourceName.content.ToLower().Contains("scopus")); //escolhe a publicação que não vem do autor
+                    }
+                    else
+                    {
+                        temp = listToMerge.First();
+                    }
+                    listToMerge.Remove(temp);
+                    if (toStay.visibility == null) toStay.visibility = temp.visibility;
+                    if (toStay.displayIndex == null) toStay.displayIndex = temp.displayIndex;
+                    if (toStay.title.title == null) toStay.title.title = temp.title.title;
+                    if (toStay.title.subtitle == null) toStay.title.subtitle = temp.title.subtitle;
+                    if (toStay.title.translatedTitle == null) toStay.title.translatedTitle = temp.title.translatedTitle;
+                    if (toStay.journalTitle == null || (toStay.journalTitle.content.Equals("Unpublished") && temp.journalTitle != null)) toStay.journalTitle = temp.journalTitle;
+                    if (toStay.shortDescription == null) toStay.shortDescription = temp.shortDescription;
+                    if (toStay.citation == null) toStay.citation = temp.citation;
+                    if (toStay.type == null || (toStay.type.Equals("OTHER") && temp.type != null)) toStay.type = temp.type;
+                    if (toStay.publicationDate == null) toStay.publicationDate = temp.publicationDate;
+                    if (toStay.externalIds == null) toStay.externalIds = temp.externalIds;
+                    else
+                    {
+                        if (temp.externalIds != null)
+                        {
+                            temp.externalIds.externalId.ForEach(eid =>
+                            {
+                                if (!toStay.externalIds.externalId.Exists(ei => ei.externalIdType.Equals(eid.externalIdType)))
+                                    toStay.externalIds.externalId.Add(eid);
+                            });
+                        }
+                    }
+                    if (toStay.url == null) toStay.url = temp.url;
+                    if (toStay.contributors.contributor.Count == 0) toStay.contributors = temp.contributors;
+                    if (toStay.languageCode == null) toStay.languageCode = temp.languageCode;
+                    if (toStay.country == null) toStay.country = temp.country;
+                }
+
+                juntos.Add(toStay); //adicionar a publicação em que se fez o merge
+            }
+            //juntos.ForEach(w =>
+            //{
+            //    Console.WriteLine(w.title.title);
+            //    Console.WriteLine(w.source.sourceName.content);
+            //    if (w.country != null) Console.WriteLine("Country: " + w.country.value);
+            //    if (w.languageCode != null) Console.WriteLine("Language: " + w.languageCode);
+            //    Console.WriteLine("journal: " + w.journalTitle.content);
+            //    Console.WriteLine("Type: " + w.type);
+            //    Console.WriteLine("ExternalIds:");
+            //    w.externalIds.externalId.ForEach(eid =>
+            //    {
+            //        Console.WriteLine("\tTipo: " + eid.externalIdType);
+            //        Console.WriteLine("\tValor: " + eid.externalIdValue);
+            //        Console.WriteLine("\t---------");
+            //    });
+            //    if (w.citation != null) Console.WriteLine("citation: " + w.citation.citationValue);
+            //    Console.WriteLine("------------------------------------------------------------");
+
+            //});
+            works.AddRange(juntos); //adicionar a lista de publicações em que se fez o merge às outras
+            //Console.WriteLine("Final works count: " + works.Count);
+            return works;
+        }
     }
 }
