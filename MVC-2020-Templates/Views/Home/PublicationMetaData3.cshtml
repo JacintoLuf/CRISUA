@@ -1,8 +1,11 @@
 ﻿
 @{
-    ViewData["Title"] = "PublicationMetaData3";
+    ViewData["Title"] = "Forms3";
     Layout = "~/Views/Shared/Form_Layout.cshtml";
+    var dados = ViewBag.dados;
 }
+
+    <p>@dados</p>
 
     <html>
     <head>
@@ -77,28 +80,26 @@
 
         <main id="content" role="main">
             <div class="container submission-container">
+
+                <!--Progress Bar-->
+                <div class="row container btn-group">
+
+                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.1" value="Describe" onclick="BackToMetadata1(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+
+                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.2" value="Describe" onclick="BackToMetaData2(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+
+                    <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_3.1" value="Upload">
+
+                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_4.1" value="Verify">
+
+                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_5.1" value="License">
+
+                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6.1" value="Complete">
+
+                </div>
+
+
                 <form action="~/Home/PublicationSubmission" method="post" onkeydown="return disableEnterKey(event);">
-
-                    <!--Progress Bar-->
-                    <div class="row container btn-group">
-
-                        <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.1" value="Describe">
-
-                        <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.2" value="Describe">
-
-                        <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_3.1" value="Upload">
-
-                        <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_4.1" value="Verify">
-
-                        <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_5.1" value="License">
-
-                        <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6.1" value="Complete">
-
-                    </div>
-
-
-
-
 
                     <h1>
                         Submit: Uploaded Files
@@ -140,9 +141,9 @@
                                 <td headers="t5" class="evenRowEvenCol">
                                     Adobe PDF
                                     <script type="text/javascript">
-<!-- Javascript starts here
-document.write('<a href="#" onClick="var popupwin = window.open(\'/help/formats.jsp#known\',\'dspacepopup\',\'height=600,width=550,resizable,scrollbars\');popupwin.focus();return false;">(known)</a>');
-// -->
+                                        //Javascript starts here
+                                        document.write('<a href="#" onClick="var popupwin = window.open(\'/help/formats.jsp#known\',\'dspacepopup\',\'height=600,width=550,resizable,scrollbars\');popupwin.focus();return false;">(known)</a>');
+                                        // -->
                                     </script><a href="#" onclick="var popupwin = window.open('/help/formats.jsp#known','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">(known)</a><a href="https://ria.ua.pt/submit#" onclick="var popupwin = window.open('/help/formats.jsp#known','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">(known)</a><noscript><a href="/help/formats.jsp#known" target="dspacepopup">(known)</a></noscript>
                                     <button type="submit" class="btn btn-default pull-right" name="submit_format_58836" value="Change">
                                         <span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;Change
@@ -167,9 +168,9 @@ document.write('<a href="#" onClick="var popupwin = window.open(\'/help/formats.
                         <li class="uploadHelp">
                             The system can calculate a checksum you can verify.
                             <script type="text/javascript">
-<!-- Javascript starts here
-document.write('<a href="#" onClick="var popupwin = window.open(\'/help/index.html#checksum\',\'dspacepopup\',\'height=600,width=550,resizable,scrollbars\');popupwin.focus();return false;">Click here for more information.</a>');
-// -->
+                                //Javascript starts here
+                                document.write('<a href="#" onClick="var popupwin = window.open(\'/help/index.html#checksum\',\'dspacepopup\',\'height=600,width=550,resizable,scrollbars\');popupwin.focus();return false;">Click here for more information.</a>');
+                                // -->
                             </script><a href="#" onclick="var popupwin = window.open('/help/index.html#checksum','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">Click here for more information.</a><a href="https://ria.ua.pt/submit#" onclick="var popupwin = window.open('/help/index.html#checksum','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">Click here for more information.</a><noscript><a href="/help/index.html#checksum" target="dspacepopup">Click here for more information.</a></noscript>
                             <input class="btn btn-info" type="submit" name="submit_show_checksums" value="Show checksums">
                         </li>
@@ -177,21 +178,15 @@ document.write('<a href="#" onClick="var popupwin = window.open(\'/help/index.ht
                     </ul>
                     <br>
 
-
-
                     <input type="hidden" name="workspace_item_id" value="44987"><input type="hidden" name="step" value="3"><input type="hidden" name="page" value="1"><input type="hidden" name="jsp" value="/submit/upload-file-list.jsp">
 
-
-
-                    <div class="col-md-6 pull-right btn-group">
-                        <input class="btn btn-default col-md-4" type="submit" name="submit_prev" value="< Previous">
-                        <input class="btn btn-default col-md-4" type="submit" name="submit_cancel" value="Cancel/Save">
-                        <input class="btn btn-primary col-md-4" type="submit" name="submit_next" value="Next >">
-
-
-                    </div>
-
                 </form>
+
+                <div class="col-md-6 pull-right btn-group">
+                    <input class="btn btn-default col-md-4" type="submit" name="submit_prev" value="< Previous" onclick="BackToMetaData2(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+                    <input class="btn btn-default col-md-4" type="submit" name="submit_cancel" value="Cancel/Save" onclick="BackToPubSaved()">
+                    <input class="btn btn-primary col-md-4" type="submit" name="submit_next" value="Next >" onclick="ForwardToPubSubmission(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+                </div>
 
             </div>
         </main>
@@ -201,3 +196,30 @@ document.write('<a href="#" onClick="var popupwin = window.open(\'/help/index.ht
     </body>
     </html>
 
+
+    <script>
+        var objs = [];
+        function BackToPubSaved() {
+            $.post("BackToSavedPubs", { works: JSON.stringify(objs) }, function (data) {
+                window.location.href = "PublicacoesSalvas";
+            });
+        }
+
+        function ForwardToPubSubmission(dados) {
+            $.post("PublicationSubmission_Helper", { works: JSON.stringify(dados) }, function (data) {
+                window.location.href = data;
+            });
+        }
+
+        function BackToMetadata1(dados) {
+            $.post("PublicationMetaData1_Help", { works: JSON.stringify(dados) }, function (data) {
+                window.location.href = data;
+            });
+        }
+
+        function BackToMetaData2(dados) {
+            $.post("PublicationMetaData2_Helper", { works: JSON.stringify(dados) }, function (data) {
+                window.location.href = data;
+            });
+        }
+    </script>

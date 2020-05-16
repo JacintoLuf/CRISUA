@@ -54,7 +54,7 @@
 
     function SendToRIA(obj) {
         console.log(obj);
-        $.post("PublicationMetaData1_Help", { obj: JSON.stringify(obj) }, function (data) {
+        $.post("PublicationMetaData1_Help", { works: JSON.stringify(obj) }, function (data) {
             //alert("Go to Details");
             window.location.href = data;
             //window.location.href = "PublicationMetaData1";

@@ -1,8 +1,11 @@
 ﻿
 @{
-    ViewData["Title"] = "PublicationMetaData2";
+    ViewData["Title"] = "Forms2";
     Layout = "Form_Layout";
+    var dados = ViewBag.dados;
 }
+
+<p>@dados</p>
 
 
 <html>
@@ -87,26 +90,26 @@
                 <script type="text/javascript" src="~/5-PublicationMetaData2_files/controls.js"></script>
             </c:set>
 
+
+            <!--Progress Bar-->
+            <div class="row container btn-group">
+
+                <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.1" value="Describe" onclick="BackToMetadata1(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+
+                <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_2.2" value="Describe">
+
+                <input class="submitProgressButtonDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_3.1" value="Upload">
+
+                <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_4.1" value="Verify">
+
+                <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_5.1" value="License">
+
+                <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6.1" value="Complete">
+
+            </div>
+
+
             <form action="~/Home/PublicationMetaData3" method="post" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
-
-
-                <!--Progress Bar-->
-                <div class="row container btn-group">
-
-                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.1" value="Describe">
-
-                    <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_2.2" value="Describe">
-
-                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_3.1" value="Upload">
-
-                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_4.1" value="Verify">
-
-                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_5.1" value="License">
-
-                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6.1" value="Complete">
-
-                </div>
-
 
                 <h1>
                     Submit: Describe this Item
@@ -186,16 +189,16 @@
 
 
                 <input type="hidden" name="workspace_item_id" value="44987"><input type="hidden" name="step" value="2"><input type="hidden" name="page" value="2"><input type="hidden" name="jsp" value="/submit/edit-metadata.jsp">
-                <div class="row">
 
-                    <div class="col-md-6 pull-right btn-group">
-                        <input class="btn btn-default col-md-4" type="submit" name="submit_prev" value="< Previous">
-                        <input class="btn btn-default col-md-4" type="submit" name="submit_cancel" value="Cancel/Save">
-                        <input class="btn btn-primary col-md-4" type="submit" name="submit_next" value="Next >">
-
-                    </div><br>
-                </div>
             </form>
+
+            <div class="row">
+                <div class="col-md-6 pull-right btn-group">
+                    <input class="btn btn-default col-md-4" type="submit" name="submit_prev" value="< Previous" onclick="BackToMetadata1(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+                    <input class="btn btn-default col-md-4" type="submit" name="submit_cancel" value="Cancel/Save" onclick="BackToPubSaved()">
+                    <input class="btn btn-primary col-md-4" type="submit" name="submit_next" value="Next >" onclick="ForwardToMetaData3(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+                </div><br>
+            </div>
 
             <div class="ua-user-info" id="autocomplete_details">
                 <div>
@@ -218,25 +221,25 @@
             </div>
 
             <!-- <span id="string-measurer" class="ua-string-measurer" >
-                 </span> -->
+    </span> -->
 
             <script type="text/javascript">
-     function decodeHtml(html) {
-         const txt = document.createElement("textarea");
-         txt.innerHTML = html;
-         return txt.value;
-     }
+                function decodeHtml(html) {
+                    const txt = document.createElement("textarea");
+                    txt.innerHTML = html;
+                    return txt.value;
+                }
 
-     const SEARCH_HINT_STRING = decodeHtml("Provide the name of the author or its institutional mail address to start searching");
-     const NO_RESULTS_STRING = decodeHtml("Your search did not yield any result");
-     const EXTERNAL_USER_STRING = decodeHtml("External user");
-     const EXTERNAL_USER_LOCK_LABEL = decodeHtml("external user");
-     const NO_AUTH_STRING = decodeHtml("Some author fields have no authority attributed.");
-     const NO_NAME_STRING = decodeHtml("???jsp.submit.edit-metadata.ca.no-name???");
-     const AUTHOR_ERROR_STRING = decodeHtml("Please fix the issues present in the author fields.");
-     const UNIT_STRING = decodeHtml("Unit");
-     const BOND_STRING = decodeHtml("Bond");
-     const POPOVER_STRING = decodeHtml("Click here if you wish to remove the selected authority.");
+                const SEARCH_HINT_STRING = decodeHtml("Provide the name of the author or its institutional mail address to start searching");
+                const NO_RESULTS_STRING = decodeHtml("Your search did not yield any result");
+                const EXTERNAL_USER_STRING = decodeHtml("External user");
+                const EXTERNAL_USER_LOCK_LABEL = decodeHtml("external user");
+                const NO_AUTH_STRING = decodeHtml("Some author fields have no authority attributed.");
+                const NO_NAME_STRING = decodeHtml("???jsp.submit.edit-metadata.ca.no-name???");
+                const AUTHOR_ERROR_STRING = decodeHtml("Please fix the issues present in the author fields.");
+                const UNIT_STRING = decodeHtml("Unit");
+                const BOND_STRING = decodeHtml("Bond");
+                const POPOVER_STRING = decodeHtml("Click here if you wish to remove the selected authority.");
 
             </script>
             <script type="text/javascript" src="~/5-PublicationMetaData2_files/ua-script.js"></script>
@@ -248,3 +251,25 @@
 
 </body>
 </html>
+
+<script>
+    function BackToPubSaved() {
+        objs = [];
+        $.post("BackToSavedPubs", { works: JSON.stringify(objs) }, function (data) {
+            window.location.href = "PublicacoesSalvas";
+        });
+    }
+
+    function ForwardToMetaData3(dados) {
+        $.post("PublicationMetaData3_Helper", { works: JSON.stringify(dados) }, function (data) {
+            window.location.href = data;
+        });
+    }
+
+    function BackToMetadata1(dados) {
+        $.post("PublicationMetaData1_Help", { works: JSON.stringify(dados) }, function (data) {
+            window.location.href = data;
+        });
+    }
+
+</script>

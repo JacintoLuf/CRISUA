@@ -1,7 +1,10 @@
 ﻿@{
     Layout = "Form_Layout";
     ViewData["Title"] = "License";
+    var dados = ViewBag.dados;
 }
+
+    <p>@dados</p>
 
 <!DOCTYPE html>
 <!-- saved from url=(0024)https://ria.ua.pt/submit -->
@@ -67,24 +70,25 @@
     <a class="sr-only" href="https://ria.ua.pt/submit#content">Skip navigation</a>
     <main id="content" role="main">
         <div class="container submission-container">
+
+            <!--Progress Bar-->
+            <div class="row container btn-group">
+
+                <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.1" value="Describe" onclick="BackToMetadata1(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+
+                <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.2" value="Describe" onclick="BackToMetaData2(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+
+                <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_3.1" value="Upload" onclick="BackToMetaData3(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+
+                <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_4.1" value="Verify" onclick="BackToPubSubmission(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+
+                <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_5.1" value="License">
+
+                <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6.1" value="Complete">
+
+            </div>
+
             <form action="~/Home/" method="post" onkeydown="return disableEnterKey(event);">
-                <!--Progress Bar-->
-                <div class="row container btn-group">
-
-                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.1" value="Describe">
-
-                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.2" value="Describe">
-
-                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_3.1" value="Upload">
-
-                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_4.1" value="Verify">
-
-                    <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_5.1" value="License">
-
-                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6.1" value="Complete">
-
-                </div>
-
 
                 <h1>
                     DSpace Distribution License
@@ -159,3 +163,31 @@
 
 </body>
 </html>
+
+<script>
+
+    function BackToPubSubmission(dados) {
+        $.post("PublicationSubmission_Helper", { works: JSON.stringify(dados) }, function (data) {
+            window.location.href = data;
+        });
+    }
+
+    function BackToMetadata1(dados) {
+        $.post("PublicationMetaData1_Help", { works: JSON.stringify(dados) }, function (data) {
+            window.location.href = data;
+        });
+    }
+
+    function BackToMetaData2(dados) {
+        $.post("PublicationMetaData2_Helper", { works: JSON.stringify(dados) }, function (data) {
+            window.location.href = data;
+        });
+    }
+
+    function BackToMetaData3(dados) {
+        $.post("PublicationMetaData3_Helper", { works: JSON.stringify(dados) }, function (data) {
+            window.location.href = data;
+        });
+    }
+
+</script>

@@ -111,41 +111,70 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
-        public IActionResult PublicationMetaData1(String obj)
+        public IActionResult PublicationMetaData1(String works)
         {
-            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
             return View();
         }
 
-        public IActionResult PublicationMetaData1_Help(String obj)
+        public IActionResult PublicationMetaData1_Help(String works)
         {
-            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
-            return Json(Url.Action("PublicationMetaData1", "Home", new { obj = obj }));
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            return Json(Url.Action("PublicationMetaData1", "Home", new { works = works }));
         }
 
-        public IActionResult PublicationMetaData2()
-        {
-            return View();
-        }
-
-        public IActionResult PublicationMetaData3()
-        {
-            return View();
-        }
-
+        
         public IActionResult PublicationDoiSearch()
         {
             return View();
         }
-
-        public IActionResult PublicationSubmission()
+                
+        public IActionResult PublicationMetaData2(String works)
         {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
             return View();
         }
 
-        public IActionResult dSPaceLicense()
+        public IActionResult PublicationMetaData2_Helper(String works)
         {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            return Json(Url.Action("PublicationMetaData2", "Home", new { works = works }));
+        }
+
+        public IActionResult PublicationMetaData3(String works)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
             return View();
+        }
+
+        public IActionResult PublicationMetaData3_Helper(String works)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            return Json(Url.Action("PublicationMetaData3", "Home", new { works = works }));
+        }
+
+        public IActionResult PublicationSubmission(String works)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            return View();
+        }
+
+        public IActionResult PublicationSubmission_Helper(String works)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            return Json(Url.Action("PublicationSubmission", "Home", new { works = works }));
+        }
+
+        public IActionResult dSPaceLicense(String works)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            return View();
+        }
+
+        public IActionResult dSPaceLicense_Helper(String works)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            return Json(Url.Action("dSPaceLicense", "Home", new { works = works }));
         }
 
         public IActionResult Publication_Details(String obj)
