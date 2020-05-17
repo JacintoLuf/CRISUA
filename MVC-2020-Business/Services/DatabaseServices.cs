@@ -17,6 +17,7 @@ namespace MVC_2020_Business.Services
 {
     public class DatabaseServices
     {
+        public static string nome = "José Manuel Neto Vieira";
         public static void insertPublicationsRIA(MyDbContext _db, List<Product> lista)
         {
             var source = "RIA";
@@ -120,40 +121,57 @@ namespace MVC_2020_Business.Services
 
 
             var arr = new ArrayList();
+            var contNames = _db.PersonName.Count();
             var contPer = _db.Person.Count();
             var contPub = _db.Publication.Count();
-            var contPub2 = _db.Publication.Count();
             var issn = "";
             var go = 1;
+            int max = 0;
 
-
+            var principais = new List<string>();
 
             foreach (var inp in lista)
             {
                 go = 1;
-
+                max = 0;
+                String principal = "";
 
                 //PESSOAS
                 if (!(inp.contributors is null))
                 {
-                    var contri = inp.contributors.contributor.InArray()[0];
+                    var contri = inp.contributors.contributor.Select(x => x.creditName.value).ToList();
                     foreach (var c in contri)
                     {
-                        var n = c.creditName.value.Trim();
-                        if (!arr.Contains(n))
+
+                        if (checkSim(nome, c) > max)
                         {
+                            max = checkSim(nome, c);
+                            principal = c;
+                        }
+                    }
 
-                            contPer++;
-                            arr.Add(n);
+                    if (!principais.Contains(principal))
+                        principais.Add(principal);
 
+                    foreach (var c2 in contri)
+                    {
 
-                            var queryN = from tmp in _db.PersonName where tmp.Name == n select tmp.Name;
-                            var tmp_r = queryN.FirstOrDefault();
-
-                            if (tmp_r is null)
+                        if (c2 != principal)
+                        {
+                            //var n = c2.Trim();
+                            if (!arr.Contains(c2))
                             {
-                                names.Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = n, PersonId = contPer, startDate = DateTime.Now });
-                                pers.Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
+                                arr.Add(c2);
+
+                                var queryN = from tmp in _db.PersonName where tmp.Name == c2 select tmp.Name;
+                                var tmp_r = queryN.FirstOrDefault();
+
+                                if (tmp_r is null)
+                                {
+                                    contPer++;
+                                    names.Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = c2, PersonId = contPer, startDate = DateTime.Now });
+                                    pers.Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
+                                }
                             }
                         }
                     }
@@ -199,26 +217,28 @@ namespace MVC_2020_Business.Services
                 //var ls = new List<BibEntry>();
 
                 ///DETAILS
-                /*if (!(inp.citation is null))
-                {
-                    if (inp.citation.citationType.EqualsIgnoreCase("BIBTEX"))
-                    {
-                        while (inp.citation.citationValue.Contains(':'))
-                            inp.citation.citationValue.Trim(':');
-                        var parser = new BibParser(new StringReader(inp.citation.citationValue));
-                        var entry = parser.GetAllResult()[0];
-                        //ls.Add(parser.GetAllResult()[0]);
 
-                        var volume = entry.Volume;
-                        var edition = entry.Edition;
+                //var ta = new List<string>();
+                //if (!(inp.citation is null))
+                //{
+                //    if (inp.citation.citationType.EqualsIgnoreCase("BIBTEX"))
+                //    {
+                //        while (inp.citation.citationValue.Contains(':'))
+                //            inp.citation.citationValue.Trim(':');
+                //        var parser = new BibParser(new StringReader(inp.citation.citationValue));
+                //        var entry = parser.GetAllResult()[0];
+                //        //ls.Add(parser.GetAllResult()[0]);
 
-                        var series = entry.Series;
-                        var pages = entry.Pages;
-                        var org = entry.Organization;
-                        var inst = entry.Institution;
+                //        var volume = entry.Volume;
+                //        var edition = entry.Edition;
 
-                    }
-                }*/
+                //        var series = entry.Series;
+                //        var pages = entry.Pages;
+                //        var org = entry.Organization;
+                //        var inst = entry.Institution;
+                //        ta.Add("Yaaa");
+                //    }
+                //}
 
 
 
@@ -232,6 +252,34 @@ namespace MVC_2020_Business.Services
             _db.Set<Publication_Identifier>().AddRange(idents);
             _db.Set<PublicationTitle>().AddRange(pubTitles);
             _db.SaveChanges();
+
+
+            var firstPrin = principais.First();
+
+            var query1 = from tmp in _db.PersonName
+                         join tmp2 in _db.Person on tmp.PersonId equals tmp2.PersonID
+                         where tmp.Name.Equals(firstPrin)
+                         select tmp2.PersonID;
+
+            var secondPrin = principais.ToArray()[1];
+
+            var query2 = from tmp in _db.PersonName
+                         where tmp.PersonId == query1.FirstOrDefault()
+                         select tmp.PersonNameId;
+
+            if (query2.ToList().Count < 2)
+            {
+                _db.Set<Person>().Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
+                _db.SaveChanges();
+
+                foreach (var p in principais)
+                {
+                    _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = p, PersonId = _db.Person.Count(), startDate = DateTime.Now });
+                }
+                _db.SaveChanges();
+            }
+
+
 
 
             foreach (var inp in lista)
@@ -249,20 +297,27 @@ namespace MVC_2020_Business.Services
                     if (trig == 0)
                     {
 
-                        //contPub2++;
-
-
-                        var contri = inp.contributors.contributor.InArray()[0];
+                        var contri = inp.contributors.contributor.Select(x => x.creditName.value).ToList();
                         foreach (var c in contri)
                         {
-                            //PERSON_PUB
-                            var q1 = from p in _db.PersonName where p.Name == c.creditName.value select p.PersonId;
-                            var per = q1.FirstOrDefault();
+                            if (principais.Contains(c))
+                            {
+                                var qp = from p in _db.PersonName where p.Name == c select p.PersonNameId;
+                                var ppName = qp.FirstOrDefault();
+                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = _db.Person.Count(), PersonNameId = ppName });
 
-                            var q2 = from p in _db.PersonName where p.Name == c.creditName.value select p.PersonNameId;
-                            var pName = q2.FirstOrDefault();
+                            }
+                            else
+                            {
+                                //PERSON_PUB
+                                var q1 = from p in _db.PersonName where p.Name == c select p.PersonId;
+                                var per = q1.FirstOrDefault();
 
-                            pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = per, PersonNameId = pName });
+                                var q2 = from p in _db.PersonName where p.Name == c select p.PersonNameId;
+                                var pName = q2.FirstOrDefault();
+
+                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = per, PersonNameId = pName });
+                            }
                         }
                     }
                 }
@@ -270,8 +325,6 @@ namespace MVC_2020_Business.Services
 
             _db.Set<Person_Publication>().AddRange(pers_pub);
             _db.SaveChanges();
-
-
 
 
         }
@@ -624,5 +677,19 @@ namespace MVC_2020_Business.Services
                 }
             }
         }
+        //ALGORITMO DE COMPARACAO DE STRINGS
+        public static int checkSim(String nome, String autor)
+        {
+            int pontos = 0;
+            String[] arr = nome.Split(" ");
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (autor.Contains(arr[i])) pontos += 10;
+                if (autor.Contains(arr[i][0] + ".")) pontos += 5;
+            }
+            return pontos;
+        }
+
     }
 }
