@@ -108,7 +108,7 @@ namespace MVC_2020_Business.Services
         public static void insertPublicationsPTCRIS(MyDbContext _db, string nome, List<Work> lista)
         {
 
-
+            nome = "José Manuel Neto Vieira";
             var source = "ORCID";
             var pubs = new List<Publication>();
             var pers = new List<Person>();
