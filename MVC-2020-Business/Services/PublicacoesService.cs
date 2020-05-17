@@ -122,7 +122,7 @@ namespace MVC_2020_Business.Services
             }
         }
 
-        public static List<Work> GetDifWorks(MyDbContext _db, List<Work> locals)
+        public static List<Work> GetDifWorks(MyDbContext _db, string full_name,  List<Work> locals)
         {
             //using (var db = new PersingContext())
             //{
@@ -142,7 +142,7 @@ namespace MVC_2020_Business.Services
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
                 var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
-                DatabaseServices.insertPublicationsPTCRIS(_db, ls); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
                 return ls;
             }
             else

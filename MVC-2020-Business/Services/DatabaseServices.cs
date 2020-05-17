@@ -17,7 +17,6 @@ namespace MVC_2020_Business.Services
 {
     public class DatabaseServices
     {
-        public static string nome = "José Manuel Neto Vieira";
         public static void insertPublicationsRIA(MyDbContext _db, List<Product> lista)
         {
             var source = "RIA";
@@ -106,8 +105,10 @@ namespace MVC_2020_Business.Services
             _db.SaveChanges();
         }
 
-        public static void insertPublicationsPTCRIS(MyDbContext _db, List<Work> lista)
+        public static void insertPublicationsPTCRIS(MyDbContext _db, string nome, List<Work> lista)
         {
+
+
             var source = "ORCID";
             var pubs = new List<Publication>();
             var pers = new List<Person>();

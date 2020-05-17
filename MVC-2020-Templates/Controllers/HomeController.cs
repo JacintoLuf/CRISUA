@@ -65,7 +65,7 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
+            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, Session.FullName,
                                         PublicacoesService.ConvertProductToWork(
                                         PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
             ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1"));
