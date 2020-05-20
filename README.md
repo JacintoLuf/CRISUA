@@ -1,4 +1,3 @@
-# CRISUA
 # [CRISUA](https://cris.dev.ua.pt)
 
 ### Developers:
