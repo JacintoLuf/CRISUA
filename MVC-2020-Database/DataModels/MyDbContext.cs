@@ -24,12 +24,14 @@ namespace MVC_2020_Database.DataModels
         public virtual DbSet<Identifier> Identifier{ get; set; }
         public virtual DbSet<OrgUnit> OrgUnit { get; set; }
         public virtual DbSet<OrgUnit_Publication> OrgUnit_Publication { get; set; }
+        public virtual DbSet<Person_Identifier> Person_Identifier { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OrgUnit_Publication>().HasKey(c => new { c.PublicationId, c.OrgUnitId });
             modelBuilder.Entity<Publication_Identifier>().HasKey(c => new { c.PublicationId, c.IdentifierId });
             modelBuilder.Entity<Person_Publication>().HasKey(c => new { c.PersonId, c.PublicationId});
-            
+            modelBuilder.Entity<Person_Identifier>().HasKey(c => new { c.PersonID, c.IdentifierId});
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

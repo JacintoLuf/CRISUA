@@ -215,10 +215,7 @@ namespace MVC_2020_Business.Services
                     pubTitles.Add(new PublicationTitle() { LanguageId = 3, PublicationId = contPub, Title = inp.title.title });
 
 
-
-
                     ///DETAILS
-
 
                     if (inp.citation != null)
                     {
@@ -302,7 +299,7 @@ namespace MVC_2020_Business.Services
                 _db.SaveChanges();
             }
 
-
+            //////
 
 
             foreach (var inp in lista)
@@ -729,6 +726,36 @@ namespace MVC_2020_Business.Services
                 return int.Parse(b);
 
             return 0;
+        }
+
+        //public static void updateOrcid(MyDbContext _db, string iupi)
+        //{
+        //    var leng= _db.Person.Count();
+        //    var query = from tit in _db.Person where tit.Title == titulo select tit.PublicationId;
+
+        //    Publication a = new Publication();
+        //    a = _db.Publication.Find(query.FirstOrDefault());
+        //    a.State = valor;
+        //    _db.Entry(a).State = EntityState.Modified;
+        //    _db.SaveChanges();
+        //}
+
+        public static string getOrcid(MyDbContext _db, string iupi)
+        {
+            var query = from tmp in _db.Person_Identifier
+                            //join per in _db.Person on tmp.PersonID equals per.PersonID
+                        where tmp.Value == iupi && tmp.IdentifierId == 3
+                        select tmp.PersonID;
+
+            if (!(query.FirstOrDefault() == 0))
+            {
+                var query2 = from tmp in _db.Person_Identifier
+                             where tmp.PersonID == query.FirstOrDefault() && tmp.IdentifierId == 1
+                             select tmp.Value;
+
+                return query2.FirstOrDefault();
+            }
+            else return null;
         }
     }
 }
