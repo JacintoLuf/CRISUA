@@ -40,7 +40,7 @@ namespace MVC_2020_Template.Controllers
         [HttpGet]
         public IActionResult Perfil()
         {
-            ´//Estou a passar o IUPI do Vieira pãra testar
+            //Estou a passar o IUPI do Vieira pãra testar
             var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "66c74f1f-8c45-4f43-9a85-be4975eecc09"/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
             if (aux != null)
             {
