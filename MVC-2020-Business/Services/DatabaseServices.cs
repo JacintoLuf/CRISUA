@@ -10,6 +10,7 @@ using System.Data;
 //using System.Data.Entity.ModelConfiguration.Conventions;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Visibility = MVC_2020_Database.DataModels.Visibility;
 
@@ -213,37 +214,58 @@ namespace MVC_2020_Business.Services
                     //TITULOS
                     pubTitles.Add(new PublicationTitle() { LanguageId = 3, PublicationId = contPub, Title = inp.title.title });
 
+
+
+
+                    ///DETAILS
+
+
+                    if (inp.citation != null)
+                    {
+                        if (inp.citation.citationType == "BIBTEX")
+                        {
+                            //Console.WriteLine(inp.citation.citationValue + "\n");
+                            //Console.WriteLine("Number: " + Regex.Match(inp.citation.citationValue, @"number = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("Volume: " + Regex.Match(inp.citation.citationValue, @"volume = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("pages: " + Regex.Match(inp.citation.citationValue, @"pages = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("Journal: " + Regex.Match(inp.citation.citationValue, @"journal = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("Publisher: " + Regex.Match(inp.citation.citationValue, @"publisher = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("ISBN: " + Regex.Match(inp.citation.citationValue, @"isbn = {(.+?)}").Groups[1].Value);
+
+                            //Console.WriteLine("--------");
+
+                            var pag1 = "";
+                            var pag2 = "";
+                            var difPag = "";
+
+
+                            var paginas = Regex.Match(inp.citation.citationValue, @"pages = {(.+?)}").Groups[1].Value;
+                            if (paginas.Contains("-"))
+                            {
+                                var arrPag = paginas.Split("-");
+                                pag1 = arrPag[0];
+                                pag2 = arrPag[arrPag.Length - 1];
+                                difPag = (System.Math.Abs((getNumber(pag2) - getNumber(pag1)))) + "";
+                            }
+
+                            details.Add(new PublicationDetail()
+                            {
+                                PublicationId = contPub,
+                                Number = Regex.Match(inp.citation.citationValue, @"number = {(.+?)}").Groups[1].Value,
+                                Volume = Regex.Match(inp.citation.citationValue, @"volume = {(.+?)}").Groups[1].Value,
+                                StartPage = pag1,
+                                EndPage = pag2,
+                                TotalPages = difPag,
+                                ISBN = Regex.Match(inp.citation.citationValue, @"isbn = {(.+?)}").Groups[1].Value,
+                                ISSN = issn
+                            });
+                        }
+                        issn = "";
+                    }
                 }
 
-                //var ls = new List<BibEntry>();
-
-                ///DETAILS
-
-                //var ta = new List<string>();
-                //if (!(inp.citation is null))
-                //{
-                //    if (inp.citation.citationType.EqualsIgnoreCase("BIBTEX"))
-                //    {
-                //        while (inp.citation.citationValue.Contains(':'))
-                //            inp.citation.citationValue.Trim(':');
-                //        var parser = new BibParser(new StringReader(inp.citation.citationValue));
-                //        var entry = parser.GetAllResult()[0];
-                //        //ls.Add(parser.GetAllResult()[0]);
-
-                //        var volume = entry.Volume;
-                //        var edition = entry.Edition;
-
-                //        var series = entry.Series;
-                //        var pages = entry.Pages;
-                //        var org = entry.Organization;
-                //        var inst = entry.Institution;
-                //        ta.Add("Yaaa");
-                //    }
-                //}
-
-
-
             }
+
 
             _db.Set<Publication>().AddRange(pubs);
             _db.SaveChanges();
@@ -692,5 +714,21 @@ namespace MVC_2020_Business.Services
             return pontos;
         }
 
+
+        public static int getNumber(string a)
+        {
+            string b = "";
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (Char.IsDigit(a[i]))
+                    b += a[i];
+            }
+
+            if (b.Length > 0)
+                return int.Parse(b);
+
+            return 0;
+        }
     }
 }
