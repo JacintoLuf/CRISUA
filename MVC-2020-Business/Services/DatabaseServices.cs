@@ -229,6 +229,9 @@ namespace MVC_2020_Business.Services
                             //Console.WriteLine("Publisher: " + Regex.Match(inp.citation.citationValue, @"publisher = {(.+?)}").Groups[1].Value);
                             //Console.WriteLine("ISBN: " + Regex.Match(inp.citation.citationValue, @"isbn = {(.+?)}").Groups[1].Value);
 
+                            //                                                      ABSTRACT
+                            //Console.WriteLine("Abstract: " + Regex.Match(w.citation.citationValue, "abstract\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value);
+
                             //Console.WriteLine("--------");
 
                             var pag1 = "";
@@ -236,7 +239,7 @@ namespace MVC_2020_Business.Services
                             var difPag = "";
 
 
-                            var paginas = Regex.Match(inp.citation.citationValue, @"pages = {(.+?)}").Groups[1].Value;
+                            var paginas = Regex.Match(inp.citation.citationValue, "pages\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value;
                             if (paginas.Contains("-"))
                             {
                                 var arrPag = paginas.Split("-");
@@ -248,12 +251,12 @@ namespace MVC_2020_Business.Services
                             details.Add(new PublicationDetail()
                             {
                                 PublicationId = contPub,
-                                Number = Regex.Match(inp.citation.citationValue, @"number = {(.+?)}").Groups[1].Value,
-                                Volume = Regex.Match(inp.citation.citationValue, @"volume = {(.+?)}").Groups[1].Value,
+                                Number = Regex.Match(inp.citation.citationValue, "number\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
+                                Volume = Regex.Match(inp.citation.citationValue, "volume\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
                                 StartPage = pag1,
                                 EndPage = pag2,
                                 TotalPages = difPag,
-                                ISBN = Regex.Match(inp.citation.citationValue, @"isbn = {(.+?)}").Groups[1].Value,
+                                ISBN = Regex.Match(inp.citation.citationValue, "isbn\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
                                 ISSN = issn
                             });
                         }
