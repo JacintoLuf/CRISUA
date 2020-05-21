@@ -37,8 +37,26 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Perfil()
         {
+            ´//Estou a passar o IUPI do Vieira pãra testar
+            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "66c74f1f-8c45-4f43-9a85-be4975eecc09"/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
+            if (aux != null)
+            {
+                ViewBag.OrcidID = aux;
+            }
+            else {
+                ViewBag.OrcidID = null;
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Perfil(String OrcidID)
+        {
+            MVC_2020_Business.Services.DatabaseServices.setOrcid(_db, Session.IUPI.ToString(), OrcidID); //meter o OrcidID na BD
+            //ViewBag.OrcidID = "0000-0002-3488-6570";
+            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());
             return View();
         }
         public IActionResult MyPublications()

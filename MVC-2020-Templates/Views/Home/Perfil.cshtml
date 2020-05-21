@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "_3ColsLayout";
     ViewData["Title"] = "Perfil";
+    var valorORCID = ViewBag.OrcidID;
 }
 
 
@@ -15,13 +16,46 @@
                 </div>
                 <br />
                 <div class="container">
-                    <p>Nome: @MVC_2020_Template.Helpers.Session.FullName</p>
+                    <p><b>Nome:</b> @MVC_2020_Template.Helpers.Session.FullName</p>
                     @*<label>email: </label> @ViewBag.emailSession*@
-                    <p>Mail: @MVC_2020_Template.Helpers.Session.Email</p>
+                    <p><b>Mail:</b> @MVC_2020_Template.Helpers.Session.Email</p>
                     @*<p><button class="button">Contact</button></p>*@
-                    <p>IUPI: @MVC_2020_Template.Helpers.Session.IUPI</p> 
+                    <p><b>IUPI:</b> @MVC_2020_Template.Helpers.Session.IUPI</p>
+                    @if (valorORCID == null)
+                    {
+                        <div class="ui form">
+                            <form action="Perfil" method="post">
+                                <div class="field" style="width:200px;">
+                                    <label><b>ORCID ID</b></label>
+                                    <input id="textOrcidID" name="OrcidID" type="text">
+                                </div>
+                                <button id="myBtn" type="submit" class="ui button">Submit</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <p><b>ORCID ID:</b> @valorORCID</p>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+
+    //$(document).ready(function () {
+    //    // Get value on button click and show alert
+    //    var str;
+    //    $("#myBtn").click(function () {
+    //        str = $("#textOrcidID").val();
+    //        alert(str);
+    //    });
+    //    //$.post("Perfil", { OrcidID }, function (data) {
+    //    //    window.location.href = "Perfil";
+    //    //});
+    //});
+
+</script>

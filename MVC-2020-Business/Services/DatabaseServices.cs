@@ -747,7 +747,7 @@ namespace MVC_2020_Business.Services
         {
             var query = from tmp in _db.Person_Identifier
                             //join per in _db.Person on tmp.PersonID equals per.PersonID
-                        where tmp.Value == iupi && tmp.IdentifierId == 3
+                        where tmp.Value == iupi && tmp.IdentifierId == 1
                         select tmp.PersonID;
 
             if (!(query.FirstOrDefault() == 0))
@@ -759,6 +759,11 @@ namespace MVC_2020_Business.Services
                 return query2.FirstOrDefault();
             }
             else return null;
+        }
+
+        public static string setOrcid(MyDbContext _db, string iupi, string orcidID)
+        {
+            return null;
         }
     }
 }

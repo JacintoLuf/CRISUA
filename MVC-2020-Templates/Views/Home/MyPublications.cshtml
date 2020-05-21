@@ -21,6 +21,13 @@
 <br />
 <br />
 
+<div class="ui grid">
+    <div class="twelve wide column"><b>TÍTULOS</b></div>
+    <div class="two wide column"><b>DATA</b></div>
+    <div class="two wide column"><b>FONTE</b></div>
+</div>
+<br />
+
 <div id="scrollPub">
     @foreach (var pub in pubsInBD)
     {
@@ -31,7 +38,7 @@
                     <a data-id="@count" onmouseover="" style="cursor:pointer; color:black;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</a>
                 </div>
             </div>
-            <div class="two wide column">@pub["Data"]</div>
+            <div class="two wide column">&nbsp;&nbsp;@pub["Ano"]</div>
             <div class="two wide column">@pub["Fonte"]</div>
         </div>
     }
