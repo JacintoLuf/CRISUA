@@ -119,6 +119,7 @@ namespace MVC_2020_Business.Services
             var idents = new List<Publication_Identifier>();
             var orgPubs = new List<OrgUnit_Publication>();
             var pubTitles = new List<PublicationTitle>();
+            var abstracts = new List<PublicationAbstract>();
             var visi = new List<Visibility>();
 
 
@@ -229,8 +230,8 @@ namespace MVC_2020_Business.Services
                             //Console.WriteLine("Publisher: " + Regex.Match(inp.citation.citationValue, @"publisher = {(.+?)}").Groups[1].Value);
                             //Console.WriteLine("ISBN: " + Regex.Match(inp.citation.citationValue, @"isbn = {(.+?)}").Groups[1].Value);
 
-                            //                                                      ABSTRACT
-                            //Console.WriteLine("Abstract: " + Regex.Match(w.citation.citationValue, "abstract\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value);
+                            // ABSTRACT
+                            abstracts.Add(new PublicationAbstract() { Abstract = Regex.Match(inp.citation.citationValue, "abstract\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value, LanguageId = 2, PublicationId = contPub });
 
                             //Console.WriteLine("--------");
 
@@ -273,6 +274,7 @@ namespace MVC_2020_Business.Services
             _db.SaveChanges();
             _db.Set<PersonName>().AddRange(names);
             _db.Set<Publication_Identifier>().AddRange(idents);
+            _db.Set<PublicationAbstract>().AddRange(abstracts);
             _db.Set<PublicationTitle>().AddRange(pubTitles);
             _db.SaveChanges();
 
@@ -747,7 +749,7 @@ namespace MVC_2020_Business.Services
         {
             var query = from tmp in _db.Person_Identifier
                             //join per in _db.Person on tmp.PersonID equals per.PersonID
-                        where tmp.Value == iupi && tmp.IdentifierId == 1
+                        where tmp.Value == iupi && tmp.IdentifierId == 3
                         select tmp.PersonID;
 
             if (!(query.FirstOrDefault() == 0))
