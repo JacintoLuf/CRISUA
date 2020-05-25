@@ -8,40 +8,68 @@
 
 <div><h2>@ViewData["Title"]</h2></div>
 <br />
-<br />
 
-<div class="ui category search">
-    <div class="ui icon input">
-        <input id="myInput" class="prompt" type="text" placeholder="Pesquisar...">
-        <i class="search icon"></i>
-    </div>
-    <div class="results">
-    </div>
-</div>
-<br />
-<br />
 
 <div class="ui grid">
-    <div class="twelve wide column"><b>TÍTULOS</b></div>
-    <div class="two wide column"><b>DATA</b></div>
-    <div class="two wide column"><b>FONTE</b></div>
+    <div class="four wide column">
+        <div class="ui category search">
+            <div class="ui icon input">
+                <input id="myInput" class="prompt" type="text" placeholder="Search articles...">
+                <i class="search icon"></i>
+            </div>
+            <div class="results">
+            </div>
+        </div>
+    </div>
+    &nbsp;
+    &nbsp;
+    <div class="four wide column">
+        <select id="select" class="ui dropdown" onchange="filterOrder()">
+            <option value="asc" selected="selected">Data Ascendente</option>
+            <option value="desc">Data Descendente</option>
+        </select>
+    </div>
+    <div class="four wide column"></div>
+    <div class="four wide column"></div>
+</div>
+
+
+<div class="ui grid">
+    <div class="thirteen wide column"><b>TÍTULOS</b></div>
+    <div class="one wide column"><b>&nbsp;&nbsp;&nbsp;DATA</b></div>
+    <div class="one wide column"><b>&nbsp;&nbsp;&nbsp;FONTE</b></div>
 </div>
 <br />
 
 <div id="scrollPub">
-    @foreach (var pub in pubsInBD)
-    {
-        count++;
-        <div id="esconderDiv_@count" class="ui grid">
-            <div class="twelve wide column">
-                <div data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left">
-                    <a data-id="@count" onmouseover="" style="cursor:pointer; color:black;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</a>
-                </div>
-            </div>
-            <div class="two wide column">&nbsp;&nbsp;@pub["Ano"]</div>
-            <div class="two wide column">@pub["Fonte"]</div>
-        </div>
-    }
+    <table class="ui very basic table">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @foreach (var pub in pubsInBD)
+            {
+                count++;
+                <tr id="esconderDiv_@count">
+                    <td data-id="@count" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</td>
+                    <td>@pub["Ano"]</td>
+
+                    @if (@pub["Fonte"] == "RIA")
+                    {
+                        <td>RIA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    }
+                    else
+                    {
+                        <td>ORCID&nbsp;&nbsp;&nbsp;</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 
@@ -54,12 +82,19 @@
         });
     }
 
-    $('#myInput').on('keyup', function () {  //Partial View Search
+    $('#myInput').on('keyup', function () {
         var value = $(this).val().toLowerCase();
-        $("#scrollPub a").filter(function () {
-            var id = $(this).data("id");
-            $('#esconderDiv_' + id).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        $("#myTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+
+    function filterOrder() {
+        $("tbody").each(function (elem, index) {
+            var arr = $.makeArray($("tr", this).detach());
+            arr.reverse();
+            $(this).append(arr);
+        });
+    }
 
 </script>

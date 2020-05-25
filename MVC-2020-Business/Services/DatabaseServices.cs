@@ -442,6 +442,7 @@ namespace MVC_2020_Business.Services
                     var query = from tmp in _db.Publication
                                 where tmp.State == hlp
                                 join tit in _db.PublicationTitle on tmp.PublicationId equals tit.PublicationId
+                                orderby tmp.Date
                                 select tit.Title;
 
                     foreach (var i in query.ToList())
@@ -476,6 +477,7 @@ namespace MVC_2020_Business.Services
 
                     var query = from tmp in _db.Publication
                                 join tit in _db.PublicationTitle on tmp.PublicationId equals tit.PublicationId
+                                orderby tmp.Date
                                 select tit.Title;
 
                     foreach (var i in query.ToList())

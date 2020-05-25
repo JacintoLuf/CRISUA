@@ -2,7 +2,7 @@
     //Layout = "_3ColsLayout";
     ViewData["Title"] = "Importar para UA CRIS";
 
-    List<MVC_2020_Business.Models.Work> works = ViewBag.PublicacoesPTCris;
+    //List<MVC_2020_Business.Models.Work> works = ViewBag.PublicacoesPTCris;
 
     var pubsInBD = ViewBag.worksInBD;
     var count = 0;
@@ -23,16 +23,7 @@
         </div>
     </div>
     <div class="one wide column"></div>
-    <div class="five wide column">
-        <div class="ui category search">
-            <div class="ui icon input">
-                <input id="myInput" class="prompt" type="text" placeholder="Pesquisar...">
-                <i class="search icon"></i>
-            </div>
-            <div class="results">
-            </div>
-        </div>
-    </div>
+    <div class="five wide column"></div>
     <div class="two wide column">
         <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
     </div>
@@ -40,45 +31,75 @@
         <button class="ui primary button" onclick="saveAll()">Guardar</button>
     </div>
 </div>
-<br />
-<div class="ui grid">
-    <div id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
+
+<div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
         <br />
         <p>&nbsp Utilize as setas <i class="arrow alternate circle right icon"></i> e <i class="arrow alternate circle left icon"></i> para escolher as publicações que quer colocar no RIA.</p>
-        <br />
+
         <p>&nbsp Utilize o botão <button class="ui primary button">Guardar</button> para confirmar e guardar a esolha das publicações. As  publicações irão para a página @Html.ActionLink("Detalhes", "Detail", "Home", null)</p>
-    </div>
-    <br />
+        <br />
 </div>
 
 <div class="ui grid">
-    <div class="six wide column text-center"><b>ORCID</b></div>
+    <div class="four wide column">
+        <div class="ui category search">
+            <div class="ui icon input">
+                <input id="myInput" class="prompt" type="text" placeholder="Search articles...">
+                <i class="search icon"></i>
+            </div>
+            <div class="results">
+            </div>
+        </div>
+    </div>
+    &nbsp;
+    &nbsp;
+    <div class="four wide column">
+        <select id="select" class="ui dropdown" onchange="filterOrder()">
+            <option value="asc" selected="selected">Data Ascendente</option>
+            <option value="desc">Data Descendente</option>
+        </select>
+    </div>
+    <div class="four wide column"></div>
+    <div class="four wide column"></div>
+</div>
+
+<div class="ui grid">
+    <div class="six wide column text-center"><b>&nbsp;&nbsp;&nbsp;ORCID</b></div>
     <div class="two wide column"></div>
-    <div class="six wide column text-center"><b>UA CRIS</b></div>
+    <div class="six wide column text-center"><b>&nbsp;UA CRIS</b></div>
 </div>
 <br />
 
 <div id="scrollPub">
     @if (pubsInBD != null)
     {
-        @foreach (var pub in pubsInBD)
-        {
-
-            count++;
-            seta1 = "seta1_" + count;
-            seta2 = "seta2_" + count;
-
-            <div id="esconderDiv_@count" class="ui grid">
-                <div class="seven wide column" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left">
-                    <a data-id="@count" onmouseover="" style="cursor:pointer; color:black;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</a>
-                </div>
-                <div class="two wide column">
-                    <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
-                    <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
-                </div>
-                <div id="@count" class="seven wide column"></div>
-            </div>
-        }
+        <table class="ui very basic table">
+            <thead>
+                <tr>
+                    <th style="width:45%; text-align:center"></th>
+                    <th style="width:10%; text-align:center"></th>
+                    <th style="width:45%; text-align:center"></th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                @foreach (var pub in pubsInBD)
+                {
+                    count++;
+                    seta1 = "seta1_" + count;
+                    seta2 = "seta2_" + count;
+                    <tr id="esconderDiv_@count">
+                        <td data-id="@count" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">
+                            @pub["titulo"]
+                        </td>
+                        <td>
+                            <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
+                            <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
+                        </td>
+                        <td id="@count"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
     else
     {
@@ -87,15 +108,16 @@
 </div>
 
 
-@if (works != null)
-{
-    var c = 0;
-    foreach (var work in works)
+
+@*@if (works != null)  //só para ver o que vem do botão importar
     {
-        <p>@work.title.title - @c</p>
-        c++;
-    }
-}
+        var c = 0;
+        foreach (var work in works)
+        {
+            <p>@work.title.title - @c</p>
+            c++;
+        }
+    }*@
 
 <script>
     var objs = [];
@@ -141,14 +163,6 @@
         });
     }
 
-    $('#myInput').on('keyup', function () {  //Partial View Search
-        var value = $(this).val().toLowerCase();
-        $("#scrollPub a").filter(function () {
-            var id = $(this).data("id");
-            $('#esconderDiv_' + id).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-
     function toggleText() {
         var text = document.getElementById("hidden_info");
         if (text.style.display === "none") {
@@ -158,13 +172,26 @@
         }
     }
 
-
-
     var tag = document.getElementById('hidden_info');
     var button = document.querySelector('button');
     button.addEventListener('click', function () {
         tag.classList.toggle('hidden_info');
     });
+
+    $('#myInput').on('keyup', function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+    function filterOrder() {
+        $("tbody").each(function (elem, index) {
+            var arr = $.makeArray($("tr", this).detach());
+            arr.reverse();
+            $(this).append(arr);
+        });
+    }
 
 </script>
 
