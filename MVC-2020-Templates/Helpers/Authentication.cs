@@ -55,37 +55,12 @@ namespace MVC_2020_Template.Helpers
                     string email ;
                     /***********************************************/
                     /* bloco para acesso local, simula credenciais */
-                    if (false)
-                    {
-                        switch (Environment.MachineName.ToLower())
-                        {
-                            case "stic-nb0015":
-                                fullName = "Filipe António Rodrigues Barreto Trancho";
-                                shortName = "Filipe Trancho";
-                                email = "ftrancho@ua.pt";
-                                iupi = new Guid("9be52ad0-e982-407d-b4bf-f9c724e96bba");
-                                break;
-                            case "stic-nb0054":
-                                fullName = "Rui Gonçalo Marques Pereira";
-                                shortName = "Rui Pereira";
-                                email = "ruigp@ua.pt";
-                                iupi = new Guid("e8f6d698-33d9-4f91-a5ea-4fb6e844b950");
-                                break;
-                            default:
-                                fullName = "Bruno André Mansilha Andrade";
-                                shortName = "Bruno Andrade";
-                                email = "brunoaandrade@ua.pt";
-                                iupi = new Guid("81291d36-e0fe-482e-9017-ffbce04c8583");
-                                break;
-                        }
-                    }
-                    else {
-                        // existem cabeçalhos, processa o login
-                        iupi = Shibboleth.IUPI;
-                        fullName = Shibboleth.NomeCompleto;
-                        // shortName = Shibboleth.NomeCurto;
-                        email = Shibboleth.Email;
-                    }
+
+                    // existem cabeçalhos, processa o login
+                    iupi = Shibboleth.IUPI;
+                    fullName = Shibboleth.NomeCompleto;
+                    // shortName = Shibboleth.NomeCurto;
+                    email = Shibboleth.Email;
                     /***********************************************/
 
                     Session.FullName = fullName;

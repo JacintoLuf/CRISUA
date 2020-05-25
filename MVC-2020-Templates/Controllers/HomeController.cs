@@ -235,5 +235,14 @@ namespace MVC_2020_Template.Controllers
         {
             return Json(Url.Action("PublicacoesSalvas", "Home"));
         }
+
+        public ActionResult Singlelogout()
+        {
+            HttpContext.Session.Clear();
+            string returnTo = HttpContext.Request.Query["return"].ToString();
+            if (!string.IsNullOrEmpty(returnTo))
+                return Redirect(returnTo);
+            return Redirect("Home");
+        }
     }
 }

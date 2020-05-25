@@ -45,8 +45,7 @@ namespace MVC_2020_Template.Controllers
         {
             HttpContext.Session.Clear();
             Session.Logout();
-            return View("Index");
+            return Redirect("/secure/Shibboleth.sso/Logout");
         }
-
     }
 }
