@@ -392,10 +392,10 @@ namespace MVC_2020_Business.Services
             switch (qS)
             {
                 case 1:
-                    map.Add("Estado", "Importada");
+                    map.Add("Estado", "Publicação Importada");
                     break;
                 case 2:
-                    map.Add("Estado", "Aceite");
+                    map.Add("Estado", "Publicação Guardada");
                     break;
                 case 3:
                     map.Add("Estado", "Em análise");
@@ -420,7 +420,7 @@ namespace MVC_2020_Business.Services
             map.Add("Language", qL.FirstOrDefault());
 
             var queryNumState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
-            map.Add("State(numero)", queryState.FirstOrDefault().ToString()); ;
+            map.Add("State(numero)", queryState.FirstOrDefault().ToString());
 
             return map;
         }
@@ -599,7 +599,7 @@ namespace MVC_2020_Business.Services
                 map.Add("Mes", Partir_data(data_hora)[2]);
                 map.Add("Ano", Partir_data(data_hora)[3]);
 
-                map.Add("Estado", "published");
+                map.Add("EstadoPub", "published");
 
                 var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
                 var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
@@ -611,6 +611,37 @@ namespace MVC_2020_Business.Services
 
                 var queryFnt = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Source;
                 map.Add("Fonte", queryFnt.FirstOrDefault());
+
+                var queryNumState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
+                
+                var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
+                var qS = queryState.FirstOrDefault();
+                switch (qS)
+                {
+                    case 1:
+                        map.Add("Estado", "Publicação Importada");
+                        break;
+                    case 2:
+                        map.Add("Estado", "Publicação Guardada");
+                        break;
+                    case 3:
+                        map.Add("Estado", "Em análise");
+                        break;
+                    case 4:
+                        map.Add("Estado", "Pronta a importar para o RIA");
+                        break;
+                    case 5:
+                        map.Add("Estado", "Importada no RIA");
+                        break;
+                    case 6:
+                        map.Add("Estado", "Validada pela Biblioteca");
+                        break;
+                    default:
+                        map.Add("Estado", "NULL");
+                        break;
+                }
+
+                map.Add("State(numero)", queryState.FirstOrDefault().ToString());
 
                 map2.Add(map);
             }

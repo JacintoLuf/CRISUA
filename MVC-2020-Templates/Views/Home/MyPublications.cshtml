@@ -29,14 +29,27 @@
             <option value="desc">Data Descendente</option>
         </select>
     </div>
-    <div class="four wide column"></div>
-    <div class="four wide column"></div>
+    <div class="five wide column"></div>
+    <div class="two wide column">
+        <button type="button" class="ui primary button" style="width:110px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
+    </div>
+</div>
+
+<div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
+    <br />
+    <p>&nbsp Estados das Publicações:</p>
+    <p>&nbsp 1 ➜ Publicação Importada para o PTCRIS</p>
+    <p>&nbsp 2 ➜ Publicação Guardada e preparada para ser importada para o RIA</p>
+    <p>&nbsp 3 ➜ Publicação em análise para ser aceite no RIA</p>
+    <br />
 </div>
 
 
+
 <div class="ui grid">
-    <div class="thirteen wide column"><b>TÍTULOS</b></div>
-    <div class="one wide column"><b>&nbsp;&nbsp;&nbsp;DATA</b></div>
+    <div class="twelve wide column"><b>TÍTULOS</b></div>
+    <div class="one wide column"><b>ESTADO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></div>
+    <div class="one wide column"><b>&nbsp;&nbsp;&nbsp;&nbsp;DATA</b></div>
     <div class="one wide column"><b>&nbsp;&nbsp;&nbsp;FONTE</b></div>
 </div>
 <br />
@@ -48,6 +61,7 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody id="myTable">
@@ -56,6 +70,7 @@
                 count++;
                 <tr id="esconderDiv_@count">
                     <td data-id="@count" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</td>
+                    <td>@pub["State(numero)"]&nbsp;&nbsp;&nbsp;</td>
                     <td>@pub["Ano"]</td>
 
                     @if (@pub["Fonte"] == "RIA")
@@ -96,5 +111,20 @@
             $(this).append(arr);
         });
     }
+
+    function toggleText() {
+        var text = document.getElementById("hidden_info");
+        if (text.style.display === "none") {
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+        }
+    }
+
+    var tag = document.getElementById('hidden_info');
+    var button = document.querySelector('button');
+    button.addEventListener('click', function () {
+        tag.classList.toggle('hidden_info');
+    });
 
 </script>
