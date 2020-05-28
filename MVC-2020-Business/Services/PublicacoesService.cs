@@ -200,17 +200,29 @@ namespace MVC_2020_Business.Services
             return works;
         }
 
-        public static List<Work> RemoveDuplicates(List<Work> works)
+        private static List<Work> RemoveDuplicates(List<Work> works) //falta meter o nome de utilizador como argumento
         {
-            var titulosDuplicados = works.GroupBy(x => x.title.title).Where(x => x.Count() > 1).Select(x => x.Key).ToList(); //lista de titulos duplicados
-            //titulosDuplicados.ForEach(x => Console.WriteLine(x));
-            //Console.WriteLine("count: " + titulosDuplicados.Count + "\n||||||||||||||||||||");
-            List<Work> juntos = new List<Work>(); //lista para guardar as publicações que se fez o merge
+            List<Work> juntos = works.ToList(); //lista para guardar as publicações que se fez o merge
+            var titulosDuplicados = juntos.GroupBy(x => x.title.title.ToLower()).Where(x => x.Count() > 1).Select(x => x.Key).ToList(); //lista de titulos duplicados
+            juntos.Clear();
+            titulosDuplicados.ForEach(x => Console.WriteLine(x));
+            //Console.WriteLine("duplicados count: " + titulosDuplicados.Count + "\n||||||||||||||||||||");
             foreach (string d in titulosDuplicados)
             {
-                List<Work> listToMerge = works.FindAll(x => x.title.title.Equals(d)); //buscar as publicações repetidas
+                List<Work> listToMerge = works.FindAll(x => x.title.title.ToLower().Equals(d)); //buscar as publicações repetidas
+                listToMerge.Sort((x, y) => y.externalIds.externalId.Count.CompareTo(x.externalIds.externalId.Count)); //ordena por ordem descendente do numero de external ids 
+                //Console.WriteLine("Duplicados: ");
+                //listToMerge.ForEach(x => {
+                //    Console.WriteLine("\t" + x.title.title + "||" + x.source.sourceName.content);
+                //    List<Models.ExternalId> eids = x.externalIds.externalId;
+                //    eids.ForEach(ei => {
+                //        Console.WriteLine("\t\t" + ei.externalIdType);
+                //        Console.WriteLine("\t\t" + ei.externalIdValue);
+                //    });
+                //});
                 works = works.Except(listToMerge).ToList(); //tira do works as publicações repetidas
                 //Console.WriteLine("Works count after remove duplicates: " + works.Count);
+
                 Work toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("crossref")
                                                     || x.source.sourceName.content.ToLower().Contains("scopus")
                                                     || !x.source.sourceName.content.ToLower().Contains("trancho")
@@ -254,7 +266,7 @@ namespace MVC_2020_Business.Services
                         }
                     }
                     if (toStay.url == null) toStay.url = temp.url;
-                    if (toStay.contributors.contributor.Count == 0) toStay.contributors = temp.contributors;
+                    if (toStay.contributors == null || toStay.contributors.contributor.Count == 0) toStay.contributors = temp.contributors;
                     if (toStay.languageCode == null) toStay.languageCode = temp.languageCode;
                     if (toStay.country == null) toStay.country = temp.country;
                 }
@@ -267,7 +279,7 @@ namespace MVC_2020_Business.Services
             //    Console.WriteLine(w.source.sourceName.content);
             //    if (w.country != null) Console.WriteLine("Country: " + w.country.value);
             //    if (w.languageCode != null) Console.WriteLine("Language: " + w.languageCode);
-            //    Console.WriteLine("journal: " + w.journalTitle.content);
+            //    if (w.journalTitle != null) Console.WriteLine("journal: " + w.journalTitle.content);
             //    Console.WriteLine("Type: " + w.type);
             //    Console.WriteLine("ExternalIds:");
             //    w.externalIds.externalId.ForEach(eid =>
