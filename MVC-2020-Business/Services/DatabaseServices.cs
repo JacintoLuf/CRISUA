@@ -370,13 +370,21 @@ namespace MVC_2020_Business.Services
             map.Add("Identificadores Externos", queryExt.FirstOrDefault());
 
             var queryAuth = from tmp in _db.Person_Publication
-                            join person in _db.PersonName
-                            on tmp.PersonId equals person.PersonId
-                            where tmp.PublicationId == id
-                            select person.Name;
+                            where tmp.PublicationId==id
+                            select tmp.PersonId;
 
-            var a = queryAuth.ToList();
-            map.Add("Autores", queryAuth.ToList());
+            var listaAutores = queryAuth.ToList();
+            var listaNomes = new List<String>();
+            
+            foreach(var aut in listaAutores)
+            {
+                var queryName = from tmp in _db.PersonName
+                                where tmp.PersonId==aut
+                                select tmp.Name;
+                listaNomes.Add(queryName.FirstOrDefault());
+            }
+
+            map.Add("Autores", listaNomes);
 
             var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
             string data_hora = queryData.FirstOrDefault().ToString();
@@ -583,13 +591,21 @@ namespace MVC_2020_Business.Services
                 map.Add("Identificadores Externos", queryExt.FirstOrDefault());
 
                 var queryAuth = from tmp in _db.Person_Publication
-                                join person in _db.PersonName
-                                on tmp.PersonId equals person.PersonId
                                 where tmp.PublicationId == id
-                                select person.Name;
+                                select tmp.PersonId;
 
-                var a = queryAuth.ToList();
-                map.Add("Autores", queryAuth.ToList());
+                var listaAutores = queryAuth.ToList();
+                var listaNomes = new List<String>();
+
+                foreach (var aut in listaAutores)
+                {
+                    var queryName = from tmp in _db.PersonName
+                                    where tmp.PersonId == aut
+                                    select tmp.Name;
+                    listaNomes.Add(queryName.FirstOrDefault());
+                }
+
+                map.Add("Autores", listaNomes);
 
                 var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
                 string data_hora = queryData.FirstOrDefault().ToString();
