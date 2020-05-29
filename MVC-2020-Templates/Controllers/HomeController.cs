@@ -135,13 +135,33 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult PublicationMetaData1(string works, string submit_next, string submit_cancel,string dc_contributor_author, string dc_title,
+                                                    string dc_title_alternative, string degois_publication_title /*revista*/, string dc_date_issued_day,
+                                                    string dc_date_issued_month, string dc_date_issued_year, string degois_publication_volume, string degois_publication_issue,
+                                                    string degois_publication_firstPage, string degois_publication_lastPage,string dc_publisher, string dc_identifier_issn,
+                                                    string dc_identifier_essn, string dc_identifier_doi, string dc_peerreviewed, string dc_relation_publisherversion,
+                                                    string dc_type, string dc_description_version, string dc_language_iso)
+        {
+            if (submit_next == "Next")
+            {
+                Console.WriteLine("Titulo: " + dc_title);
+                Console.WriteLine("Autores: " + dc_contributor_author);
+                return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
+            }
+            if (submit_cancel == "Cancel/Save")
+                return RedirectToAction("PublicacoesSalvas", "Home");
+
+            return View();
+        }
+
         public IActionResult PublicationMetaData1_Help(String works)
         {
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
             return Json(Url.Action("PublicationMetaData1", "Home", new { works = works }));
         }
 
-        
+
         public IActionResult PublicationDoiSearch()
         {
             return View();
@@ -153,8 +173,24 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
-        public IActionResult PublicationMetaData2_Helper(String works)
+        [HttpPost]
+        public IActionResult PublicationMetaData2(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1)
         {
+            if (submit_jump_2_1 == "Describe" || submit_prev == "Previous")
+                return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
+            if (submit_next == "Next")
+            {
+                return RedirectToAction("PublicationMetaData3", "Home", new { works = works });
+            }
+            if (submit_cancel == "Cancel/Save")
+                return RedirectToAction("PublicacoesSalvas", "Home");
+
+            return View();
+        }
+
+        public IActionResult PublicationMetaData2_Helper(String works, string dc_title)
+        {
+            Console.WriteLine("Titulo: " + dc_title);
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
             return Json(Url.Action("PublicationMetaData2", "Home", new { works = works }));
         }

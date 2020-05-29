@@ -14,7 +14,7 @@
     <div class="four wide column">
         <div class="ui category search">
             <div class="ui icon input">
-                <input id="myInput" class="prompt" type="text" placeholder="Search articles...">
+                <input id="myInput" class="prompt" type="text" placeholder="Procurar...">
                 <i class="search icon"></i>
             </div>
             <div class="results">
@@ -37,31 +37,34 @@
 
 <div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
     <br />
-    <p>&nbsp Estados das Publicações:</p>
+    <p>&nbsp Estado das Publicações:</p>
     <p>&nbsp 1 ➜ Publicação Importada para o PTCRIS</p>
-    <p>&nbsp 2 ➜ Publicação Guardada e preparada para ser importada para o RIA</p>
+    <p>&nbsp 2 ➜ Publicação Guardada e à espera de curadoria</p>
     <p>&nbsp 3 ➜ Publicação em análise para ser aceite no RIA</p>
+    <p>&nbsp 4 ➜ Pronto para passar para o RIA</p>
+    @*<p>&nbsp 5 ➜ Passada para o RIA com sucesso</p>*@
     <br />
 </div>
 
 
 
-<div class="ui grid">
+@*<div class="ui grid">
     <div class="twelve wide column"><b>TÍTULOS</b></div>
     <div class="one wide column"><b>ESTADO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></div>
     <div class="one wide column"><b>&nbsp;&nbsp;&nbsp;&nbsp;DATA</b></div>
     <div class="one wide column"><b>&nbsp;&nbsp;&nbsp;FONTE</b></div>
-</div>
+</div>*@
 <br />
+<br/>
 
 <div id="scrollPub">
     <table class="ui very basic table">
         <thead>
             <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>TÍTULO</th>
+                <th>ESTADO</th>
+                <th>DATA</th>
+                <th>FONTE</th>
             </tr>
         </thead>
         <tbody id="myTable">

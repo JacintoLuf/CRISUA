@@ -23,12 +23,22 @@
         </div>
     </div>
     <div class="one wide column"></div>
-    <div class="five wide column"></div>
-    <div class="two wide column">
-        <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
+    <div class="five wide column">
+        <div class="ui category search">
+            <div class="ui icon input">
+                <input id="myInput" class="prompt" type="text" placeholder="Procurar...">
+                <i class="search icon"></i>
+            </div>
+            <div class="results">
+            </div>
+        </div>
+        
     </div>
     <div class="two wide column ">
         <button class="ui primary button" onclick="saveAll()">Guardar</button>
+    </div>
+    <div class="two wide column">
+        <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
     </div>
 </div>
 
@@ -40,27 +50,21 @@
         <br />
 </div>
 
+&nbsp;
+&nbsp;
 <div class="ui grid">
-    <div class="four wide column">
-        <div class="ui category search">
-            <div class="ui icon input">
-                <input id="myInput" class="prompt" type="text" placeholder="Search articles...">
-                <i class="search icon"></i>
-            </div>
-            <div class="results">
-            </div>
-        </div>
-    </div>
-    &nbsp;
-    &nbsp;
     <div class="four wide column">
         <select id="select" class="ui dropdown" onchange="filterOrder()">
             <option value="asc" selected="selected">Data Ascendente</option>
             <option value="desc">Data Descendente</option>
         </select>
     </div>
-    <div class="four wide column"></div>
-    <div class="four wide column"></div>
+    <div class="four wide column">
+    </div>
+    <div class="four wide column">
+    </div>
+    <div class="four wide column">
+    </div>
 </div>
 
 <div class="ui grid">

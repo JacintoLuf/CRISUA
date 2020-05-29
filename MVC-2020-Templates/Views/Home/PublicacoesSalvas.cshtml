@@ -5,35 +5,123 @@
     var worksAllInfo = ViewBag.PubSaved;
 }
 
+
+
 <h2>@ViewData["Title"]</h2>
 
-<div>
-    @if (worksAllInfo != null)
-    {
-        var count = 0;
-        //var worksTitles = new List<string>();
-        <div>
-            @foreach (var work in worksAllInfo)
-            {
-                count++;
+
+
+@*<div>
+        @if (worksAllInfo != null)
+        {
+            var count = 0;
+            //var worksTitles = new List<string>();
             <div>
-                <href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(work))" target="_blank">@work["titulo"] &nbsp</href>
-                <button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Submit</button>
+                @foreach (var work in worksAllInfo)
+                {
+                    count++;
+                    <div>
+                        <href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(work))" target="_blank">@work["titulo"] &nbsp</href>
+                        <button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Submit</button>
+                    </div>
+                }
             </div>
-            }
+        }
+        else
+        {
+            <div>
+                <p>Zero publicações adicionadas!!</p>
+            </div>
+        }
+    </div>*@
+<div class="ui grid">
+    <div class="four wide column">
+        <div class="ui category search">
+            <div class="ui icon input">
+                <input id="myInput" class="prompt" type="text" placeholder="Procurar...">
+                <i class="search icon"></i>
+            </div>
+            <div class="results">
+            </div>
         </div>
-    }
-    else
-    {
-        <div>
-            <p>Zero publicações adicionadas!!</p>
-        </div>
-    }
+    </div>
+    &nbsp;
+    &nbsp;
+    <div class="four wide column">
+        <select id="select" class="ui dropdown" onchange="filterOrder()">
+            <option value="asc" selected="selected">Data Ascendente</option>
+            <option value="desc">Data Descendente</option>
+        </select>
+    </div>
+    <div class="five wide column"></div>
+    <div class="two wide column">
+        <button type="button" class="ui primary button" style="width:110px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
+    </div>
 </div>
 
 
 
+<div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
+    <br />
+    <p>&nbsp Estado das Publicações:</p>
+    <p>&nbsp 1 ➜ Publicação Importada para o UA CRIS</p>
+    <p>&nbsp 2 ➜ Publicação Guardada e à espera de curadoria</p>
+    <p>&nbsp 3 ➜ Publicação em análise para ser aceite no RIA</p>
+    <p>&nbsp 4 ➜ Pronto para passar para o RIA</p>
+    @*<p>&nbsp 5 ➜ Passada para o RIA com sucesso</p>*@
+    <br />
+</div>
+
+
+
+<br />
+<br />
+
+
+
+<div id="scrollPub">
+    <table class="ui very basic table">
+        <thead>
+            <tr>
+                <th>TÍTULO</th>
+                <th>ESTADO</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @if (worksAllInfo != null)
+            {
+                var count = 0;
+
+
+
+                foreach (var work in worksAllInfo)
+                {
+                    count++;
+                    <tr id="esconderDiv_@count">
+                        <td><href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(work))" target="_blank">@work["titulo"] &nbsp</href></td>
+                        <td>@work["State(numero)"]&nbsp;&nbsp;&nbsp;</td>
+                        <td><button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Submeter</button></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <div>
+                    <p>Zero publicações adicionadas!!</p>
+                </div>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
 @*<i class="external alternate icon" onclick="OpenFirstPageRia(@Newtonsoft.Json.JsonConvert.SerializeObject(work), @count)></i>*@
+
+
 
 
 <script>
@@ -45,12 +133,18 @@
         @* window.open('@Url.Action("Publication_details","Home")');*@
     }
 
+
+
     function OpenFirstPageRia(obj, idDiv) {
         var div = document.getElementById("" + idDiv);
         if (typeof (div) != 'undefined' && div != null) {
 
+
+
         }
     }
+
+
 
     function SendToRIA(obj) {
         console.log(obj);
@@ -60,6 +154,46 @@
             //window.location.href = "PublicationMetaData1";
             //$("#main_area").html(data);
         });
-    }
+        }
+
+
+
+        $('#myInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+
+
+        function filterOrder() {
+            $("tbody").each(function (elem, index) {
+                var arr = $.makeArray($("tr", this).detach());
+                arr.reverse();
+                $(this).append(arr);
+            });
+        }
+
+
+
+    function toggleText() {
+        var text = document.getElementById("hidden_info");
+        if (text.style.display === "none") {
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+        }
+        }
+
+
+
+        var tag = document.getElementById('hidden_info');
+        var button = document.querySelector('button');
+        button.addEventListener('click', function () {
+            tag.classList.toggle('hidden_info');
+        });
+
+
 
 </script>
