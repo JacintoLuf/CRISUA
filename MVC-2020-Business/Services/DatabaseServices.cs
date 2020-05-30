@@ -360,10 +360,11 @@ namespace MVC_2020_Business.Services
 
         }
 
-        public static Hashtable retrieveAllInfo(MyDbContext _db, string titulo)
+        public static Hashtable retrieveAllInfo(MyDbContext _db, string titulo, string iupi)
         {
             Hashtable map = new Hashtable();
 
+            iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09";
             var query = from tmp in _db.PublicationTitle where tmp.Title == titulo select tmp.PublicationId;
             var id = query.FirstOrDefault();
 
@@ -461,7 +462,7 @@ namespace MVC_2020_Business.Services
 
             map.Add("Abstract", queryAbs.FirstOrDefault());
 
-
+            map.Add("IUPI", iupi);
             return map;
         }
 
@@ -558,7 +559,7 @@ namespace MVC_2020_Business.Services
 
         }
 
-        public static List<Hashtable> selectToRIA(MyDbContext _db, List<string> titulos)
+        public static List<Hashtable> selectToRIA(MyDbContext _db, List<string> titulos, string IUPI)
         {
             var titulosRia = new List<string>();
 
@@ -702,7 +703,7 @@ namespace MVC_2020_Business.Services
 
                 //map.Add("State(numero)", queryState.FirstOrDefault().ToString());
 
-                map2.Add(retrieveAllInfo(_db, titulo));
+                map2.Add(retrieveAllInfo(_db, titulo, IUPI));
             }
 
             return map2;
