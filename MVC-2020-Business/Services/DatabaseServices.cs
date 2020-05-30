@@ -454,6 +454,13 @@ namespace MVC_2020_Business.Services
                                select det.Journal;
             map.Add("Journal", queryJournal.FirstOrDefault());
 
+            var queryAbs = from tmp in _db.Publication
+                           join det in _db.PublicationAbstract on tmp.PublicationId equals det.PublicationId
+                           where det.PublicationId == id
+                           select det.Abstract;
+
+            map.Add("Abstract", queryAbs.FirstOrDefault());
+
 
             return map;
         }
