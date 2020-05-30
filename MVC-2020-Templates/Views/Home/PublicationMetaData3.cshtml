@@ -3,6 +3,7 @@
     ViewData["Title"] = "Forms3";
     Layout = "~/Views/Shared/Form_Layout.cshtml";
     var dados = ViewBag.dados;
+    var files = ViewBag.files;
 }
 
     <p>@dados</p>
@@ -82,7 +83,7 @@
             <div class="container submission-container">
 
 
-                <form action="PublicationMetaData3" method="post" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
+                <form action="PublicationMetaData3" method="post" enctype="multipart/form-data" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
 
                     <!--Progress Bar-->
                     <div class="row container btn-group">
@@ -105,6 +106,14 @@
                         Submit: Uploaded Files
                     </h1>
 
+
+
+                    @*<div class="form-group">
+            <div class="col-lg-10">
+                <input type="submit" name="submit" value="Upload" />
+            </div>
+        </div>*@
+
                     <div>The table below shows the files which have uploaded for this item.</div>
 
                     <table class="table" align="center" summary="Table dispalying your submitted files">
@@ -119,42 +128,53 @@
                             </tr>
 
 
-                            <tr>
-                                <td headers="t1" class="evenRowEvenCol" align="center">
-                                    <input class="form-control" type="radio" name="primary_bitstream_id" value="58836">
-                                </td>
-                                <td headers="t2" class="evenRowOddCol">
-                                    <a href="https://ria.ua.pt/retrieve/58836/zuquete2017.pdf" target="_blank">zuquete2017.pdf</a>
 
-                                    <button class="btn btn-danger pull-right" type="submit" name="submit_remove_58836" value="Remove">
-                                        <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove
-                                    </button>
+                            @foreach (var filePath in files)
+                            {
+                                System.IO.FileInfo file = new System.IO.FileInfo(filePath);
+                                <tr>
+                                    
+                                    <td headers="t1" class="evenRowEvenCol" align="center">
+                                        <input class="form-control" type="radio" name="primary_bitstream_id" value="58836">
+                                    </td>
+                                    <td headers="t2" class="evenRowOddCol">
+                                        <a href="~/Ficheiros/@file.Name" target="_blank" >@file.Name</a>
+                                        <button class="btn btn-danger pull-right" type="submit" name="submit_remove_58836" value="Remove">
+                                            <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove
+                                        </button>
 
-                                </td>
-                                <td headers="t3" class="evenRowEvenCol">2604666 bytes</td>
-                                <td headers="t4" class="evenRowOddCol">
-                                    <em>None</em>
-                                    <button type="submit" class="btn btn-default pull-right" name="submit_describe_58836" value="Change">
-                                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Change
-                                    </button>
-                                </td>
-                                <td headers="t5" class="evenRowEvenCol">
-                                    Adobe PDF
-                                    <script type="text/javascript">
-                                        //Javascript starts here
-                                        document.write('<a href="#" onClick="var popupwin = window.open(\'/help/formats.jsp#known\',\'dspacepopup\',\'height=600,width=550,resizable,scrollbars\');popupwin.focus();return false;">(known)</a>');
-                                        // -->
-                                    </script><a href="#" onclick="var popupwin = window.open('/help/formats.jsp#known','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">(known)</a><a href="https://ria.ua.pt/submit#" onclick="var popupwin = window.open('/help/formats.jsp#known','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">(known)</a><noscript><a href="/help/formats.jsp#known" target="dspacepopup">(known)</a></noscript>
-                                    <button type="submit" class="btn btn-default pull-right" name="submit_format_58836" value="Change">
-                                        <span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;Change
-                                    </button>
-                                </td>
+                                    </td>
+                                    <td headers="t3" class="evenRowEvenCol">@file.Length.ToString() bytes</td>
+                                    <td headers="t4" class="evenRowOddCol">
+                                        <em>None @file.Attributes</em>
+                                        <button type="submit" class="btn btn-default pull-right" name="submit_describe_58836" value="Change">
+                                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Change
+                                        </button>
+                                    </td>
+                                    <td headers="t5" class="evenRowEvenCol">
+                                        @file.Extension
+                                        <script type="text/javascript">
+                                            //Javascript starts here
+                                            document.write('<a href="#" onClick="var popupwin = window.open(\'/help/formats.jsp#known\',\'dspacepopup\',\'height=600,width=550,resizable,scrollbars\');popupwin.focus();return false;">(known)</a>');
+                                            // -->
+                                        </script><a href="#" onclick="var popupwin = window.open('/help/formats.jsp#known','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">(known)</a><a href="https://ria.ua.pt/submit#" onclick="var popupwin = window.open('/help/formats.jsp#known','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">(known)</a><noscript><a href="/help/formats.jsp#known" target="dspacepopup">(known)</a></noscript>
+                                        <button type="submit" class="btn btn-default pull-right" name="submit_format_58836" value="Change">
+                                            <span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;Change
+                                        </button>
+                                    </td>
 
-                            </tr>
+                                </tr>
+                            }
 
-                        </tbody>
+                            </tbody>
                     </table>
 
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @*<p>Upload file</p>*@
+                            <input type="file" name="files" multiple />
+                        </div>
+                    </div>
 
                     <div class="row"><input class="btn btn-success col-md-2 col-md-offset-5" type="submit" name="submit_more" value="Add Another File"></div>
 

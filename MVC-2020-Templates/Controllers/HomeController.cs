@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -210,22 +212,46 @@ namespace MVC_2020_Template.Controllers
             return Json(Url.Action("PublicationMetaData2", "Home", new { works = works }));
         }
 
-        public IActionResult PublicationMetaData3(String works)
+        public IActionResult PublicationMetaData3(String works, List<String> files)
         {
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            ViewBag.files = files;
             return View();
         }
 
         [HttpPost]
-        public IActionResult PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2)
+        public async Task<IActionResult> PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2,
+                                                    List<IFormFile> files, string submit_more)
         {
+            var filePaths = new List<String>();
+            if (submit_more == "Add Another File")
+            {
+                var size = files.Sum(f => f.Length);
+
+                foreach (var formfile in files)
+                {
+                    if (formfile.Length > 0)
+                    {
+                        string diretorio = Directory.GetCurrentDirectory();
+                        var filePath = Path.Combine(diretorio + "/wwwroot/Ficheiros/", formfile.FileName);
+                        filePaths.Add(filePath);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await formfile.CopyToAsync(stream);
+                        }
+                    }
+                }
+                return RedirectToAction("PublicationMetaData3", "Home", new { works = works, files = filePaths });
+
+            }
             if (submit_jump_2_1 == "Describe")
-                return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
+                return RedirectToAction("PublicationMetaData1", "Home", new { works = works, files = filePaths });
             if (submit_jump_2_2 == "Describe" || submit_prev == "Previous")
-                return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
+                return RedirectToAction("PublicationMetaData2", "Home", new { works = works, files = filePaths });
             if (submit_next == "Next")
             {
-                return RedirectToAction("PublicationSubmission", "Home", new { works = works });
+                return RedirectToAction("PublicationSubmission", "Home", new { works = works, files = filePaths });
             }
             if (submit_cancel == "Cancel/Save")
                 return RedirectToAction("PublicacoesSalvas", "Home");
@@ -302,7 +328,7 @@ namespace MVC_2020_Template.Controllers
 
             if (submit_grant == "I Grant the License")
             {
-                return RedirectToAction("Home", "Home", new { works = works });
+                return RedirectToAction("PublicacoesSalvas", "Home");
             }
 
             return View();
