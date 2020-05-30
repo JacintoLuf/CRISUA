@@ -20,5 +20,6 @@ namespace MVC_2020_Database.DataModels
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("Language")]
         public int LanguageId { get; set; }
         public int State { get; set; }
+        public string Type { get; set; }
     }
 }

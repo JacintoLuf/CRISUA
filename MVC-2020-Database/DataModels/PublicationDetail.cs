@@ -26,5 +26,6 @@ namespace MVC_2020_Database.DataModels
         public string ISBN { get; set; }
         public string ISSN { get; set; }
         public string URI { get; set; }
+        public string Journal { get; set; }
     }
 }

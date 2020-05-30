@@ -25,7 +25,7 @@ namespace MVC_2020_Business.Services
         private const string urlParameter5 = "0000-0002-4356-4522"; //Vieira
         private const string urlParameter3 = "0000-0002-7128-2805"; //Filipe Trancho
         private const string urlParameter4 = "0000-0002-3488-6570"; //Renato
-
+        private const string iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09";
         //public static IEnumerable<Product> GetProducts()
         //{
         //    var client = new RestClient("https://ria.ua.pt/");
@@ -43,7 +43,7 @@ namespace MVC_2020_Business.Services
                 //.Where(b => b.GenderId > 2)
                 //.OrderBy(b => b.GenderId)
                 .ToList();*/
-
+            IUPI = iupi;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -142,7 +142,7 @@ namespace MVC_2020_Business.Services
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
                 var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
-                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, urlParameter5, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
                 return ls;
             }
             else

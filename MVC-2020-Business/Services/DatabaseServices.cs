@@ -106,7 +106,7 @@ namespace MVC_2020_Business.Services
             _db.SaveChanges();
         }
 
-        public static void insertPublicationsPTCRIS(MyDbContext _db, string nome, List<Work> lista)
+        public static void insertPublicationsPTCRIS(MyDbContext _db, string nome, List<Work> lista, string orcid, string iupi)
         {
 
             nome = "José Manuel Neto Vieira";
@@ -121,6 +121,7 @@ namespace MVC_2020_Business.Services
             var pubTitles = new List<PublicationTitle>();
             var abstracts = new List<PublicationAbstract>();
             var visi = new List<Visibility>();
+            var person_ids = new List<Person_Identifier>();
 
 
             var arr = new ArrayList();
@@ -197,7 +198,7 @@ namespace MVC_2020_Business.Services
                     var date = DateTime.Parse(tmp0);
                     source = inp.source.sourceName.content;
 
-                    pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1 });
+                    pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type=inp.type });
 
                     //IDENTIFIERS
 
@@ -258,7 +259,8 @@ namespace MVC_2020_Business.Services
                                 EndPage = pag2,
                                 TotalPages = difPag,
                                 ISBN = Regex.Match(inp.citation.citationValue, "isbn\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
-                                ISSN = issn
+                                ISSN = issn,
+                                Journal=inp.journalTitle.content
                             });
                         }
                         issn = "";
@@ -276,6 +278,7 @@ namespace MVC_2020_Business.Services
             _db.Set<Publication_Identifier>().AddRange(idents);
             _db.Set<PublicationAbstract>().AddRange(abstracts);
             _db.Set<PublicationTitle>().AddRange(pubTitles);
+            _db.Set<PublicationDetail>().AddRange(details);
             _db.SaveChanges();
 
 
@@ -302,6 +305,9 @@ namespace MVC_2020_Business.Services
                     _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = p, PersonId = _db.Person.Count(), startDate = DateTime.Now });
                 }
                 _db.SaveChanges();
+
+                _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 1, Value = orcid, VisibilityId = 2, StartDate = DateTime.Now, EndDate = DateTime.MaxValue }) ;
+                _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 3, Value = iupi, VisibilityId = 1, StartDate=DateTime.Now, EndDate=DateTime.MaxValue });
             }
 
             //////
@@ -430,6 +436,24 @@ namespace MVC_2020_Business.Services
             var queryNumState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
             map.Add("State(numero)", queryState.FirstOrDefault().ToString());
 
+
+            map.Add("Outros Titulos", null);
+            map.Add("Editor", null);
+            map.Add("e-ISSN", null);
+            map.Add("Versao da Editora", null);
+            map.Add("Revisao por pares", null);
+
+            var queryType = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Type;
+            var qT = queryType.FirstOrDefault();
+            map.Add("Tipologia", qT);
+
+            var queryJournal = from tmp in _db.Publication
+                               join det in _db.PublicationDetail on tmp.PublicationId equals det.PublicationId
+                               where det.PublicationId == id
+                               select det.Journal;
+            map.Add("Journal", queryJournal.FirstOrDefault());
+
+
             return map;
         }
 
@@ -528,138 +552,149 @@ namespace MVC_2020_Business.Services
 
         public static List<Hashtable> selectToRIA(MyDbContext _db, List<string> titulos)
         {
+            var titulosRia = new List<string>();
 
+            foreach(var t in titulos)
+            {
+                var query = from tmp in _db.Publication
+                            join ti in _db.PublicationTitle on tmp.PublicationId equals ti.PublicationId
+                            where ti.Title == t
+                            select tmp.Source;
+
+                if (query.ToList().Count() == 1 && !query.FirstOrDefault().EqualsIgnoreCase("RIA"))
+                    titulosRia.Add(t);
+            }
             Hashtable map;
             List<Hashtable> map2 = new List<Hashtable>();
 
-            foreach (var titulo in titulos)
+            foreach (var titulo in titulosRia)
             {
-                map = new Hashtable();
-                var query = from tmp in _db.PublicationTitle where tmp.Title == titulo select tmp.PublicationId;
-                var id = query.FirstOrDefault();
+                //map = new Hashtable();
+                //var query = from tmp in _db.PublicationTitle where tmp.Title == titulo select tmp.PublicationId;
+                //var id = query.FirstOrDefault();
 
-                map.Add("titulo", titulo);
+                //map.Add("titulo", titulo);
 
-                var queryISSN = from tmp in _db.PublicationDetail
-                                join pub in _db.Publication
-                                on tmp.PublicationId equals pub.PublicationId
-                                select tmp.ISSN;
-                map.Add("ISSN", queryISSN.FirstOrDefault());
+                //var queryISSN = from tmp in _db.PublicationDetail
+                //                join pub in _db.Publication
+                //                on tmp.PublicationId equals pub.PublicationId
+                //                select tmp.ISSN;
+                //map.Add("ISSN", queryISSN.FirstOrDefault());
 
-                var queryStartPage = from tmp in _db.PublicationDetail
-                                     join pub in _db.Publication
-                                     on tmp.PublicationId equals pub.PublicationId
-                                     select tmp.StartPage;
-                map.Add("StartPage", queryStartPage.FirstOrDefault());
+                //var queryStartPage = from tmp in _db.PublicationDetail
+                //                     join pub in _db.Publication
+                //                     on tmp.PublicationId equals pub.PublicationId
+                //                     select tmp.StartPage;
+                //map.Add("StartPage", queryStartPage.FirstOrDefault());
 
-                var queryEndPage = from tmp in _db.PublicationDetail
-                                   join pub in _db.Publication
-                                   on tmp.PublicationId equals pub.PublicationId
-                                   select tmp.EndPage;
-                map.Add("EndPage", queryEndPage.FirstOrDefault());
+                //var queryEndPage = from tmp in _db.PublicationDetail
+                //                   join pub in _db.Publication
+                //                   on tmp.PublicationId equals pub.PublicationId
+                //                   select tmp.EndPage;
+                //map.Add("EndPage", queryEndPage.FirstOrDefault());
 
-                var queryTotalPages = from tmp in _db.PublicationDetail
-                                      join pub in _db.Publication
-                                      on tmp.PublicationId equals pub.PublicationId
-                                      select tmp.TotalPages;
-                map.Add("TotalPages", queryTotalPages.FirstOrDefault());
+                //var queryTotalPages = from tmp in _db.PublicationDetail
+                //                      join pub in _db.Publication
+                //                      on tmp.PublicationId equals pub.PublicationId
+                //                      select tmp.TotalPages;
+                //map.Add("TotalPages", queryTotalPages.FirstOrDefault());
 
-                var queryVolume = from tmp in _db.PublicationDetail
-                                  join pub in _db.Publication
-                                  on tmp.PublicationId equals pub.PublicationId
-                                  select tmp.Volume;
-                map.Add("Volume", queryVolume.FirstOrDefault());
+                //var queryVolume = from tmp in _db.PublicationDetail
+                //                  join pub in _db.Publication
+                //                  on tmp.PublicationId equals pub.PublicationId
+                //                  select tmp.Volume;
+                //map.Add("Volume", queryVolume.FirstOrDefault());
 
-                var queryEdition = from tmp in _db.PublicationDetail
-                                   join pub in _db.Publication
-                                   on tmp.PublicationId equals pub.PublicationId
-                                   select tmp.Edition;
-                map.Add("Edition", queryEdition.FirstOrDefault());
-
-
-                var querySeries = from tmp in _db.PublicationDetail
-                                  join pub in _db.Publication
-                                  on tmp.PublicationId equals pub.PublicationId
-                                  select tmp.Series;
-                map.Add("Series", querySeries.FirstOrDefault());
+                //var queryEdition = from tmp in _db.PublicationDetail
+                //                   join pub in _db.Publication
+                //                   on tmp.PublicationId equals pub.PublicationId
+                //                   select tmp.Edition;
+                //map.Add("Edition", queryEdition.FirstOrDefault());
 
 
-                var queryDOI = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId == 1 select tmp.Value;
-                map.Add("DOI", queryDOI.FirstOrDefault());
+                //var querySeries = from tmp in _db.PublicationDetail
+                //                  join pub in _db.Publication
+                //                  on tmp.PublicationId equals pub.PublicationId
+                //                  select tmp.Series;
+                //map.Add("Series", querySeries.FirstOrDefault());
 
-                var queryExt = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId != 1 select tmp.Value;
-                map.Add("Identificadores Externos", queryExt.FirstOrDefault());
 
-                var queryAuth = from tmp in _db.Person_Publication
-                                where tmp.PublicationId == id
-                                select tmp.PersonId;
+                //var queryDOI = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId == 1 select tmp.Value;
+                //map.Add("DOI", queryDOI.FirstOrDefault());
 
-                var listaAutores = queryAuth.ToList();
-                var listaNomes = new List<String>();
+                //var queryExt = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId != 1 select tmp.Value;
+                //map.Add("Identificadores Externos", queryExt.FirstOrDefault());
 
-                foreach (var aut in listaAutores)
-                {
-                    var queryName = from tmp in _db.PersonName
-                                    where tmp.PersonId == aut
-                                    select tmp.Name;
-                    listaNomes.Add(queryName.FirstOrDefault());
-                }
+                //var queryAuth = from tmp in _db.Person_Publication
+                //                where tmp.PublicationId == id
+                //                select tmp.PersonId;
 
-                map.Add("Autores", listaNomes);
+                //var listaAutores = queryAuth.ToList();
+                //var listaNomes = new List<String>();
 
-                var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
-                string data_hora = queryData.FirstOrDefault().ToString();
+                //foreach (var aut in listaAutores)
+                //{
+                //    var queryName = from tmp in _db.PersonName
+                //                    where tmp.PersonId == aut
+                //                    select tmp.Name;
+                //    listaNomes.Add(queryName.FirstOrDefault());
+                //}
 
-                map.Add("Data", Partir_data(data_hora)[0]);
-                map.Add("Dia", Partir_data(data_hora)[1]);
-                map.Add("Mes", Partir_data(data_hora)[2]);
-                map.Add("Ano", Partir_data(data_hora)[3]);
+                //map.Add("Autores", listaNomes);
 
-                map.Add("EstadoPub", "published");
+                //var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
+                //string data_hora = queryData.FirstOrDefault().ToString();
 
-                var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
-                var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
-                //var queryLng2 = from tmp in _db.Publication           //Dário desta forma fazes apenas um pedido à BD, mas depois vê se funciona!
-                //                join p in _db.Language on tmp.LanguageId equals p.LanguageID 
-                //                select p.Acronym; 
+                //map.Add("Data", Partir_data(data_hora)[0]);
+                //map.Add("Dia", Partir_data(data_hora)[1]);
+                //map.Add("Mes", Partir_data(data_hora)[2]);
+                //map.Add("Ano", Partir_data(data_hora)[3]);
 
-                map.Add("Language", qL.FirstOrDefault());
+                //map.Add("EstadoPub", "published");
 
-                var queryFnt = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Source;
-                map.Add("Fonte", queryFnt.FirstOrDefault());
+                //var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
+                //var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
+                ////var queryLng2 = from tmp in _db.Publication           //Dário desta forma fazes apenas um pedido à BD, mas depois vê se funciona!
+                ////                join p in _db.Language on tmp.LanguageId equals p.LanguageID 
+                ////                select p.Acronym; 
 
-                var queryNumState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
+                //map.Add("Language", qL.FirstOrDefault());
+
+                //var queryFnt = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Source;
+                //map.Add("Fonte", queryFnt.FirstOrDefault());
+
+                //var queryNumState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
                 
-                var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
-                var qS = queryState.FirstOrDefault();
-                switch (qS)
-                {
-                    case 1:
-                        map.Add("Estado", "Publicação Importada");
-                        break;
-                    case 2:
-                        map.Add("Estado", "Publicação Guardada");
-                        break;
-                    case 3:
-                        map.Add("Estado", "Em análise");
-                        break;
-                    case 4:
-                        map.Add("Estado", "Pronta a importar para o RIA");
-                        break;
-                    case 5:
-                        map.Add("Estado", "Importada no RIA");
-                        break;
-                    case 6:
-                        map.Add("Estado", "Validada pela Biblioteca");
-                        break;
-                    default:
-                        map.Add("Estado", "NULL");
-                        break;
-                }
+                //var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
+                //var qS = queryState.FirstOrDefault();
+                //switch (qS)
+                //{
+                //    case 1:
+                //        map.Add("Estado", "Publicação Importada");
+                //        break;
+                //    case 2:
+                //        map.Add("Estado", "Publicação Guardada");
+                //        break;
+                //    case 3:
+                //        map.Add("Estado", "Em análise");
+                //        break;
+                //    case 4:
+                //        map.Add("Estado", "Pronta a importar para o RIA");
+                //        break;
+                //    case 5:
+                //        map.Add("Estado", "Importada no RIA");
+                //        break;
+                //    case 6:
+                //        map.Add("Estado", "Validada pela Biblioteca");
+                //        break;
+                //    default:
+                //        map.Add("Estado", "NULL");
+                //        break;
+                //}
 
-                map.Add("State(numero)", queryState.FirstOrDefault().ToString());
+                //map.Add("State(numero)", queryState.FirstOrDefault().ToString());
 
-                map2.Add(map);
+                map2.Add(retrieveAllInfo(_db, titulo));
             }
 
             return map2;
