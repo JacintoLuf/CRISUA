@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +14,7 @@ using MVC_2020_Database.DataModels;
 using MVC_2020_Template.Helpers;
 using MVC_2020_Template.Models;
 using Newtonsoft.Json;
+using ServiceStack;
 
 namespace MVC_2020_Template.Controllers
 {
@@ -143,10 +145,16 @@ namespace MVC_2020_Template.Controllers
                                                     string dc_identifier_essn, string dc_identifier_doi, string dc_peerreviewed, string dc_relation_publisherversion,
                                                     string dc_type, string dc_description_version, string dc_language_iso)
         {
+            Hashtable dados = publicationMeta1ToHash(dc_contributor_author, dc_title, dc_title_alternative,  degois_publication_title /*revista*/,  dc_date_issued_day,
+                                                     dc_date_issued_month,  dc_date_issued_year,  degois_publication_volume,  degois_publication_issue,
+                                                     degois_publication_firstPage,  degois_publication_lastPage,  dc_publisher,  dc_identifier_issn,
+                                                     dc_identifier_essn,  dc_identifier_doi,  dc_peerreviewed,  dc_relation_publisherversion,
+                                                     dc_type,  dc_description_version,  dc_language_iso);
+
             if (submit_next == "Next")
             {
-                Console.WriteLine("Titulo: " + dc_title);
-                Console.WriteLine("Autores: " + dc_contributor_author);
+                //Console.WriteLine("Titulo: " + dc_title);
+                //Console.WriteLine("Autores: " + dc_contributor_author);
                 return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
             }
             if (submit_cancel == "Cancel/Save")
@@ -279,6 +287,46 @@ namespace MVC_2020_Template.Controllers
             if (!string.IsNullOrEmpty(returnTo))
                 return Redirect(returnTo);
             return Redirect("Home");
+        }
+
+        public static Hashtable publicationMeta1ToHash(string dc_contributor_author, string dc_title,
+                                                    string dc_title_alternative, string degois_publication_title /*revista*/, string dc_date_issued_day,
+                                                    string dc_date_issued_month, string dc_date_issued_year, string degois_publication_volume, string degois_publication_issue,
+                                                    string degois_publication_firstPage, string degois_publication_lastPage, string dc_publisher, string dc_identifier_issn,
+                                                    string dc_identifier_essn, string dc_identifier_doi, string dc_peerreviewed, string dc_relation_publisherversion,
+                                                    string dc_type, string dc_description_version, string dc_language_iso)
+        {
+            Hashtable temp = new Hashtable();
+            temp.Add("titulo", dc_title);
+            List<string> nomes = dc_contributor_author.Split(";").ToList();
+            temp.Add("Autores", nomes);
+            temp.Add("titulo alternativo", dc_title_alternative);
+            temp.Add("Revista", degois_publication_title);
+            temp.Add("Dia", dc_date_issued_day);
+            temp.Add("Mes", dc_date_issued_month);
+            temp.Add("Ano", dc_date_issued_year);
+            temp.Add("Volume", degois_publication_volume);
+            temp.Add("Edicao", degois_publication_issue);
+            temp.Add("StartPage", degois_publication_firstPage);
+            temp.Add("EndPage", degois_publication_lastPage);
+            temp.Add("Editor", dc_publisher);
+            temp.Add("ISSN", dc_identifier_issn);
+            temp.Add("E-ISSN", dc_identifier_essn);
+            temp.Add("DOI", dc_identifier_doi);
+            temp.Add("Peer Review", dc_peerreviewed);
+            temp.Add("PublisherVersion", dc_relation_publisherversion);
+            temp.Add("Tipo", dc_type);
+            temp.Add("Estado", dc_description_version);
+            temp.Add("Idioma", dc_language_iso);
+
+            //Console.WriteLine("HASHTABLE AUTORES: ");
+            //foreach (var d in (List<string>)temp["Autores"])
+            //{
+            //    Console.WriteLine(d);
+            //}
+                
+
+            return temp;
         }
     }
 }
