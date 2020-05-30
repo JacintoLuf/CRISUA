@@ -180,7 +180,9 @@
                         <div class="row col-md-12">
                             <div class="col-md-10">
                                 <div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="dc_relation" id="dc_relation" size="50" value="" autocomplete="off"></div><div class="col-md-2">
-                                    <img id="dc_relation_confidence_indicator_id" title="Checked" class="pull-left ds-authority-confidence cf-blank " src="~/5-PublicationMetaData2_files/invisible.gif"><input type="text" value="" id="dc_relation_authority" name="dc_relation_authority" class="ds-authority-value form-control"><input type="hidden" value="blank" id="dc_relation_confidence" name="dc_relation_confidence" class="ds-authority-confidence-input"><span id="dc_relation_indicator" style="display: none;"><img src="~/5-PublicationMetaData2_files/load-indicator.gif" alt="Loading..."></span><div id="dc_relation_autocomplete" class="autocomplete" style="display: none;"> </div>
+                                    <img id="dc_relation_confidence_indicator_id" title="Checked" class="pull-left ds-authority-confidence cf-blank " src="~/5-PublicationMetaData2_files/invisible.gif">
+                                    <input type="text" value="" id="dc_relation_authority" name="dc_relation_authority" class="ds-authority-value form-control">
+                                    <input type="hidden" value="blank" id="dc_relation_confidence" name="dc_relation_confidence" class="ds-authority-confidence-input"><span id="dc_relation_indicator" style="display: none;"><img src="~/5-PublicationMetaData2_files/load-indicator.gif" alt="Loading..."></span><div id="dc_relation_autocomplete" class="autocomplete" style="display: none;"> </div>
                                     <script type="text/javascript">var gigo = DSpaceSetupAutocomplete('edit_metadata', { metadataField: 'dc_relation', isClosed: 'false', inputName: 'dc_relation', authorityName: 'dc_relation_authority', containerID: 'dc_relation_autocomplete', indicatorID: 'dc_relation_indicator', contextPath: '', confidenceName: 'dc_relation_confidence', confidenceIndicatorID: 'dc_relation_confidence_indicator_id', collection: 377 });</script>
                                 </div>
                             </div><button class="btn btn-default col-md-2" name="submit_dc_relation_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button>
@@ -271,8 +273,22 @@
                     Associe uma licença <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons 4.0 Internacional</a> ao seu trabalho, escolhendo-a da lista apresentada. No caso de trabalhos financiados pela FCT o uso da licença CC-BY é recomendado.
 
                 </div>
-                <div class="row"><label class="col-md-2">licenças Creative Commons (CC)</label><span class="col-md-8"><select class="form-control" name="dc_rights_uri"><option value="">Sem Licença</option><option value="https://creativecommons.org/licenses/by/4.0/">Atribuição (CC-BY)</option><option value="http://creativecommons.org/licenses/by-nd/4.0/">Atribuição, Sem Trabalhos Derivados (CC-BY-ND)</option><option value="http://creativecommons.org/licenses/by-sa/4.0/">Atribuição, Partilha nos Termos da Mesma Licença (CC-BY-SA)</option><option value="http://creativecommons.org/licenses/by-nc/4.0/">Atribuição, Uso Não Comercial (CC-BY-NC)</option><option value="http://creativecommons.org/licenses/by-nc-nd/4.0/">Atribuição, Não Comercial, Sem Derivações (CC-BY-NC-ND)</option><option value="http://creativecommons.org/licenses/by-nc-sa/4.0/">Atribuição, Uso Não Comercial, Partilha nos Termos da Mesma Licença (CC-BY-NC-SA)</option></select></span></div><br>
-
+                <div class="row">
+                    <label class="col-md-2">licenças Creative Commons (CC)</label>
+                    <span class="col-md-8">
+                    <select class="form-control" name="dc_rights_uri">
+                        <option value="">Sem Licença</option>
+                        <option value="https://creativecommons.org/licenses/by/4.0/">Atribuição (CC-BY)</option>
+                        <option value="http://creativecommons.org/licenses/by-nd/4.0/">Atribuição, Sem Trabalhos Derivados (CC-BY-ND)</option>
+                        <option value="http://creativecommons.org/licenses/by-sa/4.0/">Atribuição, Partilha nos Termos da Mesma Licença (CC-BY-SA)</option>
+                        <option value="http://creativecommons.org/licenses/by-nc/4.0/">Atribuição, Uso Não Comercial (CC-BY-NC)</option>
+                        <option value="http://creativecommons.org/licenses/by-nc-nd/4.0/">Atribuição, Não Comercial, Sem Derivações (CC-BY-NC-ND)</option>
+                        <option value="http://creativecommons.org/licenses/by-nc-sa/4.0/">Atribuição, Uso Não Comercial, Partilha nos Termos da Mesma Licença (CC-BY-NC-SA)</option>
+                    </select>
+                    </span>
+                </div>
+                
+                <br>
 
                 <input type="hidden" name="workspace_item_id" value="44987"><input type="hidden" name="step" value="2"><input type="hidden" name="page" value="2"><input type="hidden" name="jsp" value="/submit/edit-metadata.jsp">
                 <div class="row">

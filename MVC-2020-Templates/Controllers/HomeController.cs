@@ -182,8 +182,15 @@ namespace MVC_2020_Template.Controllers
         }
 
         [HttpPost]
-        public IActionResult PublicationMetaData2(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1)
+        public IActionResult PublicationMetaData2(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1,
+                                                    string dc_subject_1 /*palavra chave*/, string dc_description_abstract_1 /*resumo*/, string dc_relation_authority, /*prof financiado*/
+                                                    string dc_description_sponsorship /*patrocinadores*/, string dc_rights /*acesso*/,
+                                                    string dc_date_embargo_day, string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/)
         {
+            Hashtable dados = publicationMeta2ToHash(dc_subject_1 /*palavra chave*/, dc_description_abstract_1 /*resumo*/, dc_relation_authority, /*prof financiado*/
+                                                     dc_description_sponsorship /*patrocinadores*/, dc_rights /*acesso*/,
+                                                     dc_date_embargo_day, dc_date_embargo_month, dc_date_embargo_year, dc_rights_uri /*licensa*/);
+
             if (submit_jump_2_1 == "Describe" || submit_prev == "Previous")
                 return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
             if (submit_next == "Next")
@@ -239,15 +246,16 @@ namespace MVC_2020_Template.Controllers
         }
 
         [HttpPost]
-        public IActionResult PublicationSubmission(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2, string submit_jump_3_1)
+        public IActionResult PublicationSubmission(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2, string submit_jump_3_1
+                                                    )
         {
-            if (submit_jump_2_1 == "Describe")
+            if (submit_jump_2_1 == "Describe" || submit_jump_2_1 == "Correct one of these")
                 return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
 
-            if (submit_jump_2_2 == "Describe")
+            if (submit_jump_2_2 == "Describe" || submit_jump_2_2 == "Correct one of these")
                 return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
 
-            if (submit_jump_3_1 == "Upload" || submit_prev == "Previous")
+            if (submit_jump_3_1 == "Upload" || submit_prev == "Previous" || submit_jump_3_1 == "Add or Remove a File")
                 return RedirectToAction("PublicationMetaData3", "Home", new { works = works });
 
             if (submit_next == "Next")
@@ -392,6 +400,25 @@ namespace MVC_2020_Template.Controllers
             //    Console.WriteLine(d);
             //}
                 
+
+            return temp;
+        }
+
+        public static Hashtable publicationMeta2ToHash(string dc_subject_1 /*palavra chave*/, string dc_description_abstract_1 /*resumo*/, string dc_relation_authority, /*prof financiado*/
+                                                        string dc_description_sponsorship /*patrocinadores*/, string dc_rights /*acesso*/, string dc_date_embargo_day, 
+                                                        string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/)
+        {
+            Hashtable temp = new Hashtable();
+
+            temp.Add("Palavra-Chave", dc_subject_1);
+            temp.Add("Resumo", dc_description_abstract_1);
+            temp.Add("Financiamento", dc_relation_authority);
+            temp.Add("Patrocinadores", dc_description_sponsorship);
+            temp.Add("Acesso", dc_rights);
+            temp.Add("Dia-Embargo", dc_date_embargo_day);
+            temp.Add("Mes-Embargo", dc_date_embargo_month);
+            temp.Add("Ano-Embargo", dc_date_embargo_year);
+            temp.Add("Licensa", dc_rights_uri);
 
             return temp;
         }
