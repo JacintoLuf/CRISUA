@@ -428,6 +428,7 @@ namespace MVC_2020_Business.Services
                     break;
             }
 
+            map.Add("EstadoPub", "published");
 
             var queryLng = from tmp in _db.Publication where tmp.PublicationId == id select tmp.LanguageId;
             var qL = from l in _db.Language where l.LanguageID == queryLng.FirstOrDefault() select l.Acronym;
