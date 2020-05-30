@@ -65,7 +65,7 @@ namespace MVC_2020_Template.Controllers
         }
         public IActionResult MyPublications()
         {
-            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State"));
+            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State"), Session.IUPI.ToString());
             return View();
         }
 
@@ -90,7 +90,7 @@ namespace MVC_2020_Template.Controllers
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, Session.FullName,
                                         PublicacoesService.ConvertProductToWork(
                                         PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1"));
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1"), Session.IUPI.ToString());
             
             ViewBag.import = import;
             return View();
@@ -105,7 +105,7 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.Details = JsonConvert.DeserializeObject<List<Work>>(works);
             //ViewBag.Titulos = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1");
-            ViewBag.PubSaved = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2"));
+            ViewBag.PubSaved = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2"), Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris2 = PublicacoesService.GetDifWorks2(_db,
             //                            PublicacoesService.ConvertProductToWork(
             //                            PublicacoesService.GetProducts2(_db, Session.IUPI.ToString())));

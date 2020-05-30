@@ -119,18 +119,22 @@
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">autores</span>
                                 <span class="metadataFieldValue col-md-8">
-                                    @{  foreach (string au in dados["Autores"])
+                                    @{ if (dados["Autores"] != null)
                                         {
-                                            <span>@au</span>
-                                            <br />
+                                            foreach (string au in dados["Autores"])
+                                            {
+                                                <span>@au</span>
+                                                <br />
+                                            }
                                         }
                                     }
                                 </span>
                             </div>
 
                             <div class="row">
-                                <span class="metadataFieldLabel col-md-4 ">IUPI do autor*</span>
-                                <span class="metadataFieldValue col-md-8">66eccbc8-c131-45bb-ab10-04ab220e4423<br>66c74f1f-8c45-4f43-9a85-be4975eecc09<br>
+                                <span class="metadataFieldLabel col-md-4 ">IUPI do autor</span>
+                                <span class="metadataFieldValue col-md-8">
+                                    @dados["IUPI"]<br>
                                 </span>
                             </div>
 
@@ -145,89 +149,109 @@
                             </div>
 
                             <div class="row">
-                                <span class="metadataFieldLabel col-md-4 ">outros títulos*</span>
-                                <span class="metadataFieldValue col-md-8"><em>None</em></span>
+                                <span class="metadataFieldLabel col-md-4 ">outros títulos</span>
+                                <span class="metadataFieldValue col-md-8">
+                                    @{
+                                        if (dados["Outros Titulos"] != null)
+                                        {
+                                            foreach (string au in dados["Outros Titulos"])
+                                            {
+                                                <span>@au</span>
+                                                <br />
+                                            }
+                                        }
+                                    }
+                                </span>
                             </div>
 
                             <div class="row">
-                                <span class="metadataFieldLabel col-md-4 ">título da revista*</span>
-                                <span class="metadataFieldValue col-md-8">Wireless Networks
+                                <span class="metadataFieldLabel col-md-4 ">título da revista</span>
+                                <span class="metadataFieldValue col-md-8">
+                                    @dados["Journal"]
                                     <span class="ds-authority-confidence cf--1"></span>
                                     <br>
                                 </span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">data</span>
 
-                                @{  string dia = dados["Dia"];                               
+                                @{ string dia = dados["Dia"];
                                     string mes = dados["Mes"];
                                     string ano = dados["Ano"];
                                     string data = dia + "-" + mes + "-" + ano;
                                 }
                                 <span class="metadataFieldValue col-md-8">@data<br></span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">volume</span>
                                 <span class="metadataFieldValue col-md-8">@dados["Volume"]<br></span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">número da edição</span>
                                 <span class="metadataFieldValue col-md-8">@dados["Edition"]</span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">página inicial</span>
                                 <span class="metadataFieldValue col-md-8">@dados["StartPage"]<br></span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">página final</span>
                                 <span class="metadataFieldValue col-md-8">@dados["EndPage"]<br></span>
                             </div>
-                            
+
                             <div class="row">
-                                <span class="metadataFieldLabel col-md-4 ">editor*</span>
-                                <span class="metadataFieldValue col-md-8">Springer<br></span>
+                                <span class="metadataFieldLabel col-md-4 ">editor</span>
+                                <span class="metadataFieldValue col-md-8">@dados["Editor"]<br></span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">ISSN</span>
                                 <span class="metadataFieldValue col-md-8">@dados["ISSN"]<br></span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">e-ISSN*</span>
                                 <span class="metadataFieldValue col-md-8">1572-8196<br></span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">DOI</span>
                                 <span class="metadataFieldValue col-md-8">@dados["DOI"]<br></span>
                             </div>
-                            
+
                             <div class="row">
-                                <span class="metadataFieldLabel col-md-4 ">versão da editora**</span>
+                                <span class="metadataFieldLabel col-md-4 ">versão da editora</span>
                                 <span class="metadataFieldValue col-md-8">https://link.springer.com/content/pdf/10.1007/s11276-017-1450-0.pdf<br></span>
                             </div>
-                            
+
                             <div class="row">
-                                <span class="metadataFieldLabel col-md-4 ">revisão por pares (peer-review)*</span>
-                                <span class="metadataFieldValue col-md-8">sim<br></span>
+                                <span class="metadataFieldLabel col-md-4 ">revisão por pares (peer-review)</span>
+                                <span class="metadataFieldValue col-md-8">@dados["Revisao por pares"]<br></span>
                             </div>
-                            
+
                             <div class="row">
-                                <span class="metadataFieldLabel col-md-4 ">tipologia do documento*</span>
-                                <span class="metadataFieldValue col-md-8">article<br></span>
+                                <span class="metadataFieldLabel col-md-4 ">tipologia do documento</span>
+                                @{ string tipo = "";
+                                    if (dados["Tipologia"] == "CONFERENCE_PAPER")
+                                    {
+                                        tipo = "conferenceObject";
+                                    }
+                                    else if (dados["Tipologia"] == "JOURNAL_ARTICLE")
+                                        tipo = "article";
+                                }
+                                <span class="metadataFieldValue col-md-8">@tipo<br></span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">estado da publicação</span>
                                 <span class="metadataFieldValue col-md-8">@dados["EstadoPub"]<br></span>
                             </div>
-                            
+
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">idioma</span>
                                 <span class="metadataFieldValue col-md-8">@dados["Language"]<br></span>
@@ -250,7 +274,7 @@
                             
                             <div class="row">
                                 <span class="metadataFieldLabel col-md-4 ">resumo</span>
-                                <span class="metadataFieldValue col-md-8">This article describes and evaluates the performance of DETIboot, a system conceived for securely deploying temporary Linux systems into countless receiving hosts close enough to a Wi-Fi DETIboot server. This system was created with the ultimate goal of installing, in numerous students’ laptops and just-in-time, special Linux distributions for being temporarily used in practical classes. In this document we present an overview of DETIboot, a comprehensive description of the coding used in the broadcast communication and a detailed performance evaluation in a spacious auditorium. This evaluation did not involve security features to reduce the amount of variables influencing the final results. However, previous experiments allow us to extrapolate a maximum of 5% increase in the download time due to security. On average, it took us 50.1 s to download a 225 MiB Slax Linux over 802.11g, taking on average 15% more time than the theoretical lower bound of our setup (43.4 s). The influence of the position of receivers in the auditorium was not prominent.<br></span>
+                                <span class="metadataFieldValue col-md-8">@dados["Abstract"]<br></span>
                             </div>
                             
                             <div class="row">

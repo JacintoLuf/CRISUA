@@ -141,7 +141,7 @@
                                 </button>
                             </div>
                         }
-                        <input type="hidden" name="dc_contributor_author" value="@string.Join(" ; ", dados["Autores"])"/>
+                        <input type="hidden" name="dc_contributor_author" value="@string.Join(" ; ", dados["Autores"])" />
                         <div class="row col-md-12">
                             <div class="col-md-10">
                                 <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
@@ -190,7 +190,7 @@
                     <div class="col-md-10">
                         <div class="row col-md-12">
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="dc_title_alternative" id="dc_title_alternative" size="50" value="">
+                                <input class="form-control" type="text" name="dc_title_alternative" id="dc_title_alternative" size="50" value="@dados["Outros Titulos"]">
                             </div>
                             <button class="btn btn-default col-md-2" name="submit_dc_title_alternative_add" value="Add More">
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More
@@ -212,7 +212,7 @@
                             <div class="col-md-10">
                                 <div class="row col-md-10">
                                     <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-                                    <input class="form-control ui-autocomplete-input" type="text" name="degois_publication_title" id="degois_publication_title" size="50" value="Wireless Networks" autocomplete="off">
+                                    <input class="form-control ui-autocomplete-input" type="text" name="degois_publication_title" id="degois_publication_title" size="50" value="@dados["Journal"]" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -407,16 +407,34 @@
 
                 <br>
 
+                @*--------------------Versao Editora-----------------*@
                 <div class="help-block">
                     Introduza o endereço electrónico da versão publicada do artigo. Algumas revistas exigem a colocação de um link para a sua versão (versão final do editor).
                 </div>
-                <div class="row"><label class="col-md-2">versão da editora</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_relation_publisherversion" id="dc_relation_publisherversion" size="50" value=""></div></div></div></div><br>
+                <div class="row">
+                    <label class="col-md-2">versão da editora</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="dc_relation_publisherversion" id="dc_relation_publisherversion" size="50" value="@dados["Versao da Editora"]">
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
 
-
+                @*--------------------Revisao por Pares-----------------*@
                 <div class="help-block">
                     Indique se a versão que está a depositar foi revista por pares especialistas (refereeing / peer review).
                 </div>
-                <div class="row"><label class="col-md-2">revisão por pares (peer-review)</label><span class="col-md-8"><select class="form-control" name="dc_peerreviewed"><option selected="selected" value="yes">sim</option><option value="no">não</option></select></span></div><br>
+                <div class="row">
+                    <label class="col-md-2">revisão por pares (peer-review)</label>
+                    <span class="col-md-8">
+                        <select class="form-control" name="dc_peerreviewed">
+                            <option value="yes" selected="@(dados["Revisao por pares"] == "sim" ? "selected" : null)">sim</option>
+                            <option value="no" selected="@(dados["Revisao por pares"] == "nao" || dados["Revisao por pares"] == null ? "selected" : null)">não</option>
+                        </select>
+                    </span>
+                </div><br>
 
 
                 @*--------------------TIPO-----------------*@
@@ -427,14 +445,14 @@
                     <label class="col-md-2 label-required">tipologia do documento</label>
                     <span class="col-md-8">
                         <select class="form-control" name="dc_type">
-                            <option selected="selected" value="article">article</option>
+                            <option value="article" selected="@(dados["Tipologia"] == "JOURNAL_ARTICLE" ? "selected" : null)">article</option>
                             <option value="bachelorThesis">bachelorThesis</option>
                             <option value="masterThesis">masterThesis</option>
                             <option value="doctoralThesis">doctoralThesis</option>
                             <option value="book">book</option>
                             <option value="bookPart">bookPart</option>
                             <option value="review">review</option>
-                            <option value="conferenceObject">conferenceObject</option>
+                            <option value="conferenceObject" selected="@(dados["Tipologia"] == "CONFERENCE_PAPER" ? "selected" : null)">conferenceObject</option>
                             <option value="lecture">lecture</option>
                             <option value="preprint">preprint</option>
                             <option value="workingPaper">workingPaper</option>
@@ -459,7 +477,7 @@
                     <label class="col-md-2 label-required">estado da publicação</label>
                     <span class="col-md-8">
                         <select class="form-control" name="dc_description_version">
-                            <option value="published" selected=@(dados["Estado"] == "published" ? "selected" : null)>Publicado</option>
+                            <option value="published" selected=@(dados["EstadoPub"] == "published" ? "selected" : null)>Publicado</option>
                             <option value="in publication">Em publicação</option>
                             <option value="submitted">Submetido</option>
                             <option value="Not Published">Não publicado</option>
@@ -500,7 +518,7 @@
                     <div class="col-md-4 pull-right btn-group">
                         <input class="btn btn-default col-md-6" type="submit" name="submit_cancel" value="Cancel/Save" @*onclick="BackToPubSaved()"*@ />
                         <input class="btn btn-primary col-md-6" type="submit" name="submit_next" value="Next" @*onclick="ForwardToMetaData2(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))"*@>
-                        <input type="hidden" name="works" value="@Newtonsoft.Json.JsonConvert.SerializeObject(dados)"/>
+                        <input type="hidden" name="works" value="@Newtonsoft.Json.JsonConvert.SerializeObject(dados)" />
                     </div><br>
                 </div>
             </form>
