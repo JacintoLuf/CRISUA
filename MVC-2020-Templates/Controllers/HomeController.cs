@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
@@ -25,11 +26,13 @@ namespace MVC_2020_Template.Controllers
         private readonly ILogger<HomeController> _logger;
         private static MyDbContext _db;// acesso db
         private static Dictionary<string, List<string>> _ficheiros = new Dictionary<string, List<string>>();
+        private IHostingEnvironment _hostingEnvironment;
 
-        public HomeController(ILogger<HomeController> logger, MyDbContext db)// acesso db
+        public HomeController(ILogger<HomeController> logger, MyDbContext db, IHostingEnvironment hosting)// acesso db
         {
             _logger = logger;
             _db = db;// acesso db
+            _hostingEnvironment = hosting;
         }
 
         public static MyDbContext DB()
@@ -213,7 +216,7 @@ namespace MVC_2020_Template.Controllers
             return Json(Url.Action("PublicationMetaData2", "Home", new { works = works }));
         }
 
-        public IActionResult PublicationMetaData3(String works, /*List<String> files*/)
+        public IActionResult PublicationMetaData3(String works /*List<String> files*/)
         {
             Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
@@ -228,19 +231,21 @@ namespace MVC_2020_Template.Controllers
         public async Task<IActionResult> PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2,
                                                     List<IFormFile> files, string submit_more)
         {
+            
             Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
             var filePaths = new List<String>();
             if (submit_more == "Add Another File")
             {
                 var size = files.Sum(f => f.Length);
+                string diretorio = Path.Combine(_hostingEnvironment.WebRootPath + "\\Ficheiros");
 
                 foreach (var formfile in files)
                 {
                     if (formfile.Length > 0)
                     {
-                        string diretorio = Directory.GetCurrentDirectory() + "/wwwroot/Ficheiros/";
-                        if (!Directory.Exists(diretorio))
-                            Directory.CreateDirectory(diretorio);
+                       
+                        //if (!Directory.Exists(diretorio))
+                        //    Directory.CreateDirectory(diretorio);
                         var filePath = Path.Combine(diretorio, formfile.FileName);
                         if (System.IO.File.Exists(filePath))
                             filePath = Path.Combine(diretorio, "a" + formfile.FileName);

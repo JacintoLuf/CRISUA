@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/Form_Layout.cshtml";
     var dados = ViewBag.dados;
     var files = ViewBag.files;
+    int i = 0;
 }
 
     <p>@dados</p>
@@ -131,6 +132,7 @@
 
                             @foreach (var filePath in files)
                             {
+                                i++;
                                 System.IO.FileInfo file = new System.IO.FileInfo(filePath);
                                 <tr>
                                     
@@ -139,10 +141,9 @@
                                     </td>
                                     <td headers="t2" class="evenRowOddCol">
                                         <a href="~/Ficheiros/@file.Name" target="_blank" >@file.Name</a>
-                                        <button class="btn btn-danger pull-right" type="submit" name="submit_remove_58836" value="Remove">
+                                        <button class="btn btn-danger pull-right" type="submit" name="submit_remove_@i" value="Remove"  >
                                             <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove
                                         </button>
-
                                     </td>
                                     <td headers="t3" class="evenRowEvenCol">@file.Length.ToString() bytes</td>
                                     <td headers="t4" class="evenRowOddCol">
@@ -164,6 +165,7 @@
                                     </td>
 
                                 </tr>
+
                             }
 
                             </tbody>
@@ -185,7 +187,7 @@
                     <ul class="uploadHelp">
                         <li class="uploadHelp">Clicking on the filenames above.  This will download the file in a new browser window, so that you can check the contents.</li>
 
-                        <li class="uploadHelp">
+                        @*<li class="uploadHelp">
                             The system can calculate a checksum you can verify.
                             <script type="text/javascript">
                                 //Javascript starts here
@@ -193,7 +195,7 @@
                                 // -->
                             </script><a href="#" onclick="var popupwin = window.open('/help/index.html#checksum','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">Click here for more information.</a><a href="https://ria.ua.pt/submit#" onclick="var popupwin = window.open('/help/index.html#checksum','dspacepopup','height=600,width=550,resizable,scrollbars');popupwin.focus();return false;">Click here for more information.</a><noscript><a href="/help/index.html#checksum" target="dspacepopup">Click here for more information.</a></noscript>
                             <input class="btn btn-info" type="submit" name="submit_show_checksums" value="Show checksums">
-                        </li>
+                        </li>*@
 
                     </ul>
                     <br>
@@ -220,6 +222,7 @@
 
     <script>
         var objs = [];
+
         function BackToPubSaved() {
             $.post("BackToSavedPubs", { works: JSON.stringify(objs) }, function (data) {
                 window.location.href = "PublicacoesSalvas";
