@@ -81,25 +81,25 @@
         <main id="content" role="main">
             <div class="container submission-container">
 
-                <!--Progress Bar-->
-                <div class="row container btn-group">
 
-                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.1" value="Describe" onclick="BackToMetadata1(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+                <form action="PublicationMetaData3" method="post" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
 
-                    <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2.2" value="Describe" onclick="BackToMetaData2(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
+                    <!--Progress Bar-->
+                    <div class="row container btn-group">
 
-                    <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_3.1" value="Upload">
+                        <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2_1" value="Describe">
 
-                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_4.1" value="Verify">
+                        <input class="submitProgressButtonDone btn btn-info" type="submit" name="submit_jump_2_2" value="Describe">
 
-                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_5.1" value="License">
+                        <input class="submitProgressButtonCurrent btn btn-primary" disabled="disabled" type="submit" name="submit_jump_3_1" value="Upload">
 
-                    <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6.1" value="Complete">
+                        <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_4_1" value="Verify">
 
-                </div>
+                        <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_5_1" value="License">
 
+                        <input class="submitProgressButtonNotDone btn btn-default" disabled="disabled" type="submit" name="submit_jump_6_1" value="Complete">
 
-                <form action="~/Home/PublicationSubmission" method="post" onkeydown="return disableEnterKey(event);">
+                    </div>
 
                     <h1>
                         Submit: Uploaded Files
@@ -180,14 +180,15 @@
 
                     <input type="hidden" name="workspace_item_id" value="44987"><input type="hidden" name="step" value="3"><input type="hidden" name="page" value="1"><input type="hidden" name="jsp" value="/submit/upload-file-list.jsp">
 
+
+                    <div class="col-md-6 pull-right btn-group">
+                        <input class="btn btn-default col-md-4" type="submit" name="submit_prev" value="Previous" @*onclick="BackToMetaData2(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))*@>
+                        <input class="btn btn-default col-md-4" type="submit" name="submit_cancel" value="Cancel/Save" @*onclick="BackToPubSaved()"*@>
+                        <input class="btn btn-primary col-md-4" type="submit" name="submit_next" value="Next" @*onclick="ForwardToPubSubmission(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))*@>
+                        <input type="hidden" name="works" value="@Newtonsoft.Json.JsonConvert.SerializeObject(dados)" />
+                    </div>
+
                 </form>
-
-                <div class="col-md-6 pull-right btn-group">
-                    <input class="btn btn-default col-md-4" type="submit" name="submit_prev" value="< Previous" onclick="BackToMetaData2(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
-                    <input class="btn btn-default col-md-4" type="submit" name="submit_cancel" value="Cancel/Save" onclick="BackToPubSaved()">
-                    <input class="btn btn-primary col-md-4" type="submit" name="submit_next" value="Next >" onclick="ForwardToPubSubmission(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))">
-                </div>
-
             </div>
         </main>
         <br />

@@ -209,6 +209,23 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2)
+        {
+            if (submit_jump_2_1 == "Describe")
+                return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
+            if (submit_jump_2_2 == "Describe" || submit_prev == "Previous")
+                return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
+            if (submit_next == "Next")
+            {
+                return RedirectToAction("PublicationSubmission", "Home", new { works = works });
+            }
+            if (submit_cancel == "Cancel/Save")
+                return RedirectToAction("PublicacoesSalvas", "Home");
+
+            return View();
+        }
+
         public IActionResult PublicationMetaData3_Helper(String works)
         {
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
@@ -221,6 +238,28 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult PublicationSubmission(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2, string submit_jump_3_1)
+        {
+            if (submit_jump_2_1 == "Describe")
+                return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
+
+            if (submit_jump_2_2 == "Describe")
+                return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
+
+            if (submit_jump_3_1 == "Upload" || submit_prev == "Previous")
+                return RedirectToAction("PublicationMetaData3", "Home", new { works = works });
+
+            if (submit_next == "Next")
+            {
+                return RedirectToAction("dSpaceLicense", "Home", new { works = works });
+            }
+            if (submit_cancel == "Cancel/Save")
+                return RedirectToAction("PublicacoesSalvas", "Home");
+
+            return View();
+        }
+
         public IActionResult PublicationSubmission_Helper(String works)
         {
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
@@ -230,6 +269,34 @@ namespace MVC_2020_Template.Controllers
         public IActionResult dSPaceLicense(String works)
         {
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult dSPaceLicense(string works, string submit_reject, string submit_grant, string submit_jump_2_1, string submit_jump_2_2, string submit_jump_3_1, string submit_jump_4_1)
+        {
+            if (submit_jump_2_1 == "Describe")
+                return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
+
+            if (submit_jump_2_2 == "Describe")
+                return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
+
+            if (submit_jump_3_1 == "Upload")
+                return RedirectToAction("PublicationMetaData3", "Home", new { works = works });
+
+            if (submit_jump_4_1 == "Verify")
+                return RedirectToAction("PublicationSubmission", "Home", new { works = works });
+
+            if (submit_reject == "I Do Not Grant the License")
+            {
+                return RedirectToAction("Home", "Home", new { works = works });
+            }
+
+            if (submit_grant == "I Grant the License")
+            {
+                return RedirectToAction("Home", "Home", new { works = works });
+            }
+
             return View();
         }
 

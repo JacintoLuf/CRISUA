@@ -120,11 +120,39 @@
                 <p>Please fill further information about this submission below.</p>
 
 
+                @*--------Palavra chave-----------*@
                 <div class="help-block">
                     Introduza as palavras-chave.
 
                 </div>
-                <div class="row"><label class="col-md-2">palavras-chave</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_subject_1" id="dc_subject_1" size="50" value="802.11 networks; Ad-hoc networks; Broadcast communication; Fountain codes; LT codes; Operating system installation"></div><button class="btn btn-danger col-md-2" name="submit_dc_subject_remove_0" value="Remove Entry"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Remove Entry</button></div><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_subject" id="dc_subject" size="50" value=""></div><button class="btn btn-default col-md-2" name="submit_dc_subject_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button></div></div></div><br>
+
+                <div class="row">
+                    <label class="col-md-2">palavras-chave</label>
+                    <div class="col-md-10">
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="dc_subject_1" id="dc_subject_1" size="50" value="802.11 networks; Ad-hoc networks; Broadcast communication; Fountain codes; LT codes; Operating system installation">
+                            </div>
+                            <button class="btn btn-danger col-md-2" name="submit_dc_subject_remove_0" value="Remove Entry">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                &nbsp;&nbsp;Remove Entry
+                            </button>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="dc_subject" id="dc_subject" size="50" value="">
+                            </div>
+                            <button class="btn btn-default col-md-2" name="submit_dc_subject_add" value="Add More">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                &nbsp;&nbsp;Add More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                @*--------Resumo-----------*@
                 <div class="help-block">
                     Introduza em baixo o resumo (abstract) no idioma principal do documento. Caso tenha um resumo noutro idioma clique no botão adicionar mais.
 
@@ -137,7 +165,11 @@
                             <div class="col-md-10"><textarea class="form-control" name="dc_description_abstract" rows="4" cols="45" id="dc_description_abstract_id"></textarea></div><button class="btn btn-default col-md-2" name="submit_dc_description_abstract_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button>
                         </div>
                     </div>
-                </div><br>
+                </div>
+
+                <br>
+
+                @*--------Projeto Financiado-----------*@
                 <div class="help-block">
                     Caso a publicação tenha resultado de projeto(s) financiado(s) pela Comissão Europeia (FP7, H2020, ERC), Fundação para a Ciência e Tecnologia ou Wellcome Trust, identifique esse(s) projeto(s) aqui. Essa identificação é geralmente um requisito dos financiadores.
                     Para identificar o(s) projeto(s) insira um dos seus elementos identificativos (número, nome, acrónimo ou referência) e selecione da lista que lhe é apresentada. Dúvidas ou mais informações aceda <a href="http://projeto.rcaap.pt/index.php/lang-pt/como-auto-arquivar-documentos/politica-fct" target="_blank">aqui</a>
@@ -154,7 +186,11 @@
                             </div><button class="btn btn-default col-md-2" name="submit_dc_relation_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button>
                         </div>
                     </div>
-                </div><br>
+                </div>
+
+                <br>
+
+                @*--------Patrocinadores-----------*@
                 <div class="help-block">
                     Introduza os nomes de eventuais patrocinadores na caixa em baixo.
 
@@ -165,12 +201,30 @@
                             <div class="col-md-10"><textarea class="form-control" name="dc_description_sponsorship" rows="4" cols="45" id="dc_description_sponsorship_id"></textarea></div>
                         </div>
                     </div>
-                </div><br>
+                </div>
+
+                <br>
+
+                @*--------Nivel de Acesso-----------*@
                 <div class="help-block">
                     Esta coleção é de acesso aberto, deve ter em conta a condição de depósito presente na política da publicação onde foi publicado o seu documento. As políticas das editoras/revistas científicas podem ser consultadas em <a href="http://www.sherpa.ac.uk/romeo/" target="_blank">SHERPA RoMEO</a>
-
                 </div>
-                <div class="row"><label class="col-md-2 label-required">nível de acesso</label><span class="col-md-8"><select class="form-control" name="dc_rights"><option value="">Select Value</option><option value="openAccess">Acesso Aberto</option><option selected="selected" value="restrictedAccess">Acesso Restrito</option><option value="embargoedAccess">Acesso Embargado</option></select></span></div><br>
+
+                <div class="row">
+                    <label class="col-md-2 label-required">nível de acesso</label>
+                    <span class="col-md-8">
+                        <select class="form-control" name="dc_rights">
+                            <option value="">Select Value</option>
+                            <option value="openAccess">Acesso Aberto</option>
+                            <option selected="selected" value="restrictedAccess">Acesso Restrito</option>
+                            <option value="embargoedAccess">Acesso Embargado</option>
+                        </select>
+                    </span>
+                </div>
+                
+                <br>
+
+                @*--------Embargo-----------*@
                 <div class="help-block">
                     Caso tenha indicado "acesso embargado" no campo "nível de acesso", indique a data do final do embargo, a partir da qual o documento passará a estar disponível em acesso aberto. Deve indicar pelo menos o ano e o mês.
 
@@ -178,10 +232,41 @@
                 <div class="row">
                     <label class="col-md-2">data final do embargo</label><div class="col-md-10">
                         <div class="row col-md-12">
-                            <div class="input-group col-md-10"><div class="row"><span class="input-group col-md-2"><span class="input-group-addon">Day:</span><input class="form-control" type="text" name="dc_date_embargo_day" size="2" maxlength="2" value=""></span><span class="input-group col-md-6"><span class="input-group-addon">Month:</span><select class="form-control" name="dc_date_embargo_month"><option value="-1" selected="selected">(No Month)</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></span><span class="input-group col-md-4"><span class="input-group-addon">Year:</span><input class="form-control" type="text" name="dc_date_embargo_year" size="4" maxlength="4" value=""></span></div></div>
+                            <div class="input-group col-md-10">
+                                <div class="row">
+                                    <span class="input-group col-md-2">
+                                        <span class="input-group-addon">Day:</span>
+                                        <input class="form-control" type="text" name="dc_date_embargo_day" size="2" maxlength="2" value="">
+                                    </span>
+                                    <span class="input-group col-md-6">
+                                        <span class="input-group-addon">Month:</span>
+                                        <select class="form-control" name="dc_date_embargo_month">
+                                            <option value="-1" selected="selected">(No Month)</option>
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </span>
+                                    <span class="input-group col-md-4">
+                                        <span class="input-group-addon">Year:</span>
+                                        <input class="form-control" type="text" name="dc_date_embargo_year" size="4" maxlength="4" value="">
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div><br>
+
+                @*--------Licensa-----------*@
                 <div class="help-block">
                     Associe uma licença <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons 4.0 Internacional</a> ao seu trabalho, escolhendo-a da lista apresentada. No caso de trabalhos financiados pela FCT o uso da licença CC-BY é recomendado.
 
