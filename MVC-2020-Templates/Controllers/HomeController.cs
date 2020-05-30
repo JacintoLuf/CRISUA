@@ -24,6 +24,7 @@ namespace MVC_2020_Template.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private static MyDbContext _db;// acesso db
+        private static Dictionary<string, List<string>> _ficheiros = new Dictionary<string, List<string>>();
 
         public HomeController(ILogger<HomeController> logger, MyDbContext db)// acesso db
         {
@@ -212,10 +213,14 @@ namespace MVC_2020_Template.Controllers
             return Json(Url.Action("PublicationMetaData2", "Home", new { works = works }));
         }
 
-        public IActionResult PublicationMetaData3(String works, List<String> files)
+        public IActionResult PublicationMetaData3(String works, /*List<String> files*/)
         {
+            Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
-            ViewBag.files = files;
+            if (_ficheiros.ContainsKey(work["titulo"].ToString()))
+                ViewBag.files = _ficheiros[work["titulo"].ToString()];
+            else
+                ViewBag.files = new List<string>();
             return View();
         }
 
@@ -223,6 +228,7 @@ namespace MVC_2020_Template.Controllers
         public async Task<IActionResult> PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2,
                                                     List<IFormFile> files, string submit_more)
         {
+            Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
             var filePaths = new List<String>();
             if (submit_more == "Add Another File")
             {
@@ -232,26 +238,33 @@ namespace MVC_2020_Template.Controllers
                 {
                     if (formfile.Length > 0)
                     {
-                        string diretorio = Directory.GetCurrentDirectory();
-                        var filePath = Path.Combine(diretorio + "/wwwroot/Ficheiros/", formfile.FileName);
+                        string diretorio = Directory.GetCurrentDirectory() + "/wwwroot/Ficheiros/";
+                        if (!Directory.Exists(diretorio))
+                            Directory.CreateDirectory(diretorio);
+                        var filePath = Path.Combine(diretorio, formfile.FileName);
+                        if (System.IO.File.Exists(filePath))
+                            filePath = Path.Combine(diretorio, "a" + formfile.FileName);
                         filePaths.Add(filePath);
-
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await formfile.CopyToAsync(stream);
                         }
                     }
                 }
-                return RedirectToAction("PublicationMetaData3", "Home", new { works = works, files = filePaths });
+                if (_ficheiros.ContainsKey(work["titulo"].ToString()))
+                    _ficheiros[work["titulo"].ToString()].AddRange(filePaths);
+                else
+                    _ficheiros.Add(work["titulo"].ToString(), filePaths);
+                return RedirectToAction("PublicationMetaData3", "Home", new { works = works/*, files = filePaths*/ });
 
             }
             if (submit_jump_2_1 == "Describe")
-                return RedirectToAction("PublicationMetaData1", "Home", new { works = works, files = filePaths });
+                return RedirectToAction("PublicationMetaData1", "Home", new { works = works/*, files = filePaths*/ });
             if (submit_jump_2_2 == "Describe" || submit_prev == "Previous")
-                return RedirectToAction("PublicationMetaData2", "Home", new { works = works, files = filePaths });
+                return RedirectToAction("PublicationMetaData2", "Home", new { works = works/*, files = filePaths*/ });
             if (submit_next == "Next")
             {
-                return RedirectToAction("PublicationSubmission", "Home", new { works = works, files = filePaths });
+                return RedirectToAction("PublicationSubmission", "Home", new { works = works/*, files = filePaths*/ });
             }
             if (submit_cancel == "Cancel/Save")
                 return RedirectToAction("PublicacoesSalvas", "Home");
