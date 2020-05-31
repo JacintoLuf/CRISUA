@@ -303,6 +303,7 @@
                         <input class="btn btn-default col-md-4" type="submit" name="submit_cancel" value="Cancel/Save" @*onclick="BackToPubSaved()"*@>
                         <input class="btn btn-primary col-md-4" type="submit" name="submit_next" value="Next" @*onclick="ForwardToMetaData3(@Newtonsoft.Json.JsonConvert.SerializeObject(dados))"*@>
                         <input type="hidden" name="works" value="@Newtonsoft.Json.JsonConvert.SerializeObject(dados)" />
+                        <input type="hidden" name="titulo" value="@dados["titulo"]" />
                     </div><br>
                 </div>
             </form>

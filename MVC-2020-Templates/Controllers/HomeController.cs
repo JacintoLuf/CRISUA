@@ -190,12 +190,12 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult PublicationMetaData2(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1,
                                                     string dc_subject_1 /*palavra chave*/, string dc_description_abstract_1 /*resumo*/, string dc_relation_authority, /*prof financiado*/
-                                                    string dc_description_sponsorship /*patrocinadores*/, string dc_rights /*acesso*/,
-                                                    string dc_date_embargo_day, string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/)
+                                                    string dc_description_sponsorship /*patrocinadores*/, string dc_rights /*acesso*/,string dc_date_embargo_day, 
+                                                    string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/, string titulo)
         {
             Hashtable dados = publicationMeta2ToHash(dc_subject_1 /*palavra chave*/, dc_description_abstract_1 /*resumo*/, dc_relation_authority, /*prof financiado*/
-                                                     dc_description_sponsorship /*patrocinadores*/, dc_rights /*acesso*/,
-                                                     dc_date_embargo_day, dc_date_embargo_month, dc_date_embargo_year, dc_rights_uri /*licensa*/);
+                                                     dc_description_sponsorship /*patrocinadores*/, dc_rights /*acesso*/, dc_date_embargo_day, dc_date_embargo_month, 
+                                                     dc_date_embargo_year, dc_rights_uri /*licensa*/, titulo);
 
             if (submit_jump_2_1 == "Describe" || submit_prev == "Previous")
                 return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
@@ -450,10 +450,10 @@ namespace MVC_2020_Template.Controllers
 
         public static Hashtable publicationMeta2ToHash(string dc_subject_1 /*palavra chave*/, string dc_description_abstract_1 /*resumo*/, string dc_relation_authority, /*prof financiado*/
                                                         string dc_description_sponsorship /*patrocinadores*/, string dc_rights /*acesso*/, string dc_date_embargo_day, 
-                                                        string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/)
+                                                        string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/, string titulo)
         {
             Hashtable temp = new Hashtable();
-
+            temp.Add("titulo", titulo);
             temp.Add("Palavra-Chave", dc_subject_1);
             temp.Add("Resumo", dc_description_abstract_1);
             temp.Add("Financiamento", dc_relation_authority);
