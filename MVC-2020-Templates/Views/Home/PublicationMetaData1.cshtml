@@ -86,7 +86,7 @@
             </c:set>
 
 
-            <form action="PublicationMetaData1" method="post" name="edit_metadata" id="edit_metadata" onkeydown="return disableEnterKey(event);">
+            <form action="PublicationMetaData1" method="post" name="edit_metadata" id="edit_metadata" >
 
                 <!--Progress Bar-->
                 <div class="row container btn-group">
@@ -123,7 +123,7 @@
 
                 <div class="row">
                     <label class="col-md-2 label-required">autores</label>
-                    <div class="col-md-10">
+                    <div class="col-md-10" id="autores">
 
                         @foreach (var name in dados["Autores"])
                         {
@@ -133,7 +133,7 @@
                                     <input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author_1" id="dc_contributor_author_1" size="50" value="@name" autocomplete="off">
 
                                 </div>
-                                <button class="btn btn-danger col-md-2" name="submit_dc_contributor_author_remove_0" value="Remove Entry">
+                                <button class="btn btn-danger col-md-2" name="submit_dc_contributor_author_remove_0" value="Remove Entry" onclick="RemoveTexBox(this)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     &nbsp;
                                     &nbsp;
@@ -141,13 +141,13 @@
                                 </button>
                             </div>
                         }
-                        <input type="hidden" name="dc_contributor_author" value="@string.Join(" ; ", dados["Autores"])" />
+                        @*<input type="hidden" name="dc_contributor_author" value="@string.Join(" ; ", dados["Autores"])" />*@
                         <div class="row col-md-12">
                             <div class="col-md-10">
                                 <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
                                 <input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author" id="dc_contributor_author" size="50" value="" placeholder="Provide the name of the author or its institutional mail address to start searching" autocomplete="off">
                             </div>
-                            <button class="btn btn-default col-md-2" name="submit_dc_contributor_author_add" value="Add More">
+                            <button class="btn btn-default col-md-2" type="submit" name="submit_dc_contributor_author_add" value="Add More">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 &nbsp;
                                 &nbsp;
@@ -540,6 +540,28 @@
 
 
 <script>
+    function GetDynamicTextboc() {
+        return '<div class="col-md-10 input-group">'+
+                                    '<span role="status" aria-live="polite" class="ui-helper-hidden-accessible">André Ventura da Cruz Marnoto Zúquete</span>'+
+                                    '<input class="form-control ui-autocomplete-input" type="text" name="dc_contributor_author" id="dc_contributor_author_1" size="50" value="" autocomplete="off">'+
+                                '</div>'+
+                                '<button class="btn btn-danger col-md-2" name="submit_dc_contributor_author_remove_0" value="Remove Entry" onclick="RemoveTexBox(this)">'+
+                                    '<span class="glyphicon glyphicon-trash"></span>'+
+                                    '&nbsp;&nbsp;Remove Entry'+
+                                '</button>'
+    }
+
+    function AddTexBox() {
+        var div = document.createElement("div");
+        div.className = "row col-md-12";
+        div.innerHTML = GetDynamicTextboc();
+        document.getElementById("autores").appendChild(div);
+    }
+
+    function RemoveTexBox(div) {
+        document.getElementById("autores").removeChild(div.parentNode);
+    }
+
     var objs = [];
     function BackToPubSaved() {
         $.post("BackToSavedPubs", { works: JSON.stringify(objs) }, function (data) {
