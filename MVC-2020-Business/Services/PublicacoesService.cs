@@ -25,7 +25,10 @@ namespace MVC_2020_Business.Services
         private const string urlParameter5 = "0000-0002-4356-4522"; //Vieira
         private const string urlParameter3 = "0000-0002-7128-2805"; //Filipe Trancho
         private const string urlParameter4 = "0000-0002-3488-6570"; //Renato
-        private const string iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09";
+        private const string urlParameter6 = "0000-0003-4186-7332"; //Rosalino
+        private const string iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09"; // vieira
+        private const string iupi2 = "83b90544-a39d-4073-81cb-0ad094c1ec71"; // rosalino
+
         //public static IEnumerable<Product> GetProducts()
         //{
         //    var client = new RestClient("https://ria.ua.pt/");
@@ -43,7 +46,7 @@ namespace MVC_2020_Business.Services
                 //.Where(b => b.GenderId > 2)
                 //.OrderBy(b => b.GenderId)
                 .ToList();*/
-            IUPI = iupi;
+            IUPI = iupi2;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -80,6 +83,7 @@ namespace MVC_2020_Business.Services
 
         public static List<Product> GetProducts2(MyDbContext _db, string IUPI)
         {
+            IUPI = iupi2;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -137,12 +141,12 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter5, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(urlParameter6, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
                 var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
-                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, urlParameter5, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, urlParameter6, iupi2 ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
                 return ls;
             }
             else
@@ -159,7 +163,7 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter5, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(urlParameter6, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
@@ -225,9 +229,9 @@ namespace MVC_2020_Business.Services
 
                 Work toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("crossref")
                                                     || x.source.sourceName.content.ToLower().Contains("scopus")
-                                                    || !x.source.sourceName.content.ToLower().Contains("trancho")
+                                                    || !x.source.sourceName.content.ToLower().Contains("rosalino")
                                                     || !x.source.sourceName.content.ToLower().Contains("datacite")); //escolhe a publicação que vem do crossref, scopus ou o que não vem do autor e datacite
-                if (toStay == null) toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("trancho")); //se não escolheu nenhuma escolhe a do autor
+                if (toStay == null) toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("rosalino")); //se não escolheu nenhuma escolhe a do autor
 
                 listToMerge.Remove(toStay);// remove a publicação escolhida da lista das publicações repetidas
                 while (listToMerge.Count != 0) //ve os duplicados todos
@@ -235,7 +239,7 @@ namespace MVC_2020_Business.Services
                     Work temp;
                     if (listToMerge.Count > 1)
                     {
-                        temp = listToMerge.Find(x => !x.source.sourceName.content.ToLower().Contains("trancho")
+                        temp = listToMerge.Find(x => !x.source.sourceName.content.ToLower().Contains("rosalino")
                                                     || x.source.sourceName.content.ToLower().Contains("scopus")); //escolhe a publicação que não vem do autor
                     }
                     else
