@@ -384,7 +384,8 @@ namespace MVC_2020_Business.Services
                             {
                                 var qp = from p in _db.PersonName where p.Name == c select p.PersonNameId;
                                 var ppName = qp.FirstOrDefault();
-                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = _db.Person.Count(), PersonNameId = ppName });
+
+                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = checkReal(_db, c), PersonNameId = ppName });
 
                             }
                             else
@@ -847,7 +848,7 @@ namespace MVC_2020_Business.Services
 
         public static void updateAsTable1(MyDbContext _db, Hashtable table)
         {
-            var query = from tmp in _db.PublicationTitle where tmp.Title == (string) table["titulo"] select tmp.PublicationId;
+            var query = from tmp in _db.PublicationTitle where Regex.Replace(tmp.Title, @"\s", "").ToLower() == (string) table["titulo"] select tmp.PublicationId;
             var id = query.FirstOrDefault();
 
             PublicationDetail detail = new PublicationDetail();
@@ -885,7 +886,7 @@ namespace MVC_2020_Business.Services
 
         public static void updateAsTable2(MyDbContext _db, Hashtable table)
         {
-            var query = from tmp in _db.PublicationTitle where tmp.Title == (string)table["titulo"] select tmp.PublicationId;
+            var query = from tmp in _db.PublicationTitle where Regex.Replace(tmp.Title, @"\s", "").ToLower() == (string)table["titulo"] select tmp.PublicationId;
             var id = query.FirstOrDefault();
 
             PublicationAbstract abs = new PublicationAbstract();

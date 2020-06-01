@@ -444,7 +444,7 @@ namespace MVC_2020_Template.Controllers
         {
             Hashtable temp = new Hashtable();
             string title = dc_title.ToLower();
-            title.Trim();
+            title = Regex.Replace(title, @"\s", "");
             temp.Add("titulo", title);
             temp.Add("Autores", dc_contributor_author);
             temp.Add("titulo alternativo", dc_title_alternative);
@@ -482,7 +482,7 @@ namespace MVC_2020_Template.Controllers
         {
             Hashtable temp = new Hashtable();
             string title = titulo.ToLower();
-            title.Trim();
+            title = Regex.Replace(title, @"\s", "");
             temp.Add("titulo", title);
             temp.Add("Palavra-Chave", dc_subject_1);
             temp.Add("Resumo", dc_description_abstract_1);
