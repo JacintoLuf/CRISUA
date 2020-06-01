@@ -8,6 +8,7 @@
     var count = 0;
     var seta1 = "seta1_" + count;
     var seta2 = "seta2_" + count;
+    var orcidID = ViewBag.OrcidID;
 }
 
 <div><h2>@ViewData["Title"]</h2></div>
@@ -18,7 +19,14 @@
         <div class="column">
             <form action="publicacoes" method="post">
                 <input type="hidden" name="import" value="True" />
-                <button type="submit" class="ui primary button">Importar</button>
+                @if (orcidID != null)
+                {
+                    <button type="submit" class="ui primary button" tooltip="Para Importar insira o seu ORCID ID" disabled>Importar</button>
+                }
+                else
+                {
+                    <button type="submit" class="ui primary button">Importar</button>
+                }
             </form>
         </div>
     </div>

@@ -49,15 +49,17 @@ namespace MVC_2020_Template.Controllers
         [HttpGet]
         public IActionResult Perfil()
         {
-            //Estou a passar o IUPI do Vieira pãra testar
-            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "83b90544-a39d-4073-81cb-0ad094c1ec71"/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
-            if (aux != null)
-            {
-                ViewBag.OrcidID = aux;
-            }
-            else {
-                ViewBag.OrcidID = null;
-            }
+            ////Estou a passar o IUPI do Vieira pãra testar
+            //var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "83b90544-a39d-4073-81cb-0ad094c1ec71"/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
+
+            //if (aux != null)
+            //{
+            //    ViewBag.OrcidID = aux;
+            //}
+            //else {
+            //    ViewBag.OrcidID = null;
+            //}
+            ViewBag.OrcidID = null;
             return View();
         }
         [HttpPost]
@@ -80,6 +82,7 @@ namespace MVC_2020_Template.Controllers
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
             ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1"), Session.IUPI.ToString());
+            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
             //                            PublicacoesService.ConvertProductToWork(
             //                            PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
@@ -90,6 +93,7 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult Publicacoes(string import)
         {
+            
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, Session.FullName,
@@ -183,10 +187,15 @@ namespace MVC_2020_Template.Controllers
                 work.Remove("Autores");
                 work.Add("Autores", fc["dc_contributor_author_1"].ToList());
                 string works2 = JsonConvert.SerializeObject(work);
+                MVC_2020_Business.Services.DatabaseServices.updateState(_db, dc_title, 3);
                 return RedirectToAction("PublicationMetaData2", "Home", new { works = works2 });
             }
             if (submit_cancel == "Cancel/Save")
+            {
+                MVC_2020_Business.Services.DatabaseServices.updateState(_db, dc_title, 3);
                 return RedirectToAction("PublicacoesSalvas", "Home");
+            }
+                
 
             return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
         }
@@ -352,7 +361,8 @@ namespace MVC_2020_Template.Controllers
         }
 
         [HttpPost]
-        public IActionResult dSPaceLicense(string works, string submit_reject, string submit_grant, string submit_jump_2_1, string submit_jump_2_2, string submit_jump_3_1, string submit_jump_4_1)
+        public IActionResult dSPaceLicense(string works, string submit_reject, string submit_grant, string submit_jump_2_1, 
+                                            string submit_jump_2_2, string submit_jump_3_1, string submit_jump_4_1, string titulo)
         {
             if (submit_jump_2_1 == "Describe")
                 return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
@@ -373,6 +383,7 @@ namespace MVC_2020_Template.Controllers
 
             if (submit_grant == "I Grant the License")
             {
+                MVC_2020_Business.Services.DatabaseServices.updateState(_db,titulo , 4);
                 return RedirectToAction("PublicacoesSalvas", "Home");
             }
 
