@@ -365,7 +365,7 @@ namespace MVC_2020_Template.Controllers
 
         [HttpPost]
         public IActionResult dSPaceLicense(string works, string submit_reject, string submit_grant, string submit_jump_2_1, 
-                                            string submit_jump_2_2, string submit_jump_3_1, string submit_jump_4_1, string titulo)
+                                            string submit_jump_2_2, string submit_jump_3_1, string submit_jump_4_1, string pubID)
         {
             if (submit_jump_2_1 == "Describe")
                 return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
@@ -386,7 +386,7 @@ namespace MVC_2020_Template.Controllers
 
             if (submit_grant == "I Grant the License")
             {
-                MVC_2020_Business.Services.DatabaseServices.updateState(_db,titulo , 4);
+                MVC_2020_Business.Services.DatabaseServices.updateState(_db, pubID, 4);
                 return RedirectToAction("PublicacoesSalvas", "Home");
             }
 
