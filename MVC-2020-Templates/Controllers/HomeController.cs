@@ -156,7 +156,8 @@ namespace MVC_2020_Template.Controllers
                                                     string dc_date_issued_month, string dc_date_issued_year, string degois_publication_volume, string degois_publication_issue,
                                                     string degois_publication_firstPage, string degois_publication_lastPage,string dc_publisher, string dc_identifier_issn,
                                                     string dc_identifier_essn, string dc_identifier_doi, string dc_peerreviewed, string dc_relation_publisherversion,
-                                                    string dc_type, string dc_description_version, string dc_language_iso, IFormCollection fc, string submit_dc_contributor_author_add)
+                                                    string dc_type, string dc_description_version, string dc_language_iso, IFormCollection fc, string submit_dc_contributor_author_add,
+                                                    string pubID)
         {
             if(submit_dc_contributor_author_add == "Add More" && dc_contributor_author != null)
             {
@@ -173,7 +174,7 @@ namespace MVC_2020_Template.Controllers
                                                      dc_date_issued_month,  dc_date_issued_year,  degois_publication_volume,  degois_publication_issue,
                                                      degois_publication_firstPage,  degois_publication_lastPage,  dc_publisher,  dc_identifier_issn,
                                                      dc_identifier_essn,  dc_identifier_doi,  dc_peerreviewed,  dc_relation_publisherversion,
-                                                     dc_type,  dc_description_version,  dc_language_iso);
+                                                     dc_type,  dc_description_version,  dc_language_iso, pubID);
 
             DatabaseServices.updateAsTable1(_db, dados);
             //var teste = fc["dc_contributor_author_1"].ToList();
@@ -224,11 +225,11 @@ namespace MVC_2020_Template.Controllers
         public IActionResult PublicationMetaData2(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1,
                                                     string dc_subject_1 /*palavra chave*/, string dc_description_abstract_1 /*resumo*/, string dc_relation_authority, /*prof financiado*/
                                                     string dc_description_sponsorship /*patrocinadores*/, string dc_rights /*acesso*/,string dc_date_embargo_day, 
-                                                    string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/, string titulo)
+                                                    string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/, string pubID)
         {
             Hashtable dados = publicationMeta2ToHash(dc_subject_1 /*palavra chave*/, dc_description_abstract_1 /*resumo*/, dc_relation_authority, /*prof financiado*/
                                                      dc_description_sponsorship /*patrocinadores*/, dc_rights /*acesso*/, dc_date_embargo_day, dc_date_embargo_month, 
-                                                     dc_date_embargo_year, dc_rights_uri /*licensa*/, titulo);
+                                                     dc_date_embargo_year, dc_rights_uri /*licensa*/, pubID);
 
             DatabaseServices.updateAsTable2(_db, dados);
 
@@ -453,12 +454,10 @@ namespace MVC_2020_Template.Controllers
                                                     string dc_date_issued_month, string dc_date_issued_year, string degois_publication_volume, string degois_publication_issue,
                                                     string degois_publication_firstPage, string degois_publication_lastPage, string dc_publisher, string dc_identifier_issn,
                                                     string dc_identifier_essn, string dc_identifier_doi, string dc_peerreviewed, string dc_relation_publisherversion,
-                                                    string dc_type, string dc_description_version, string dc_language_iso)
+                                                    string dc_type, string dc_description_version, string dc_language_iso, string pubID)
         {
             Hashtable temp = new Hashtable();
-            string title = dc_title.ToLower();
-            title = Regex.Replace(title, @"\s", "");
-            temp.Add("titulo", title);
+            temp.Add("titulo", dc_title);
             temp.Add("Autores", dc_contributor_author);
             temp.Add("titulo alternativo", dc_title_alternative);
             temp.Add("Revista", degois_publication_title);
@@ -478,6 +477,7 @@ namespace MVC_2020_Template.Controllers
             temp.Add("Tipo", dc_type);
             temp.Add("Estado", dc_description_version);
             temp.Add("Idioma", dc_language_iso);
+            temp.Add("ID", pubID);
 
             //Console.WriteLine("HASHTABLE AUTORES: ");
             //foreach (var d in (List<string>)temp["Autores"])
@@ -491,12 +491,9 @@ namespace MVC_2020_Template.Controllers
 
         public static Hashtable publicationMeta2ToHash(string dc_subject_1 /*palavra chave*/, string dc_description_abstract_1 /*resumo*/, string dc_relation_authority, /*prof financiado*/
                                                         string dc_description_sponsorship /*patrocinadores*/, string dc_rights /*acesso*/, string dc_date_embargo_day, 
-                                                        string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/, string titulo)
+                                                        string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/, string pubID)
         {
             Hashtable temp = new Hashtable();
-            string title = titulo.ToLower();
-            title = Regex.Replace(title, @"\s", "");
-            temp.Add("titulo", title);
             temp.Add("Palavra-Chave", dc_subject_1);
             temp.Add("Resumo", dc_description_abstract_1);
             temp.Add("Financiamento", dc_relation_authority);
@@ -506,6 +503,7 @@ namespace MVC_2020_Template.Controllers
             temp.Add("Mes-Embargo", dc_date_embargo_month);
             temp.Add("Ano-Embargo", dc_date_embargo_year);
             temp.Add("Licensa", dc_rights_uri);
+            temp.Add("ID", pubID);
 
             return temp;
         }
