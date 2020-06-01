@@ -597,14 +597,24 @@ namespace MVC_2020_Business.Services
         //    throw new NotImplementedException();
         //}
 
-        public static void updateState(MyDbContext _db, string titulo, int valor)
+        public static void updateState(MyDbContext _db, int id, int valor)
         {
             bool f = false;
 
-            var query = from tit in _db.PublicationTitle where tit.Title == titulo select tit.PublicationId;
-
             Publication a = new Publication();
-            a = _db.Publication.Find(query.FirstOrDefault());
+            a = _db.Publication.Find(id);
+            a.State = valor;
+            _db.Entry(a).State = EntityState.Modified;
+            _db.SaveChanges();
+
+        }
+
+        public static void updateState(MyDbContext _db, string titul, int valor)
+        {
+            var qu = from tmp in _db.PublicationTitle where tmp.Title == titul select tmp.PublicationId;
+            var id = qu.FirstOrDefault();
+            Publication a = new Publication();
+            a = _db.Publication.Find(id);
             a.State = valor;
             _db.Entry(a).State = EntityState.Modified;
             _db.SaveChanges();
@@ -774,16 +784,17 @@ namespace MVC_2020_Business.Services
             return l.Concat(data.Split("/").ToList()).ToList(); /*e.g ["1/2/3333", "1", "2", "3333"]*/
         }
 
-        public static void updatePub(MyDbContext _db, string titulo, string info, string valor)
+        public static void updatePub(MyDbContext _db, int id, string info, string valor)
         {
 
-            var query = from titl in _db.PublicationTitle where titl.Title == titulo select titl.PublicationId;
-            var id = query.FirstOrDefault();
             if (id > 0)
             {
                 switch (info)
                 {
                     case "Titulo":
+                        var queryT = from tmp in _db.PublicationTitle where tmp.PublicationId == id select tmp.Title;
+                        var titulo = queryT.FirstOrDefault();
+
                         PublicationTitle a = new PublicationTitle();
                         a = _db.PublicationTitle.Find(titulo);
                         a.Title = valor;
@@ -803,10 +814,10 @@ namespace MVC_2020_Business.Services
                     case "ISSN":
 
                         var queryI = from dois in _db.Publication_Identifier where dois.PublicationId == id && dois.IdentifierId == 2 select dois;
-                        var issn = query.FirstOrDefault();
+                        var issn = queryI.FirstOrDefault();
 
                         Publication_Identifier c = new Publication_Identifier();
-                        if (issn == 0)
+                        if (issn == null)
                         {
                             var queryData = from tmpP in _db.Publication where tmpP.PublicationId == id select tmpP.Date;
 
@@ -851,9 +862,7 @@ namespace MVC_2020_Business.Services
         public static void updateAsTable1(MyDbContext _db, Hashtable table)
         {
 
-            var pubTeste = _db.PublicationTitle.FirstOrDefault(c => (c.Title.Replace(" ", string.Empty)).Replace("\n", string.Empty) == (string)table["titulo"]);
-           // var query = from tmp in _db.PublicationTitle where Regex.Replace(tmp.Title, @"\s", "").ToLower() == (string) table["titulo"] select tmp.PublicationId;
-            var id = pubTeste.PublicationId;
+            var id = Int32.Parse(table["ID"].ToString());
 
             PublicationDetail detail = new PublicationDetail();
             detail = _db.PublicationDetail.Find(id);
@@ -890,8 +899,8 @@ namespace MVC_2020_Business.Services
 
         public static void updateAsTable2(MyDbContext _db, Hashtable table)
         {
-            var pubTeste = _db.PublicationTitle.FirstOrDefault(c => (c.Title.Replace(" ", string.Empty)).Replace("\n", string.Empty) == (string)table["titulo"]);
-            var id = pubTeste.PublicationId;
+            //var pubTeste = _db.PublicationTitle.FirstOrDefault(c => (c.Title.Replace(" ", string.Empty)).Replace("\n", string.Empty) == (string)table["titulo"]);
+            var id = Int32.Parse(table["ID"].ToString());
             PublicationAbstract abs = new PublicationAbstract();
             abs = _db.PublicationAbstract.Find(id);
             if ((string)table["Resumo"] == null) abs.Abstract = "";
