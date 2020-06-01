@@ -59,7 +59,9 @@ namespace MVC_2020_Template.Controllers
             //else {
             //    ViewBag.OrcidID = null;
             //}
-            ViewBag.OrcidID = null;
+
+
+            //ViewBag.OrcidID = null;
             return View();
         }
         [HttpPost]
