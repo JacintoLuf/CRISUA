@@ -169,6 +169,7 @@ namespace MVC_2020_Template.Controllers
                                                      dc_identifier_essn,  dc_identifier_doi,  dc_peerreviewed,  dc_relation_publisherversion,
                                                      dc_type,  dc_description_version,  dc_language_iso);
 
+            DatabaseServices.updateAsTable1(_db, dados);
             //var teste = fc["dc_contributor_author_1"].ToList();
             //Console.WriteLine("TESTE: ");
             //teste.ForEach(x => Console.WriteLine("\t"+x));
@@ -217,6 +218,8 @@ namespace MVC_2020_Template.Controllers
             Hashtable dados = publicationMeta2ToHash(dc_subject_1 /*palavra chave*/, dc_description_abstract_1 /*resumo*/, dc_relation_authority, /*prof financiado*/
                                                      dc_description_sponsorship /*patrocinadores*/, dc_rights /*acesso*/, dc_date_embargo_day, dc_date_embargo_month, 
                                                      dc_date_embargo_year, dc_rights_uri /*licensa*/, titulo);
+
+            DatabaseServices.updateAsTable2(_db, dados);
 
             if (submit_jump_2_1 == "Describe" || submit_prev == "Previous")
                 return RedirectToAction("PublicationMetaData1", "Home", new { works = works });

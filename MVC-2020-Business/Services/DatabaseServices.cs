@@ -309,6 +309,10 @@ namespace MVC_2020_Business.Services
                 _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 1, Value = orcid, VisibilityId = 2, StartDate = DateTime.Now, EndDate = DateTime.MaxValue }) ;
                 _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 3, Value = iupi, VisibilityId = 1, StartDate=DateTime.Now, EndDate=DateTime.MaxValue });
             }
+            //else
+            //{
+            //    var queryIdentifier= from tmp in _db.Person_Identifier where tmp.PersonID== query1.FirstOrDefault()
+            //}
 
             //////
 
@@ -722,7 +726,7 @@ namespace MVC_2020_Business.Services
             return l.Concat(data.Split("/").ToList()).ToList(); /*e.g ["1/2/3333", "1", "2", "3333"]*/
         }
 
-        private static void updatePub(MyDbContext _db, string titulo, string info, string valor)
+        public static void updatePub(MyDbContext _db, string titulo, string info, string valor)
         {
 
             var query = from titl in _db.PublicationTitle where titl.Title == titulo select titl.PublicationId;
@@ -795,6 +799,61 @@ namespace MVC_2020_Business.Services
                 }
             }
         }
+
+        public static void updateAsTable1(MyDbContext _db, Hashtable table)
+        {
+            var query = from tmp in _db.PublicationTitle where tmp.Title == (string) table["titulo"] select tmp.PublicationId;
+            var id = query.FirstOrDefault();
+
+            PublicationDetail detail = new PublicationDetail();
+            detail = _db.PublicationDetail.Find(id);
+            detail.Journal = (string) table["Revista"];
+            detail.Volume = (string)table["Volume"];
+            detail.Edition = (string)table["Edicao"];
+            detail.StartPage = (string)table["StartPage"];
+            detail.EndPage = (string)table["EndPage"];
+            detail.ISSN = (string)table["ISSN"];
+            _db.Entry(detail).State = EntityState.Modified;
+
+            Publication pub = new Publication();
+            pub = _db.Publication.Find(id);
+            string dia = (string)table["Dia"];
+            string mes = (string)table["Mes"];
+            string ano = (string)table["Ano"];
+            pub.Date = DateTime.Parse(ano + "-" + mes + "-" + dia);
+            pub.Type = (string)table["Tipo"];
+
+            var idi = ((string)table["Idioma"]).ToLower();
+            if (idi.Contains("br")) pub.LanguageId = 2;
+            else if (idi.Contains("por") || idi.Contains("pt")) pub.LanguageId = 1;
+
+            _db.Entry(pub).State = EntityState.Modified;
+
+            Publication_Identifier identifier = new Publication_Identifier();
+            identifier = _db.Publication_Identifier.Find(id, 1);
+            identifier.Value = (string)table["DOI"];
+
+            
+            _db.SaveChanges();
+
+        }
+
+        public static void updateAsTable2(MyDbContext _db, Hashtable table)
+        {
+            var query = from tmp in _db.PublicationTitle where tmp.Title == (string)table["titulo"] select tmp.PublicationId;
+            var id = query.FirstOrDefault();
+
+            PublicationAbstract abs = new PublicationAbstract();
+            abs = _db.PublicationAbstract.Find(id);
+            if ((string)table["Resumo"] == null) abs.Abstract = "";
+            else abs.Abstract = (string)table["Resumo"];
+            _db.Entry(abs).State = EntityState.Modified;
+
+            _db.SaveChanges();
+
+        }
+
+
         //ALGORITMO DE COMPARACAO DE STRINGS
         public static int checkSim(String nome, String autor)
         {
