@@ -418,6 +418,8 @@ namespace MVC_2020_Business.Services
             var query = from tmp in _db.PublicationTitle where tmp.Title == titulo select tmp.PublicationId;
             var id = query.FirstOrDefault();
 
+            map.Add("ID", id);
+
             map.Add("titulo", titulo);
 
             var queryDOI = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId == 1 select tmp.Value;
@@ -848,8 +850,10 @@ namespace MVC_2020_Business.Services
 
         public static void updateAsTable1(MyDbContext _db, Hashtable table)
         {
-            var query = from tmp in _db.PublicationTitle where Regex.Replace(tmp.Title, @"\s", "").ToLower() == (string) table["titulo"] select tmp.PublicationId;
-            var id = query.FirstOrDefault();
+
+            var pubTeste = _db.PublicationTitle.FirstOrDefault(c => (c.Title.Replace(" ", string.Empty)).Replace("\n", string.Empty) == (string)table["titulo"]);
+           // var query = from tmp in _db.PublicationTitle where Regex.Replace(tmp.Title, @"\s", "").ToLower() == (string) table["titulo"] select tmp.PublicationId;
+            var id = pubTeste.PublicationId;
 
             PublicationDetail detail = new PublicationDetail();
             detail = _db.PublicationDetail.Find(id);
@@ -886,9 +890,8 @@ namespace MVC_2020_Business.Services
 
         public static void updateAsTable2(MyDbContext _db, Hashtable table)
         {
-            var query = from tmp in _db.PublicationTitle where Regex.Replace(tmp.Title, @"\s", "").ToLower() == (string)table["titulo"] select tmp.PublicationId;
-            var id = query.FirstOrDefault();
-
+            var pubTeste = _db.PublicationTitle.FirstOrDefault(c => (c.Title.Replace(" ", string.Empty)).Replace("\n", string.Empty) == (string)table["titulo"]);
+            var id = pubTeste.PublicationId;
             PublicationAbstract abs = new PublicationAbstract();
             abs = _db.PublicationAbstract.Find(id);
             if ((string)table["Resumo"] == null) abs.Abstract = "";
