@@ -169,9 +169,9 @@ namespace MVC_2020_Template.Controllers
                                                      dc_identifier_essn,  dc_identifier_doi,  dc_peerreviewed,  dc_relation_publisherversion,
                                                      dc_type,  dc_description_version,  dc_language_iso);
 
-            var teste = fc["dc_contributor_author_1"].ToList();
-            Console.WriteLine("TESTE: ");
-            teste.ForEach(x => Console.WriteLine("\t"+x));
+            //var teste = fc["dc_contributor_author_1"].ToList();
+            //Console.WriteLine("TESTE: ");
+            //teste.ForEach(x => Console.WriteLine("\t"+x));
             
 
             if (submit_next == "Next")
@@ -227,7 +227,7 @@ namespace MVC_2020_Template.Controllers
             if (submit_cancel == "Cancel/Save")
                 return RedirectToAction("PublicacoesSalvas", "Home");
 
-            return View();
+            return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
         }
 
         public IActionResult PublicationMetaData2_Helper(String works, string dc_title)
@@ -250,10 +250,13 @@ namespace MVC_2020_Template.Controllers
 
         [HttpPost]
         public async Task<IActionResult> PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2,
-                                                    List<IFormFile> files, string submit_more)
+                                                    List<IFormFile> files, string submit_more, IFormCollection fc, string title)
         {
+
+            var list_files = fc["file"].ToList();
+            if (_ficheiros.ContainsKey(title) && list_files.Count < _ficheiros[title].Count)
+                _ficheiros[title] = list_files;
             
-            Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
             var filePaths = new List<String>();
             if (submit_more == "Add Another File")
             {
@@ -277,10 +280,10 @@ namespace MVC_2020_Template.Controllers
                         }
                     }
                 }
-                if (_ficheiros.ContainsKey(work["titulo"].ToString()))
-                    _ficheiros[work["titulo"].ToString()].AddRange(filePaths);
+                if (_ficheiros.ContainsKey(title))
+                    _ficheiros[title].AddRange(filePaths);
                 else
-                    _ficheiros.Add(work["titulo"].ToString(), filePaths);
+                    _ficheiros.Add(title, filePaths);
                 return RedirectToAction("PublicationMetaData3", "Home", new { works = works/*, files = filePaths*/ });
 
             }
@@ -295,7 +298,7 @@ namespace MVC_2020_Template.Controllers
             if (submit_cancel == "Cancel/Save")
                 return RedirectToAction("PublicacoesSalvas", "Home");
 
-            return View();
+            return RedirectToAction("PublicationMetaData3", "Home", new { works = works/*, files = filePaths*/ });
         }
 
         public IActionResult PublicationMetaData3_Helper(String works)
@@ -330,7 +333,7 @@ namespace MVC_2020_Template.Controllers
             if (submit_cancel == "Cancel/Save")
                 return RedirectToAction("PublicacoesSalvas", "Home");
 
-            return View();
+            return RedirectToAction("PublicationSubmission", "Home", new { works = works/*, files = filePaths*/ });
         }
 
         public IActionResult PublicationSubmission_Helper(String works)
@@ -370,7 +373,7 @@ namespace MVC_2020_Template.Controllers
                 return RedirectToAction("PublicacoesSalvas", "Home");
             }
 
-            return View();
+            return RedirectToAction("dSpaceLicense", "Home", new { works = works });
         }
 
         public IActionResult dSPaceLicense_Helper(String works)
