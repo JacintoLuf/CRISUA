@@ -76,7 +76,8 @@ namespace MVC_2020_Template.Controllers
         }
         public IActionResult MyPublications()
         {
-            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State"), Session.IUPI.ToString());
+            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", "0000-0002-4356-4522", "66c74f1f-8c45-4f43-9a85-be4975eecc09");
+           // ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", "0000-0002-4356-4522"), Session.IUPI.ToString());
             return View();
         }
 
@@ -85,7 +86,7 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1"), Session.IUPI.ToString());
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", "0000-0002-4356-4522"), Session.IUPI.ToString());
             ViewBag.OrcidID = "0000-0002-4356-4522";// Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
             //                            PublicacoesService.ConvertProductToWork(
@@ -103,8 +104,9 @@ namespace MVC_2020_Template.Controllers
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, Session.FullName,
                                         PublicacoesService.ConvertProductToWork(
                                         PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1"), Session.IUPI.ToString());
-            
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", "0000-0002-4356-4522"), Session.IUPI.ToString());
+
+
             ViewBag.import = import;
             return View();
         }
@@ -118,9 +120,9 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.Details = JsonConvert.DeserializeObject<List<Work>>(works);
             //ViewBag.Titulos = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1");
-            var listaPrint = ((MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2")));
-            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "3"));
-            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "4"));
+            var listaPrint = ((MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2", "0000-0002-4356-4522")));
+            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "3", "0000-0002-4356-4522"));
+            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "4", "0000-0002-4356-4522"));
             ViewBag.PubSaved = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, listaPrint, Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris2 = PublicacoesService.GetDifWorks2(_db,
             //                            PublicacoesService.ConvertProductToWork(

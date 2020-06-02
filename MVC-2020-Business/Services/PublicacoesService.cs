@@ -57,7 +57,7 @@ namespace MVC_2020_Business.Services
             if (!queryResult.IsSuccessStatusCode || queryResult.Content == null) { return new List<Product>(); }
 
             var desPub = JsonConvert.DeserializeObject<List<Product>>(queryResult.Content.ReadAsStringAsync().Result);
-            DatabaseServices.insertPublicationsRIA(_db, desPub);// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
+            DatabaseServices.insertPublicationsRIA(_db, desPub, "José Manuel Neto Vieira");// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
 
 
 

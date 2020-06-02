@@ -1,5 +1,6 @@
 ﻿//using BibTeXLibrary;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using MVC_2020_Business.Models;
 using MVC_2020_Database.DataModels;
 using ServiceStack;
@@ -18,13 +19,14 @@ namespace MVC_2020_Business.Services
 {
     public class DatabaseServices
     {
-        public static void insertPublicationsRIA(MyDbContext _db, List<Product> lista)
+        public static void insertPublicationsRIA(MyDbContext _db, List<Product> lista, string nome)
         {
             var source = "RIA";
             var p1 = new PublicationTitle() { LanguageId = 4, PublicationId = -1, Title = "as" };
             var p2 = new PublicationTitle() { LanguageId = 4, PublicationId = -1, Title = "as" };
 
             var arr = new ArrayList();
+            var helper = new ArrayList();
             var pubs = new List<Publication>();
             var idents = new List<Publication_Identifier>();
             var orgPubs = new List<OrgUnit_Publication>();
@@ -80,15 +82,13 @@ namespace MVC_2020_Business.Services
                         Title = title
                     };
 
-                    if (title == "Impact of the transient behavior of radio communication systems on spectrum management" && p1.LanguageId == 4) p1 = pub_title;
-                    else if (title == "Impact of the transient behavior of radio communication systems on spectrum management" && p2.LanguageId == 4) p2 = pub_title;
-
-                    if (arr.Contains(title)) { }
+                    if (helper.Contains(title.ToLower())) { }
                     else
                     {
 
                         var p3 = p1;
                         var p4 = p2;
+                        helper.Add(title.ToLower());
                         arr.Add(title);
                         pubTitles.Add(pub_title);
                     }
@@ -103,6 +103,30 @@ namespace MVC_2020_Business.Services
             _db.Set<OrgUnit_Publication>().AddRange(orgPubs);
             _db.Set<PublicationTitle>().AddRange(pubTitles);
 
+            _db.SaveChanges();
+
+            foreach (var title in arr)
+            {
+                var qId = from pub in _db.PublicationTitle where pub.Title == (string) title select pub.PublicationId;
+                var id = qId.FirstOrDefault();
+                if (id != 0)
+                {
+                    var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
+                    var trig = qTest.FirstOrDefault();
+
+                    if (trig == 0)
+                    {
+
+                        var authorName = from p in _db.PersonName where p.Name == nome select p.PersonNameId;
+                        var author = from p in _db.PersonName where p.Name == nome select p.PersonId;
+                        var pp = author.FirstOrDefault();
+                        var ppName = authorName.FirstOrDefault();
+
+                        _db.Set<Person_Publication>().Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = pp, PersonNameId = ppName });
+
+                    }
+                }
+            }
             _db.SaveChanges();
         }
 
@@ -399,10 +423,6 @@ namespace MVC_2020_Business.Services
 
             foreach (var inp in lista)
             {
-                if (inp.title.title.Contains("Coxiella"))
-                {
-                    var y = "yeah";
-                }
                 if (!(inp.contributors is null))
                 {
 
@@ -452,7 +472,7 @@ namespace MVC_2020_Business.Services
         {
             Hashtable map = new Hashtable();
 
-            iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09";
+            iupi = "83b90544-a39d-4073-81cb-0ad094c1ec71";
             var query = from tmp in _db.PublicationTitle where tmp.Title == titulo select tmp.PublicationId;
             var id = query.FirstOrDefault();
 
@@ -461,10 +481,12 @@ namespace MVC_2020_Business.Services
             map.Add("titulo", titulo);
 
             var queryDOI = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId == 1 select tmp.Value;
-            map.Add("DOI", queryDOI.FirstOrDefault());
+            if (queryDOI.FirstOrDefault() != null)
+                map.Add("DOI", queryDOI.FirstOrDefault());
 
             var queryExt = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId != 1 select tmp.Value;
-            map.Add("Identificadores Externos", queryExt.FirstOrDefault());
+            if (queryExt.FirstOrDefault() != null)
+                map.Add("Identificadores Externos", queryExt.FirstOrDefault());
 
             var queryAuth = from tmp in _db.Person_Publication
                             where tmp.PublicationId == id
@@ -492,8 +514,12 @@ namespace MVC_2020_Business.Services
             map.Add("Ano", Partir_data(data_hora)[3]);
 
 
+            var queryFnt = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Source;
+            map.Add("Fonte", queryFnt.FirstOrDefault());
+
             var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
             var qS = queryState.FirstOrDefault();
+            //if (qS != null)
             switch (qS)
             {
                 case 1:
@@ -537,26 +563,28 @@ namespace MVC_2020_Business.Services
 
             var queryType = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Type;
             var qT = queryType.FirstOrDefault();
-            map.Add("Tipologia", qT);
+            if (qT != null)
+                map.Add("Tipologia", qT);
 
             var queryJournal = from tmp in _db.Publication
                                join det in _db.PublicationDetail on tmp.PublicationId equals det.PublicationId
                                where det.PublicationId == id
                                select det.Journal;
-            map.Add("Journal", queryJournal.FirstOrDefault());
+            if (queryJournal.FirstOrDefault() != null)
+                map.Add("Journal", queryJournal.FirstOrDefault());
 
             var queryAbs = from tmp in _db.Publication
                            join det in _db.PublicationAbstract on tmp.PublicationId equals det.PublicationId
                            where det.PublicationId == id
                            select det.Abstract;
-
-            map.Add("Abstract", queryAbs.FirstOrDefault());
+            if (queryAbs.FirstOrDefault() != null)
+                map.Add("Abstract", queryAbs.FirstOrDefault());
 
             map.Add("IUPI", iupi);
             return map;
         }
 
-        public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor)
+        public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor, string orcid)
         {
             string var = tabela;
 
@@ -570,9 +598,16 @@ namespace MVC_2020_Business.Services
                     List<String> ret = new List<string>();
                     int hlp = Int32.Parse(valor);
 
+                    var queryOrcid = from tmp in _db.Person_Identifier
+                                     join perPub in _db.Person_Publication on tmp.PersonID equals perPub.PersonId
+                                     where tmp.Value == orcid
+                                     select perPub.PublicationId;
+
+                    var listaIDs = queryOrcid.ToList();
+
                     var query = from tmp in _db.Publication
-                                where tmp.State == hlp
                                 join tit in _db.PublicationTitle on tmp.PublicationId equals tit.PublicationId
+                                where tmp.State == hlp && listaIDs.Contains(tmp.PublicationId)
                                 orderby tmp.Date
                                 select tit.Title;
 
@@ -598,22 +633,31 @@ namespace MVC_2020_Business.Services
             return null;
         }
 
-        public static List<String> selectAllPubsInBD(MyDbContext _db, string tabela, string coluna)
+        public static List<Hashtable> selectAllPubsInBD(MyDbContext _db, string tabela, string coluna, string orcid, string iupi)
         {
             string var = tabela;
             switch (var)
             {
                 case "Publication":
-                    List<String> ret = new List<string>();
+                    List<Hashtable> ret = new List<Hashtable>();
+
+                    var queryOrcid = from tmp in _db.Person_Identifier
+                                     join perPub in _db.Person_Publication on tmp.PersonID equals perPub.PersonId
+                                     where tmp.Value == orcid
+                                     select perPub.PublicationId;
+
+                    var listaIDs = queryOrcid.ToList();
+
 
                     var query = from tmp in _db.Publication
                                 join tit in _db.PublicationTitle on tmp.PublicationId equals tit.PublicationId
+                                where listaIDs.Contains(tmp.PublicationId)
                                 orderby tmp.Date
                                 select tit.Title;
 
                     foreach (var i in query.ToList())
                     {
-                        ret.Add(i);
+                        ret.Add(retrieveAllInfo(_db, i, iupi));
                     }
                     return ret;
             }
