@@ -276,8 +276,15 @@ namespace MVC_2020_Template.Controllers
         {
 
             var list_files = fc["file"].ToList();
-            if (_ficheiros.ContainsKey(id) && list_files.Count < _ficheiros[id].Count)
-                _ficheiros[id] = list_files;
+            List<string> temp = new List<string>();
+            if (_ficheiros.ContainsKey(id)){
+                list_files.ForEach(x =>
+                {
+                    if (_ficheiros[id].Contains(x))
+                        temp.Add(x);
+                });
+                _ficheiros[id] = temp;
+            }
 
             var filePaths = new List<String>();
             if (submit_more == "Add Another File")
