@@ -28,7 +28,15 @@
             <option value="desc">Data Descendente</option>
         </select>
     </div>
-    <div class="four wide column"></div>
+    <div class="four wide column">
+        <select id="mylist2" class="ui dropdown">
+            <option>Todos os Estados</option>
+            <option>Estado 1</option>
+            <option>Estado 2</option>
+            <option>Estado 3</option>
+            <option>Estado 4</option>
+        </select>
+    </div>
     <div class="two wide column">
         <button type="button" class="ui primary button" style="width:110px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
     </div>
@@ -57,7 +65,7 @@
 <br/>
 
 <div id="scrollPub">
-    <table class="ui very basic table">
+    <table id="myTable2" class="ui very basic table">
         <thead>
             <tr>
                 <th>TÍTULO</th>
@@ -72,7 +80,7 @@
                 count++;
                 <tr id="esconderDiv_@count">
                     <td data-id="@count" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</td>
-                    <td>@pub["State(numero)"]&nbsp;&nbsp;&nbsp;</td>
+                    <td>@(pub["State(numero)"] + " ")&nbsp;&nbsp;&nbsp;</td>
                     <td>@pub["Ano"]</td>
 
                     @if (@pub["Fonte"] == "RIA")
@@ -106,13 +114,23 @@
         });
     });
 
-    function filterOrder() {
-        $("tbody").each(function (elem, index) {
-            var arr = $.makeArray($("tr", this).detach());
-            arr.reverse();
-            $(this).append(arr);
+    $(document).ready(function () {
+        $("#mylist2").on("change", function () {
+            var value2 = $("#mylist2").val().toLowerCase().split(" ");
+            var value = value2[1] + " ";
+            console.log(value2);
+            console.log(value);
+            if (value == "1 " || value == "2 " || value == "3 " || value == "4 ") {
+                $("#myTable tr").filter(function () {
+                    $(this).toggle(($(this).text().toLowerCase()).indexOf(value) > -1)
+                });
+            } else {
+                $("#myTable tr").filter(function () {
+                    $(this).toggle(($(this).text().toLowerCase()).indexOf("O professor Osvaldo é o Maior!") < 1)
+                });
+            }
         });
-    }
+    });
 
     function toggleText() {
         var text = document.getElementById("hidden_info");
