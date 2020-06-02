@@ -443,7 +443,9 @@ namespace MVC_2020_Template.Controllers
                                                     string dc_type, string dc_description_version, string dc_language_iso)
         {
             Hashtable temp = new Hashtable();
-            temp.Add("titulo", dc_title);
+            string title = dc_title.ToLower();
+            title.Trim();
+            temp.Add("titulo", title);
             temp.Add("Autores", dc_contributor_author);
             temp.Add("titulo alternativo", dc_title_alternative);
             temp.Add("Revista", degois_publication_title);
@@ -479,7 +481,9 @@ namespace MVC_2020_Template.Controllers
                                                         string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/, string titulo)
         {
             Hashtable temp = new Hashtable();
-            temp.Add("titulo", titulo);
+            string title = titulo.ToLower();
+            title.Trim();
+            temp.Add("titulo", title);
             temp.Add("Palavra-Chave", dc_subject_1);
             temp.Add("Resumo", dc_description_abstract_1);
             temp.Add("Financiamento", dc_relation_authority);
