@@ -39,14 +39,14 @@ namespace MVC_2020_Business.Services
         //    return JsonConvert.DeserializeObject<List<Product>>(queryResult.Content);
         //}
 
-        public static List<Product> GetProducts(MyDbContext _db, string IUPI)
+        public static List<Product> GetProducts(MyDbContext _db, string IUPI, string fullName)
         {
             //Save<jobs>(new jobs() { job_desc = "Renato2 Artigo", min_lvl = 12, max_lvl = 22 });
             /*var per = _db.Person
                 //.Where(b => b.GenderId > 2)
                 //.OrderBy(b => b.GenderId)
                 .ToList();*/
-            IUPI = iupi;
+            //IUPI = iupi;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -57,7 +57,7 @@ namespace MVC_2020_Business.Services
             if (!queryResult.IsSuccessStatusCode || queryResult.Content == null) { return new List<Product>(); }
 
             var desPub = JsonConvert.DeserializeObject<List<Product>>(queryResult.Content.ReadAsStringAsync().Result);
-            DatabaseServices.insertPublicationsRIA(_db, desPub, "José Manuel Neto Vieira");// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
+            DatabaseServices.insertPublicationsRIA(_db, desPub, fullName);// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
 
 
 
@@ -126,7 +126,7 @@ namespace MVC_2020_Business.Services
             }
         }
 
-        public static List<Work> GetDifWorks(MyDbContext _db, string full_name,  List<Work> locals)
+        public static List<Work> GetDifWorks(MyDbContext _db, string full_name,  List<Work> locals, string iupi, string orcidID)
         {
             //using (var db = new PersingContext())
             //{
@@ -141,12 +141,12 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter5, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(orcidID, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
                 var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
-                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, urlParameter5, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, orcidID, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
                 return ls;
             }
             else

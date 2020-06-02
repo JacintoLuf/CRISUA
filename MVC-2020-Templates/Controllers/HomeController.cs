@@ -50,7 +50,7 @@ namespace MVC_2020_Template.Controllers
         public IActionResult Perfil()
         {
             ////Estou a passar o IUPI do Vieira pãra testar
-            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "66c74f1f-8c45-4f43-9a85-be4975eecc09"/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
+            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());  //IR buscar o Orcid ID à BD
 
             if (aux != null)
             {
@@ -67,16 +67,16 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult Perfil(String OrcidID)
         {
-            DatabaseServices.insertLoginPerson(_db, "José Manuel Neto Vieira", OrcidID, "66c74f1f-8c45-4f43-9a85-be4975eecc09");//);Session.IUPI.ToString());
+            DatabaseServices.insertLoginPerson(_db, Session.FullName.ToString(), OrcidID, Session.IUPI.ToString());
 
             //MVC_2020_Business.Services.DatabaseServices.setOrcid(_db, Session.IUPI.ToString(), OrcidID); //meter o OrcidID na BD
             //ViewBag.OrcidID = "0000-0002-3488-6570";
-            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "66c74f1f-8c45-4f43-9a85-be4975eecc09");//Session.IUPI.ToString());
+            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());
             return View();
         }
         public IActionResult MyPublications()
         {
-            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", "0000-0002-4356-4522", "66c74f1f-8c45-4f43-9a85-be4975eecc09");
+            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString()), Session.IUPI.ToString());
            // ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", "0000-0002-4356-4522"), Session.IUPI.ToString());
             return View();
         }
@@ -86,8 +86,8 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", "0000-0002-4356-4522"), Session.IUPI.ToString());
-            ViewBag.OrcidID = "0000-0002-4356-4522";// Session.IUPI.ToString());
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString())), Session.IUPI.ToString());
+            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
             //                            PublicacoesService.ConvertProductToWork(
             //                            PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
@@ -103,8 +103,8 @@ namespace MVC_2020_Template.Controllers
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
             ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, Session.FullName,
                                         PublicacoesService.ConvertProductToWork(
-                                        PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", "0000-0002-4356-4522"), Session.IUPI.ToString());
+                                        PublicacoesService.GetProducts(_db, Session.IUPI.ToString(), Session.FullName.ToString())), Session.IUPI.ToString(), MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString()));
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString())), Session.IUPI.ToString());
 
 
             ViewBag.import = import;
@@ -120,9 +120,9 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.Details = JsonConvert.DeserializeObject<List<Work>>(works);
             //ViewBag.Titulos = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1");
-            var listaPrint = ((MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2", "0000-0002-4356-4522")));
-            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "3", "0000-0002-4356-4522"));
-            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "4", "0000-0002-4356-4522"));
+            var listaPrint = ((MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString()))));
+            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "3", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString())));
+            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "4", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString())));
             ViewBag.PubSaved = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, listaPrint, Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris2 = PublicacoesService.GetDifWorks2(_db,
             //                            PublicacoesService.ConvertProductToWork(
