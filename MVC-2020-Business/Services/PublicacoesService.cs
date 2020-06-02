@@ -46,7 +46,7 @@ namespace MVC_2020_Business.Services
                 //.Where(b => b.GenderId > 2)
                 //.OrderBy(b => b.GenderId)
                 .ToList();*/
-            IUPI = iupi2;
+            IUPI = iupi;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -83,7 +83,7 @@ namespace MVC_2020_Business.Services
 
         public static List<Product> GetProducts2(MyDbContext _db, string IUPI)
         {
-            IUPI = iupi2;
+            IUPI = iupi;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -141,12 +141,12 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter6, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(urlParameter5, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
                 var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
-                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, urlParameter6, iupi2 ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, urlParameter5, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
                 return ls;
             }
             else
@@ -163,7 +163,7 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter6, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(urlParameter5, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;

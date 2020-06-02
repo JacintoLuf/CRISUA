@@ -106,10 +106,37 @@ namespace MVC_2020_Business.Services
             _db.SaveChanges();
         }
 
+
+        public static void insertLoginPerson(MyDbContext _db, string nome, string orcid, string iupi)
+        {
+            var person_ids = new List<Person_Identifier>();
+
+            var loginquery = from tmp in _db.Person_Identifier where tmp.Value == orcid select tmp.PersonID;
+            //var help = _db.Person.Count();
+
+            if (loginquery.FirstOrDefault() == 0)
+            {
+                _db.Set<Person>().Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
+                _db.SaveChanges();
+
+
+                // names.Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = nome, PersonId = _db.Person.Count(), startDate = DateTime.Now });
+
+                //person_ids.Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = orcid, VisibilityId = 2 });
+                person_ids.Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
+
+                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = orcid, VisibilityId = 2 });
+                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
+                _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = nome, PersonId = _db.Person.Count(), startDate = DateTime.Now });
+                _db.SaveChanges();
+            }
+        }
         public static void insertPublicationsPTCRIS(MyDbContext _db, string nome, List<Work> lista, string orcid, string iupi)
         {
+            nome = "José Manuel Neto Vieira";
 
-            nome = "Luís Miguel Rosalino";
+
+
             var source = "ORCID";
             var pubs = new List<Publication>();
             var pers = new List<Person>();
@@ -123,7 +150,6 @@ namespace MVC_2020_Business.Services
             var visi = new List<Visibility>();
             var person_ids = new List<Person_Identifier>();
 
-
             var arr = new ArrayList();
             var contNames = _db.PersonName.Count();
             var contPer = _db.Person.Count();
@@ -133,6 +159,10 @@ namespace MVC_2020_Business.Services
             int max = 0;
 
             var principais = new List<string>();
+
+
+
+
 
             foreach (var inp in lista)
             {
@@ -157,8 +187,13 @@ namespace MVC_2020_Business.Services
                     if (!principais.Contains(principal))
                         principais.Add(principal);
 
+                    var asd = 0;
                     foreach (var c2 in contri)
                     {
+                        if (c2 == "Santos, M.J.")
+                        {
+                            asd = 1;
+                        }
 
                         if (c2 != principal)
                         {
@@ -169,6 +204,7 @@ namespace MVC_2020_Business.Services
 
                                 var queryN = from tmp in _db.PersonName where tmp.Name == c2 select tmp.Name;
                                 var tmp_r = queryN.FirstOrDefault();
+
 
                                 if (tmp_r is null)
                                 {
@@ -198,7 +234,7 @@ namespace MVC_2020_Business.Services
                     var date = DateTime.Parse(tmp0);
                     source = inp.source.sourceName.content;
 
-                    pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type=inp.type });
+                    pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type = inp.type });
 
                     //IDENTIFIERS
 
@@ -263,7 +299,7 @@ namespace MVC_2020_Business.Services
                                 TotalPages = difPag,
                                 ISBN = Regex.Match(inp.citation.citationValue, "isbn\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
                                 ISSN = issn,
-                                Journal=jo
+                                Journal = jo
                             });
                         }
                         issn = "";
@@ -299,27 +335,29 @@ namespace MVC_2020_Business.Services
             //             select tmp.PersonNameId;
             var add = 1;
             var nameToUse = "";
-            foreach (var prin in principais) {
-                if (existName(_db, prin)){
+            foreach (var prin in principais)
+            {
+                if (existName(_db, prin))
+                {
                     add = 0;
                     nameToUse = prin;
                     break;
                 }
-                    }
+            }
 
             if (add == 1)
             {
-                _db.Set<Person>().Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
-                _db.SaveChanges();
+                var queryRealName = from tmp in _db.PersonName where tmp.Name == nome select tmp.PersonId;
+                var idAutor = queryRealName.FirstOrDefault();
 
                 foreach (var p in principais)
                 {
-                    _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = p, PersonId = _db.Person.Count(), startDate = DateTime.Now });
+                    _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = p, PersonId = idAutor, startDate = DateTime.Now });
                 }
                 _db.SaveChanges();
 
-                _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 1, Value = orcid, VisibilityId = 2, StartDate = DateTime.Now, EndDate = DateTime.MaxValue });
-                _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 3, Value = iupi, VisibilityId = 1, StartDate = DateTime.Now, EndDate = DateTime.MaxValue });
+                //_db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 1, Value = orcid, VisibilityId = 2, StartDate = DateTime.Now, EndDate = DateTime.MaxValue });
+                //_db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 3, Value = iupi, VisibilityId = 1, StartDate = DateTime.Now, EndDate = DateTime.MaxValue });
                 _db.SaveChanges();
             }
 
@@ -328,7 +366,7 @@ namespace MVC_2020_Business.Services
                 var authorID = checkReal(_db, nameToUse);
                 var queryNames = from tmp in _db.PersonName where tmp.PersonId == authorID select tmp.Name;
                 var listaPrior = queryNames.ToList();
-                foreach(var prin in principais)
+                foreach (var prin in principais)
                 {
                     if (!listaPrior.Contains(prin))
                     {
@@ -429,16 +467,16 @@ namespace MVC_2020_Business.Services
             map.Add("Identificadores Externos", queryExt.FirstOrDefault());
 
             var queryAuth = from tmp in _db.Person_Publication
-                            where tmp.PublicationId==id
+                            where tmp.PublicationId == id
                             select tmp.PersonId;
 
             var listaAutores = queryAuth.ToList();
             var listaNomes = new List<String>();
-            
-            foreach(var aut in listaAutores)
+
+            foreach (var aut in listaAutores)
             {
                 var queryName = from tmp in _db.PersonName
-                                where tmp.PersonId==aut
+                                where tmp.PersonId == aut
                                 select tmp.Name;
                 listaNomes.Add(queryName.FirstOrDefault());
             }
@@ -625,7 +663,7 @@ namespace MVC_2020_Business.Services
         {
             var titulosRia = new List<string>();
 
-            foreach(var t in titulos)
+            foreach (var t in titulos)
             {
                 var query = from tmp in _db.Publication
                             join ti in _db.PublicationTitle on tmp.PublicationId equals ti.PublicationId
@@ -735,7 +773,7 @@ namespace MVC_2020_Business.Services
                 //map.Add("Fonte", queryFnt.FirstOrDefault());
 
                 //var queryNumState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
-                
+
                 //var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
                 //var qS = queryState.FirstOrDefault();
                 //switch (qS)
@@ -866,7 +904,7 @@ namespace MVC_2020_Business.Services
 
             PublicationDetail detail = new PublicationDetail();
             detail = _db.PublicationDetail.Find(id);
-            detail.Journal = (string) table["Revista"];
+            detail.Journal = (string)table["Revista"];
             detail.Volume = (string)table["Volume"];
             detail.Edition = (string)table["Edicao"];
             detail.StartPage = (string)table["StartPage"];
@@ -888,11 +926,15 @@ namespace MVC_2020_Business.Services
 
             _db.Entry(pub).State = EntityState.Modified;
 
-            Publication_Identifier identifier = new Publication_Identifier();
-            identifier = _db.Publication_Identifier.Find(id, 1);
-            identifier.Value = (string)table["DOI"];
+            if ((string)table["DOI"] != null)
+            {
+                Publication_Identifier identifier = new Publication_Identifier();
+                identifier = _db.Publication_Identifier.Find(id, 1);
 
-            
+                identifier.Value = (string)table["DOI"];
+            }
+
+
             _db.SaveChanges();
 
         }

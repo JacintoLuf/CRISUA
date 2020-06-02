@@ -46,7 +46,7 @@
         </div>
     </div>
     @*&nbsp;
-    &nbsp;*@
+        &nbsp;*@
     <div class="one wide column"></div>
     <div class="four wide column">
         <select id="select" class="ui dropdown" onchange="filterOrder()">
@@ -102,7 +102,18 @@
                     <tr id="esconderDiv_@count">
                         <td><href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(work))" target="_blank">@work["titulo"] &nbsp</href></td>
                         <td>@work["State(numero)"]&nbsp;&nbsp;&nbsp;</td>
-                        <td><button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Submeter</button></td>
+                        @if (work["State(numero)"] == "2")
+                        {
+                            <td><button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Submeter</button></td>
+                        }
+                        else if (work["State(numero)"] == "4")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td><button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Editar</button></td>
+                        }
                     </tr>
                 }
             }

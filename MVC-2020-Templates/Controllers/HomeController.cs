@@ -50,7 +50,7 @@ namespace MVC_2020_Template.Controllers
         public IActionResult Perfil()
         {
             ////Estou a passar o IUPI do Vieira pãra testar
-            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "83b90544-a39d-4073-81cb-0ad094c1ec71"/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
+            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "66c74f1f-8c45-4f43-9a85-be4975eecc09"/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
 
             if (aux != null)
             {
@@ -61,16 +61,17 @@ namespace MVC_2020_Template.Controllers
                 ViewBag.OrcidID = null;
             }
 
-
             //ViewBag.OrcidID = null;
             return View();
         }
         [HttpPost]
         public IActionResult Perfil(String OrcidID)
         {
-            MVC_2020_Business.Services.DatabaseServices.setOrcid(_db, Session.IUPI.ToString(), OrcidID); //meter o OrcidID na BD
+            DatabaseServices.insertLoginPerson(_db, "José Manuel Neto Vieira", OrcidID, "66c74f1f-8c45-4f43-9a85-be4975eecc09");//);Session.IUPI.ToString());
+
+            //MVC_2020_Business.Services.DatabaseServices.setOrcid(_db, Session.IUPI.ToString(), OrcidID); //meter o OrcidID na BD
             //ViewBag.OrcidID = "0000-0002-3488-6570";
-            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());
+            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "66c74f1f-8c45-4f43-9a85-be4975eecc09");//Session.IUPI.ToString());
             return View();
         }
         public IActionResult MyPublications()
@@ -85,7 +86,7 @@ namespace MVC_2020_Template.Controllers
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
             ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1"), Session.IUPI.ToString());
-            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "83b90544-a39d-4073-81cb-0ad094c1ec71");// Session.IUPI.ToString());
+            ViewBag.OrcidID = "0000-0002-4356-4522";// Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
             //                            PublicacoesService.ConvertProductToWork(
             //                            PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
