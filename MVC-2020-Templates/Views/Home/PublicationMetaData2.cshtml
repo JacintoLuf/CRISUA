@@ -131,7 +131,7 @@
                     <div class="col-md-10">
                         <div class="row col-md-12">
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="dc_subject_1" id="dc_subject_1" size="50" value="802.11 networks; Ad-hoc networks; Broadcast communication; Fountain codes; LT codes; Operating system installation">
+                                <input class="form-control" disabled type="text" name="dc_subject_1" id="dc_subject_1" size="50" @*value="802.11 networks; Ad-hoc networks; Broadcast communication; Fountain codes; LT codes; Operating system installation"*@>
                             </div>
                             <button class="btn btn-danger col-md-2" name="submit_dc_subject_remove_0" value="Remove Entry">
                                 <span class="glyphicon glyphicon-trash"></span>
@@ -140,7 +140,7 @@
                         </div>
                         <div class="row col-md-12">
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="dc_subject" id="dc_subject" size="50" value="">
+                                <input class="form-control" disabled type="text" name="dc_subject" id="dc_subject" size="50" value="">
                             </div>
                             <button class="btn btn-default col-md-2" name="submit_dc_subject_add" value="Add More">
                                 <span class="glyphicon glyphicon-plus"></span>
@@ -185,10 +185,10 @@
                     <label class="col-md-2">projeto financiado</label><div class="col-md-10">
                         <div class="row col-md-12">
                             <div class="col-md-10">
-                                <div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" type="text" name="dc_relation" id="dc_relation" size="50" value="" autocomplete="off"></div><div class="col-md-2">
+                                <div class="row col-md-10"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input class="form-control ui-autocomplete-input" disabled type="text" name="dc_relation" id="dc_relation" size="50" value="" autocomplete="off"></div><div class="col-md-2">
                                     <img id="dc_relation_confidence_indicator_id" title="Checked" class="pull-left ds-authority-confidence cf-blank " src="~/5-PublicationMetaData2_files/invisible.gif">
-                                    <input type="text" value="" id="dc_relation_authority" name="dc_relation_authority" class="ds-authority-value form-control">
-                                    <input type="hidden" value="blank" id="dc_relation_confidence" name="dc_relation_confidence" class="ds-authority-confidence-input"><span id="dc_relation_indicator" style="display: none;"><img src="~/5-PublicationMetaData2_files/load-indicator.gif" alt="Loading..."></span><div id="dc_relation_autocomplete" class="autocomplete" style="display: none;"> </div>
+                                    <input type="text" disabled value="" id="dc_relation_authority" name="dc_relation_authority" class="ds-authority-value form-control">
+                                    <input type="hidden" disabled value="blank" id="dc_relation_confidence" name="dc_relation_confidence" class="ds-authority-confidence-input"><span id="dc_relation_indicator" style="display: none;"><img src="~/5-PublicationMetaData2_files/load-indicator.gif" alt="Loading..."></span><div id="dc_relation_autocomplete" class="autocomplete" style="display: none;"> </div>
                                     <script type="text/javascript">var gigo = DSpaceSetupAutocomplete('edit_metadata', { metadataField: 'dc_relation', isClosed: 'false', inputName: 'dc_relation', authorityName: 'dc_relation_authority', containerID: 'dc_relation_autocomplete', indicatorID: 'dc_relation_indicator', contextPath: '', confidenceName: 'dc_relation_confidence', confidenceIndicatorID: 'dc_relation_confidence_indicator_id', collection: 377 });</script>
                                 </div>
                             </div><button class="btn btn-default col-md-2" name="submit_dc_relation_add" value="Add More"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More</button>
@@ -206,7 +206,7 @@
                 <div class="row">
                     <label class="col-md-2">patrocinadores</label><div class="col-md-10">
                         <div class="row col-md-12">
-                            <div class="col-md-10"><textarea class="form-control" name="dc_description_sponsorship" rows="4" cols="45" id="dc_description_sponsorship_id"></textarea></div>
+                            <div class="col-md-10"><textarea class="form-control" disabled name="dc_description_sponsorship" rows="4" cols="45" id="dc_description_sponsorship_id"></textarea></div>
                         </div>
                     </div>
                 </div>
@@ -221,7 +221,7 @@
                 <div class="row">
                     <label class="col-md-2 label-required">nível de acesso</label>
                     <span class="col-md-8">
-                        <select class="form-control" name="dc_rights">
+                        <select class="form-control" disabled name="dc_rights">
                             <option value="">Select Value</option>
                             <option value="openAccess">Acesso Aberto</option>
                             <option selected="selected" value="restrictedAccess">Acesso Restrito</option>
@@ -229,7 +229,7 @@
                         </select>
                     </span>
                 </div>
-                
+
                 <br>
 
                 @*--------Embargo-----------*@
@@ -244,11 +244,11 @@
                                 <div class="row">
                                     <span class="input-group col-md-2">
                                         <span class="input-group-addon">Day:</span>
-                                        <input class="form-control" type="text" name="dc_date_embargo_day" size="2" maxlength="2" value="">
+                                        <input class="form-control" disabled type="text" name="dc_date_embargo_day" size="2" maxlength="2" value="">
                                     </span>
                                     <span class="input-group col-md-6">
                                         <span class="input-group-addon">Month:</span>
-                                        <select class="form-control" name="dc_date_embargo_month">
+                                        <select disabled class="form-control" name="dc_date_embargo_month">
                                             <option value="-1" selected="selected">(No Month)</option>
                                             <option value="1">January</option>
                                             <option value="2">February</option>
@@ -266,7 +266,7 @@
                                     </span>
                                     <span class="input-group col-md-4">
                                         <span class="input-group-addon">Year:</span>
-                                        <input class="form-control" type="text" name="dc_date_embargo_year" size="4" maxlength="4" value="">
+                                        <input class="form-control" disabled type="text" name="dc_date_embargo_year" size="4" maxlength="4" value="">
                                     </span>
                                 </div>
                             </div>
@@ -282,18 +282,18 @@
                 <div class="row">
                     <label class="col-md-2">licenças Creative Commons (CC)</label>
                     <span class="col-md-8">
-                    <select class="form-control" name="dc_rights_uri">
-                        <option value="">Sem Licença</option>
-                        <option value="https://creativecommons.org/licenses/by/4.0/">Atribuição (CC-BY)</option>
-                        <option value="http://creativecommons.org/licenses/by-nd/4.0/">Atribuição, Sem Trabalhos Derivados (CC-BY-ND)</option>
-                        <option value="http://creativecommons.org/licenses/by-sa/4.0/">Atribuição, Partilha nos Termos da Mesma Licença (CC-BY-SA)</option>
-                        <option value="http://creativecommons.org/licenses/by-nc/4.0/">Atribuição, Uso Não Comercial (CC-BY-NC)</option>
-                        <option value="http://creativecommons.org/licenses/by-nc-nd/4.0/">Atribuição, Não Comercial, Sem Derivações (CC-BY-NC-ND)</option>
-                        <option value="http://creativecommons.org/licenses/by-nc-sa/4.0/">Atribuição, Uso Não Comercial, Partilha nos Termos da Mesma Licença (CC-BY-NC-SA)</option>
-                    </select>
+                        <select class="form-control" disabled name="dc_rights_uri">
+                            <option value="">Sem Licença</option>
+                            <option value="https://creativecommons.org/licenses/by/4.0/">Atribuição (CC-BY)</option>
+                            <option value="http://creativecommons.org/licenses/by-nd/4.0/">Atribuição, Sem Trabalhos Derivados (CC-BY-ND)</option>
+                            <option value="http://creativecommons.org/licenses/by-sa/4.0/">Atribuição, Partilha nos Termos da Mesma Licença (CC-BY-SA)</option>
+                            <option value="http://creativecommons.org/licenses/by-nc/4.0/">Atribuição, Uso Não Comercial (CC-BY-NC)</option>
+                            <option value="http://creativecommons.org/licenses/by-nc-nd/4.0/">Atribuição, Não Comercial, Sem Derivações (CC-BY-NC-ND)</option>
+                            <option value="http://creativecommons.org/licenses/by-nc-sa/4.0/">Atribuição, Uso Não Comercial, Partilha nos Termos da Mesma Licença (CC-BY-NC-SA)</option>
+                        </select>
                     </span>
                 </div>
-                
+
                 <br>
 
                 <input type="hidden" name="workspace_item_id" value="44987"><input type="hidden" name="step" value="2"><input type="hidden" name="page" value="2"><input type="hidden" name="jsp" value="/submit/edit-metadata.jsp">
