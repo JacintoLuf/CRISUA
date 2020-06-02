@@ -263,22 +263,30 @@ namespace MVC_2020_Template.Controllers
         {
             Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(works);
-            if (_ficheiros.ContainsKey(work["titulo"].ToString()))
-                ViewBag.files = _ficheiros[work["titulo"].ToString()];
+            if (_ficheiros.ContainsKey(work["ID"].ToString()))
+                ViewBag.files = _ficheiros[work["ID"].ToString()];
             else
                 ViewBag.files = new List<string>();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2,
-                                                    List<IFormFile> files, string submit_more, IFormCollection fc, string title)
+        public IActionResult PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2,
+                                                    List<IFormFile> files, string submit_more, IFormCollection fc, string id)
         {
 
             var list_files = fc["file"].ToList();
-            if (_ficheiros.ContainsKey(title) && list_files.Count < _ficheiros[title].Count)
-                _ficheiros[title] = list_files;
-            
+            List<string> temp = new List<string>();
+            if (_ficheiros.ContainsKey(id))
+            {
+                list_files.ForEach(x =>
+                {
+                    if (_ficheiros[id].Contains(x))
+                        temp.Add(x);
+                });
+                _ficheiros[id] = temp;
+            }
+
             var filePaths = new List<String>();
             if (submit_more == "Add Another File")
             {
@@ -289,23 +297,24 @@ namespace MVC_2020_Template.Controllers
                 {
                     if (formfile.Length > 0)
                     {
-                       
+
                         //if (!Directory.Exists(diretorio))
                         //    Directory.CreateDirectory(diretorio);
-                        var filePath = Path.Combine(diretorio, formfile.FileName);
-                        if (System.IO.File.Exists(filePath))
-                            filePath = Path.Combine(diretorio, "a" + formfile.FileName);
+                        //var filePath = Path.Combine(diretorio, formfile.FileName);
+                        //if (System.IO.File.Exists(filePath))
+                        //    filePath = Path.Combine(diretorio, "a" + formfile.FileName);
+                        var filePath = formfile.FileName + ";" + formfile.Length + ";" + formfile.ContentType;
                         filePaths.Add(filePath);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await formfile.CopyToAsync(stream);
-                        }
+                        ////using (var stream = new FileStream(filePath, FileMode.Create))
+                        ////{
+                        ////    await formfile.CopyToAsync(stream);
+                        ////}
                     }
                 }
-                if (_ficheiros.ContainsKey(title))
-                    _ficheiros[title].AddRange(filePaths);
+                if (_ficheiros.ContainsKey(id))
+                    _ficheiros[id].AddRange(filePaths);
                 else
-                    _ficheiros.Add(title, filePaths);
+                    _ficheiros.Add(id, filePaths);
                 return RedirectToAction("PublicationMetaData3", "Home", new { works = works/*, files = filePaths*/ });
 
             }
