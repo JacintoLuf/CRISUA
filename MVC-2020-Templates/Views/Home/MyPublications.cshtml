@@ -3,12 +3,18 @@
     ViewData["Title"] = "Minhas Publicações";
     var pubsInBD = ViewBag.pubsInBD;
     var count = 0;
+    var c = 0;
 }
 
+<b>
+    @foreach (var pub in pubsInBD)
+{
+    c++;
+}
+</b>
 
-<div><h2>@ViewData["Title"]</h2></div>
+<div><h2>@ViewData["Title"] <b style="font-size:12px; color:black;"> &nbsp;&nbsp;(@c Publicações)</b></h2></div>
 <br />
-
 
 <div class="ui grid">
     <div class="four wide column">
@@ -78,20 +84,20 @@
             @foreach (var pub in pubsInBD)
             {
                 count++;
-                <tr id="esconderDiv_@count">
-                    <td data-id="@count" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</td>
-                    <td>@(pub["State(numero)"] + " ")&nbsp;&nbsp;&nbsp;</td>
-                    <td>@pub["Ano"]</td>
+            <tr id="esconderDiv_@count">
+                <td data-id="@count" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</td>
+                <td>@(pub["State(numero)"] + " ")&nbsp;&nbsp;&nbsp;</td>
+                <td>@pub["Ano"]</td>
 
-                    @if (@pub["Fonte"] == "RIA")
+                @if (@pub["Fonte"] == "RIA")
                     {
-                        <td>RIA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>RIA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     }
                     else
                     {
-                        <td>ORCID&nbsp;&nbsp;&nbsp;</td>
+                <td>ORCID&nbsp;&nbsp;&nbsp;</td>
                     }
-                </tr>
+            </tr>
             }
         </tbody>
     </table>
