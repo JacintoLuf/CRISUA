@@ -76,7 +76,7 @@
         <thead>
             <tr>
                 <th>TÍTULO</th>
-                <th>ESTADO</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;ESTADO</th>
                 <th>DATA</th>
                 <th>FONTE</th>
             </tr>
@@ -87,7 +87,7 @@
                 count++;
             <tr id="esconderDiv_@count">
                 <td data-id="@count" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">@pub["titulo"]</td>
-                <td>@(pub["State(numero)"] + " ")&nbsp;&nbsp;&nbsp;</td>
+                <td>@(pub["State(numero)"] +" - "+ @pub["Estado"])</td>
                 <td>@pub["Ano"]</td>
 
                 @if (@pub["Fonte"] == "RIA")

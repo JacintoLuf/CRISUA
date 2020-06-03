@@ -29,13 +29,15 @@
                 <input type="hidden" name="import" value="True" />
                 @if (orcidID == null)
                 {
-                <span style="cursor: not-allowed;" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Para importar, introduza ORCID ID no Perfil">
-                    <button type="submit" class="ui primary button" disabled>Importar</button>
-                </span>
+                    <span style="cursor: not-allowed;" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Para importar, introduza ORCID ID no Perfil">
+                        <button type="submit" class="ui primary button" disabled>Importar</button>
+                    </span>
                 }
                 else
                 {
-                <button type="submit" class="ui primary button">Importar</button>
+                    <button onclick="showLoadingButton()" id="importar" type="submit" class="ui primary button">Importar</button>
+                    <button id="loading" class="ui loading button" style="display:none">Loading</button>
+
                 }
             </form>
         </div>
@@ -142,6 +144,11 @@
 
 <script>
     var objs = [];
+
+    function showLoadingButton() {
+        document.getElementById('importar').style.display = "none";
+        document.getElementById('loading').style.display = "block";
+    }
 
     function sendToDetails(obj) {
         $.post("PublicationDetails_Helper", { obj: JSON.stringify(obj) }, function (data) {

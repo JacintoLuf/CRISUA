@@ -85,7 +85,7 @@
         <thead>
             <tr>
                 <th>TÍTULO</th>
-                <th>ESTADO</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;ESTADO</th>
                 <th></th>
             </tr>
         </thead>
@@ -101,7 +101,7 @@
                     count++;
                     <tr id="esconderDiv_@count">
                         <td><href onmouseover="" style="cursor:pointer;" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(work))" target="_blank">@work["titulo"] &nbsp</href></td>
-                        <td>@work["State(numero)"]&nbsp;&nbsp;&nbsp;</td>
+                        <td>@(work["State(numero)"] +" - "+ @work["Estado"])</td>
                         @if (work["State(numero)"] == "2")
                         {
                             <td><button id="@count" class="ui basic primary button" onclick="SendToRIA(@Newtonsoft.Json.JsonConvert.SerializeObject(work))">Submeter</button></td>
@@ -145,8 +145,6 @@
         @* window.open('@Url.Action("Publication_details","Home")');*@
     }
 
-
-
     function OpenFirstPageRia(obj, idDiv) {
         var div = document.getElementById("" + idDiv);
         if (typeof (div) != 'undefined' && div != null) {
@@ -155,8 +153,6 @@
 
         }
     }
-
-
 
     function SendToRIA(obj) {
         console.log(obj);
