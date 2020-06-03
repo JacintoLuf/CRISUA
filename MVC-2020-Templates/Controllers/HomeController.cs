@@ -166,46 +166,52 @@ namespace MVC_2020_Template.Controllers
                                                     string dc_type, string dc_description_version, string dc_language_iso, IFormCollection fc, string submit_dc_contributor_author_add,
                                                     string pubID)
         {
-            if(submit_dc_contributor_author_add == "Add More" && dc_contributor_author != null)
+            Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
+            if (submit_dc_contributor_author_add == "Add More" && dc_contributor_author != null)
             {
-                Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
-                JArray aut = (JArray) work["Autores"];
+
+                JArray aut = (JArray)work["Autores"];
                 aut.Add(dc_contributor_author);
                 work.Remove("Autores");
                 work.Add("Autores", aut);
                 string works2 = JsonConvert.SerializeObject(work);
                 return RedirectToAction("PublicationMetaData1", "Home", new { works = works2 });
-                
+
             }
-            Hashtable dados = publicationMeta1ToHash(fc["dc_contributor_author_1"].ToList(), dc_title, dc_title_alternative,  degois_publication_title /*revista*/,  dc_date_issued_day,
-                                                     dc_date_issued_month,  dc_date_issued_year,  degois_publication_volume,  degois_publication_issue,
-                                                     degois_publication_firstPage,  degois_publication_lastPage,  dc_publisher,  dc_identifier_issn,
-                                                     dc_identifier_essn,  dc_identifier_doi,  dc_peerreviewed,  dc_relation_publisherversion,
-                                                     dc_type,  dc_description_version,  dc_language_iso, pubID);
+            Hashtable dados = publicationMeta1ToHash(fc["dc_contributor_author_1"].ToList(), dc_title, dc_title_alternative, degois_publication_title /*revista*/, dc_date_issued_day,
+                                                     dc_date_issued_month, dc_date_issued_year, degois_publication_volume, degois_publication_issue,
+                                                     degois_publication_firstPage, degois_publication_lastPage, dc_publisher, dc_identifier_issn,
+                                                     dc_identifier_essn, dc_identifier_doi, dc_peerreviewed, dc_relation_publisherversion,
+                                                     dc_type, dc_description_version, dc_language_iso, pubID);
 
             DatabaseServices.updateAsTable1(_db, dados);
             //var teste = fc["dc_contributor_author_1"].ToList();
             //Console.WriteLine("TESTE: ");
             //teste.ForEach(x => Console.WriteLine("\t"+x));
-            
+
 
             if (submit_next == "Next")
             {
                 //Console.WriteLine("Titulo: " + dc_title);
                 //Console.WriteLine("Autores: " + dc_contributor_author);
-                Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
+
                 work.Remove("Autores");
                 work.Add("Autores", fc["dc_contributor_author_1"].ToList());
-                string works2 = JsonConvert.SerializeObject(work);
+                //string works2 = JsonConvert.SerializeObject(work);
                 MVC_2020_Business.Services.DatabaseServices.updateState(_db, Int32.Parse(pubID), 3);
+                Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), Session.IUPI.ToString());
+                info["Autores"] = work["Autores"];
+                string works2 = JsonConvert.SerializeObject(info);
                 return RedirectToAction("PublicationMetaData2", "Home", new { works = works2 });
             }
             if (submit_cancel == "Cancel/Save")
             {
+                Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), Session.IUPI.ToString());
+                string works2 = JsonConvert.SerializeObject(info);
                 MVC_2020_Business.Services.DatabaseServices.updateState(_db, Int32.Parse(pubID), 3);
                 return RedirectToAction("PublicacoesSalvas", "Home");
             }
-                
+
 
             return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
         }
@@ -239,17 +245,20 @@ namespace MVC_2020_Template.Controllers
                                                      dc_date_embargo_year, dc_rights_uri /*licensa*/, pubID);
 
             DatabaseServices.updateAsTable2(_db, dados);
+            Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
+            Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), Session.IUPI.ToString());
+            string works2 = JsonConvert.SerializeObject(info);
 
             if (submit_jump_2_1 == "Describe" || submit_prev == "Previous")
-                return RedirectToAction("PublicationMetaData1", "Home", new { works = works });
+                return RedirectToAction("PublicationMetaData1", "Home", new { works = works2 });
             if (submit_next == "Next")
             {
-                return RedirectToAction("PublicationMetaData3", "Home", new { works = works });
+                return RedirectToAction("PublicationMetaData3", "Home", new { works = works2 });
             }
             if (submit_cancel == "Cancel/Save")
                 return RedirectToAction("PublicacoesSalvas", "Home");
 
-            return RedirectToAction("PublicationMetaData2", "Home", new { works = works });
+            return RedirectToAction("PublicationMetaData2", "Home", new { works = works2 });
         }
 
         public IActionResult PublicationMetaData2_Helper(String works, string dc_title)

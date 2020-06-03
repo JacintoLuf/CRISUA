@@ -554,6 +554,41 @@ namespace MVC_2020_Business.Services
             var queryNumState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
             map.Add("State(numero)", queryState.FirstOrDefault().ToString());
 
+            var queryStartPage = from tmp in _db.PublicationDetail
+                                 where tmp.PublicationId == id
+                                 select tmp.StartPage;
+            map.Add("StartPage", queryStartPage.FirstOrDefault());
+
+            var queryEndPage = from tmp in _db.PublicationDetail
+                               where tmp.PublicationId == id
+                               select tmp.EndPage;
+            map.Add("EndPage", queryEndPage.FirstOrDefault());
+
+            var queryTotalPages = from tmp in _db.PublicationDetail
+                                  where tmp.PublicationId == id
+                                  select tmp.TotalPages;
+            map.Add("TotalPages", queryTotalPages.FirstOrDefault());
+
+            var queryVolume = from tmp in _db.PublicationDetail
+                              where tmp.PublicationId == id
+                              select tmp.Volume;
+            map.Add("Volume", queryVolume.FirstOrDefault());
+
+            var queryEdition = from tmp in _db.PublicationDetail
+                               where tmp.PublicationId == id
+                               select tmp.Edition;
+            map.Add("Edition", queryEdition.FirstOrDefault());
+
+
+            var querySeries = from tmp in _db.PublicationDetail
+                              join pub in _db.Publication
+                              on tmp.PublicationId equals pub.PublicationId
+                              select tmp.Series;
+            map.Add("Series", querySeries.FirstOrDefault());
+
+
+
+
 
             map.Add("Outros Titulos", null);
             map.Add("Editor", null);
@@ -583,6 +618,7 @@ namespace MVC_2020_Business.Services
             map.Add("IUPI", iupi);
             return map;
         }
+
 
         public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor, string orcid)
         {

@@ -86,7 +86,7 @@
             </c:set>
 
 
-            <form action="PublicationMetaData1" method="post" name="edit_metadata" id="edit_metadata" >
+            <form action="PublicationMetaData1" method="post" name="edit_metadata" id="edit_metadata">
 
                 <!--Progress Bar-->
                 <div class="row container btn-group">
@@ -190,7 +190,7 @@
                     <div class="col-md-10">
                         <div class="row col-md-12">
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="dc_title_alternative" id="dc_title_alternative" size="50" value="@dados["Outros Titulos"]">
+                                <input class="form-control" disabled type="text" name="dc_title_alternative" id="dc_title_alternative" size="50" value="@dados["Outros Titulos"]">
                             </div>
                             <button class="btn btn-default col-md-2" name="submit_dc_title_alternative_add" value="Add More">
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add More
@@ -348,7 +348,7 @@
                             <div class="col-md-10">
                                 <div class="row col-md-10">
                                     <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-                                    <input class="form-control ui-autocomplete-input" type="text" name="dc_publisher" id="dc_publisher" size="50" value="" autocomplete="off">
+                                    <input class="form-control ui-autocomplete-input" disabled type="text" name="dc_publisher" id="dc_publisher" size="50" value="" autocomplete="off">
                                 </div>
                                 <div class="col-md-2">
                                     <span id="dc_publisher_indicator" style="display: none;"><img src="~/5-PublicationMetaData1_files/load-indicator.gif" alt="Loading..."></span><div id="dc_publisher_autocomplete" class="autocomplete" style="display: none;"> </div>
@@ -386,7 +386,7 @@
                     Código de 8 dígitos que identifica a versão digital da revista.
                     <br>Exemplo: <b>1476-4687</b>
                 </div>
-                <div class="row"><label class="col-md-2">e-ISSN</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" type="text" name="dc_identifier_essn" id="dc_identifier_essn" size="50" value=""></div></div></div></div><br>
+                <div class="row"><label class="col-md-2">e-ISSN</label><div class="col-md-10"><div class="row col-md-12"><div class="col-md-10"><input class="form-control" disabled type="text" name="dc_identifier_essn" id="dc_identifier_essn" size="50" value=""></div></div></div></div><br>
 
                 @*---------------------DOI-----------------*@
                 <div class="help-block">
@@ -416,7 +416,7 @@
                     <div class="col-md-10">
                         <div class="row col-md-12">
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="dc_relation_publisherversion" id="dc_relation_publisherversion" size="50" value="@dados["Versao da Editora"]">
+                                <input class="form-control" disabled type="text" name="dc_relation_publisherversion" id="dc_relation_publisherversion" size="50" value="@dados["Versao da Editora"]">
                             </div>
                         </div>
                     </div>
@@ -510,6 +510,7 @@
                         </select>
                     </span>
                 </div>
+
 
                 <br>
 
