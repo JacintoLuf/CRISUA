@@ -9,6 +9,7 @@
     var seta1 = "seta1_" + count;
     var seta2 = "seta2_" + count;
     var orcidID = ViewBag.OrcidID;
+    var c = 0;
 }
 
 <div><h2>@ViewData["Title"]</h2></div>
@@ -22,7 +23,7 @@
                 @if (orcidID == null)
                 {
                     <span style="cursor: not-allowed;" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Para importar, introduza ORCID ID no Perfil">
-                        <button type="submit"  class="ui primary button" disabled>Importar</button>
+                        <button type="submit" class="ui primary button" disabled>Importar</button>
                     </span>
                 }
                 else
@@ -45,7 +46,7 @@
 
     </div>
     <div class="two wide column ">
-        <button class="ui primary button" onclick="saveAll()">Guardar</button>
+        <button id="btn-Guardar" disabled class="ui primary button" onclick="saveAll()">Guardar</button>
     </div>
     <div class="two wide column">
         <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
@@ -59,9 +60,16 @@
     <p>&nbsp Utilize o botão <button class="ui primary button">Guardar</button> para confirmar e guardar a esolha das publicações. As  publicações irão para a página @Html.ActionLink("Detalhes", "Detail", "Home", null)</p>
     <br />
 </div>
+<br />
 
-    &nbsp;
-    &nbsp;
+
+<b>
+    @foreach (var pub in pubsInBD)
+    {
+        c++;
+    }
+    @c Publicações
+</b>
 <div class="ui grid">
     <div class="four wide column">
         <select id="select" class="ui dropdown" onchange="filterOrder()">
@@ -117,7 +125,7 @@
     }
     else
     {
-        <p>Todas as publicações já estão Sincronizadas</p>
+        <p>Não tem nenhuma publicações Importada!</p>
     }
 </div>
 
@@ -137,7 +145,6 @@
     var objs = [];
 
     function sendToDetails(obj) {
-        console.log(obj);
         $.post("PublicationDetails_Helper", { obj: JSON.stringify(obj) }, function (data) {
             window.open(data,'_blank');
         });
@@ -145,7 +152,6 @@
     }
 
     function OrcidToRia(obj, idDiv) {
-        console.log(obj);
         var div = document.getElementById("" + idDiv);
         if (typeof (div) != 'undefined' && div != null) {
             var seta1 = document.getElementById("seta1_" + idDiv);
@@ -155,10 +161,11 @@
             div.innerHTML = obj["titulo"];
             objs.push(obj["titulo"]);
         }
+        document.getElementById("btn-Guardar").disabled = false;
+
     }
 
     function CancelOrcidToRia(obj, idDiv) {
-        console.log(obj);
         var div = document.getElementById("" + idDiv);
         if (typeof (div) != 'undefined' && div != null) {
             var seta1 = document.getElementById("seta1_" + idDiv);
@@ -167,6 +174,11 @@
             seta2.style.display = "none";
             div.innerHTML = null;
             objs.pop(obj["titulo"]);
+        }
+        if (objs.length == 0) {
+            document.getElementById("btn-Guardar").disabled = true;
+        } else {
+            document.getElementById("btn-Guardar").disabled = false;
         }
     }
 
@@ -207,7 +219,7 @@
         });
     }
 
- </script>
+</script>
 
 @*@section RightColumn{
     Recursos adicionais:

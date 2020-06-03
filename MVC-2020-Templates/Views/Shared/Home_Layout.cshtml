@@ -96,29 +96,25 @@
                         <li>
                             @Html.ActionLink("Home", "Home", "Home", null)
                         </li>
-                        @*<li>
-                            @Html.ActionLink("Instruções", "Readme", "Home", null)
-                        </li>*@
-                        @*@{if (MVC_2020_Template.Helpers.Session.SessionActive)*@
-                        @*//   {*@
-
-                        @*<li>
-                                @Html.ActionLink("Perfil", "Perfil", "Home", null)
-                            </li>
-                            <li>
-                                @Html.ActionLink("Publicações", "Publicacoes", "Home", null)
-                            </li>
-                            <li>
-                                @Html.ActionLink("Exemplo", "Index", "Home", null)
-                                <ul>
-                                    <li>@Html.ActionLink("Conteúdo", "Content", "Home", null)</li>
-                                    <li>@Html.ActionLink("Detalhes", "Detail", "Home", null)</li>
-                                    <li>@Html.ActionLink("Formulário", "Forms", "Home", null)</li>
-                                    <li>@Html.ActionLink("Erro", "Errors", "Home", null)</li>
-                                </ul>
-                            </li>
-                            //  }
-                            }*@
+                        @{if (MVC_2020_Template.Helpers.Session.SessionActive)
+                            {
+                                <li>
+                                    @Html.ActionLink("Perfil", "Perfil", "Home", null)
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Minhas Publicações", "MyPublications", "Home", null)
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Importar Publicações", "Publicacoes", "Home", null)
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Publicações Guardadas", "PublicacoesSalvas", "Home", null)
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Sobre", "Sobre", "Home", null)
+                                </li>
+                            }
+                        }
                     </ul>
                 </nav>
             </div>
