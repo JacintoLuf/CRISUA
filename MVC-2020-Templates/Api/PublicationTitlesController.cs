@@ -28,10 +28,10 @@ namespace MVC_2020_Template.Api
         }
 
         // GET: api/PublicationTitles/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PublicationTitle>> GetPublicationTitle(string id)
+        [HttpGet("{PublicationId}")]
+        public async Task<ActionResult<IEnumerable<PublicationTitle>>> GetPublicationTitle(int PublicationId)
         {
-            var publicationTitle = await _context.PublicationTitle.FindAsync(id);
+            var publicationTitle = await _context.PublicationTitle.Where(i => i.PublicationId == PublicationId).ToListAsync();
 
             if (publicationTitle == null)
             {
@@ -43,11 +43,11 @@ namespace MVC_2020_Template.Api
 
         // PUT: api/PublicationTitles/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPublicationTitle(string id, PublicationTitle publicationTitle)
+        // more details, see https://go.microsoft.com/fwlink/?linkPublicationId=2123754.
+        [HttpPut("{PublicationId}")]
+        public async Task<IActionResult> PutPublicationTitle(string PublicationId, PublicationTitle publicationTitle)
         {
-            if (id != publicationTitle.Title)
+            if (PublicationId != publicationTitle.Title)
             {
                 return BadRequest();
             }
@@ -60,7 +60,7 @@ namespace MVC_2020_Template.Api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PublicationTitleExists(id))
+                if (!PublicationTitleExists(PublicationId))
                 {
                     return NotFound();
                 }
@@ -75,7 +75,7 @@ namespace MVC_2020_Template.Api
 
         // POST: api/PublicationTitles
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // more details, see https://go.microsoft.com/fwlink/?linkPublicationId=2123754.
         [HttpPost]
         public async Task<ActionResult<PublicationTitle>> PostPublicationTitle(PublicationTitle publicationTitle)
         {
@@ -96,14 +96,14 @@ namespace MVC_2020_Template.Api
                 }
             }
 
-            return CreatedAtAction("GetPublicationTitle", new { id = publicationTitle.Title }, publicationTitle);
+            return CreatedAtAction("GetPublicationTitle", new { PublicationId = publicationTitle.PublicationId }, publicationTitle);
         }
 
         // DELETE: api/PublicationTitles/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<PublicationTitle>> DeletePublicationTitle(string id)
+        [HttpDelete("{PublicationId}")]
+        public async Task<ActionResult<PublicationTitle>> DeletePublicationTitle(int PublicationId)
         {
-            var publicationTitle = await _context.PublicationTitle.FindAsync(id);
+            var publicationTitle = await _context.PublicationTitle.FirstAsync(i => i.PublicationId ==PublicationId);
             if (publicationTitle == null)
             {
                 return NotFound();
@@ -115,9 +115,9 @@ namespace MVC_2020_Template.Api
             return publicationTitle;
         }
 
-        private bool PublicationTitleExists(string id)
+        private bool PublicationTitleExists(string title)
         {
-            return _context.PublicationTitle.Any(e => e.Title == id);
+            return _context.PublicationTitle.Any(e => e.Title == title);
         }
     }
 }
