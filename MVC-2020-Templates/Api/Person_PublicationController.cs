@@ -29,9 +29,9 @@ namespace MVC_2020_Template.Api
 
         // GET: api/Person_Publication/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Person_Publication>> GetPerson_Publication(int id)
+        public async Task<ActionResult<IEnumerable<Person_Publication>>> GetPerson_Publication(int id)
         {
-            var person_Publication = await _context.Person_Publication.FirstAsync(i => i.PersonId == id);
+            var person_Publication = await _context.Person_Publication.Where(i => i.PersonId == id).ToListAsync();
 
             if (person_Publication == null)
             {
