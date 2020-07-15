@@ -12,6 +12,7 @@ using MVC_2020_Database;
 using MVC_2020_Database.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using MVC_2020_Business.Models;
 
 namespace MVC_2020_Template
 {
@@ -34,6 +35,11 @@ namespace MVC_2020_Template
         {
             services.AddDbContext<MyDbContext>(options =>
                      options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "UACRIS API", Version = "v1" });
+            });
 
             services.AddSession();
             services.AddControllersWithViews();
@@ -58,8 +64,19 @@ namespace MVC_2020_Template
             app.UseRouting();
             app.UseSession();
             
-
             app.UseAuthorization();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+
 
             app.UseEndpoints(endpoints =>
             {
