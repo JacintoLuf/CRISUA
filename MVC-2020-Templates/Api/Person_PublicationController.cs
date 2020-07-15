@@ -31,7 +31,7 @@ namespace MVC_2020_Template.Api
         [HttpGet("{id}")]
         public async Task<ActionResult<Person_Publication>> GetPerson_Publication(int id)
         {
-            var person_Publication = await _context.Person_Publication.FindAsync(id);
+            var person_Publication = await _context.Person_Publication.FirstAsync(i => i.PersonId == id);
 
             if (person_Publication == null)
             {
@@ -103,7 +103,7 @@ namespace MVC_2020_Template.Api
         [HttpDelete("{id}")]
         public async Task<ActionResult<Person_Publication>> DeletePerson_Publication(int id)
         {
-            var person_Publication = await _context.Person_Publication.FindAsync(id);
+            var person_Publication = await _context.Person_Publication.FirstAsync(i => i.PersonId == id);
             if (person_Publication == null)
             {
                 return NotFound();
