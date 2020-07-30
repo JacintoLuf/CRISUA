@@ -358,14 +358,17 @@ namespace MVC_2020_Business.Services
             //             where tmp.PersonId == query1.FirstOrDefault()
             //             select tmp.PersonNameId;
             var add = 1;
-            var nameToUse = "";
+            var nameToUse = nome;
             foreach (var prin in principais)
             {
-                if (existName(_db, prin))
+                if (prin != "")
                 {
-                    add = 0;
-                    nameToUse = prin;
-                    break;
+                    if (existName(_db, prin))
+                    {
+                        add = 0;
+                        nameToUse = prin;
+                        break;
+                    }
                 }
             }
 

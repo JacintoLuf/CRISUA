@@ -28,9 +28,9 @@ namespace MVC_2020_Template.Controllers
         private static MyDbContext _db;// acesso db
         private static Dictionary<string, List<string>> _ficheiros = new Dictionary<string, List<string>>();
         private IHostingEnvironment _hostingEnvironment;
-        private string iupi = "a1d7347c-adc1-433c-97dc-56d21eea35ce";
-        private string nome = "João Lourenço Marques";
-        private string orcid = "0000-0003-0472-2767";
+        private string iupi = "a147d73a-a45f-4d75-b0c7-221a8b0535b7";
+        private string nome = "Anabela Botelho Veloso";
+        private string orcid = "0000-0002-7042-5683";
 
         public HomeController(ILogger<HomeController> logger, MyDbContext db, IHostingEnvironment hosting)// acesso db
         {
