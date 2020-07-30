@@ -1036,9 +1036,10 @@ namespace MVC_2020_Business.Services
         //ALGORITMO DE COMPARACAO DE STRINGS
         public static int checkSim(String nome, String autor)
         {
+            autor = autor.ToLower();
             int pontos = 0;
-            String[] arr = nome.Split(" ");
-
+            String[] arr = nome.ToLower().Split(" ");
+            //arr.Select(c => c.ToLower());
             for (int i = 0; i < arr.Length; i++)
             {
                 if (autor.Contains(arr[i])) pontos += 10;
