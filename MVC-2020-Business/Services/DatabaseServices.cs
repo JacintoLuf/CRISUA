@@ -157,7 +157,7 @@ namespace MVC_2020_Business.Services
         }
         public static void insertPublicationsPTCRIS(MyDbContext _db, string nome, List<Work> lista, string orcid, string iupi)
         {
-            nome = "José Manuel Neto Vieira";
+            //nome = "José Manuel Neto Vieira";
 
 
 

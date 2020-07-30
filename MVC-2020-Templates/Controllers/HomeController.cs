@@ -28,6 +28,9 @@ namespace MVC_2020_Template.Controllers
         private static MyDbContext _db;// acesso db
         private static Dictionary<string, List<string>> _ficheiros = new Dictionary<string, List<string>>();
         private IHostingEnvironment _hostingEnvironment;
+        private string iupi = "a1d7347c-adc1-433c-97dc-56d21eea35ce";
+        private string nome = "João Lourenço Marques";
+        private string orcid = "0000-0003-0472-2767";
 
         public HomeController(ILogger<HomeController> logger, MyDbContext db, IHostingEnvironment hosting)// acesso db
         {
@@ -50,7 +53,7 @@ namespace MVC_2020_Template.Controllers
         public IActionResult Perfil()
         {
             ////Estou a passar o IUPI do Vieira pãra testar
-            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "66c74f1f-8c45-4f43-9a85-be4975eecc09"/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
+            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, iupi/*Session.IUPI.ToString()*/);  //IR buscar o Orcid ID à BD
 
             if (aux != null)
             {
@@ -67,11 +70,11 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult Perfil(String OrcidID)
         {
-            DatabaseServices.insertLoginPerson(_db, "José Manuel Neto Vieira", OrcidID, "66c74f1f-8c45-4f43-9a85-be4975eecc09");//);Session.IUPI.ToString());
+            DatabaseServices.insertLoginPerson(_db, nome, OrcidID, iupi);//);Session.IUPI.ToString());
 
             //MVC_2020_Business.Services.DatabaseServices.setOrcid(_db, Session.IUPI.ToString(), OrcidID); //meter o OrcidID na BD
             //ViewBag.OrcidID = "0000-0002-3488-6570";
-            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, "66c74f1f-8c45-4f43-9a85-be4975eecc09");//Session.IUPI.ToString());
+            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, iupi);//Session.IUPI.ToString());
             return View();
         }
         public IActionResult MyPublications()
@@ -86,8 +89,8 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", "0000-0002-4356-4522"), Session.IUPI.ToString());
-            ViewBag.OrcidID = "0000-0002-4356-4522";// Session.IUPI.ToString());
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", orcid), iupi);
+            ViewBag.OrcidID = orcid;// Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
             //                            PublicacoesService.ConvertProductToWork(
             //                            PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
@@ -101,10 +104,10 @@ namespace MVC_2020_Template.Controllers
             
             //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, Session.FullName,
+            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, nome,
                                         PublicacoesService.ConvertProductToWork(
-                                        PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", "0000-0002-4356-4522"), Session.IUPI.ToString());
+                                        PublicacoesService.GetProducts(_db, iupi, nome)), iupi, MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, iupi));
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", orcid), iupi);
 
 
             ViewBag.import = import;

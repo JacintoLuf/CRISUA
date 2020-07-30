@@ -39,7 +39,7 @@ namespace MVC_2020_Business.Services
         //    return JsonConvert.DeserializeObject<List<Product>>(queryResult.Content);
         //}
 
-        public static List<Product> GetProducts(MyDbContext _db, string IUPI)
+        public static List<Product> GetProducts(MyDbContext _db, string IUPI, string nome)
         {
             //Save<jobs>(new jobs() { job_desc = "Renato2 Artigo", min_lvl = 12, max_lvl = 22 });
             /*var per = _db.Person
@@ -57,7 +57,7 @@ namespace MVC_2020_Business.Services
             if (!queryResult.IsSuccessStatusCode || queryResult.Content == null) { return new List<Product>(); }
 
             var desPub = JsonConvert.DeserializeObject<List<Product>>(queryResult.Content.ReadAsStringAsync().Result);
-            DatabaseServices.insertPublicationsRIA(_db, desPub, "José Manuel Neto Vieira");// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
+            DatabaseServices.insertPublicationsRIA(_db, desPub, nome);// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
 
 
 
@@ -126,7 +126,7 @@ namespace MVC_2020_Business.Services
             }
         }
 
-        public static List<Work> GetDifWorks(MyDbContext _db, string full_name,  List<Work> locals)
+        public static List<Work> GetDifWorks(MyDbContext _db, string full_name,  List<Work> locals, string iupi, string orcidID)
         {
             //using (var db = new PersingContext())
             //{
@@ -141,12 +141,13 @@ namespace MVC_2020_Business.Services
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(locals);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response2 = client2.PostAsync(urlParameter5, stringContent).Result;
+            HttpResponseMessage response2 = client2.PostAsync(orcidID, stringContent).Result;
             if (response2.IsSuccessStatusCode)
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
                 var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
-                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, urlParameter5, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+                ls = RemoveDuplicates(ls, full_name.Split(" ").Last());
+                DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, orcidID, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
                 return ls;
             }
             else
@@ -204,7 +205,7 @@ namespace MVC_2020_Business.Services
             return works;
         }
 
-        private static List<Work> RemoveDuplicates(List<Work> works) //falta meter o nome de utilizador como argumento
+        private static List<Work> RemoveDuplicates(List<Work> works, string nome) //falta meter o nome de utilizador como argumento
         {
             List<Work> juntos = works.ToList(); //lista para guardar as publicações que se fez o merge
             var titulosDuplicados = juntos.GroupBy(x => x.title.title.ToLower()).Where(x => x.Count() > 1).Select(x => x.Key).ToList(); //lista de titulos duplicados
@@ -229,9 +230,9 @@ namespace MVC_2020_Business.Services
 
                 Work toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("crossref")
                                                     || x.source.sourceName.content.ToLower().Contains("scopus")
-                                                    || !x.source.sourceName.content.ToLower().Contains("rosalino")
+                                                    || !x.source.sourceName.content.ToLower().Contains(nome)
                                                     || !x.source.sourceName.content.ToLower().Contains("datacite")); //escolhe a publicação que vem do crossref, scopus ou o que não vem do autor e datacite
-                if (toStay == null) toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("rosalino")); //se não escolheu nenhuma escolhe a do autor
+                if (toStay == null) toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains(nome)); //se não escolheu nenhuma escolhe a do autor
 
                 listToMerge.Remove(toStay);// remove a publicação escolhida da lista das publicações repetidas
                 while (listToMerge.Count != 0) //ve os duplicados todos
@@ -239,7 +240,7 @@ namespace MVC_2020_Business.Services
                     Work temp;
                     if (listToMerge.Count > 1)
                     {
-                        temp = listToMerge.Find(x => !x.source.sourceName.content.ToLower().Contains("rosalino")
+                        temp = listToMerge.Find(x => !x.source.sourceName.content.ToLower().Contains(nome)
                                                     || x.source.sourceName.content.ToLower().Contains("scopus")); //escolhe a publicação que não vem do autor
                     }
                     else
