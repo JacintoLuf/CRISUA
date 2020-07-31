@@ -157,7 +157,7 @@ namespace MVC_2020_Business.Services
         }
         public static void insertPublicationsPTCRIS(MyDbContext _db, string nome, List<Work> lista, string orcid, string iupi)
         {
-            nome = "José Manuel Neto Vieira";
+            //nome = "José Manuel Neto Vieira";
 
 
 
@@ -358,15 +358,19 @@ namespace MVC_2020_Business.Services
             //             where tmp.PersonId == query1.FirstOrDefault()
             //             select tmp.PersonNameId;
             var add = 1;
-            var nameToUse = "";
+            var nameToUse = nome;
             foreach (var prin in principais)
             {
-                if (existName(_db, prin))
+                if(prin != "")
                 {
-                    add = 0;
-                    nameToUse = prin;
-                    break;
+                    if (existName(_db, prin))
+                    {
+                        add = 0;
+                        nameToUse = prin;
+                        break;
+                    }
                 }
+                
             }
 
             if (add == 1)
@@ -1037,9 +1041,10 @@ namespace MVC_2020_Business.Services
         //ALGORITMO DE COMPARACAO DE STRINGS
         public static int checkSim(String nome, String autor)
         {
+            autor = autor.ToLower();
             int pontos = 0;
-            String[] arr = nome.Split(" ");
-
+            String[] arr = nome.ToLower().Split(" ");
+            //arr.Select(c => c.ToLower());
             for (int i = 0; i < arr.Length; i++)
             {
                 if (autor.Contains(arr[i])) pontos += 10;

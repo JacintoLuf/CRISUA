@@ -146,6 +146,7 @@ namespace MVC_2020_Business.Services
             {
                 var resultado = response2.Content.ReadAsStringAsync().Result;
                 var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
+                ls = RemoveDuplicates(ls, full_name.Split(" ").Last());
                 DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, orcidID, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
                 return ls;
             }
@@ -204,7 +205,7 @@ namespace MVC_2020_Business.Services
             return works;
         }
 
-        private static List<Work> RemoveDuplicates(List<Work> works) //falta meter o nome de utilizador como argumento
+        private static List<Work> RemoveDuplicates(List<Work> works, string nome) //falta meter o nome de utilizador como argumento
         {
             List<Work> juntos = works.ToList(); //lista para guardar as publicações que se fez o merge
             var titulosDuplicados = juntos.GroupBy(x => x.title.title.ToLower()).Where(x => x.Count() > 1).Select(x => x.Key).ToList(); //lista de titulos duplicados
@@ -229,9 +230,9 @@ namespace MVC_2020_Business.Services
 
                 Work toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("crossref")
                                                     || x.source.sourceName.content.ToLower().Contains("scopus")
-                                                    || !x.source.sourceName.content.ToLower().Contains("rosalino")
+                                                    || !x.source.sourceName.content.ToLower().Contains(nome)
                                                     || !x.source.sourceName.content.ToLower().Contains("datacite")); //escolhe a publicação que vem do crossref, scopus ou o que não vem do autor e datacite
-                if (toStay == null) toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains("rosalino")); //se não escolheu nenhuma escolhe a do autor
+                if (toStay == null) toStay = listToMerge.Find(x => x.source.sourceName.content.ToLower().Contains(nome)); //se não escolheu nenhuma escolhe a do autor
 
                 listToMerge.Remove(toStay);// remove a publicação escolhida da lista das publicações repetidas
                 while (listToMerge.Count != 0) //ve os duplicados todos
@@ -239,7 +240,7 @@ namespace MVC_2020_Business.Services
                     Work temp;
                     if (listToMerge.Count > 1)
                     {
-                        temp = listToMerge.Find(x => !x.source.sourceName.content.ToLower().Contains("rosalino")
+                        temp = listToMerge.Find(x => !x.source.sourceName.content.ToLower().Contains(nome)
                                                     || x.source.sourceName.content.ToLower().Contains("scopus")); //escolhe a publicação que não vem do autor
                     }
                     else
