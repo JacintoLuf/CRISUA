@@ -14,7 +14,7 @@ namespace MVC_2020_Template.Helpers
 		{
 			session = ses;
 		}
-		public static string FullName
+		public string FullName
 		{
 			get
 			{
@@ -69,7 +69,7 @@ namespace MVC_2020_Template.Helpers
 			}
 		}
 
-		public static Guid IUPI
+		public Guid IUPI
 		{
 			get
 			{
@@ -92,7 +92,7 @@ namespace MVC_2020_Template.Helpers
 			}
 		}
 
-		public static string Email
+		public string Email
 		{
 			get
 			{

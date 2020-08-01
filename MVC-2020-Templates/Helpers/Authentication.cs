@@ -22,13 +22,13 @@ namespace MVC_2020_Template.Helpers
             Config = config;
              Shibboleth.ses = session;
              Shibboleth.serverVars = session.Features.Get<IServerVariablesFeature>();
-            var secao = new Session(Ses.Session);
+            var sessao = new Session(Ses.Session);
             Session.session = Ses.Session;
             //if (secao.Impersonated)
             //    return;
 
             // se não houver iupi em sessão
-            if (Session.IUPI == Guid.Empty) //if (secao.IUPI == Guid.Empty)
+            if (sessao.IUPI == Guid.Empty) //if (secao.IUPI == Guid.Empty)
             {
                 //new Helpers.Log(Log.ActionType.Debug, "sessão sem iupi");
                 var c = session;
@@ -63,10 +63,10 @@ namespace MVC_2020_Template.Helpers
                     email = Shibboleth.Email;
                     /***********************************************/
 
-                    Session.FullName = fullName;
-                    secao.ShortName = shortName;
-                    Session.IUPI = iupi;
-                    Session.Email = email;
+                    sessao.FullName = fullName;
+                    sessao.ShortName = shortName;
+                    sessao.IUPI = iupi;
+                    sessao.Email = email;
                     Session.SessionActive = true;
 
                     this.Success = true;

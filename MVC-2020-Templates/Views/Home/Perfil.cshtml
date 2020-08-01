@@ -16,28 +16,30 @@
                 </div>
                 <br />
                 <div class="container">
-                    <p><b>Nome:</b> @MVC_2020_Template.Helpers.Session.FullName</p>
-                    @*<label>email: </label> @ViewBag.emailSession*@
-                    <p><b>Mail:</b> @MVC_2020_Template.Helpers.Session.Email</p>
-                    @*<p><button class="button">Contact</button></p>*@
-                    @*<p><b>IUPI:</b> @MVC_2020_Template.Helpers.Session.IUPI</p>*@
-                    @if (valorORCID == null)
-                    {
-                        <div class="ui form">
-                            <form action="Perfil" method="post">
-                                <div class="field" style="width:200px;">
-                                    <label><b>ORCID ID</b></label>
-                                    <input id="textOrcidID" name="OrcidID" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" title="Format: 0000-0000-0000-0000" type="text">
-                                </div>
-                                <button id="myBtn" type="submit" class="ui button">Submit</button>
-                            </form>
-                        </div>
-                    }
-                    else
-                    {
-                        <p><b>ORCID ID:</b> @valorORCID</p>
-                    }
-                </div>
+                    @{var session = new MVC_2020_Template.Helpers.Session(Context.Session);
+                        <p><b>Nome:</b> @session.FullName</p>
+                        @*<label>email: </label> @ViewBag.emailSession*@
+                        <p><b>Mail:</b> @session.Email</p>
+                        @*<p><button class="button">Contact</button></p>*@
+                        @*<p><b>IUPI:</b> @MVC_2020_Template.Helpers.Session.IUPI</p>*@
+                        @if (valorORCID == null)
+                        {
+                            <div class="ui form">
+                                <form action="Perfil" method="post">
+                                    <div class="field" style="width:200px;">
+                                        <label><b>ORCID ID</b></label>
+                                        <input id="textOrcidID" name="OrcidID" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" title="Format: 0000-0000-0000-0000" type="text">
+                                    </div>
+                                    <button id="myBtn" type="submit" class="ui button">Submit</button>
+                                </form>
+                            </div>
+                        }
+                        else
+                        {
+                            <p><b>ORCID ID:</b> @valorORCID</p>
+                        }
+                        }
+                    </div>
             </div>
         </div>
     </div>

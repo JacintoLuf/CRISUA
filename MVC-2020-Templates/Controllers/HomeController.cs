@@ -28,6 +28,7 @@ namespace MVC_2020_Template.Controllers
         private static MyDbContext _db;// acesso db
         private static Dictionary<string, List<string>> _ficheiros = new Dictionary<string, List<string>>();
         private IHostingEnvironment _hostingEnvironment;
+        private static Session _session;
 
         public HomeController(ILogger<HomeController> logger, MyDbContext db, IHostingEnvironment hosting)// acesso db
         {
@@ -49,8 +50,9 @@ namespace MVC_2020_Template.Controllers
         [HttpGet]
         public IActionResult Perfil()
         {
+            _session = new Session(HttpContext.Session);
             ////Estou a passar o IUPI do Vieira pãra testar
-            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());  //IR buscar o Orcid ID à BD
+            var aux = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString());  //IR buscar o Orcid ID à BD
 
             if (aux != null)
             {
@@ -67,30 +69,33 @@ namespace MVC_2020_Template.Controllers
         [HttpPost]
         public IActionResult Perfil(String OrcidID)
         {
-            DatabaseServices.insertLoginPerson(_db, Session.FullName.ToString(), OrcidID, Session.IUPI.ToString());
+            
+            DatabaseServices.insertLoginPerson(_db, _session.FullName.ToString(), OrcidID, _session.IUPI.ToString());
 
-            //MVC_2020_Business.Services.DatabaseServices.setOrcid(_db, Session.IUPI.ToString(), OrcidID); //meter o OrcidID na BD
+            //MVC_2020_Business.Services.DatabaseServices.setOrcid(_db, _session.IUPI.ToString(), OrcidID); //meter o OrcidID na BD
             //ViewBag.OrcidID = "0000-0002-3488-6570";
-            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());
+            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString());
             return View();
         }
         public IActionResult MyPublications()
         {
-            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString()), Session.IUPI.ToString());
-           // ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", "0000-0002-4356-4522"), Session.IUPI.ToString());
+            
+            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString()), _session.IUPI.ToString());
+           // ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", "0000-0002-4356-4522"), _session.IUPI.ToString());
             return View();
         }
 
         [HttpGet]
         public IActionResult Publicacoes()
         {
-            //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
+            
+            //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, _session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString())), Session.IUPI.ToString());
-            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString());
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString())), _session.IUPI.ToString());
+            ViewBag.OrcidID = MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db,
             //                            PublicacoesService.ConvertProductToWork(
-            //                            PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
+            //                            PublicacoesService.GetProducts(_db, _session.IUPI.ToString())));
             ViewBag.import = "false";
             return View();
         }
@@ -99,12 +104,12 @@ namespace MVC_2020_Template.Controllers
         public IActionResult Publicacoes(string import)
         {
             
-            //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
+            //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, _session.IUPI.ToString());
             //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, Session.FullName,
+            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, _session.FullName,
                                         PublicacoesService.ConvertProductToWork(
-                                        PublicacoesService.GetProducts(_db, Session.IUPI.ToString(), Session.FullName.ToString())), Session.IUPI.ToString(), MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString()));
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString())), Session.IUPI.ToString());
+                                        PublicacoesService.GetProducts(_db, _session.IUPI.ToString(), _session.FullName.ToString())), _session.IUPI.ToString(), MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString()));
+            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString())), _session.IUPI.ToString());
 
 
             ViewBag.import = import;
@@ -118,15 +123,16 @@ namespace MVC_2020_Template.Controllers
 
         public IActionResult PublicacoesSalvas(string works)
         {
+            
             //ViewBag.Details = JsonConvert.DeserializeObject<List<Work>>(works);
             //ViewBag.Titulos = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1");
-            var listaPrint = ((MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString()))));
-            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "3", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString())));
-            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "4", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, Session.IUPI.ToString())));
-            ViewBag.PubSaved = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, listaPrint, Session.IUPI.ToString());
+            var listaPrint = ((MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString()))));
+            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "3", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString())));
+            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "4", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString())));
+            ViewBag.PubSaved = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, listaPrint, _session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris2 = PublicacoesService.GetDifWorks2(_db,
             //                            PublicacoesService.ConvertProductToWork(
-            //                            PublicacoesService.GetProducts2(_db, Session.IUPI.ToString())));
+            //                            PublicacoesService.GetProducts2(_db, _session.IUPI.ToString())));
             return View();
             //return Json(Url.Action("Detail", "Home"));
         }
@@ -166,6 +172,7 @@ namespace MVC_2020_Template.Controllers
                                                     string dc_type, string dc_description_version, string dc_language_iso, IFormCollection fc, string submit_dc_contributor_author_add,
                                                     string pubID)
         {
+            
             Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
             if (submit_dc_contributor_author_add == "Add More" && dc_contributor_author != null)
             {
@@ -199,14 +206,14 @@ namespace MVC_2020_Template.Controllers
                 work.Add("Autores", fc["dc_contributor_author_1"].ToList());
                 //string works2 = JsonConvert.SerializeObject(work);
                 MVC_2020_Business.Services.DatabaseServices.updateState(_db, Int32.Parse(pubID), 3);
-                Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), Session.IUPI.ToString());
+                Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), _session.IUPI.ToString());
                 info["Autores"] = work["Autores"];
                 string works2 = JsonConvert.SerializeObject(info);
                 return RedirectToAction("PublicationMetaData2", "Home", new { works = works2 });
             }
             if (submit_cancel == "Cancel/Save")
             {
-                Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), Session.IUPI.ToString());
+                Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), _session.IUPI.ToString());
                 string works2 = JsonConvert.SerializeObject(info);
                 MVC_2020_Business.Services.DatabaseServices.updateState(_db, Int32.Parse(pubID), 3);
                 return RedirectToAction("PublicacoesSalvas", "Home");
@@ -240,13 +247,14 @@ namespace MVC_2020_Template.Controllers
                                                     string dc_description_sponsorship /*patrocinadores*/, string dc_rights /*acesso*/,string dc_date_embargo_day, 
                                                     string dc_date_embargo_month, string dc_date_embargo_year, string dc_rights_uri /*licensa*/, string pubID)
         {
+            
             Hashtable dados = publicationMeta2ToHash(dc_subject_1 /*palavra chave*/, dc_description_abstract_1 /*resumo*/, dc_relation_authority, /*prof financiado*/
                                                      dc_description_sponsorship /*patrocinadores*/, dc_rights /*acesso*/, dc_date_embargo_day, dc_date_embargo_month, 
                                                      dc_date_embargo_year, dc_rights_uri /*licensa*/, pubID);
 
             DatabaseServices.updateAsTable2(_db, dados);
             Hashtable work = @Newtonsoft.Json.JsonConvert.DeserializeObject<Hashtable>(works);
-            Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), Session.IUPI.ToString());
+            Hashtable info = DatabaseServices.retrieveAllInfo(_db, work["titulo"].ToString(), _session.IUPI.ToString());
             string works2 = JsonConvert.SerializeObject(info);
 
             if (submit_jump_2_1 == "Describe" || submit_prev == "Previous")

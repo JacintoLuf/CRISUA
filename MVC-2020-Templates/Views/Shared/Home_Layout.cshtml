@@ -32,7 +32,7 @@
 
                     @if (@MVC_2020_Template.Helpers.Session.SessionActive)
                     {
-                        <span style="color:white">@MVC_2020_Template.Helpers.Session.FullName</span>
+                        <span style="color:white">@session.FullName</span>
                         @*<a href="/Secure/Logout">&nbsp; Logout <i class="outline user icon"></i></a>*@
                         <i class="outline user icon"></i>@Html.ActionLink("Sair", "Logout", "Secure", null)
                     }
