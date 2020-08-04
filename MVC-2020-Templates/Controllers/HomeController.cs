@@ -95,22 +95,33 @@ namespace MVC_2020_Template.Controllers
             //                            PublicacoesService.ConvertProductToWork(
             //                            PublicacoesService.GetProducts(_db, Session.IUPI.ToString())));
             ViewBag.import = "false";
+            ViewBag.dataSource = "ORCID";
             return View();
         }
         
         [HttpPost]
-        public IActionResult Publicacoes(string import)
+        public IActionResult Publicacoes(string import, string ORCID_source, string Authenticus_source)
         {
-            
-            //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
-            //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, nome,
-                                        PublicacoesService.ConvertProductToWork(
-                                        PublicacoesService.GetProducts(_db, iupi, nome)), iupi, MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, iupi));
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", orcid), iupi);
+
+            if (ORCID_source == "ORCID") // Fonte de dados - ORCID
+            {
+                ViewBag.dataSource = "ORCID";
+
+                //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
+                //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
+                ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, nome,
+                                            PublicacoesService.ConvertProductToWork(
+                                            PublicacoesService.GetProducts(_db, iupi, nome)), iupi, MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, iupi));
+                ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", orcid), iupi);
 
 
-            ViewBag.import = import;
+                ViewBag.import = import;
+            }
+            else if (Authenticus_source == "Authenticus") // Fonte de dados - Authenticus
+            {
+                ViewBag.dataSource = "Authenticus";
+            }
+
             return View();
         }
 
