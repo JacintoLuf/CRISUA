@@ -475,7 +475,7 @@ namespace MVC_2020_Business.Services
         {
             Hashtable map = new Hashtable();
 
-            iupi = "83b90544-a39d-4073-81cb-0ad094c1ec71";
+            //iupi = "83b90544-a39d-4073-81cb-0ad094c1ec71";
             var query = from tmp in _db.PublicationTitle where tmp.Title == titulo select tmp.PublicationId;
             var id = query.FirstOrDefault();
 
@@ -620,6 +620,112 @@ namespace MVC_2020_Business.Services
 
             map.Add("IUPI", iupi);
             return map;
+        }
+
+        public static Publicacao retrieveInfoPublicacao(MyDbContext _db, int pubId)
+        {
+            Publicacao pub = new Publicacao();
+
+            //iupi = "83b90544-a39d-4073-81cb-0ad094c1ec71";
+            pub.Title = _db.PublicationTitle.First(x => x.PublicationId == pubId).Title;
+
+            var identifierDoi = _db.Publication_Identifier.Find(pubId, 1);
+            pub.Doi = identifierDoi is null ? null : identifierDoi.Value;
+            var identifierHandle = _db.Publication_Identifier.Find(pubId, 2);
+            pub.Handle = identifierHandle is null ? null : identifierHandle.Value;
+
+
+            //var queryExt = from tmp in _db.Publication_Identifier where tmp.PublicationId == id & tmp.IdentifierId != 1 select tmp.Value;
+            //if (queryExt.FirstOrDefault() != null)
+            //    map.Add("Identificadores Externos", queryExt.FirstOrDefault());
+
+            var persons = _db.Person_Publication.Where(x => x.PublicationId == pubId).ToList();
+
+            List<Autor> autores = new List<Autor>();
+            Autor autor;
+            foreach (var aut in persons)
+            {
+                autor = new Autor();
+                var nome = _db.PersonName.Find(aut.PersonNameId);
+                autor.Name = nome is null ? null : nome.Name;
+                var orcid = _db.Person_Identifier.Find(aut.PersonId, 1);
+                autor.OrcidId = orcid is null ? null : orcid.Value; //buscar o orcidID
+                autores.Add(autor);
+            }
+            pub.Authors = autores;
+            //var queryData = from tmp in _db.Publication where tmp.PublicationId == id select tmp.Date;
+            //string data_hora = queryData.FirstOrDefault().ToString();
+
+            //map.Add("Data", Partir_data(data_hora)[0]);
+            //map.Add("Dia", Partir_data(data_hora)[1]);
+            //map.Add("Mes", Partir_data(data_hora)[2]);
+            //map.Add("Ano", Partir_data(data_hora)[3]);
+
+            pub.Source = _db.Publication.Find(pubId).Source;
+
+            //var queryState = from tmp in _db.Publication where tmp.PublicationId == id select tmp.State;
+            //var qS = queryState.FirstOrDefault();
+            //if (qS != null)
+            //    switch (qS)
+            //    {
+            //        case 1:
+            //            map.Add("Estado", "Publicação Importada");
+            //            break;
+            //        case 2:
+            //            map.Add("Estado", "Publicação Guardada");
+            //            break;
+            //        case 3:
+            //            map.Add("Estado", "Em análise");
+            //            break;
+            //        case 4:
+            //            map.Add("Estado", "Pronta a importar para o RIA");
+            //            break;
+            //        case 5:
+            //            map.Add("Estado", "Importada no RIA");
+            //            break;
+            //        case 6:
+            //            map.Add("Estado", "Validada pela Biblioteca");
+            //            break;
+            //        default:
+            //            map.Add("Estado", "NULL");
+            //            break;
+            //    }
+
+            //map.Add("EstadoPub", "published");
+            var language = _db.Language.Find(_db.Publication.Find(pubId).LanguageId);
+            pub.Language = language is null ? null : language.Acronym;
+
+            var detalhes = _db.PublicationDetail.Find(pubId);
+            if(detalhes != null)
+            {
+                pub.StartPage = detalhes.StartPage;
+                pub.EndPage = detalhes.EndPage;
+                pub.TotalPages = detalhes.TotalPages;
+                pub.Volume = detalhes.Volume;
+                pub.Edition = detalhes.Edition;
+                pub.Series = detalhes.Series;
+                pub.Number = detalhes.Number;
+                pub.Issue = detalhes.Issue;
+                pub.ISBN = detalhes.ISBN;
+                pub.ISSN = detalhes.ISSN;
+                pub.URI = detalhes.URI;
+                pub.Journal = detalhes.Journal;
+            }
+            
+
+            //map.Add("Outros Titulos", null);
+            //map.Add("Editor", null);
+            //map.Add("e-ISSN", null);
+            //map.Add("Versao da Editora", null);
+            //map.Add("Revisao por pares", null);
+
+            pub.Type = _db.Publication.Find(pubId).Type;
+            
+            var resume = _db.PublicationAbstract.Find(pubId);
+            pub.Abstract = resume is null ? null : resume.Abstract;
+            
+
+            return pub;
         }
 
         public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor, string orcid)

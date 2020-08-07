@@ -25,6 +25,7 @@ namespace MVC_2020_Business.Models
         public string Handle { get; set; }
         public string URI { get; set; }
         public string Journal { get; set; }
+        public string Language { get; set; }
         public List<Autor> Authors { get; set; }
     }
 }
