@@ -47,6 +47,12 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        public IActionResult Documentation()
+        {
+            return File("~/Doxygen/html/index.html", "text/html");
+        }
+
+
         [HttpGet]
         public IActionResult Perfil()
         {

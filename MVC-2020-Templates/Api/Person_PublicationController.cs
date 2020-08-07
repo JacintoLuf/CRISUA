@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC_2020_Database.DataModels;
+using ServiceStack.OrmLite.Converters;
 
 namespace MVC_2020_Template.Api
 {

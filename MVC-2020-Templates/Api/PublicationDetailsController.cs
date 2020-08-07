@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MVC_2020_Business.Models;
+using MVC_2020_Business.Services;
 using MVC_2020_Database.DataModels;
 
 namespace MVC_2020_Template.Api
@@ -28,17 +30,39 @@ namespace MVC_2020_Template.Api
         }
 
         // GET: api/PublicationDetails/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PublicationDetail>> GetPublicationDetail(int id)
+        [HttpGet("{OrcidId}")]
+        public async Task<ActionResult<IEnumerable<Publicacao>>> GetPublicationDetail(string OrcidId)
         {
-            var publicationDetail = await _context.PublicationDetail.FindAsync(id);
+            var dataset = _context.Set<Person_Identifier>()
+                           .Where(x => x.Value.Equals(OrcidId))
+                           .Select(x => new Person_Identifier
+                           {
+                               PersonID = x.PersonID,
+                               Value = x.Value,
+                               IdentifierId = x.IdentifierId
+                           }).ToList();
 
-            if (publicationDetail == null)
+            var person_id = 0;
+
+            foreach (Person_Identifier person in dataset)
+            {
+                person_id = person.PersonID;
+            }
+
+            var person_Publication = await _context.Person_Publication.Where(i => i.PersonId == person_id).ToListAsync();
+
+            if (person_Publication == null)
             {
                 return NotFound();
             }
+            List<Publicacao> pubs = new List<Publicacao>();
 
-            return publicationDetail;
+            foreach (var p in person_Publication)
+            {
+                pubs.Add(DatabaseServices.retrieveInfoPublicacao(_context, p.PublicationId));
+            }
+
+            return pubs;
         }
 
         // PUT: api/PublicationDetails/5
