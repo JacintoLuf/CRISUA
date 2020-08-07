@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['person_46',['Person',['../class_m_v_c__2020___database_1_1_data_models_1_1_person.html',1,'MVC_2020_Database::DataModels']]],
+  ['person1_47',['Person1',['../class_m_v_c__2020___business_1_1_models_1_1_person1.html',1,'MVC_2020_Business::Models']]],
+  ['person2_48',['Person2',['../class_m_v_c__2020___business_1_1_models_1_1_person2.html',1,'MVC_2020_Business::Models']]],
+  ['person_5fidentifier_49',['Person_Identifier',['../class_m_v_c__2020___database_1_1_data_models_1_1_person___identifier.html',1,'MVC_2020_Database::DataModels']]],
+  ['person_5fpublication_50',['Person_Publication',['../class_m_v_c__2020___database_1_1_data_models_1_1_person___publication.html',1,'MVC_2020_Database::DataModels']]],
+  ['person_5fpublicationcontroller_51',['Person_PublicationController',['../class_m_v_c__2020___template_1_1_api_1_1_person___publication_controller.html',1,'MVC_2020_Template::Api']]],
+  ['persongender_52',['PersonGender',['../class_m_v_c__2020___database_1_1_data_models_1_1_person_gender.html',1,'MVC_2020_Database::DataModels']]],
+  ['personname_53',['PersonName',['../class_m_v_c__2020___database_1_1_data_models_1_1_person_name.html',1,'MVC_2020_Database::DataModels']]],
+  ['product_54',['Product',['../class_m_v_c__2020___business_1_1_models_1_1_product.html',1,'MVC_2020_Business::Models']]],
+  ['product3_55',['Product3',['../class_m_v_c__2020___business_1_1_models_1_1_product3.html',1,'MVC_2020_Business::Models']]],
+  ['program_56',['Program',['../class_m_v_c__2020___business_1_1_program.html',1,'MVC_2020_Business.Program'],['../class_m_v_c__2020___template_1_1_program.html',1,'MVC_2020_Template.Program']]],
+  ['publicacao_57',['Publicacao',['../class_m_v_c__2020___business_1_1_models_1_1_publicacao.html',1,'MVC_2020_Business::Models']]],
+  ['publicacoesservice_58',['PublicacoesService',['../class_m_v_c__2020___business_1_1_services_1_1_publicacoes_service.html',1,'MVC_2020_Business::Services']]],
+  ['publication_59',['Publication',['../class_m_v_c__2020___database_1_1_data_models_1_1_publication.html',1,'MVC_2020_Database::DataModels']]],
+  ['publication_5fidentifier_60',['Publication_Identifier',['../class_m_v_c__2020___database_1_1_data_models_1_1_publication___identifier.html',1,'MVC_2020_Database::DataModels']]],
+  ['publicationabstract_61',['PublicationAbstract',['../class_m_v_c__2020___database_1_1_data_models_1_1_publication_abstract.html',1,'MVC_2020_Database::DataModels']]],
+  ['publicationdate_62',['PublicationDate',['../class_m_v_c__2020___business_1_1_models_1_1_publication_date.html',1,'MVC_2020_Business.Models.PublicationDate'],['../class_m_v_c__2020___business_1_1_models_1_1_orcid_1_1_publication_date.html',1,'MVC_2020_Business.Models.Orcid.PublicationDate']]],
+  ['publicationdate_5fday_63',['PublicationDate_Day',['../class_m_v_c__2020___business_1_1_models_1_1_orcid_1_1_publication_date___day.html',1,'MVC_2020_Business::Models::Orcid']]],
+  ['publicationdate_5fmonth_64',['PublicationDate_Month',['../class_m_v_c__2020___business_1_1_models_1_1_orcid_1_1_publication_date___month.html',1,'MVC_2020_Business::Models::Orcid']]],
+  ['publicationdate_5fyear_65',['PublicationDate_Year',['../class_m_v_c__2020___business_1_1_models_1_1_orcid_1_1_publication_date___year.html',1,'MVC_2020_Business::Models::Orcid']]],
+  ['publicationdetail_66',['PublicationDetail',['../class_m_v_c__2020___database_1_1_data_models_1_1_publication_detail.html',1,'MVC_2020_Database::DataModels']]],
+  ['publicationdetailscontroller_67',['PublicationDetailsController',['../class_m_v_c__2020___template_1_1_api_1_1_publication_details_controller.html',1,'MVC_2020_Template::Api']]],
+  ['publicationscontroller_68',['PublicationsController',['../class_m_v_c__2020___template_1_1_api_1_1_publications_controller.html',1,'MVC_2020_Template::Api']]],
+  ['publicationtitle_69',['PublicationTitle',['../class_m_v_c__2020___database_1_1_data_models_1_1_publication_title.html',1,'MVC_2020_Database::DataModels']]],
+  ['publicationtitlescontroller_70',['PublicationTitlesController',['../class_m_v_c__2020___template_1_1_api_1_1_publication_titles_controller.html',1,'MVC_2020_Template::Api']]]
+];
