@@ -1,0 +1,73 @@
+\hypertarget{class_m_v_c__2020___database_1_1_base_service}{}\doxysection{M\+V\+C\+\_\+2020\+\_\+\+Database.\+Base\+Service Class Reference}
+\label{class_m_v_c__2020___database_1_1_base_service}\index{MVC\_2020\_Database.BaseService@{MVC\_2020\_Database.BaseService}}
+Inheritance diagram for M\+V\+C\+\_\+2020\+\_\+\+Database.\+Base\+Service\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_m_v_c__2020___database_1_1_base_service}
+\end{center}
+\end{figure}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a911fb7fb9146faebf6299bf0e36c657f}\label{class_m_v_c__2020___database_1_1_base_service_a911fb7fb9146faebf6299bf0e36c657f}} 
+static void {\bfseries start\+Connection} (string connection\+String)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a463068bb1ff053f9638723c9995ede34}\label{class_m_v_c__2020___database_1_1_base_service_a463068bb1ff053f9638723c9995ede34}} 
+static List$<$ T $>$ {\bfseries Get$<$ T $>$} ()
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a80170d825222779dfb9976ca77548a12}\label{class_m_v_c__2020___database_1_1_base_service_a80170d825222779dfb9976ca77548a12}} 
+static bool {\bfseries Save$<$ T $>$} (T e)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a56b2476fbe3f1df27fbac67f3520b7ad}\label{class_m_v_c__2020___database_1_1_base_service_a56b2476fbe3f1df27fbac67f3520b7ad}} 
+static bool {\bfseries Delete$<$ T $>$} (T e)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a8393c04235205b6074e55f4777d78125}\label{class_m_v_c__2020___database_1_1_base_service_a8393c04235205b6074e55f4777d78125}} 
+static I\+Enumerable$<$ T $>$ {\bfseries Query$<$ T $>$} (string sql)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a239ae1be486f539e6cd5a5b655285f7a}\label{class_m_v_c__2020___database_1_1_base_service_a239ae1be486f539e6cd5a5b655285f7a}} 
+static I\+Enumerable$<$ T $>$ {\bfseries Query$<$ T $>$} (string sql, object campos\+Filtro)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_abbfaa3d01649b74130f67199abae6184}\label{class_m_v_c__2020___database_1_1_base_service_abbfaa3d01649b74130f67199abae6184}} 
+static List$<$ T $>$ {\bfseries Select$<$ T $>$} ()
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_ac51273d0fdc64b1241783b4abe6949e9}\label{class_m_v_c__2020___database_1_1_base_service_ac51273d0fdc64b1241783b4abe6949e9}} 
+static List$<$ T $>$ {\bfseries Select$<$ T $>$} (Expression$<$ Func$<$ T, bool $>$$>$ filtro)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_ad32bbfd5656b924333c418de1c4c8161}\label{class_m_v_c__2020___database_1_1_base_service_ad32bbfd5656b924333c418de1c4c8161}} 
+static bool {\bfseries Any$<$ T $>$} ()
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_ae8f4b9c7519c2254c0d7d248a24fef94}\label{class_m_v_c__2020___database_1_1_base_service_ae8f4b9c7519c2254c0d7d248a24fef94}} 
+static bool {\bfseries Any$<$ T $>$} (Expression$<$ Func$<$ T, bool $>$$>$ filtro)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a163985ed54550625769d8c34ecf775d3}\label{class_m_v_c__2020___database_1_1_base_service_a163985ed54550625769d8c34ecf775d3}} 
+static long {\bfseries Count$<$ T $>$} ()
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_ae9eecc4d8c290e6eebfb6d453a1e16c5}\label{class_m_v_c__2020___database_1_1_base_service_ae9eecc4d8c290e6eebfb6d453a1e16c5}} 
+static long {\bfseries Count$<$ T $>$} (Expression$<$ Func$<$ T, bool $>$$>$ filtro)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a69d91bc07904b684157fb8d9603a587e}\label{class_m_v_c__2020___database_1_1_base_service_a69d91bc07904b684157fb8d9603a587e}} 
+static void {\bfseries Delete$<$ T $>$} (Expression$<$ Func$<$ T, bool $>$$>$ filtro)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_ab98bbcac896178749fe348030e99d4f2}\label{class_m_v_c__2020___database_1_1_base_service_ab98bbcac896178749fe348030e99d4f2}} 
+static void {\bfseries Delete\+By\+Id$<$ T $>$} (object id)
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_a94e6ec77b31a4fd9b72d9b324f06f609}\label{class_m_v_c__2020___database_1_1_base_service_a94e6ec77b31a4fd9b72d9b324f06f609}} 
+static void {\bfseries Delete\+By\+Ids$<$ T $>$} (I\+Enumerable$<$ int $>$ ids)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_af27753f366545d760cf4a23d87c1ee07}\label{class_m_v_c__2020___database_1_1_base_service_af27753f366545d760cf4a23d87c1ee07}} 
+static string {\bfseries connection} = \char`\"{}\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_m_v_c__2020___database_1_1_base_service_aa9e5e27b6b8d6b5a32e99dba2b05a7e7}\label{class_m_v_c__2020___database_1_1_base_service_aa9e5e27b6b8d6b5a32e99dba2b05a7e7}} 
+static Orm\+Lite\+Connection\+Factory {\bfseries db\+Factory}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/pmate/\+Documents/\+C\+R\+I\+S\+U\+A/\+M\+V\+C-\/2020-\/\+Database/Base\+Service.\+cs\end{DoxyCompactItemize}

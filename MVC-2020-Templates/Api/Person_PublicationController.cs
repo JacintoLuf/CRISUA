@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC_2020_Database.DataModels;
+using ServiceStack.OrmLite.Converters;
 
 namespace MVC_2020_Template.Api
 {
@@ -27,11 +28,42 @@ namespace MVC_2020_Template.Api
             return await _context.Person_Publication.ToListAsync();
         }
 
+        //// GET: api/Person_Publication/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<IEnumerable<Person_Publication>>> GetPerson_Publication(int id)
+        //{
+        //    var person_Publication = await _context.Person_Publication.Where(i => i.PersonId == id).ToListAsync();
+
+        //    if (person_Publication == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return person_Publication;
+        //}
+
         // GET: api/Person_Publication/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Person_Publication>>> GetPerson_Publication(int id)
+        public async Task<ActionResult<IEnumerable<Person_Publication>>> GetPerson_Publication(string id)
         {
-            var person_Publication = await _context.Person_Publication.Where(i => i.PersonId == id).ToListAsync();
+            //orcidID = "0000-0002-4356-4522";
+            var dataset = _context.Set<Person_Identifier>()
+                            .Where(x => x.Value.Equals(id))
+                            .Select(x => new Person_Identifier
+                            {
+                                PersonID = x.PersonID,
+                                Value = x.Value,
+                                IdentifierId = x.IdentifierId
+                            }).ToList();
+
+            var person_id = 0;
+
+            foreach (Person_Identifier person in dataset)
+            {
+                person_id = person.PersonID;
+            }
+
+            var person_Publication = await _context.Person_Publication.Where(i => i.PersonId == person_id).ToListAsync();
 
             if (person_Publication == null)
             {

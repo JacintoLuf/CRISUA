@@ -456,6 +456,12 @@ namespace MVC_2020_Template.Controllers
         }
 
 
+        public IActionResult Documentation()
+        {
+            return File("~/Doxygen/html/index.html", "text/html");
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -547,4 +553,6 @@ namespace MVC_2020_Template.Controllers
             return temp;
         }
     }
+
+    
 }
