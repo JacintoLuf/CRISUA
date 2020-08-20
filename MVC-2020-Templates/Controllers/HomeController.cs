@@ -79,7 +79,7 @@ namespace MVC_2020_Template.Controllers
         }
         public IActionResult MyPublications()
         {
-            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", "0000-0002-4356-4522", "66c74f1f-8c45-4f43-9a85-be4975eecc09");
+            ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", orcid , iupi);
            // ViewBag.pubsInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.selectAllPubsInBD(_db, "Publication", "State", "0000-0002-4356-4522"), Session.IUPI.ToString());
             return View();
         }
