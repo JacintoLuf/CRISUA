@@ -120,8 +120,9 @@
             <b>&nbsp;&nbsp;&nbsp;@dataSource</b>
         </div>
         <div class="three wide column">
-            <label for="select_all">Selecionar tudo</label>
-            <input id="select_all " type="checkbox" onclick="selectAll(c)">
+            @*<label for="select_all">Selecionar tudo</label>*@
+            <button id="select_all" class="ui primary button" onclick="selectAll(@n_pubs,@Newtonsoft.Json.JsonConvert.SerializeObject(pubsInBD))">Selecionar tudo</button>
+            <button id="unselect_all" class="ui primary button" style="display:none" onclick="unselectAll(@n_pubs,@Newtonsoft.Json.JsonConvert.SerializeObject(pubsInBD))">Anular seleções</button>
         </div>
         <div class="six wide column text-center"><b>&nbsp;UA CRIS</b></div>
     </div>
@@ -195,20 +196,24 @@ else
 
     }
     // para o renato xD
-    function selectAll(n) {
-        alert("oioi");
-        var checkBox = document.getElementById("select_all");
-
-        // selecionar todos
-        if (checkBox.checked == true) {
-            var i;
-            for (i = 0; i < n; i++) {
-                OrcidToRia(obj, i);
-            }
+    function selectAll(n,pubs) {
+        var i;
+        for (i = 0; i <= n; i++) {
+            obj = pubs[i-1];
+            selectPub(obj, i);
         }
-        else {  // desmarcar
+        document.getElementById("select_all").style.display = "none";
+        document.getElementById("unselect_all").style.display = "block";
+    }
 
+    function unselectAll(n,pubs) {
+        var i;
+        for (i = 0; i <= n; i++) {
+            obj = pubs[i-1];
+            cancelSelectPub(obj, i);
         }
+        document.getElementById("select_all").style.display = "block";
+        document.getElementById("unselect_all").style.display = "none";
     }
 
     function cancelSelectPub(obj, idDiv) {

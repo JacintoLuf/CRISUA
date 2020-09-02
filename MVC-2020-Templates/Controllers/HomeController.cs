@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ServiceStack;
 
-namespace MVC_2020_Template.Controllers
+namespace MVC_2020_Template.Controllers 
 {
     public class HomeController : Controller
     {
@@ -103,7 +103,7 @@ namespace MVC_2020_Template.Controllers
         public IActionResult Publicacoes(string import, string ORCID_source, string Authenticus_source)
         {
 
-            if (ORCID_source == "ORCID") // Fonte de dados - ORCID
+            if (/*ORCID_source == "ORCID" &&*/ import == "True") // Fonte de dados - ORCID
             {
                 ViewBag.dataSource = "ORCID";
 
