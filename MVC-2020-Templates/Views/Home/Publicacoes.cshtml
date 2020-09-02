@@ -35,7 +35,9 @@
 <div class="ui grid">
     <div class="six wide column">
         <div class="column">
-            <form action="publicacoes" method="post">
+            <form action="publicacoes" method="post" enctype="multipart/form-data">
+                <input class="ui primary button" type="hidden" name="ORCID_source" value="ORCID" />
+                <input class="ui primary button" type="hidden" name="Authenticus_source" value="Authenticus" />
                 <input type="hidden" name="import" value="True" />
                 @if (orcidID == null)
                 {
@@ -94,6 +96,11 @@
                 else if (dataSource == "Authenticus")
                 {
                     <input class="ui primary button" type="submit" name="ORCID_source" value="ORCID" />
+                    <input class="ui primary button" type="submit" name="Authenticus_source" value="Authenticus" disabled />
+                }
+                else
+                {
+                    <input class="ui primary button" type="submit" name="ORCID_source" value="ORCID" disabled/>
                     <input class="ui primary button" type="submit" name="Authenticus_source" value="Authenticus" disabled />
                 }
             </div>
