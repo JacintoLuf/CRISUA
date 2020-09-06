@@ -28,9 +28,9 @@ namespace MVC_2020_Template.Controllers
         private static MyDbContext _db;// acesso db
         private static Dictionary<string, List<string>> _ficheiros = new Dictionary<string, List<string>>();
         private IHostingEnvironment _hostingEnvironment;
-        private string iupi = "a147d73a-a45f-4d75-b0c7-221a8b0535b7";
-        private string nome = "Anabela Botelho Veloso";
-        private string orcid = "0000-0002-7042-5683";
+        private string iupi = "a1d7347c-adc1-433c-97dc-56d21eea35ce";//"a147d73a-a45f-4d75-b0c7-221a8b0535b7";
+        private string nome = "João Lourenço Marques";//"Anabela Botelho Veloso";
+        private string orcid = "0000-0003-0472-2767";//"0000-0002-7042-5683";
 
         public HomeController(ILogger<HomeController> logger, MyDbContext db, IHostingEnvironment hosting)// acesso db
         {
@@ -134,9 +134,9 @@ namespace MVC_2020_Template.Controllers
         {
             //ViewBag.Details = JsonConvert.DeserializeObject<List<Work>>(works);
             //ViewBag.Titulos = MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "Synced", "1");
-            var listaPrint = ((MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2", "0000-0002-4356-4522")));
-            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "3", "0000-0002-4356-4522"));
-            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "4", "0000-0002-4356-4522"));
+            var listaPrint = ((MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "2", orcid)));
+            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "3", orcid));
+            listaPrint.AddRange(MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "4", orcid));
             ViewBag.PubSaved = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, listaPrint, Session.IUPI.ToString());
             //ViewBag.PublicacoesPTCris2 = PublicacoesService.GetDifWorks2(_db,
             //                            PublicacoesService.ConvertProductToWork(
