@@ -748,6 +748,43 @@ namespace MVC_2020_Business.Services
             return pub;
         }
 
+        public static PublicacaoPortal retrieveInfoPublicacaoPortalUA(MyDbContext _db, int pubId)
+        {
+            PublicacaoPortal pub = new PublicacaoPortal();
+
+            pub.Title = _db.PublicationTitle.First(x => x.PublicationId == pubId).Title;
+
+            var identifierDoi = _db.Publication_Identifier.Find(pubId, 1);
+            pub.Doi = identifierDoi is null ? null : identifierDoi.Value;
+            var identifierHandle = _db.Publication_Identifier.Find(pubId, 2);
+            pub.Handle = identifierHandle is null ? null : identifierHandle.Value;
+
+            var persons = _db.Person_Publication.Where(x => x.PublicationId == pubId).ToList();
+
+            List<Autor> autores = new List<Autor>();
+            Autor autor;
+            foreach (var aut in persons)
+            {
+                autor = new Autor();
+                var nome = _db.PersonName.Find(aut.PersonNameId);
+                autor.Name = nome is null ? null : nome.Name;
+                var orcid = _db.Person_Identifier.Find(aut.PersonId, 1);
+                autor.OrcidId = orcid is null ? null : orcid.Value; //buscar o orcidID
+                autores.Add(autor);
+            }
+            pub.Authors = autores;
+
+            pub.Source = _db.Publication.Find(pubId).Source;
+
+            var detalhes = _db.PublicationDetail.Find(pubId);
+            if (detalhes != null)
+            {
+                pub.URI = detalhes.URI;
+            }
+
+            return pub;
+        }
+
         public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor, string orcid)
         {
             string var = tabela;
