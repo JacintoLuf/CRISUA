@@ -23,7 +23,7 @@ namespace MVC_2020_Template.Api
         }
 
         [HttpGet("{OrcidId}")]
-        public async Task<ActionResult<IEnumerable<PublicacaoPortal>>> GetPublicationDetail(string OrcidId)
+        public async Task<ActionResult<Rootobject>> GetPublicationDetail(string OrcidId)
         {
             var dataset = _context.Set<Person_Identifier>()
                            .Where(x => x.Value.Equals(OrcidId))
@@ -47,14 +47,12 @@ namespace MVC_2020_Template.Api
             {
                 return NotFound();
             }
-            List<PublicacaoPortal> pubs = new List<PublicacaoPortal>();
+            Rootobject info = new Rootobject();
 
-            foreach (var p in person_Publication)
-            {
-                pubs.Add(DatabaseServices.retrieveInfoPublicacaoPortalUA(_context, p.PublicationId));
-            }
+            info = DatabaseServices.getInfoPortalUA(_context, person_Publication);
 
-            return pubs;
+
+            return info;
         }
     }
 }

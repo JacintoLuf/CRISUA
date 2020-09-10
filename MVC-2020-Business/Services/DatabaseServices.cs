@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Publication = MVC_2020_Database.DataModels.Publication;
 using Visibility = MVC_2020_Database.DataModels.Visibility;
 
 namespace MVC_2020_Business.Services
@@ -748,41 +749,74 @@ namespace MVC_2020_Business.Services
             return pub;
         }
 
-        public static PublicacaoPortal retrieveInfoPublicacaoPortalUA(MyDbContext _db, int pubId)
+        public static Rootobject getInfoPortalUA(MyDbContext _db, List<Person_Publication> pubsIds)
         {
-            PublicacaoPortal pub = new PublicacaoPortal();
+            Rootobject info = new Rootobject();
+            List<Tipo> pubsPorTipo = new List<Tipo>();
+            Dictionary<string, List<PublicationPortal>> allPubs = new Dictionary<string, List<PublicationPortal>>();
 
-            pub.Title = _db.PublicationTitle.First(x => x.PublicationId == pubId).Title;
-
-            var identifierDoi = _db.Publication_Identifier.Find(pubId, 1);
-            pub.Doi = identifierDoi is null ? null : identifierDoi.Value;
-            var identifierHandle = _db.Publication_Identifier.Find(pubId, 2);
-            pub.Handle = identifierHandle is null ? null : identifierHandle.Value;
-
-            var persons = _db.Person_Publication.Where(x => x.PublicationId == pubId).ToList();
-
-            List<Autor> autores = new List<Autor>();
-            Autor autor;
-            foreach (var aut in persons)
+            foreach(var id in pubsIds)
             {
-                autor = new Autor();
-                var nome = _db.PersonName.Find(aut.PersonNameId);
-                autor.Name = nome is null ? null : nome.Name;
-                var orcid = _db.Person_Identifier.Find(aut.PersonId, 1);
-                autor.OrcidId = orcid is null ? null : orcid.Value; //buscar o orcidID
-                autores.Add(autor);
+                PublicationPortal pub = new PublicationPortal();
+                TitlePortal titulo = new TitlePortal();
+                Origin origem = new Origin();
+
+                titulo.label = _db.PublicationTitle.First(x => x.PublicationId == id.PublicationId).Title;
+                var identifierHandle = _db.Publication_Identifier.Find(id.PublicationId, 2);
+                titulo.value = identifierHandle is null ? null : identifierHandle.Value;
+                pub.title = titulo;
+
+                origem.label = _db.Publication.Find(id.PublicationId).Source;
+                var detalhes = _db.PublicationDetail.Find(id.PublicationId);
+                if (detalhes != null)
+                {
+                    origem.link = detalhes.URI;
+                }
+                pub.origin = origem;
+
+                var data = _db.Publication.Find(id.PublicationId).Date;
+                pub.year = Partir_data(data.ToString())[3];
+
+                var persons = _db.Person_Publication.Where(x => x.PublicationId == id.PublicationId).ToList();
+
+                List<Author> autores = new List<Author>();
+                Author autor;
+                foreach (var aut in persons)
+                {
+                    autor = new Author();
+                    var nome = _db.PersonName.Find(aut.PersonNameId);
+                    autor.name = nome is null ? null : nome.Name;
+                    var orcid = _db.Person_Identifier.Find(aut.PersonId, 3);
+                    autor.iupi = orcid is null ? null : orcid.Value; //buscar o iupi
+                    autores.Add(autor);
+                }
+                pub.authors = autores.ToArray();
+
+                var tipo = _db.Publication.Find(id.PublicationId).Type; //alterar tipo que vem do orcid para os que estao no ria
+                if(tipo is null){
+                    tipo = "RIA";
+                }
+
+                if (allPubs.ContainsKey(tipo))
+                {
+                    allPubs[tipo].Add(pub);
+                }
+                else
+                {
+                    allPubs.Add(tipo, new List<PublicationPortal> { pub });
+                }
             }
-            pub.Authors = autores;
 
-            pub.Source = _db.Publication.Find(pubId).Source;
-
-            var detalhes = _db.PublicationDetail.Find(pubId);
-            if (detalhes != null)
+            foreach(var tipo in allPubs.Keys) //falta adicionar o id do tipo de publicação
             {
-                pub.URI = detalhes.URI;
+                Tipo type = new Tipo();
+                type.title = tipo;
+                type.publications = allPubs[tipo].ToArray();
+                pubsPorTipo.Add(type);
             }
 
-            return pub;
+            info.data = pubsPorTipo.ToArray();
+            return info;
         }
 
         public static List<String> select(MyDbContext _db, string tabela, string coluna, string valor, string orcid)
