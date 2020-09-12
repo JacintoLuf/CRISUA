@@ -5,38 +5,51 @@
     //List<MVC_2020_Business.Models.Work> works = ViewBag.PublicacoesPTCris;
 
     var pubsInBD = ViewBag.worksInBD;
-    var count = 0;
-    var seta1 = "seta1_" + count;
-    var seta2 = "seta2_" + count;
     var orcidID = ViewBag.OrcidID;
-    var c = 0;
+    var dataSource = ViewBag.dataSource;
+    var seta_id = 0;
+    var seta1 = "seta1_" + seta_id;
+    var seta2 = "seta2_" + seta_id;
+    var n_pubs = 0;
 }
 
 <b>
-    @foreach (var pub in pubsInBD)
-{
-    c++;
-}
+    @if (pubsInBD != null)
+    {
+        foreach (var pub in pubsInBD)
+        {
+            n_pubs++;
+        }
+    }
 </b>
 
-<div><h2>@ViewData["Title"] <b style="font-size:12px; color:black;"> &nbsp;&nbsp;(@c Publicações)</b></h2></div>
+<div>
+    <h2>
+        @ViewData["Title"]
+        <b style="font-size:12px; color:black;"> &nbsp;&nbsp;(@n_pubs Publicações)</b>
+    </h2>
+</div>
 <br />
 
-
+<!--primeira coluna-->
 <div class="ui grid">
     <div class="six wide column">
         <div class="column">
-            <form action="publicacoes" method="post">
+            <form action="publicacoes" method="post" enctype="multipart/form-data">
+                <input class="ui primary button" type="hidden" name="ORCID_source" value="ORCID" />
+                <input class="ui primary button" type="hidden" name="Authenticus_source" value="Authenticus" />
                 <input type="hidden" name="import" value="True" />
                 @if (orcidID == null)
                 {
-                <span style="cursor: not-allowed;" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Para importar, introduza ORCID ID no Perfil">
-                    <button type="submit" class="ui primary button" disabled>Importar</button>
-                </span>
+                    <span style="cursor: not-allowed;" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Para importar, introduza ORCID ID no Perfil">
+                        <button type="submit" class="ui primary button" disabled>Importar</button>
+                    </span>
                 }
                 else
                 {
-                <button type="submit" class="ui primary button">Importar</button>
+                    <button onclick="showLoadingButton()" id="importar" type="submit" class="ui primary button">Importar</button>
+                    <button id="loading" class="ui loading button" style="display:none">Loading</button>
+
                 }
             </form>
         </div>
@@ -51,7 +64,6 @@
             <div class="results">
             </div>
         </div>
-
     </div>
     <div class="two wide column ">
         <button id="btn-Guardar" disabled class="ui primary button" onclick="saveAll()">Guardar</button>
@@ -61,6 +73,7 @@
     </div>
 </div>
 
+<!--menu ajuda-->
 <div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
     <br />
     <p>&nbsp Utilize as setas <i class="arrow alternate circle right icon"></i> e <i class="arrow alternate circle left icon"></i> para escolher as publicações que quer colocar no RIA.</p>
@@ -70,8 +83,30 @@
 </div>
 <br />
 
+<!--segunda coluna-->
 <div class="ui grid">
-    <div class="four wide column">
+    <div class="five wide column">
+        <form action="Publicacoes" method="post">
+            <div class="row">
+                @if (dataSource == "ORCID")
+                {
+                    <input class="ui primary button" type="submit" name="ORCID_source" value="ORCID" disabled />
+                    <input class="ui primary button" type="submit" name="Authenticus_source" value="Authenticus" />
+                }
+                else if (dataSource == "Authenticus")
+                {
+                    <input class="ui primary button" type="submit" name="ORCID_source" value="ORCID" />
+                    <input class="ui primary button" type="submit" name="Authenticus_source" value="Authenticus" disabled />
+                }
+                else
+                {
+                    <input class="ui primary button" type="submit" name="ORCID_source" value="ORCID" disabled />
+                    <input class="ui primary button" type="submit" name="Authenticus_source" value="Authenticus" disabled />
+                }
+            </div>
+        </form>
+    </div>
+    <div class="three wide column">
         <select id="select" class="ui dropdown" onchange="filterOrder()">
             <option value="asc" selected="selected">Data Ascendente</option>
             <option value="desc">Data Descendente</option>
@@ -81,77 +116,77 @@
     </div>
     <div class="four wide column">
     </div>
-    <div class="four wide column">
+</div>
+
+<!--Tabela com as publicações-->
+@if (pubsInBD != null)
+{
+
+    <div class="ui grid">
+        <div class="six wide column text-center">
+            <b>&nbsp;&nbsp;&nbsp;@dataSource</b>
+        </div>
+        <div class="three wide column">
+            @*<label for="select_all">Selecionar tudo</label>*@
+            <button id="select_all" class="ui primary button" onclick="selectAll(@n_pubs,@Newtonsoft.Json.JsonConvert.SerializeObject(pubsInBD))">Selecionar tudo</button>
+            <button id="unselect_all" class="ui primary button" style="display:none" onclick="unselectAll(@n_pubs,@Newtonsoft.Json.JsonConvert.SerializeObject(pubsInBD))">Anular seleções</button>
+        </div>
+        <div class="six wide column text-center"><b>&nbsp;UA CRIS</b></div>
     </div>
-</div>
+    <br />
 
-<div class="ui grid">
-    <div class="six wide column text-center"><b>&nbsp;&nbsp;&nbsp;ORCID</b></div>
-    <div class="two wide column"></div>
-    <div class="six wide column text-center"><b>&nbsp;UA CRIS</b></div>
-</div>
-<br />
-
-<div id="scrollPub">
-    @if (pubsInBD != null)
-    {
-    <table class="ui very basic table">
-        <thead>
-            <tr>
-                <th style="width:45%; text-align:center"></th>
-                <th style="width:10%; text-align:center"></th>
-                <th style="width:45%; text-align:center"></th>
-            </tr>
-        </thead>
-        <tbody id="myTable">
-            @foreach (var pub in pubsInBD)
+    <div id="scrollPub">
+        <table class="ui very basic table">
+            <thead>
+                <tr>
+                    <th style="width:45%; text-align:center"></th>
+                    <th style="width:10%; text-align:center"></th>
+                    <th style="width:45%; text-align:center"></th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                @foreach (var pub in pubsInBD)
                 {
-                    count++;
-                    seta1 = "seta1_" + count;
-                    seta2 = "seta2_" + count;
-            <tr id="esconderDiv_@count">
-                <td data-id="@count" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">
-                    @pub["titulo"]
-                </td>
-                <td>
-                    <i id="@seta1" class="arrow alternate circle right icon" onclick="OrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
-                    <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="CancelOrcidToRia(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @count)"></i>
-                </td>
-                <td id="@count"></td>
-            </tr>
+                    seta_id++;
+                    seta1 = "seta1_" + seta_id;
+                    seta2 = "seta2_" + seta_id;
+                    <tr id="esconderDiv_@seta_id">
+                        <td data-id="@seta_id" onmouseover="" style="cursor:pointer; color:black;" data-tooltip="@string.Join(" ; ", pub["Autores"])" data-position="bottom left" onclick="sendToDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(pub))">
+                            @pub["titulo"]
+                        </td>
+                        <td>
+                            <i id="@seta1" class="arrow alternate circle right icon" onclick="selectPub(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @seta_id)"></i>
+                            <i id="@seta2" class="arrow alternate circle left icon" style="display:none" onclick="cancelSelectPub(@Newtonsoft.Json.JsonConvert.SerializeObject(pub), @seta_id)"></i>
+                        </td>
+                        <td id="@seta_id"></td>
+                    </tr>
                 }
-        </tbody>
-    </table>
-    }
-    else
-    {
-    <p>Não tem nenhuma publicações Importada!</p>
-    }
-</div>
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <br />
+    <br />
+    <br />
+    <p style="font-size:18px;">Não foram encontradas novas publicações para importar!</p>
+}
 
-
-
-@*@if (works != null)  //só para ver o que vem do botão importar
-    {
-        var c = 0;
-        foreach (var work in works)
-        {
-            <p>@work.title.title - @c</p>
-            c++;
-        }
-    }*@
 
 <script>
     var objs = [];
-
+    function showLoadingButton() {
+        document.getElementById('importar').style.display = "none";
+        document.getElementById('loading').style.display = "block";
+    }
     function sendToDetails(obj) {
         $.post("PublicationDetails_Helper", { obj: JSON.stringify(obj) }, function (data) {
             window.open(data,'_blank');
         });
         @* window.open('@Url.Action("Publication_details","Home")');*@
     }
-
-    function OrcidToRia(obj, idDiv) {
+    function selectPub(obj, idDiv) {
         var div = document.getElementById("" + idDiv);
         if (typeof (div) != 'undefined' && div != null) {
             var seta1 = document.getElementById("seta1_" + idDiv);
@@ -162,10 +197,27 @@
             objs.push(obj["titulo"]);
         }
         document.getElementById("btn-Guardar").disabled = false;
-
     }
-
-    function CancelOrcidToRia(obj, idDiv) {
+    // para o renato xD
+    function selectAll(n,pubs) {
+        var i;
+        for (i = 0; i <= n; i++) {
+            obj = pubs[i-1];
+            selectPub(obj, i);
+        }
+        document.getElementById("select_all").style.display = "none";
+        document.getElementById("unselect_all").style.display = "block";
+    }
+    function unselectAll(n,pubs) {
+        var i;
+        for (i = 0; i <= n; i++) {
+            obj = pubs[i-1];
+            cancelSelectPub(obj, i);
+        }
+        document.getElementById("select_all").style.display = "block";
+        document.getElementById("unselect_all").style.display = "none";
+    }
+    function cancelSelectPub(obj, idDiv) {
         var div = document.getElementById("" + idDiv);
         if (typeof (div) != 'undefined' && div != null) {
             var seta1 = document.getElementById("seta1_" + idDiv);
@@ -181,14 +233,12 @@
             document.getElementById("btn-Guardar").disabled = false;
         }
     }
-
     function saveAll() {
         $.post("SavePub", { works: JSON.stringify(objs) }, function (data) {
             window.location.href = "PublicacoesSalvas";
             //$("#main_area").html(data);
         });
     }
-
     function toggleText() {
         var text = document.getElementById("hidden_info");
         if (text.style.display === "none") {
@@ -197,20 +247,17 @@
             text.style.display = "none";
         }
     }
-
     var tag = document.getElementById('hidden_info');
     var button = document.querySelector('button');
     button.addEventListener('click', function () {
         tag.classList.toggle('hidden_info');
     });
-
     $('#myInput').on('keyup', function () {
         var value = $(this).val().toLowerCase();
         $("#myTable tr").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
-
     function filterOrder() {
         $("tbody").each(function (elem, index) {
             var arr = $.makeArray($("tr", this).detach());
@@ -218,14 +265,4 @@
             $(this).append(arr);
         });
     }
-
 </script>
-
-@*@section RightColumn{
-    Recursos adicionais:
-    <ul>
-        <li>
-            <a href="https://fomantic-ui.com" target="_blank">Fomantic-UI</a>
-        </li>
-    </ul>
-    }*@

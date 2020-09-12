@@ -105,20 +105,30 @@ namespace MVC_2020_Template.Controllers
             ViewBag.import = "false";
             return View();
         }
-        
+
         [HttpPost]
-        public IActionResult Publicacoes(string import)
+        public IActionResult Publicacoes(string import, string ORCID_source, string Authenticus_source)
         {
-            
-            //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, _session.IUPI.ToString());
-            //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
-            ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, _session.FullName,
-                                        PublicacoesService.ConvertProductToWork(
-                                        PublicacoesService.GetProducts(_db, _session.IUPI.ToString(), _session.FullName.ToString())), _session.IUPI.ToString(), MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString()));
-            ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString())), _session.IUPI.ToString());
+
+            if (ORCID_source == "ORCID" /*&& import == "True"*/) // Fonte de dados - ORCID
+            {
+                ViewBag.dataSource = "ORCID";
+
+                //ViewBag.PublicacoesRIA = PublicacoesService.GetProducts(_db, Session.IUPI.ToString());
+                //ViewBag.PublicacoesOrcid = PublicacoesService.GetWorksFromXml();
+                ViewBag.PublicacoesPTCris = PublicacoesService.GetDifWorks(_db, _session.FullName,
+                                            PublicacoesService.ConvertProductToWork(
+                                            PublicacoesService.GetProducts(_db, _session.IUPI.ToString(), _session.FullName)), _session.IUPI.ToString(), MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString()));
+                ViewBag.worksInBD = MVC_2020_Business.Services.DatabaseServices.selectToRIA(_db, MVC_2020_Business.Services.DatabaseServices.select(_db, "Publication", "State", "1", MVC_2020_Business.Services.DatabaseServices.getOrcid(_db, _session.IUPI.ToString())), _session.IUPI.ToString());
 
 
-            ViewBag.import = import;
+                ViewBag.import = import;
+            }
+            else if (Authenticus_source == "Authenticus") // Fonte de dados - Authenticus
+            {
+                ViewBag.dataSource = "Authenticus";
+            }
+
             return View();
         }
 
