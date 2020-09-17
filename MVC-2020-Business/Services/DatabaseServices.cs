@@ -35,111 +35,135 @@ namespace MVC_2020_Business.Services
 
             var go = 1;
 
-            var num = _db.Publication.Count();
+            var firstPub = 0;
+            var first = new Publication() { };
+
+
 
             using (Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction = _db.Database.BeginTransaction())
             {
                 try
                 {
                     foreach (var inp in lista)
-                    {
-                        go = 1;
+            {
+                go = 1;
 
 
-                        var queryP = from tit in _db.PublicationTitle where tit.Title == inp.Title select tit.Title;
-                        if (!(queryP.FirstOrDefault() is null))
-                        {
-                            go = 0;
-                        }
-
-                        var date = inp.DateIssued;
-                        if (date.Length < 10)
-                            date = DateTime.Now.ToString();
-
-                        if (go == 1)
-                        {
-                            num++;
-                            pubs.Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false, State = 1 });
-
-                            var doi = inp.Doi;
-                            var handle = inp.Handle;
-                            var publisher = inp.Publisher;
-                            var title = inp.Title;
-
-                            if (doi is null)
-                            {
-                                idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 2, PublicationId = num, StartDate = DateTime.Parse(date), Value = handle });
-                            }
-                            else
-                            {
-                                idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PublicationId = num, StartDate = DateTime.Parse(date), Value = doi });
-                                idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 2, PublicationId = num, StartDate = DateTime.Parse(date), Value = handle });
-
-                            }
-
-
-                            orgPubs.Add(new OrgUnit_Publication() { StartDate = DateTime.Parse(date), ClassificationId = 5, Copyright = "", EndDate = DateTime.MaxValue, Fraction = 0, Order_1 = 0, OrgUnitId = 1, PublicationId = num });
-
-                            var pub_title = new PublicationTitle()
-                            {
-                                PublicationId = num,
-                                LanguageId = 2,
-                                Title = title
-                            };
-
-                            if (helper.Contains(title.ToLower())) { }
-                            else
-                            {
-
-                                var p3 = p1;
-                                var p4 = p2;
-                                helper.Add(title.ToLower());
-                                arr.Add(title);
-                                pubTitles.Add(pub_title);
-                            }
-                        }
-                    }
-
-
-
-                    _db.Set<Publication>().AddRange(pubs);
-                    _db.SaveChanges();
-                    _db.Set<Publication_Identifier>().AddRange(idents);
-                    _db.Set<OrgUnit_Publication>().AddRange(orgPubs);
-                    _db.Set<PublicationTitle>().AddRange(pubTitles);
-
-                    _db.SaveChanges();
-
-                    foreach (var title in arr)
-                    {
-                        var qId = from pub in _db.PublicationTitle where pub.Title == (string)title select pub.PublicationId;
-                        var id = qId.FirstOrDefault();
-                        if (id != 0)
-                        {
-                            var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
-                            var trig = qTest.FirstOrDefault();
-
-                            if (trig == 0)
-                            {
-
-                                var authorName = from p in _db.PersonName where p.Name == nome select p.PersonNameId;
-                                var author = from p in _db.PersonName where p.Name == nome select p.PersonId;
-                                var pp = author.FirstOrDefault();
-                                var ppName = authorName.FirstOrDefault();
-
-                                _db.Set<Person_Publication>().Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = pp, PersonNameId = ppName });
-
-                            }
-                        }
-                    }
-                    _db.SaveChanges();
-                    transaction.Commit();
+                var queryP = from tit in _db.PublicationTitle where tit.Title == inp.Title select tit.Title;
+                if (!(queryP.FirstOrDefault() is null))
+                {
+                    go = 0;
                 }
+
+                var date = inp.DateIssued;
+                if (date.Length < 10)
+                    date = DateTime.Now.ToString();
+
+                if (go == 1)
+                {
+                    //num++;
+                    //pubs.Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false, State = 1 });
+                    _db.Set<Publication>().Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false, State = 1 });
+                    _db.SaveChanges();
+                    var num = lastPublication(_db);
+
+                    var doi = inp.Doi;
+                    var handle = inp.Handle;
+                    var publisher = inp.Publisher;
+                    var title = inp.Title;
+
+                    if (doi is null)
+                    {
+                        idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 2, PublicationId = num, StartDate = DateTime.Parse(date), Value = handle });
+                    }
+                    else
+                    {
+                        idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PublicationId = num, StartDate = DateTime.Parse(date), Value = doi });
+                        idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 2, PublicationId = num, StartDate = DateTime.Parse(date), Value = handle });
+
+                    }
+
+
+                    orgPubs.Add(new OrgUnit_Publication() { StartDate = DateTime.Parse(date), ClassificationId = 5, Copyright = "", EndDate = DateTime.MaxValue, Fraction = 0, Order_1 = 0, OrgUnitId = 1, PublicationId = num });
+
+                    var pub_title = new PublicationTitle()
+                    {
+                        PublicationId = num,
+                        LanguageId = 2,
+                        Title = title
+                    };
+
+                    if (helper.Contains(title.ToLower())) { }
+                    else
+                    {
+
+                        var p3 = p1;
+                        var p4 = p2;
+                        helper.Add(title.ToLower());
+                        arr.Add(title);
+                        pubTitles.Add(pub_title);
+                    }
+                }
+            }
+
+            // var idss = _db.Set<Publication>().GetId();
+            // var idsz = _db.Set<PersonName>().GetId();
+
+
+            _db.Set<Publication_Identifier>().AddRange(idents);
+            _db.Set<OrgUnit_Publication>().AddRange(orgPubs);
+            _db.Set<PublicationTitle>().AddRange(pubTitles);
+
+            _db.SaveChanges();
+
+            foreach (var title in arr)
+            {
+                var qId = from pub in _db.PublicationTitle where pub.Title == (string)title select pub.PublicationId;
+                var id = qId.FirstOrDefault();
+                if (id != 0)
+                {
+                    var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
+                    var trig = qTest.FirstOrDefault();
+
+                    if (trig == 0)
+                    {
+
+                        var authorName = from p in _db.PersonName where p.Name == nome select p.PersonNameId;
+                        var author = from p in _db.PersonName where p.Name == nome select p.PersonId;
+                        var pp = author.FirstOrDefault();
+                        var ppName = authorName.FirstOrDefault();
+
+                        _db.Set<Person_Publication>().Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = pp, PersonNameId = ppName });
+
+                    }
+                }
+            }
+            _db.SaveChanges();
+            transaction.Commit();
+        }
                 catch (Exception e)
                 {
                     transaction.Rollback();
                 }
-            }
+}
+        }
+        public static int lastPerson(MyDbContext _db)
+        {
+            var a = _db.Person.OrderByDescending(p => p.PersonID).FirstOrDefault();
+            if (a == null) return 0;
+            return a.PersonID;
+        }
+        public static int lastPublication(MyDbContext _db)
+        {
+            var a = _db.Publication.OrderByDescending(p => p.PublicationId).FirstOrDefault();
+            if (a == null) return 0;
+            return a.PublicationId;
+        }
+        public static int lastName(MyDbContext _db)
+        {
+            var a = _db.PersonName.OrderByDescending(p => p.PersonNameId).FirstOrDefault();
+            if (a == null) return 0;
+            return a.PersonNameId;
         }
 
         public static void insertLoginPerson(MyDbContext _db, string nome, string orcid, string iupi)
@@ -147,22 +171,31 @@ namespace MVC_2020_Business.Services
             var person_ids = new List<Person_Identifier>();
 
             var loginquery = from tmp in _db.Person_Identifier where tmp.Value == orcid select tmp.PersonID;
-            //var help = _db.Person.Count();
+            var help = loginquery.FirstOrDefault();
+
+            var contNames = _db.PersonName.Count();
+            var contPer = _db.Person.Count();
 
             if (loginquery.FirstOrDefault() == 0)
             {
-                _db.Set<Person>().Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
+                Person aa = new Person() { BirthDate = null, GenderId = 3, Photo = null };
+                _db.Set<Person>().Add(aa);
                 _db.SaveChanges();
 
+                var contNames2 = _db.PersonName.Count();
+                var contPer2 = lastPerson(_db);
 
                 // names.Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = nome, PersonId = _db.Person.Count(), startDate = DateTime.Now });
 
                 //person_ids.Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = orcid, VisibilityId = 2 });
-                person_ids.Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
+                person_ids.Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = contPer2, StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
 
-                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = orcid, VisibilityId = 2 });
-                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
-                _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = nome, PersonId = _db.Person.Count(), startDate = DateTime.Now });
+                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PersonID = contPer2, StartDate = DateTime.Now, Value = orcid, VisibilityId = 2 });
+                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = contPer2, StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
+                PersonName a = new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = nome, PersonId = contPer2, startDate = DateTime.Now };
+                _db.Set<PersonName>().Add(a);
+                var contNames3 = _db.PersonName.Count();
+                var contPer3 = _db.Person.Count();
                 _db.SaveChanges();
             }
         }
@@ -179,16 +212,20 @@ namespace MVC_2020_Business.Services
             var details = new List<PublicationDetail>();
             var pers_pub = new List<Person_Publication>();
             var idents = new List<Publication_Identifier>();
-            var orgPubs = new List<OrgUnit_Publication>();
+            //var orgPubs = new List<OrgUnit_Publication>();
             var pubTitles = new List<PublicationTitle>();
             var abstracts = new List<PublicationAbstract>();
             var visi = new List<Visibility>();
             var person_ids = new List<Person_Identifier>();
 
             var arr = new ArrayList();
-            var contNames = _db.PersonName.Count();
-            var contPer = _db.Person.Count();
-            var contPub = _db.Publication.Count();
+            var contNames = lastName(_db);
+            // var perTrans = _db.Person.Count();
+            //var nameTrans = _db.PersonName.Count();
+            //var pubTrans = _db.Publication.Count();
+
+            var contPer = lastPerson(_db);
+            var contPub = lastPublication(_db);
             var issn = "";
             var go = 1;
             int max = 0;
@@ -202,295 +239,320 @@ namespace MVC_2020_Business.Services
                 {
 
                     foreach (var inp in lista)
-                    {
-                        go = 1;
-                        max = 0;
-                        String principal = "";
+            {
+                go = 1;
+                max = 0;
+                String principal = "";
 
-                        //PESSOAS
-                        if (!(inp.contributors is null))
-                        {
-                            var contri = inp.contributors.contributor.Select(x => x.creditName.value).ToList();
-                            foreach (var c in contri)
-                            {
-
-                                if (checkSim(nome, c) > max)
-                                {
-                                    max = checkSim(nome, c);
-                                    principal = c;
-                                }
-                            }
-
-                            if (!principais.Contains(principal))
-                                principais.Add(principal);
-
-                            var asd = 0;
-                            foreach (var c2 in contri)
-                            {
-                                if (c2 == "Santos, M.J.")
-                                {
-                                    asd = 1;
-                                }
-
-                                if (c2 != principal)
-                                {
-                                    //var n = c2.Trim();
-                                    if (!arr.Contains(c2))
-                                    {
-                                        arr.Add(c2);
-
-                                        var queryN = from tmp in _db.PersonName where tmp.Name == c2 select tmp.Name;
-                                        var tmp_r = queryN.FirstOrDefault();
-
-
-                                        if (tmp_r is null)
-                                        {
-                                            contPer++;
-                                            names.Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = c2, PersonId = contPer, startDate = DateTime.Now });
-                                            pers.Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        //PUBLICACOES      
-
-                        var queryP = from tit in _db.PublicationTitle where tit.Title == inp.title.title select tit.Title;
-                        if (!(queryP.FirstOrDefault() is null))
-                        {
-                            go = 0;
-                        }
-
-
-
-                        if (go == 1)
-                        {
-                            contPub++;
-                            var tmp0 = inp.publicationDate.ToString();
-                            var date = DateTime.Parse(tmp0);
-                            source = inp.source.sourceName.content;
-
-                            pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type = inp.type });
-
-                            //IDENTIFIERS
-
-                            foreach (var ex in inp.externalIds.externalId)
-                            {
-                                if (ex.externalIdType.EqualsIgnoreCase("DOI"))
-                                    idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PublicationId = contPub, StartDate = DateTime.Now, Value = ex.externalIdValue });
-                                else if (ex.externalIdType.EqualsIgnoreCase("issn"))
-                                {
-                                    issn = ex.externalIdValue;
-                                };
-                            }
-
-
-                            //TITULOS
-                            pubTitles.Add(new PublicationTitle() { LanguageId = 3, PublicationId = contPub, Title = inp.title.title });
-
-
-                            ///DETAILS
-
-                            if (inp.citation != null)
-                            {
-                                if (inp.citation.citationType == "BIBTEX")
-                                {
-                                    //Console.WriteLine(inp.citation.citationValue + "\n");
-                                    //Console.WriteLine("Number: " + Regex.Match(inp.citation.citationValue, @"number = {(.+?)}").Groups[1].Value);
-                                    //Console.WriteLine("Volume: " + Regex.Match(inp.citation.citationValue, @"volume = {(.+?)}").Groups[1].Value);
-                                    //Console.WriteLine("pages: " + Regex.Match(inp.citation.citationValue, @"pages = {(.+?)}").Groups[1].Value);
-                                    //Console.WriteLine("Journal: " + Regex.Match(inp.citation.citationValue, @"journal = {(.+?)}").Groups[1].Value);
-                                    //Console.WriteLine("Publisher: " + Regex.Match(inp.citation.citationValue, @"publisher = {(.+?)}").Groups[1].Value);
-                                    //Console.WriteLine("ISBN: " + Regex.Match(inp.citation.citationValue, @"isbn = {(.+?)}").Groups[1].Value);
-
-                                    // ABSTRACT
-                                    abstracts.Add(new PublicationAbstract() { Abstract = Regex.Match(inp.citation.citationValue, "abstract\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value, LanguageId = 2, PublicationId = contPub });
-
-                                    //Console.WriteLine("--------");
-
-                                    var pag1 = "";
-                                    var pag2 = "";
-                                    var difPag = "";
-
-
-                                    var paginas = Regex.Match(inp.citation.citationValue, "pages\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value;
-                                    if (paginas.Contains("-"))
-                                    {
-                                        var arrPag = paginas.Split("-");
-                                        pag1 = arrPag[0];
-                                        pag2 = arrPag[arrPag.Length - 1];
-                                        difPag = (System.Math.Abs((getNumber(pag2) - getNumber(pag1)))) + "";
-                                    }
-
-                                    var jo = "";
-                                    if (inp.journalTitle != null) jo = inp.journalTitle.content;
-
-                                    details.Add(new PublicationDetail()
-                                    {
-                                        PublicationId = contPub,
-                                        Number = Regex.Match(inp.citation.citationValue, "number\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
-                                        Volume = Regex.Match(inp.citation.citationValue, "volume\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
-                                        StartPage = pag1,
-                                        EndPage = pag2,
-                                        TotalPages = difPag,
-                                        ISBN = Regex.Match(inp.citation.citationValue, "isbn\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
-                                        ISSN = issn,
-                                        Journal = jo
-                                    });
-                                }
-                                issn = "";
-                            }
-                        }
-
-                    }
-
-
-                    _db.Set<Publication>().AddRange(pubs);
-                    _db.SaveChanges();
-                    _db.Set<Person>().AddRange(pers);
-                    _db.SaveChanges();
-                    _db.Set<PersonName>().AddRange(names);
-                    _db.Set<Publication_Identifier>().AddRange(idents);
-                    _db.Set<PublicationAbstract>().AddRange(abstracts);
-                    _db.Set<PublicationTitle>().AddRange(pubTitles);
-                    _db.Set<PublicationDetail>().AddRange(details);
-                    _db.SaveChanges();
-
-
-                    //var firstPrin = principais.First();
-
-                    //var query1 = from tmp in _db.PersonName
-                    //             join tmp2 in _db.Person on tmp.PersonId equals tmp2.PersonID
-                    //             where tmp.Name.Equals(firstPrin)
-                    //             select tmp2.PersonID;
-
-                    //var secondPrin = principais.ToArray()[1];
-
-                    //var query2 = from tmp in _db.PersonName
-                    //             where tmp.PersonId == query1.FirstOrDefault()
-                    //             select tmp.PersonNameId;
-                    var add = 1;
-                    var nameToUse = nome;
-                    foreach (var prin in principais)
-                    {
-                        if (prin != "")
-                        {
-                            if (existName(_db, prin))
-                            {
-                                add = 0;
-                                nameToUse = prin;
-                                break;
-                            }
-                        }
-
-                    }
-
-                    if (add == 1)
-                    {
-                        var queryRealName = from tmp in _db.PersonName where tmp.Name == nome select tmp.PersonId;
-                        var idAutor = queryRealName.FirstOrDefault();
-
-                        foreach (var p in principais)
-                        {
-                            _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = p, PersonId = idAutor, startDate = DateTime.Now });
-                        }
-                        _db.SaveChanges();
-
-                        //_db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 1, Value = orcid, VisibilityId = 2, StartDate = DateTime.Now, EndDate = DateTime.MaxValue });
-                        //_db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 3, Value = iupi, VisibilityId = 1, StartDate = DateTime.Now, EndDate = DateTime.MaxValue });
-                        _db.SaveChanges();
-                    }
-
-                    else
-                    {
-                        var authorID = checkReal(_db, nameToUse);
-                        var queryNames = from tmp in _db.PersonName where tmp.PersonId == authorID select tmp.Name;
-                        var listaPrior = queryNames.ToList();
-                        foreach (var prin in principais)
-                        {
-                            if (!listaPrior.Contains(prin))
-                            {
-                                _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = prin, PersonId = authorID, startDate = DateTime.Now });
-                            }
-                        }
-                        _db.SaveChanges();
-                    }
-                    //if (query2.ToList().Count < 2)
-                    //{
-                    //    _db.Set<Person>().Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
-                    //    _db.SaveChanges();
-
-                    //    foreach (var p in principais)
-                    //    {
-                    //        _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = p, PersonId = _db.Person.Count(), startDate = DateTime.Now });
-                    //    }
-                    //    _db.SaveChanges();
-
-                    //    _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 1, Value = orcid, VisibilityId = 2, StartDate = DateTime.Now, EndDate = DateTime.MaxValue }) ;
-                    //    _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 3, Value = iupi, VisibilityId = 1, StartDate=DateTime.Now, EndDate=DateTime.MaxValue });
-                    //}
-                    //else
-                    //{
-                    //    var queryIdentifier= from tmp in _db.Person_Identifier where tmp.PersonID== query1.FirstOrDefault()
-                    //}
-
-                    //////
-
-
-                    foreach (var inp in lista)
-                    {
-                        if (!(inp.contributors is null))
-                        {
-
-                            var qId = from pub in _db.PublicationTitle where pub.Title == inp.title.title select pub.PublicationId;
-                            var id = qId.FirstOrDefault();
-
-                            var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
-                            var trig = qTest.FirstOrDefault();
-
-                            if (trig == 0)
-                            {
-
-                                var contri = inp.contributors.contributor.Select(x => x.creditName.value).ToList();
-                                foreach (var c in contri)
-                                {
-                                    if (principais.Contains(c))
-                                    {
-                                        var qp = from p in _db.PersonName where p.Name == c select p.PersonNameId;
-                                        var ppName = qp.FirstOrDefault();
-
-                                        pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = checkReal(_db, c), PersonNameId = ppName });
-
-                                    }
-                                    else
-                                    {
-                                        //PERSON_PUB
-                                        var q1 = from p in _db.PersonName where p.Name == c select p.PersonId;
-                                        var per = q1.FirstOrDefault();
-
-                                        var q2 = from p in _db.PersonName where p.Name == c select p.PersonNameId;
-                                        var pName = q2.FirstOrDefault();
-
-                                        pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = per, PersonNameId = pName });
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    _db.Set<Person_Publication>().AddRange(pers_pub);
-                    _db.SaveChanges();
-                    transaction.Commit();
-                }
-                catch (Exception e)
+                //PESSOAS
+                if (!(inp.contributors is null))
                 {
-                    transaction.Rollback();
-                    //transSTOP = 1;
-                    Console.WriteLine(e);
+                    var contri = inp.contributors.contributor.Select(x => x.creditName.value).ToList();
+                    foreach (var c in contri)
+                    {
+
+                        if (checkSim(nome, c) > max)
+                        {
+                            max = checkSim(nome, c);
+                            principal = c;
+                        }
+                    }
+
+                    if (!principais.Contains(principal))
+                        principais.Add(principal);
+
+                    var asd = 0;
+                    foreach (var c2 in contri)
+                    {
+                        if (c2 == "Santos, M.J.")
+                        {
+                            asd = 1;
+                        }
+
+                        if (c2 != principal)
+                        {
+                            //var n = c2.Trim();
+                            if (!arr.Contains(c2))
+                            {
+                                arr.Add(c2);
+
+                                var queryN = from tmp in _db.PersonName where tmp.Name == c2 select tmp.Name;
+                                var tmp_r = queryN.FirstOrDefault();
+
+
+                                if (tmp_r is null)
+                                {
+                                    contPer++;
+                                    names.Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = c2, PersonId = contPer, startDate = DateTime.Now });
+                                    pers.Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //PUBLICACOES      
+
+                var queryP = from tit in _db.PublicationTitle where tit.Title == inp.title.title select tit.Title;
+                if (!(queryP.FirstOrDefault() is null))
+                {
+                    go = 0;
+                }
+
+
+
+                if (go == 1)
+                {
+                    //contPub++;
+                    var tmp0 = inp.publicationDate.ToString();
+                    var date = DateTime.Parse(tmp0);
+                    source = inp.source.sourceName.content;
+
+                    //pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type = inp.type });
+                    _db.Set<Publication>().Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type = inp.type });
+                    _db.SaveChanges();
+                    contPub = lastPublication(_db);
+
+                    //IDENTIFIERS
+
+                    foreach (var ex in inp.externalIds.externalId)
+                    {
+                        if (ex.externalIdType.EqualsIgnoreCase("DOI"))
+                            idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PublicationId = contPub, StartDate = DateTime.Now, Value = ex.externalIdValue });
+                        else if (ex.externalIdType.EqualsIgnoreCase("issn"))
+                        {
+                            issn = ex.externalIdValue;
+                        };
+                    }
+
+
+                    //TITULOS
+                    pubTitles.Add(new PublicationTitle() { LanguageId = 3, PublicationId = contPub, Title = inp.title.title });
+
+
+                    ///DETAILS
+
+                    if (inp.citation != null)
+                    {
+                        if (inp.citation.citationType == "BIBTEX")
+                        {
+                            //Console.WriteLine(inp.citation.citationValue + "\n");
+                            //Console.WriteLine("Number: " + Regex.Match(inp.citation.citationValue, @"number = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("Volume: " + Regex.Match(inp.citation.citationValue, @"volume = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("pages: " + Regex.Match(inp.citation.citationValue, @"pages = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("Journal: " + Regex.Match(inp.citation.citationValue, @"journal = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("Publisher: " + Regex.Match(inp.citation.citationValue, @"publisher = {(.+?)}").Groups[1].Value);
+                            //Console.WriteLine("ISBN: " + Regex.Match(inp.citation.citationValue, @"isbn = {(.+?)}").Groups[1].Value);
+
+                            // ABSTRACT
+                            abstracts.Add(new PublicationAbstract() { Abstract = Regex.Match(inp.citation.citationValue, "abstract\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value, LanguageId = 2, PublicationId = contPub });
+
+                            //Console.WriteLine("--------");
+
+                            var pag1 = "";
+                            var pag2 = "";
+                            var difPag = "";
+
+
+                            var paginas = Regex.Match(inp.citation.citationValue, "pages\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value;
+                            if (paginas.Contains("-"))
+                            {
+                                var arrPag = paginas.Split("-");
+                                pag1 = arrPag[0];
+                                pag2 = arrPag[arrPag.Length - 1];
+                                difPag = (System.Math.Abs((getNumber(pag2) - getNumber(pag1)))) + "";
+                            }
+
+                            var jo = "";
+                            if (inp.journalTitle != null) jo = inp.journalTitle.content;
+
+                            details.Add(new PublicationDetail()
+                            {
+                                PublicationId = contPub,
+                                Number = Regex.Match(inp.citation.citationValue, "number\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
+                                Volume = Regex.Match(inp.citation.citationValue, "volume\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
+                                StartPage = pag1,
+                                EndPage = pag2,
+                                TotalPages = difPag,
+                                ISBN = Regex.Match(inp.citation.citationValue, "isbn\\s*=\\s*({|\")(.+?)(}|\")").Groups[2].Value,
+                                ISSN = issn,
+                                Journal = jo
+                            });
+                        }
+                        issn = "";
+                    }
+                }
+
+            }
+
+
+            
+            _db.Set<Person>().AddRange(pers);
+            _db.SaveChanges();
+            _db.Set<PersonName>().AddRange(names);
+            _db.SaveChanges();
+            _db.Set<Publication_Identifier>().AddRange(idents);
+            _db.SaveChanges();
+            _db.Set<PublicationAbstract>().AddRange(abstracts);
+            _db.SaveChanges();
+            _db.Set<PublicationTitle>().AddRange(pubTitles);
+            _db.SaveChanges();
+            _db.Set<PublicationDetail>().AddRange(details);
+            _db.SaveChanges();          //VER O QUE É QUE É MAIOR DO QUE É SUPOSTO
+
+
+            //var firstPrin = principais.First();
+
+            //var query1 = from tmp in _db.PersonName
+            //             join tmp2 in _db.Person on tmp.PersonId equals tmp2.PersonID
+            //             where tmp.Name.Equals(firstPrin)
+            //             select tmp2.PersonID;
+
+            //var secondPrin = principais.ToArray()[1];
+
+            //var query2 = from tmp in _db.PersonName
+            //             where tmp.PersonId == query1.FirstOrDefault()
+            //             select tmp.PersonNameId;
+            var add = 1;
+            var nameToUse = nome;
+            foreach (var prin in principais)
+            {
+                if (prin != "")
+                {
+                    if (existName(_db, prin))
+                    {
+                        add = 0;
+                        nameToUse = prin;
+                        break;
+                    }
+                }
+
+            }
+
+            if (add == 1)
+            {
+                var queryRealName = from tmp in _db.PersonName where tmp.Name == nome select tmp.PersonId;
+                var idAutor = queryRealName.FirstOrDefault();
+
+                foreach (var p in principais)
+                {
+                    _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = p, PersonId = idAutor, startDate = DateTime.Now });
+                }
+                _db.SaveChanges();
+
+                //_db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 1, Value = orcid, VisibilityId = 2, StartDate = DateTime.Now, EndDate = DateTime.MaxValue });
+                //_db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 3, Value = iupi, VisibilityId = 1, StartDate = DateTime.Now, EndDate = DateTime.MaxValue });
+                _db.SaveChanges();
+            }
+
+            else
+            {
+                var authorID = checkReal(_db, nameToUse);
+                var queryNames = from tmp in _db.PersonName where tmp.PersonId == authorID select tmp.Name;
+                var listaPrior = queryNames.ToList();
+                foreach (var prin in principais)
+                {
+                    if (!listaPrior.Contains(prin))
+                    {
+                        _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = prin, PersonId = authorID, startDate = DateTime.Now });
+                    }
+                }
+                _db.SaveChanges();
+            }
+            //if (query2.ToList().Count < 2)
+            //{
+            //    _db.Set<Person>().Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
+            //    _db.SaveChanges();
+
+            //    foreach (var p in principais)
+            //    {
+            //        _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = p, PersonId = _db.Person.Count(), startDate = DateTime.Now });
+            //    }
+            //    _db.SaveChanges();
+
+            //    _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 1, Value = orcid, VisibilityId = 2, StartDate = DateTime.Now, EndDate = DateTime.MaxValue }) ;
+            //    _db.Set<Person_Identifier>().Add(new Person_Identifier() { PersonID = _db.Person.Count(), IdentifierId = 3, Value = iupi, VisibilityId = 1, StartDate=DateTime.Now, EndDate=DateTime.MaxValue });
+            //}
+            //else
+            //{
+            //    var queryIdentifier= from tmp in _db.Person_Identifier where tmp.PersonID== query1.FirstOrDefault()
+            //}
+
+            //////
+
+
+            foreach (var inp in lista)
+            {
+                if (!(inp.contributors is null))
+                {
+
+                    var qId = from pub in _db.PublicationTitle where pub.Title == inp.title.title select pub.PublicationId;
+                    var id = qId.FirstOrDefault();
+
+                    var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
+                    var trig = qTest.FirstOrDefault();
+
+                    if (trig == 0)
+                    {
+
+                        var contri = inp.contributors.contributor.Select(x => x.creditName.value).ToList();
+                        foreach (var c in contri)
+                        {
+                            if (principais.Contains(c))
+                            {
+                                var qp = from p in _db.PersonName where p.Name == c select p.PersonNameId;
+                                var ppName = qp.FirstOrDefault();
+
+                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = checkReal(_db, c), PersonNameId = ppName });
+
+                            }
+                            else
+                            {
+                                //PERSON_PUB
+                                var q1 = from p in _db.PersonName where p.Name == c select p.PersonId;
+                                var per = q1.FirstOrDefault();
+
+                                var q2 = from p in _db.PersonName where p.Name == c select p.PersonNameId;
+                                var pName = q2.FirstOrDefault();
+
+                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = per, PersonNameId = pName });
+                            }
+                        }
+                    }
                 }
             }
+
+            _db.Set<Person_Publication>().AddRange(pers_pub);
+            _db.SaveChanges();
+            transaction.Commit();
         }
+             catch (Exception e)
+             {
+            ////Microsoft.Data.SqlClient.SqlCommand com = new Microsoft.Data.SqlClient.SqlCommand("DBCC CHECKIDENT('Person', RESEED, " + perTrans + ")");
+            ////_db.Database.ExecuteSqlRaw("DBCC CHECKIDENT('Person', RESEED, " + perTrans + ")");
+            //_db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('PersonName', RESEED, " + nameTrans + " )");
+            ////_db.Database.ExecuteSqlRaw("DBCC CHECKIDENT('Publication', RESEED, " + pubTrans + ")");
+
+            //using (var command = _db.Database.GetDbConnection().CreateCommand())
+            //{
+            //    command.CommandText = "DBCC CHECKIDENT('Person', RESEED, " + perTrans + ")";
+            //    command.CommandType = CommandType.Text;
+            //    command.ExecuteNonQueryAsync();
+
+            //}
+
+            //// _db.Person.FromSqlRaw("DBCC CHECKIDENT('Person', RESEED,  {0} )", perTrans);
+            //_db.PersonName.FromSqlRaw("DBCC CHECKIDENT('PersonName', RESEED,  {0} )", nameTrans);
+            //_db.Publication.FromSqlRaw("DBCC CHECKIDENT('Publication', RESEED,  {0} )", pubTrans);
+
+            transaction.Rollback();
+            //transSTOP = 1;
+
+
+            Console.WriteLine(e);
+        }
+    }
+}
 
         public static Hashtable retrieveAllInfo(MyDbContext _db, string titulo, string iupi)
         {
@@ -755,7 +817,7 @@ namespace MVC_2020_Business.Services
             List<Tipo> pubsPorTipo = new List<Tipo>();
             Dictionary<string, List<PublicationPortal>> allPubs = new Dictionary<string, List<PublicationPortal>>();
 
-            foreach(var id in pubsIds)
+            foreach (var id in pubsIds)
             {
                 PublicationPortal pub = new PublicationPortal();
                 TitlePortal titulo = new TitlePortal();
@@ -793,7 +855,8 @@ namespace MVC_2020_Business.Services
                 pub.authors = autores.ToArray();
 
                 var tipo = _db.Publication.Find(id.PublicationId).Type; //alterar tipo que vem do orcid para os que estao no ria
-                if(tipo is null){
+                if (tipo is null)
+                {
                     tipo = "RIA";
                 }
 
@@ -807,7 +870,7 @@ namespace MVC_2020_Business.Services
                 }
             }
 
-            foreach(var tipo in allPubs.Keys) //falta adicionar o id do tipo de publicação
+            foreach (var tipo in allPubs.Keys) //falta adicionar o id do tipo de publicação
             {
                 Tipo type = new Tipo();
                 type.title = tipo;

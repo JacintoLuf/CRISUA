@@ -26,7 +26,7 @@ namespace MVC_2020_Business.Services
         private const string urlParameter3 = "0000-0002-7128-2805"; //Filipe Trancho
         private const string urlParameter4 = "0000-0002-3488-6570"; //Renato
         private const string urlParameter6 = "0000-0003-4186-7332"; //Rosalino
-        private const string iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09"; // vieira
+       // private const string iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09"; // vieira
         private const string iupi2 = "83b90544-a39d-4073-81cb-0ad094c1ec71"; // rosalino
 
         //public static IEnumerable<Product> GetProducts()
@@ -46,7 +46,6 @@ namespace MVC_2020_Business.Services
                 //.Where(b => b.GenderId > 2)
                 //.OrderBy(b => b.GenderId)
                 .ToList();*/
-            IUPI = iupi;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -83,7 +82,7 @@ namespace MVC_2020_Business.Services
 
         public static List<Product> GetProducts2(MyDbContext _db, string IUPI)
         {
-            IUPI = iupi;
+           // IUPI = iupi;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://ria.ua.pt/RESTRia-1.0/publications/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
