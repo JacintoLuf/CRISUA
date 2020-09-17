@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UA CRIS</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> <!-- bootstrap para icons-->
+    <link rel="shortcut icon" href="//static.ua.pt/favicon.ico" />
+    <link rel="stylesheet" href="//static.ua.pt/css/semanticua/2.0b/dist/semantic.min.css" />
+    <link rel="stylesheet" href="~/css/site.min.css" />
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="service area">
+        <div class="limiter">
+            <div class="common">
+                <a href="https://www.ua.pt/pt/noticias" target="_blank">Notícias</a> | <a href="https://www.ua.pt/pt/agenda" target="_blank">Agenda</a> |
+                <a href="https://www.facebook.com/universidadedeaveiro/" target="_blank"><i class="facebook f icon"></i></a> |
+                <a href="https://www.instagram.com/universidadedeaveiro/?hl=pt" target="_blank"><i class="instagram icon"></i></a>
+            </div>
+            <div class="shortcuts">
+                <a href="https://www.ua.pt/pt/comunidade" target="_blank">Comunidade ua</a>
+                <a href="https://www.ua.pt/sbidm/biblioteca/externos" target="_blank">Utilizador externo</a>
+            </div>
+            <div class="session">
+                @{ var session = new MVC_2020_Template.Helpers.Session(Context.Session);
+
+
+                    @if (@MVC_2020_Template.Helpers.Session.SessionActive)
+                    {
+                        <span style="color:white">@MVC_2020_Template.Helpers.Session.FullName</span>
+                        @*<a href="/Secure/Logout">&nbsp; Logout <i class="outline user icon"></i></a>*@
+                        <i class="outline user icon"></i>@Html.ActionLink("Sair", "Logout", "Secure", null)
+                    }
+                    else
+                    {
+                        @*<span style="color:white">@MVC_2020_Template.Helpers.Session.FullName</span>*@
+                        @*<a href="/Secure/Index"> Entrar <i class="outline user icon"></i></a>*@
+                        <i class="outline user icon"></i>@Html.ActionLink("Entrar", "Index", "Secure", null)
+                        //@Html.ActionLink("login", "Index", "Secure", null, new { @class = "image-button login", @title = "login", @alt = "login" })
+                    }
+                }
+                @*<a href="/Secure/auto">Entrar <i class="outline user icon"></i></a>*@
+            </div>
+            @*<div id="IconsLeft">
+                <div class="float_right">
+                    <span class="top-menu-name">
+
+                </span>
+            </div>
+            <div class="float_right">
+                @if (session.SessionActive)
+                {
+                    @Html.ActionLink("logout", "Logout", "Home", null, new { @class = "image-button logout", @title = "logout", @alt = "logout" })
+                }
+                else
+                {
+                    @Html.ActionLink("login", "Auto", "Secure", null, new { @class = "image-button login", @title = "login", @alt = "login" })
+                }
+            </div>
+            <div class="clear"></div>
+        </div>*@
+        </div>
+    </div>
+
+    <div class="system area">
+        <div class="limiter">
+            <div class="identity">
+                <a href="@Url.Action("MyPublications", "Home", null)">
+                    <h1>UA CRIS</h1>
+                </a>
+            </div>
+            <div class="menu">
+
+                <a class="js-menu-toggle" href="#"><i class="bars icon"></i></a>
+            </div>
+            <nav class="ua"></nav>
+        </div>
+    </div>
+    
+    <div align="center"><img src="~/images/ua_reitoria.jpg" width="100%" height="450px"></div>
+    <div class="main area">
+        <div class="limiter">
+            @RenderBody()
+        </div>
+    </div>
+
+
+    <footer>
+        @*<div class="section">
+            <div class="limiter">
+                <div class="info">
+                    Links rápidos
+                </div>
+            </div>
+        </div>*@
+        <div class="section">
+            <div class="limiter">
+                <div class="info">
+                    &copy; Universidade de Aveiro 2020
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="//static.ua.pt/js/jquery/jquery-3.2.1.min.js"></script>
+    <script src="//static.ua.pt/css/semanticua/2.0b/dist/semantic.min.js"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

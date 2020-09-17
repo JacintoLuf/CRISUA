@@ -49,6 +49,11 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        public IActionResult Teste()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Perfil()
         {
