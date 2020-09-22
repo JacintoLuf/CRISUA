@@ -28,9 +28,13 @@ namespace MVC_2020_Template.Controllers
         private static MyDbContext _db;// acesso db
         private static Dictionary<string, List<string>> _ficheiros = new Dictionary<string, List<string>>();
         private IHostingEnvironment _hostingEnvironment;
-        private string iupi = "a1d7347c-adc1-433c-97dc-56d21eea35ce";
-        private string nome = "João lourenço Marques";
-        private string orcid = "0000-0003-0472-2767";
+        //private string iupi = "a1d7347c-adc1-433c-97dc-56d21eea35ce";
+        //private string nome = "João Lourenço Marques";
+        //private string orcid = "0000-0003-0472-2767";
+
+        private string iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09";
+        private string nome = "José Manuel Neto Vieira";
+        private string orcid = "0000-0002-4356-4522";
 
         public HomeController(ILogger<HomeController> logger, MyDbContext db, IHostingEnvironment hosting)// acesso db
         {
@@ -452,6 +456,10 @@ namespace MVC_2020_Template.Controllers
             return Json(Url.Action("Publication_Details", "Home", new { obj = obj }));
         }
 
+        public IActionResult DataSource()
+        {
+            return View();
+        }
         public IActionResult Sobre()
         {
             return View();
