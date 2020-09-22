@@ -90,13 +90,17 @@
                 <td>@pub["Ano"]</td>
 
                 @if (@pub["Fonte"] == "RIA")
-                    {
-                <td>RIA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    }
-                    else
-                    {
-                <td>ORCID&nbsp;&nbsp;&nbsp;</td>
-                    }
+                {
+                    <td>RIA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                }
+                else
+                {
+                    <td>
+                        ORCID&nbsp;&nbsp;&nbsp;
+                        <button onclick="window.open('@Url.Action("DataSource", "Home", new { target = "_blank" })')">Analisar</button>
+                    </td>
+
+                }
             </tr>
             }
         </tbody>

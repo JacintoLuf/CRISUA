@@ -460,6 +460,10 @@ namespace MVC_2020_Template.Controllers
             return Json(Url.Action("Publication_Details", "Home", new { obj = obj }));
         }
 
+        public IActionResult DataSource()
+        {
+            return View();
+        }
         public IActionResult Sobre()
         {
             return View();
