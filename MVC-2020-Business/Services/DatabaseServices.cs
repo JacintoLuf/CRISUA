@@ -32,10 +32,19 @@ namespace MVC_2020_Business.Services
             var idents = new List<Publication_Identifier>();
             var orgPubs = new List<OrgUnit_Publication>();
             var pubTitles = new List<PublicationTitle>();
+            var pubsAbstracts = new List<PublicationAbstract>();
+            var pubsDetails = new List<PublicationDetail>();
+            //var otherAuthorsPerson = new List<Person>();
+            var otherAuthorsPersonName = new List<PersonName>();
+            var otherAuthorsPersonIdentifier = new List<Person_Identifier>();
+            var otherAuthorsPersonPublication = new List<Person_Publication>();
 
             var go = 1;
 
-            var num = _db.Publication.Count();
+            var firstPub = 0;
+            var first = new Publication() { };
+
+
 
             using (Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction = _db.Database.BeginTransaction())
             {
@@ -58,13 +67,81 @@ namespace MVC_2020_Business.Services
 
                         if (go == 1)
                         {
-                            num++;
-                            pubs.Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false, State = 1 });
+
+
+                            //num++;
+                            //pubs.Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false, State = 1 });
+                            var type = inp.Type;
+                            var language = inp.Language; //nao fizemos 
+                            _db.Set<Publication>().Add(new Publication() { Date = DateTime.Parse(date), LanguageId = 3, Source = source, Synced = false, State = 1, Type = type });
+                            _db.SaveChanges();
+                            var num = lastPublication(_db);
+
+
 
                             var doi = inp.Doi;
                             var handle = inp.Handle;
                             var publisher = inp.Publisher;
                             var title = inp.Title;
+
+                            var abstractText = inp.AbstractText;
+                            pubsAbstracts.Add(new PublicationAbstract() { PublicationId = num, LanguageId = 2, Abstract = abstractText });
+
+                            var volume = inp.Volume;
+                            var issue = inp.Issue;
+                            var startPage = inp.StartPage;
+                            var endPage = inp.EndPage;
+                            var totalPages = inp.TotalPages.ToString();
+                            var issn = inp.Issn;
+                            var isbn = inp.Isbn;
+                            var uri = inp.Uri;
+
+                            pubsDetails.Add(new PublicationDetail() { Volume = volume, Issue = issue, StartPage = startPage, EndPage = endPage, TotalPages = totalPages, ISSN = issn, ISBN = isbn, URI = uri, PublicationId = num, Edition = null, Journal = null, Number = null, Series = null });
+
+                            var otherAuthors = inp.OtherAuthors;
+
+                            var mainAutor = _db.PersonName.FirstOrDefault(x => x.Name == nome);
+                            otherAuthorsPersonPublication.Add(new Person_Publication() { startDate = DateTime.Now, endDate = DateTime.MaxValue, Fraction = ((int)100 / (otherAuthors.Count() + 1)), ClassificationId = 2, Order_1 = 1, Copyright = null, VisibilityId = 2, PublicationId = num, PersonId = mainAutor.PersonId, PersonNameId = mainAutor.PersonNameId });
+
+                            foreach (var otherAuthor in otherAuthors)
+                            {
+                                var person = _db.Person_Identifier.FirstOrDefault(x => x.Value == otherAuthor.iupi);
+                                if (person == null)
+                                {
+                                    _db.Set<Person>().Add(new Person { BirthDate = null, GenderId = 3, Photo = null });
+                                    _db.SaveChanges();
+                                    var idperson = lastPerson(_db);
+                                    var otherName = 0;
+                                    if (_db.PersonName.FirstOrDefault(x => x.Name == otherAuthor.fullName) == null)
+                                    {
+                                        _db.Set<PersonName>().Add(new PersonName() { endDate = DateTime.MaxValue, startDate = DateTime.Now, PersonId = idperson, ClassificationId = 2, Name = otherAuthor.fullName });
+                                        _db.SaveChanges();
+                                        otherName = lastName(_db);
+                                    }
+                                    else
+                                    {
+                                        PersonName a = new PersonName();
+                                        a = _db.PersonName.FirstOrDefault(x => x.Name == otherAuthor.fullName);
+                                        a.PersonId = idperson;
+                                        _db.Entry(a).State = EntityState.Modified;
+                                        _db.SaveChanges();
+                                        otherName = _db.PersonName.FirstOrDefault(x => x.Name == otherAuthor.fullName).PersonNameId;
+                                    }
+
+                                    if (otherAuthor.iupi != "ext")//autores externos tem iupi null
+                                    {
+                                        otherAuthorsPersonIdentifier.Add(new Person_Identifier() { PersonID = idperson, EndDate = DateTime.MaxValue, StartDate = DateTime.Now, IdentifierId = 3, Value = otherAuthor.iupi, VisibilityId = 2 });
+                                    }
+
+                                    otherAuthorsPersonPublication.Add(new Person_Publication() { PersonId = idperson, PublicationId = num, ClassificationId = 2, startDate = DateTime.Now, endDate = DateTime.MaxValue, Copyright = null, Fraction = ((int)100 / (otherAuthors.Count() + 1)), Order_1 = 1, VisibilityId = 2, PersonNameId = otherName });
+
+                                }
+                                else
+                                {
+                                    var p = _db.PersonName.FirstOrDefault(x => x.PersonId == person.PersonID);
+                                    otherAuthorsPersonPublication.Add(new Person_Publication() { PersonId = person.PersonID, PublicationId = num, ClassificationId = 2, startDate = DateTime.Now, endDate = DateTime.MaxValue, Copyright = null, Fraction = ((int)100 / (otherAuthors.Count() + 1)), Order_1 = 1, VisibilityId = 2, PersonNameId = p.PersonNameId });
+                                }
+                            }
 
                             if (doi is null)
                             {
@@ -100,13 +177,17 @@ namespace MVC_2020_Business.Services
                         }
                     }
 
+                    // var idss = _db.Set<Publication>().GetId();
+                    // var idsz = _db.Set<PersonName>().GetId();
 
 
-                    _db.Set<Publication>().AddRange(pubs);
-                    _db.SaveChanges();
                     _db.Set<Publication_Identifier>().AddRange(idents);
                     _db.Set<OrgUnit_Publication>().AddRange(orgPubs);
                     _db.Set<PublicationTitle>().AddRange(pubTitles);
+                    _db.Set<PublicationAbstract>().AddRange(pubsAbstracts);
+                    _db.Set<PublicationDetail>().AddRange(pubsDetails);
+                    _db.Set<Person_Identifier>().AddRange(otherAuthorsPersonIdentifier);
+                    _db.Set<Person_Publication>().AddRange(otherAuthorsPersonPublication);
 
                     _db.SaveChanges();
 
@@ -141,28 +222,55 @@ namespace MVC_2020_Business.Services
                 }
             }
         }
+        public static int lastPerson(MyDbContext _db)
+        {
+            var a = _db.Person.OrderByDescending(p => p.PersonID).FirstOrDefault();
+            if (a == null) return 0;
+            return a.PersonID;
+        }
+        public static int lastPublication(MyDbContext _db)
+        {
+            var a = _db.Publication.OrderByDescending(p => p.PublicationId).FirstOrDefault();
+            if (a == null) return 0;
+            return a.PublicationId;
+        }
+        public static int lastName(MyDbContext _db)
+        {
+            var a = _db.PersonName.OrderByDescending(p => p.PersonNameId).FirstOrDefault();
+            if (a == null) return 0;
+            return a.PersonNameId;
+        }
 
         public static void insertLoginPerson(MyDbContext _db, string nome, string orcid, string iupi)
         {
             var person_ids = new List<Person_Identifier>();
 
             var loginquery = from tmp in _db.Person_Identifier where tmp.Value == orcid select tmp.PersonID;
-            //var help = _db.Person.Count();
+            var help = loginquery.FirstOrDefault();
+
+            var contNames = _db.PersonName.Count();
+            var contPer = _db.Person.Count();
 
             if (loginquery.FirstOrDefault() == 0)
             {
-                _db.Set<Person>().Add(new Person() { BirthDate = null, GenderId = 3, Photo = null });
+                Person aa = new Person() { BirthDate = null, GenderId = 3, Photo = null };
+                _db.Set<Person>().Add(aa);
                 _db.SaveChanges();
 
+                var contNames2 = _db.PersonName.Count();
+                var contPer2 = lastPerson(_db);
 
                 // names.Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = nome, PersonId = _db.Person.Count(), startDate = DateTime.Now });
 
                 //person_ids.Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = orcid, VisibilityId = 2 });
-                person_ids.Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
+                person_ids.Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = contPer2, StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
 
-                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = orcid, VisibilityId = 2 });
-                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = _db.Person.Count(), StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
-                _db.Set<PersonName>().Add(new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = nome, PersonId = _db.Person.Count(), startDate = DateTime.Now });
+                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PersonID = contPer2, StartDate = DateTime.Now, Value = orcid, VisibilityId = 2 });
+                _db.Set<Person_Identifier>().Add(new Person_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 3, PersonID = contPer2, StartDate = DateTime.Now, Value = iupi, VisibilityId = 2 });
+                PersonName a = new PersonName() { ClassificationId = 2, endDate = DateTime.MaxValue, Name = nome, PersonId = contPer2, startDate = DateTime.Now };
+                _db.Set<PersonName>().Add(a);
+                var contNames3 = _db.PersonName.Count();
+                var contPer3 = _db.Person.Count();
                 _db.SaveChanges();
             }
         }
@@ -179,16 +287,20 @@ namespace MVC_2020_Business.Services
             var details = new List<PublicationDetail>();
             var pers_pub = new List<Person_Publication>();
             var idents = new List<Publication_Identifier>();
-            var orgPubs = new List<OrgUnit_Publication>();
+            //var orgPubs = new List<OrgUnit_Publication>();
             var pubTitles = new List<PublicationTitle>();
             var abstracts = new List<PublicationAbstract>();
             var visi = new List<Visibility>();
             var person_ids = new List<Person_Identifier>();
 
             var arr = new ArrayList();
-            var contNames = _db.PersonName.Count();
-            var contPer = _db.Person.Count();
-            var contPub = _db.Publication.Count();
+            var contNames = lastName(_db);
+            // var perTrans = _db.Person.Count();
+            //var nameTrans = _db.PersonName.Count();
+            //var pubTrans = _db.Publication.Count();
+
+            var contPer = lastPerson(_db);
+            var contPub = lastPublication(_db);
             var issn = "";
             var go = 1;
             int max = 0;
@@ -266,12 +378,15 @@ namespace MVC_2020_Business.Services
 
                         if (go == 1)
                         {
-                            contPub++;
+                            //contPub++;
                             var tmp0 = inp.publicationDate.ToString();
                             var date = DateTime.Parse(tmp0);
                             source = inp.source.sourceName.content;
 
-                            pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type = inp.type });
+                            //pubs.Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type = inp.type });
+                            _db.Set<Publication>().Add(new Publication() { Date = date, LanguageId = 3, Source = source, Synced = false, State = 1, Type = inp.type });
+                            _db.SaveChanges();
+                            contPub = lastPublication(_db);
 
                             //IDENTIFIERS
 
@@ -346,16 +461,19 @@ namespace MVC_2020_Business.Services
                     }
 
 
-                    _db.Set<Publication>().AddRange(pubs);
-                    _db.SaveChanges();
+
                     _db.Set<Person>().AddRange(pers);
                     _db.SaveChanges();
                     _db.Set<PersonName>().AddRange(names);
-                    _db.Set<Publication_Identifier>().AddRange(idents);
-                    _db.Set<PublicationAbstract>().AddRange(abstracts);
-                    _db.Set<PublicationTitle>().AddRange(pubTitles);
-                    _db.Set<PublicationDetail>().AddRange(details);
                     _db.SaveChanges();
+                    _db.Set<Publication_Identifier>().AddRange(idents);
+                    _db.SaveChanges();
+                    _db.Set<PublicationAbstract>().AddRange(abstracts);
+                    _db.SaveChanges();
+                    _db.Set<PublicationTitle>().AddRange(pubTitles);
+                    _db.SaveChanges();
+                    _db.Set<PublicationDetail>().AddRange(details);
+                    _db.SaveChanges();          //VER O QUE É QUE É MAIOR DO QUE É SUPOSTO
 
 
                     //var firstPrin = principais.First();
@@ -485,8 +603,27 @@ namespace MVC_2020_Business.Services
                 }
                 catch (Exception e)
                 {
+                    ////Microsoft.Data.SqlClient.SqlCommand com = new Microsoft.Data.SqlClient.SqlCommand("DBCC CHECKIDENT('Person', RESEED, " + perTrans + ")");
+                    ////_db.Database.ExecuteSqlRaw("DBCC CHECKIDENT('Person', RESEED, " + perTrans + ")");
+                    //_db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('PersonName', RESEED, " + nameTrans + " )");
+                    ////_db.Database.ExecuteSqlRaw("DBCC CHECKIDENT('Publication', RESEED, " + pubTrans + ")");
+
+                    //using (var command = _db.Database.GetDbConnection().CreateCommand())
+                    //{
+                    //    command.CommandText = "DBCC CHECKIDENT('Person', RESEED, " + perTrans + ")";
+                    //    command.CommandType = CommandType.Text;
+                    //    command.ExecuteNonQueryAsync();
+
+                    //}
+
+                    //// _db.Person.FromSqlRaw("DBCC CHECKIDENT('Person', RESEED,  {0} )", perTrans);
+                    //_db.PersonName.FromSqlRaw("DBCC CHECKIDENT('PersonName', RESEED,  {0} )", nameTrans);
+                    //_db.Publication.FromSqlRaw("DBCC CHECKIDENT('Publication', RESEED,  {0} )", pubTrans);
+
                     transaction.Rollback();
                     //transSTOP = 1;
+
+
                     Console.WriteLine(e);
                 }
             }
@@ -648,7 +785,8 @@ namespace MVC_2020_Business.Services
             Publicacao pub = new Publicacao();
 
             //iupi = "83b90544-a39d-4073-81cb-0ad094c1ec71";
-            pub.Title = _db.PublicationTitle.First(x => x.PublicationId == pubId).Title;
+            var titulo = _db.PublicationTitle.FirstOrDefault(x => x.PublicationId == pubId);
+            pub.Title = titulo is null ? null : titulo.Title;
 
             var identifierDoi = _db.Publication_Identifier.Find(pubId, 1);
             pub.Doi = identifierDoi is null ? null : identifierDoi.Value;
@@ -749,9 +887,9 @@ namespace MVC_2020_Business.Services
             return pub;
         }
 
-        public static Rootobject getInfoPortalUA(MyDbContext _db, List<Person_Publication> pubsIds)
+        public static InfoPortal getInfoPortalUA(MyDbContext _db, List<Person_Publication> pubsIds)
         {
-            Rootobject info = new Rootobject();
+            InfoPortal info = new InfoPortal();
             List<Tipo> pubsPorTipo = new List<Tipo>();
             Dictionary<string, List<PublicationPortal>> allPubs = new Dictionary<string, List<PublicationPortal>>();
 
@@ -761,7 +899,8 @@ namespace MVC_2020_Business.Services
                 TitlePortal titulo = new TitlePortal();
                 Origin origem = new Origin();
 
-                titulo.label = _db.PublicationTitle.First(x => x.PublicationId == id.PublicationId).Title;
+                var tit = _db.PublicationTitle.FirstOrDefault(x => x.PublicationId == id.PublicationId);
+                titulo.label = tit is null ? null : tit.Title;
                 var identifierHandle = _db.Publication_Identifier.Find(id.PublicationId, 2);
                 titulo.value = identifierHandle is null ? null : identifierHandle.Value;
                 pub.title = titulo;
@@ -790,33 +929,69 @@ namespace MVC_2020_Business.Services
                     autor.iupi = orcid is null ? null : orcid.Value; //buscar o iupi
                     autores.Add(autor);
                 }
-                pub.authors = autores.ToArray();
+                pub.authors = autores;
 
-                var tipo = _db.Publication.Find(id.PublicationId).Type; //alterar tipo que vem do orcid para os que estao no ria
-                if (tipo is null)
-                {
-                    tipo = "RIA";
-                }
+                var tipo = _db.Publication.Find(id.PublicationId).Type;
+                var tipoPortalID = _db.Nomes_Portal_ORCID.FirstOrDefault(x => x.NomeOrcid.Equals(tipo));
 
-                if (allPubs.ContainsKey(tipo))
+                if (tipoPortalID is null)
                 {
-                    allPubs[tipo].Add(pub);
+                    var ind = pubsPorTipo.FindIndex(x => x.title.Equals(tipo));
+                    
+                    if (ind != -1)
+                    {
+                        pubsPorTipo.ElementAt(ind).publications.Add(pub);
+                    }
+                    else
+                    {
+                        Tipo type = new Tipo();
+                        type.title = tipo;
+                        type.publications = new List<PublicationPortal> { pub };
+                        pubsPorTipo.Add(type);
+                    }
                 }
                 else
                 {
-                    allPubs.Add(tipo, new List<PublicationPortal> { pub });
+                    var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID == tipoPortalID.ID).NomePortal;
+
+                    if (tipo is null)
+                    {
+                        tipo = "RIA";
+                    }
+                    var index = pubsPorTipo.FindIndex(x => x.id == tipoPortalID.ID);
+                    if (index != -1)
+                    {
+                        pubsPorTipo.ElementAt(index).publications.Add(pub);
+                    }
+                    else
+                    {
+                        Tipo type = new Tipo();
+                        type.title = tipoPortal;
+                        type.id = tipoPortalID.ID;
+                        type.publications = new List<PublicationPortal> { pub };
+                        pubsPorTipo.Add(type);
+                    }
                 }
+
+                //if (allPubs.ContainsKey(tipo))
+                //{
+                //    allPubs[tipo].Add(pub);
+                //}
+                //else
+                //{
+                //    allPubs.Add(tipo, new List<PublicationPortal> { pub });
+                //}
             }
 
-            foreach (var tipo in allPubs.Keys) //falta adicionar o id do tipo de publicação
-            {
-                Tipo type = new Tipo();
-                type.title = tipo;
-                type.publications = allPubs[tipo].ToArray();
-                pubsPorTipo.Add(type);
-            }
+            //foreach (var tipo in allPubs.Keys) //falta adicionar o id do tipo de publicação
+            //{
+            //    Tipo type = new Tipo();
+            //    type.title = tipo;
+            //    type.publications = allPubs[tipo].ToArray();
+            //    pubsPorTipo.Add(type);
+            //}
 
-            info.data = pubsPorTipo.ToArray();
+            info.data = pubsPorTipo;
             return info;
         }
 
@@ -1335,6 +1510,11 @@ namespace MVC_2020_Business.Services
             }
 
             return finalID;
+        }
+
+        public static void limparBD(MyDbContext _db)
+        {
+            _db.Database.ExecuteSqlRaw("exec [UA\\dario.matos].clearBD");
         }
     }
 }

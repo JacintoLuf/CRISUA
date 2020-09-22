@@ -16,22 +16,22 @@ namespace MVC_2020_Business.Models
     //}
 
 
-    public class Rootobject
+    public class InfoPortal
     {
-        public Tipo[] data { get; set; }
+        public List<Tipo> data { get; set; }
     }
 
     public class Tipo
     {
         public string title { get; set; }
         public int id { get; set; }
-        public PublicationPortal[] publications { get; set; }
+        public List<PublicationPortal> publications { get; set; }
     }
 
     public class PublicationPortal
     {
         public string year { get; set; }
-        public Author[] authors { get; set; }
+        public List<Author> authors { get; set; }
         public TitlePortal title { get; set; }
         public Origin origin { get; set; }
     }

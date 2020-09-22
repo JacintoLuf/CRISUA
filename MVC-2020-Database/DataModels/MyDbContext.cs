@@ -21,7 +21,7 @@ namespace MVC_2020_Database.DataModels
         public virtual DbSet<Publication> Publication { get; set; }
         public virtual DbSet<Publication_Identifier> Publication_Identifier { get; set; }
         public virtual DbSet<Language> Language { get; set; }
-        public virtual DbSet<Identifier> Identifier{ get; set; }
+        public virtual DbSet<Identifier> Identifier { get; set; }
         public virtual DbSet<OrgUnit> OrgUnit { get; set; }
         public virtual DbSet<OrgUnit_Publication> OrgUnit_Publication { get; set; }
         public virtual DbSet<Person_Identifier> Person_Identifier { get; set; }
@@ -29,8 +29,8 @@ namespace MVC_2020_Database.DataModels
         {
             modelBuilder.Entity<OrgUnit_Publication>().HasKey(c => new { c.PublicationId, c.OrgUnitId });
             modelBuilder.Entity<Publication_Identifier>().HasKey(c => new { c.PublicationId, c.IdentifierId });
-            modelBuilder.Entity<Person_Publication>().HasKey(c => new { c.PersonId, c.PublicationId});
-            modelBuilder.Entity<Person_Identifier>().HasKey(c => new { c.PersonID, c.IdentifierId});
+            modelBuilder.Entity<Person_Publication>().HasKey(c => new { c.PersonId, c.PublicationId });
+            modelBuilder.Entity<Person_Identifier>().HasKey(c => new { c.PersonID, c.IdentifierId });
 
         }
 
@@ -44,6 +44,8 @@ namespace MVC_2020_Database.DataModels
         public virtual DbSet<PublicationDetail> PublicationDetail { get; set; }
         public virtual DbSet<PublicationTitle> PublicationTitle { get; set; }
         public virtual DbSet<Visibility> Visibility { get; set; }
+        public virtual DbSet<Nomes_Portal_ORCID> Nomes_Portal_ORCID { get; set; }
+        public virtual DbSet<PortalIdentifier> PortalIdentifier { get; set; }
 
     }
 }
