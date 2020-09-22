@@ -44,6 +44,8 @@ namespace MVC_2020_Database.DataModels
         public virtual DbSet<PublicationDetail> PublicationDetail { get; set; }
         public virtual DbSet<PublicationTitle> PublicationTitle { get; set; }
         public virtual DbSet<Visibility> Visibility { get; set; }
+        public virtual DbSet<Nomes_Portal_ORCID> Nomes_Portal_ORCID { get; set; }
+        public virtual DbSet<PortalIdentifier> PortalIdentifier { get; set; }
 
     }
 }
