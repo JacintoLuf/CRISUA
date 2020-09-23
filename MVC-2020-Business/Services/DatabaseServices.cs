@@ -1537,11 +1537,11 @@ namespace MVC_2020_Business.Services
             if(value!=null)
                 _db.Set<OrgUnitIdentifier>().Add(new OrgUnitIdentifier { OrgUnitId = id, EndDate = end, StartDate = start, IdentifierId = 4, Value = value});
 
-            if(orgUnitId2==0 )
+            if(orgUnitId2!=0 )
                 _db.Set<OrgUnit_OrgUnit>().Add(new OrgUnit_OrgUnit { ClassificationID = 5, EndDate = end, Fraction = fraction, OrgUnitId1 = id, OrgUnitId2 = orgUnitId2, StartDate = start });
             
-            if (addressId == 0) addressId = 1;
-            _db.Set<OrgUnit_PAddress>().Add(new OrgUnit_PAddress { StartDate = start, EndDate = end, OrgUnitId = id, PAddressId = addressId });
+            if (addressId != 0)
+                _db.Set<OrgUnit_PAddress>().Add(new OrgUnit_PAddress { StartDate = start, EndDate = end, OrgUnitId = id, PAddressId = addressId });
 
             if(activityText!=null)
                 _db.Set<OrgUnitActivity>().Add(new OrgUnitActivity { LanguageId = 2, OrgUnitId = id, Text = activityText });
