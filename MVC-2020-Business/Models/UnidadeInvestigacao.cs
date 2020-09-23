@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MVC_2020_Business.Models
 {
-    public class UnidadeInvestigacao
+    public class UnidadeInvestigacao //nao associa a publicacoes
     {
         //Table OrgUnit
         public int OrgUnitId { get; set; }
@@ -14,28 +14,38 @@ namespace MVC_2020_Business.Models
 
         //Table OrgUnit_Classification
         public int ClassificationId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime ClassStartDate { get; set; }
+        public DateTime ClassEndDate { get; set; }
         public float Fraction { get; set; }
 
         //Table OrgUnit_Identifier
         public int IdentifierId { get; set; }
         public string Value { get; set; }
+        public DateTime IDStartDate { get; set; }
+        public DateTime IDEndDate { get; set; }
 
         //Table OrgUnit_OrgUnit
         public int OrgUnitId2 { get; set; }
+        public int OG2ClassId { get; set; }
+        public float OG2Fraction { get; set; }
+        public DateTime OG2StartDate { get; set; }
+        public DateTime OG2EndDate { get; set; }
 
         //Table OrgUnit_PAddress
-        public int PAddressId { get; set; } 
-        
+        public int PAddressId { get; set; }
+        public DateTime AddStartDate { get; set; }
+        public DateTime AddEndDate { get; set; }
+
         //Table OrgUnitActivity
-        public int LanguageId { get; set; }
+        public int ActLanguageId { get; set; }
         public string Text { get; set; }
 
         //Table OrgUnitKeywords
+        public int KwLanguageId { get; set; }
         public string Keywords { get; set; }
 
         //Table OrgUnitName
+        public int NameLanguageId { get; set; }
         public string Name { get; set; }
 
     }
