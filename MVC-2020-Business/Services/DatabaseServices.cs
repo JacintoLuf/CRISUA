@@ -932,46 +932,46 @@ namespace MVC_2020_Business.Services
                 pub.authors = autores;
 
                 var tipo = _db.Publication.Find(id.PublicationId).Type;
-                var tipoPortalID = _db.Nomes_Portal_ORCID.FirstOrDefault(x => x.NomeOrcid.Equals(tipo));
+                var tipoPortalID = _db.Nomes_Portal_ORCID.FirstOrDefault(x => x.NomeOrcid.Equals(tipo.ToUpper()));
 
-                if (tipoPortalID is null)
+                //if (tipoPortalID is null)
+                //{
+                //    var ind = pubsPorTipo.FindIndex(x => x.title.Equals(tipo));
+                //    if (ind != -1)
+                //    {
+                //        pubsPorTipo.ElementAt(ind).publications.Add(pub);
+                //    }
+                //    else
+                //    {
+                //        Tipo type = new Tipo();
+                //        type.title = tipo;
+                //        type.publications = new List<PublicationPortal> { pub };
+                //        pubsPorTipo.Add(type);
+                //    }
+                //}
+                //else
+                //{
+                var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID == tipoPortalID.ID).NomePortal;
+
+                if (tipo is null)
                 {
-                    var ind = pubsPorTipo.FindIndex(x => x.title.Equals(tipo));
-                    
-                    if (ind != -1)
-                    {
-                        pubsPorTipo.ElementAt(ind).publications.Add(pub);
-                    }
-                    else
-                    {
-                        Tipo type = new Tipo();
-                        type.title = tipo;
-                        type.publications = new List<PublicationPortal> { pub };
-                        pubsPorTipo.Add(type);
-                    }
+                    tipo = "RIA";
+                }
+                var index = pubsPorTipo.FindIndex(x => x.id == tipoPortalID.ID);
+
+                if (index != -1)
+                {
+                    pubsPorTipo.ElementAt(index).publications.Add(pub);
                 }
                 else
                 {
-                    var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID == tipoPortalID.ID).NomePortal;
-
-                    if (tipo is null)
-                    {
-                        tipo = "RIA";
-                    }
-                    var index = pubsPorTipo.FindIndex(x => x.id == tipoPortalID.ID);
-                    if (index != -1)
-                    {
-                        pubsPorTipo.ElementAt(index).publications.Add(pub);
-                    }
-                    else
-                    {
-                        Tipo type = new Tipo();
-                        type.title = tipoPortal;
-                        type.id = tipoPortalID.ID;
-                        type.publications = new List<PublicationPortal> { pub };
-                        pubsPorTipo.Add(type);
-                    }
+                    Tipo type = new Tipo();
+                    type.title = tipoPortal;
+                    type.id = tipoPortalID.ID;
+                    type.publications = new List<PublicationPortal> { pub };
+                    pubsPorTipo.Add(type);
                 }
+                //}
 
                 //if (allPubs.ContainsKey(tipo))
                 //{
