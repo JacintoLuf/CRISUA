@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVC_2020_Database.DataModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace MVC_2020_Business.Models
 
         //Table OrgUnit_PAddress
         public int PAddressId { get; set; }
+        public PAddress Address { get; set; }
         public DateTime AddStartDate { get; set; }
         public DateTime AddEndDate { get; set; }
 

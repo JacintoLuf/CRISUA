@@ -1,4 +1,5 @@
 ﻿//using BibTeXLibrary;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using MVC_2020_Business.Models;
@@ -914,7 +915,7 @@ namespace MVC_2020_Business.Services
                 ui.Fraction = Classification.Fraction;
             }
 
-            var Identifier = _db.OrgUnitIdentifier.Find(orgUnitId);
+            var Identifier = _db.OrgUnit_Identifier.Find(orgUnitId);
             if (Identifier != null)
             {
                 ui.IdentifierId = Identifier.IdentifierId;
@@ -941,6 +942,8 @@ namespace MVC_2020_Business.Services
                 ui.AddEndDate = PAddress.EndDate;
             }
 
+            ui.Address = _db.PAddress.Find(PAddress.PAddressId);
+
             var Activity = _db.OrgUnitActivity.Find(orgUnitId);
             if(Activity != null)
             {
@@ -949,7 +952,7 @@ namespace MVC_2020_Business.Services
             }
 
             ui.Keywords = null;
-            ui.KwLanguageId = 0; //???
+            ui.KwLanguageId = 2; //???
 
             var Name = _db.OrgUnitName.Find(orgUnitId);
             if(Name != null)
@@ -1592,6 +1595,7 @@ namespace MVC_2020_Business.Services
             _db.Database.ExecuteSqlRaw("exec [UA\\dario.matos].clearBD");
         }
 
+        
         public static void insertOrgUnit(MyDbContext _db, string acro, string uri, DateTime start, DateTime end, float fraction, string value, int orgUnitId2, int addressId, int langId, string activityText, string keywords, string name)
         {
             var id = lastOrgUnit(_db) + 1;
@@ -1603,7 +1607,7 @@ namespace MVC_2020_Business.Services
             //_db.Set<OrgUnit_Classification>().Add(new OrgUnit_Classification { ClassificationID = 5, EndDate = end, StartDate = start,  OrgUnitId = id });
 
             if(value!=null)
-                _db.Set<OrgUnitIdentifier>().Add(new OrgUnitIdentifier { OrgUnitId = id, EndDate = end, StartDate = start, IdentifierId = 4, Value = value});
+                _db.Set<OrgUnit_Identifier>().Add(new OrgUnit_Identifier { OrgUnitId = id, EndDate = end, StartDate = start, IdentifierId = 4, Value = value});
 
             if(orgUnitId2!=0 )
                 _db.Set<OrgUnit_OrgUnit>().Add(new OrgUnit_OrgUnit { ClassificationID = 5, EndDate = end, Fraction = fraction, OrgUnitId1 = id, OrgUnitId2 = orgUnitId2, StartDate = start });

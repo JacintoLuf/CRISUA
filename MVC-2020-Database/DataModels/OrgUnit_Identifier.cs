@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MVC_2020_Database.DataModels
 {
-    public class OrgUnitIdentifier
+    public class OrgUnit_Identifier
     {
         [Key, Column(Order = 0)]
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("OrgUnit")]
