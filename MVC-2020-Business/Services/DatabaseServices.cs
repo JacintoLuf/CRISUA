@@ -894,6 +894,74 @@ namespace MVC_2020_Business.Services
             return pub;
         }
 
+        public static UnidadeInvestigacao retrieveInfoUI(MyDbContext _db, int orgUnitId)
+        {
+            UnidadeInvestigacao ui = new UnidadeInvestigacao();
+
+            var OrgUnit = _db.OrgUnit.Find(orgUnitId);
+            if(OrgUnit != null)
+            {
+                ui.Acronym = OrgUnit.Acronym;
+                ui.URI = OrgUnit.URI;
+            }
+
+            var Classification = _db.OrgUnit_Classification.Find(orgUnitId);
+            if (Classification != null)
+            {
+                ui.ClassificationId = Classification.ClassificationID;
+                ui.ClassStartDate = Classification.StartDate;
+                ui.ClassEndDate = Classification.EndDate;
+                ui.Fraction = Classification.Fraction;
+            }
+
+            var Identifier = _db.OrgUnitIdentifier.Find(orgUnitId);
+            if (Identifier != null)
+            {
+                ui.IdentifierId = Identifier.IdentifierId;
+                ui.Value = Identifier.Value;
+                ui.IDStartDate = Identifier.StartDate;
+                ui.IDEndDate = Identifier.EndDate;
+            }
+
+            var OU_OU = _db.OrgUnit_OrgUnit.Find(orgUnitId);
+            if(OU_OU != null)
+            {
+                ui.OrgUnitId2 = OU_OU.OrgUnitId2;
+                ui.OG2StartDate = OU_OU.StartDate;
+                ui.OG2EndDate = OU_OU.EndDate;
+                ui.OG2ClassId = OU_OU.ClassificationID;
+                ui.OG2Fraction = OU_OU.Fraction;
+            }
+
+            var PAddress = _db.OrgUnit_PAddress.Find(orgUnitId);
+            if (PAddress != null)
+            {
+                ui.PAddressId = PAddress.PAddressId;
+                ui.AddStartDate = PAddress.StartDate;
+                ui.AddEndDate = PAddress.EndDate;
+            }
+
+            var Activity = _db.OrgUnitActivity.Find(orgUnitId);
+            if(Activity != null)
+            {
+                ui.ActLanguageId = Activity.LanguageId;
+                ui.Text = Activity.Text;
+            }
+
+            ui.Keywords = null;
+            ui.KwLanguageId = 0; //???
+
+            var Name = _db.OrgUnitName.Find(orgUnitId);
+            if(Name != null)
+            {
+                ui.NameLanguageId = Name.LanguageId;
+                ui.Name = Name.Name;
+            }
+
+
+            return ui;
+        }
+
         public static InfoPortal getInfoPortalUA(MyDbContext _db, List<Person_Publication> pubsIds)
         {
             InfoPortal info = new InfoPortal();
