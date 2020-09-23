@@ -241,6 +241,13 @@ namespace MVC_2020_Business.Services
             return a.PersonNameId;
         }
 
+        public static int lastOrgUnit(MyDbContext _db)
+        {
+            var a = _db.OrgUnit.OrderByDescending(p => p.OrgUnitId).FirstOrDefault();
+            if (a == null) return 0;
+            return a.OrgUnitId;
+        }
+
         public static void insertLoginPerson(MyDbContext _db, string nome, string orcid, string iupi)
         {
             var person_ids = new List<Person_Identifier>();
@@ -1585,9 +1592,32 @@ namespace MVC_2020_Business.Services
             _db.Database.ExecuteSqlRaw("exec [UA\\dario.matos].clearBD");
         }
 
-        public static void insertOrgUnit(MyDbContext _db, int id, string acro, string uri, int classId, DateTime start, DateTime end, float fraction)
+        public static void insertOrgUnit(MyDbContext _db, string acro, string uri, DateTime start, DateTime end, float fraction, string value, int orgUnitId2, int addressId, int langId, string activityText, string keywords, string name)
         {
+            var id = lastOrgUnit(_db) + 1;
+            _db.Set<OrgUnit>().Add(new OrgUnit { OrgUnitId = id, Acronym = acro, URI = uri });
+            _db.SaveChanges();
 
+
+            //Bruh wtf is this
+            //_db.Set<OrgUnit_Classification>().Add(new OrgUnit_Classification { ClassificationID = 5, EndDate = end, StartDate = start,  OrgUnitId = id });
+
+            if(value!=null)
+                _db.Set<OrgUnitIdentifier>().Add(new OrgUnitIdentifier { OrgUnitId = id, EndDate = end, StartDate = start, IdentifierId = 4, Value = value});
+
+            if(orgUnitId2!=0 )
+                _db.Set<OrgUnit_OrgUnit>().Add(new OrgUnit_OrgUnit { ClassificationID = 5, EndDate = end, Fraction = fraction, OrgUnitId1 = id, OrgUnitId2 = orgUnitId2, StartDate = start });
+            
+            if (addressId != 0)
+                _db.Set<OrgUnit_PAddress>().Add(new OrgUnit_PAddress { StartDate = start, EndDate = end, OrgUnitId = id, PAddressId = addressId });
+
+            if(activityText!=null)
+                _db.Set<OrgUnitActivity>().Add(new OrgUnitActivity { LanguageId = 2, OrgUnitId = id, Text = activityText });
+
+            _db.Set<OrgUnitName>().Add(new OrgUnitName { OrgUnitId = id, LanguageId = 2, Name = name });
+
+
+            _db.SaveChanges();
         }
     }
 }
