@@ -906,16 +906,17 @@ namespace MVC_2020_Business.Services
                 ui.URI = OrgUnit.URI;
             }
 
-            var Classification = _db.OrgUnit_Classification.Find(orgUnitId);
-            if (Classification != null)
-            {
-                ui.ClassificationId = Classification.ClassificationID;
-                ui.ClassStartDate = Classification.StartDate;
-                ui.ClassEndDate = Classification.EndDate;
-                ui.Fraction = Classification.Fraction;
-            }
+            //var Classification = _db.OrgUnit_Classification.Find(orgUnitId);
+            //if (Classification != null)
+            //{
+            //    ui.ClassificationId = Classification.ClassificationID;
+            //    ui.ClassStartDate = Classification.StartDate;
+            //    ui.ClassEndDate = Classification.EndDate;
+            //    ui.Fraction = Classification.Fraction;
+            //}
 
-            var Identifier = _db.OrgUnit_Identifier.Find(orgUnitId);
+            var Identifier = _db.OrgUnit_Identifier.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
+            
             if (Identifier != null)
             {
                 ui.IdentifierId = Identifier.IdentifierId;
@@ -924,7 +925,8 @@ namespace MVC_2020_Business.Services
                 ui.IDEndDate = Identifier.EndDate;
             }
 
-            var OU_OU = _db.OrgUnit_OrgUnit.Find(orgUnitId);
+            var OU_OU = _db.OrgUnit_OrgUnit.FirstOrDefault(x => x.OrgUnitId1 == orgUnitId);
+            
             if(OU_OU != null)
             {
                 ui.OrgUnitId2 = OU_OU.OrgUnitId2;
@@ -934,7 +936,7 @@ namespace MVC_2020_Business.Services
                 ui.OG2Fraction = OU_OU.Fraction;
             }
 
-            var PAddress = _db.OrgUnit_PAddress.Find(orgUnitId);
+            var PAddress = _db.OrgUnit_PAddress.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
             if (PAddress != null)
             {
                 ui.PAddressId = PAddress.PAddressId;
@@ -942,9 +944,10 @@ namespace MVC_2020_Business.Services
                 ui.AddEndDate = PAddress.EndDate;
             }
 
-            ui.Address = _db.PAddress.Find(PAddress.PAddressId);
+             ui.Address = _db.PAddress.FirstOrDefault(x => x.PAddressId == ui.PAddressId);
+            
 
-            var Activity = _db.OrgUnitActivity.Find(orgUnitId);
+            var Activity = _db.OrgUnitActivity.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
             if(Activity != null)
             {
                 ui.ActLanguageId = Activity.LanguageId;
@@ -954,7 +957,7 @@ namespace MVC_2020_Business.Services
             ui.Keywords = null;
             ui.KwLanguageId = 2; //???
 
-            var Name = _db.OrgUnitName.Find(orgUnitId);
+            var Name = _db.OrgUnitName.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
             if(Name != null)
             {
                 ui.NameLanguageId = Name.LanguageId;
