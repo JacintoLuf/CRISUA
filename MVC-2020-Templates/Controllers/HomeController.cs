@@ -19,6 +19,7 @@ using MVC_2020_Template.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ServiceStack;
+using MVC_2020_Business.Services;
 
 namespace MVC_2020_Template.Controllers 
 {
@@ -61,13 +62,14 @@ namespace MVC_2020_Template.Controllers
             {
 
                 listOrgUnit.Add(DatabaseServices.retrieveInfoUI(_db, temp.OrgUnitId));
-
             }
             ViewBag.OrgUnits = listOrgUnit.ToList();
             return View();
         }
         [HttpPost]
-        public IActionResult Admin(string adicionar_bt, string cancelar_bt, string nome, string acronimo, string data_ini, string data_fim)  //dunno se as datas sao string ou outro type 
+        public IActionResult Admin(string adicionar_bt, string cancelar_bt, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
+                                    string uri, double fraction, string value, int orgUnitId2, int addressId, int langId, 
+                                    string activityText, string keywords)
         {
             if (cancelar_bt == "cancel")
             {
@@ -79,6 +81,9 @@ namespace MVC_2020_Template.Controllers
             {
                 //fazer funcao para adicionar Unidade de Investigação à BD
                 Console.WriteLine("New UI");
+                DatabaseServices.insertOrgUnit(DB(), acronimo, uri, data_ini, data_fim, fraction,
+                                value, orgUnitId2, addressId, langId, activityText, keywords, nome);
+
             }
 
             return RedirectToAction("Admin", "Home");
