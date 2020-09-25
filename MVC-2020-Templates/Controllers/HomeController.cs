@@ -307,7 +307,6 @@ namespace MVC_2020_Template.Controllers
         public IActionResult PublicationMetaData3(string works, string submit_next, string submit_cancel, string submit_prev, string submit_jump_2_1, string submit_jump_2_2,
                                                     List<IFormFile> files, string submit_more, IFormCollection fc, string id)
         {
-
             var list_files = fc["file"].ToList();
             List<string> temp = new List<string>();
             if (_ficheiros.ContainsKey(id)){

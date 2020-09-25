@@ -1,4 +1,5 @@
 ﻿//using BibTeXLibrary;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using MVC_2020_Business.Models;
@@ -239,6 +240,13 @@ namespace MVC_2020_Business.Services
             var a = _db.PersonName.OrderByDescending(p => p.PersonNameId).FirstOrDefault();
             if (a == null) return 0;
             return a.PersonNameId;
+        }
+
+        public static int lastOrgUnit(MyDbContext _db)
+        {
+            var a = _db.OrgUnit.OrderByDescending(p => p.OrgUnitId).FirstOrDefault();
+            if (a == null) return 0;
+            return a.OrgUnitId;
         }
 
         public static void insertLoginPerson(MyDbContext _db, string nome, string orcid, string iupi)
@@ -887,6 +895,76 @@ namespace MVC_2020_Business.Services
             return pub;
         }
 
+        public static UnidadeInvestigacao retrieveInfoUI(MyDbContext _db, int orgUnitId)
+        {
+            UnidadeInvestigacao ui = new UnidadeInvestigacao();
+
+            var OrgUnit = _db.OrgUnit.Find(orgUnitId);
+            if(OrgUnit != null)
+            {
+                ui.Acronym = OrgUnit.Acronym;
+                ui.URI = OrgUnit.URI;
+            }
+
+            var Classification = _db.OrgUnit_Classification.Find(orgUnitId);
+            if (Classification != null)
+            {
+                ui.ClassificationId = Classification.ClassificationID;
+                ui.ClassStartDate = Classification.StartDate;
+                ui.ClassEndDate = Classification.EndDate;
+                ui.Fraction = Classification.Fraction;
+            }
+
+            var Identifier = _db.OrgUnit_Identifier.Find(orgUnitId);
+            if (Identifier != null)
+            {
+                ui.IdentifierId = Identifier.IdentifierId;
+                ui.Value = Identifier.Value;
+                ui.IDStartDate = Identifier.StartDate;
+                ui.IDEndDate = Identifier.EndDate;
+            }
+
+            var OU_OU = _db.OrgUnit_OrgUnit.Find(orgUnitId);
+            if(OU_OU != null)
+            {
+                ui.OrgUnitId2 = OU_OU.OrgUnitId2;
+                ui.OG2StartDate = OU_OU.StartDate;
+                ui.OG2EndDate = OU_OU.EndDate;
+                ui.OG2ClassId = OU_OU.ClassificationID;
+                ui.OG2Fraction = OU_OU.Fraction;
+            }
+
+            var PAddress = _db.OrgUnit_PAddress.Find(orgUnitId);
+            if (PAddress != null)
+            {
+                ui.PAddressId = PAddress.PAddressId;
+                ui.AddStartDate = PAddress.StartDate;
+                ui.AddEndDate = PAddress.EndDate;
+            }
+
+            ui.Address = _db.PAddress.Find(PAddress.PAddressId);
+
+            var Activity = _db.OrgUnitActivity.Find(orgUnitId);
+            if(Activity != null)
+            {
+                ui.ActLanguageId = Activity.LanguageId;
+                ui.Text = Activity.Text;
+            }
+
+            ui.Keywords = null;
+            ui.KwLanguageId = 2; //???
+
+            var Name = _db.OrgUnitName.Find(orgUnitId);
+            if(Name != null)
+            {
+                ui.NameLanguageId = Name.LanguageId;
+                ui.Name = Name.Name;
+            }
+
+
+            return ui;
+        }
+
         public static InfoPortal getInfoPortalUA(MyDbContext _db, List<Person_Publication> pubsIds)
         {
             InfoPortal info = new InfoPortal();
@@ -932,37 +1010,26 @@ namespace MVC_2020_Business.Services
                 pub.authors = autores;
 
                 var tipo = _db.Publication.Find(id.PublicationId).Type;
-                var tipoPortalID = _db.Nomes_Portal_ORCID.FirstOrDefault(x => x.NomeOrcid.Equals(tipo));
+                var tipoPortalID = _db.Nomes_Portal_ORCID.FirstOrDefault(x => x.NomeOrcid.Equals(tipo.ToUpper()));
 
-                if (tipoPortalID is null)
-                {
-                    var ind = pubsPorTipo.FindIndex(x => x.title.Equals(tipo));
-
-                    if (ind != -1)
-
-                    {
-
-                        pubsPorTipo.ElementAt(ind).publications.Add(pub);
-
-                    }
-
-                    else
-
-                    {
-
-                        Tipo type = new Tipo();
-
-                        type.title = tipo;
-                        type.publications = new List<PublicationPortal> { pub };
-
-                        pubsPorTipo.Add(type);
-
-                    }
-                }
-
-                else
-                {
-                    var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID==tipoPortalID.ID).NomePortal;
+                //if (tipoPortalID is null)
+                //{
+                //    var ind = pubsPorTipo.FindIndex(x => x.title.Equals(tipo));
+                //    if (ind != -1)
+                //    {
+                //        pubsPorTipo.ElementAt(ind).publications.Add(pub);
+                //    }
+                //    else
+                //    {
+                //        Tipo type = new Tipo();
+                //        type.title = tipo;
+                //        type.publications = new List<PublicationPortal> { pub };
+                //        pubsPorTipo.Add(type);
+                //    }
+                //}
+                //else
+                //{
+                    var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID == tipoPortalID.ID).NomePortal;
 
                     if (tipo is null)
                     {
@@ -971,28 +1038,18 @@ namespace MVC_2020_Business.Services
                     var index = pubsPorTipo.FindIndex(x => x.id == tipoPortalID.ID);
 
                     if (index != -1)
-
                     {
-
                         pubsPorTipo.ElementAt(index).publications.Add(pub);
-
                     }
-
                     else
-
                     {
-
                         Tipo type = new Tipo();
-
                         type.title = tipoPortal;
                         type.id = tipoPortalID.ID;
-
                         type.publications = new List<PublicationPortal> { pub };
-
                         pubsPorTipo.Add(type);
-
                     }
-                }
+                //}
 
                 //if (allPubs.ContainsKey(tipo))
                 //{
@@ -1536,6 +1593,35 @@ namespace MVC_2020_Business.Services
         public static void limparBD(MyDbContext _db)
         {
             _db.Database.ExecuteSqlRaw("exec [UA\\dario.matos].clearBD");
+        }
+
+        
+        public static void insertOrgUnit(MyDbContext _db, string acro, string uri, DateTime start, DateTime end, float fraction, string value, int orgUnitId2, int addressId, int langId, string activityText, string keywords, string name)
+        {
+            var id = lastOrgUnit(_db) + 1;
+            _db.Set<OrgUnit>().Add(new OrgUnit { OrgUnitId = id, Acronym = acro, URI = uri });
+            _db.SaveChanges();
+
+
+            //Bruh wtf is this
+            //_db.Set<OrgUnit_Classification>().Add(new OrgUnit_Classification { ClassificationID = 5, EndDate = end, StartDate = start,  OrgUnitId = id });
+
+            if(value!=null)
+                _db.Set<OrgUnit_Identifier>().Add(new OrgUnit_Identifier { OrgUnitId = id, EndDate = end, StartDate = start, IdentifierId = 4, Value = value});
+
+            if(orgUnitId2!=0 )
+                _db.Set<OrgUnit_OrgUnit>().Add(new OrgUnit_OrgUnit { ClassificationID = 5, EndDate = end, Fraction = fraction, OrgUnitId1 = id, OrgUnitId2 = orgUnitId2, StartDate = start });
+            
+            if (addressId != 0)
+                _db.Set<OrgUnit_PAddress>().Add(new OrgUnit_PAddress { StartDate = start, EndDate = end, OrgUnitId = id, PAddressId = addressId });
+
+            if(activityText!=null)
+                _db.Set<OrgUnitActivity>().Add(new OrgUnitActivity { LanguageId = 2, OrgUnitId = id, Text = activityText });
+
+            _db.Set<OrgUnitName>().Add(new OrgUnitName { OrgUnitId = id, LanguageId = 2, Name = name });
+
+
+            _db.SaveChanges();
         }
     }
 }
