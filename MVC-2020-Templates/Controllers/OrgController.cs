@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MVC_2020_Business.Models;
 using MVC_2020_Business.Services;
 using MVC_2020_Database.DataModels;
 
@@ -28,16 +29,24 @@ namespace MVC_2020_Template.Controllers
             return _db;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         [HttpGet]
         public IActionResult Index(int orgUnitId)
         {
-            orgUnitId = 1;
-            ViewBag.OrgUnits = DatabaseServices.retrieveInfoUI(_db,orgUnitId);
+            var tempOrgUnit = _db.OrgUnit.ToList();
+            var listOrgUnit = new List<UnidadeInvestigacao>();
+            foreach (var temp in tempOrgUnit)
+            {
+
+                listOrgUnit.Add(DatabaseServices.retrieveInfoUI(_db, temp.OrgUnitId));
+
+            }
+            ViewBag.OrgUnits = listOrgUnit.ToList();
+            //ViewBag.OrgUnits = DatabaseServices.retrieveInfoUI(_db,1);
             return View();
         }
 

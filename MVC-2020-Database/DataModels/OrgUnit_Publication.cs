@@ -21,7 +21,7 @@ namespace MVC_2020_Database.DataModels
         public DateTime EndDate { get; set; }
 
         public int Order_1 { set; get; }
-        public float Fraction { set; get; }
+        public double Fraction { set; get; }
         public string Copyright { get; set; }
     }
 }
