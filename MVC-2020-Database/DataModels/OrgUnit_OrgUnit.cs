@@ -23,6 +23,6 @@ namespace MVC_2020_Database.DataModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public int Fraction { get; set; }
+        public double Fraction { get; set; }
     }
 }

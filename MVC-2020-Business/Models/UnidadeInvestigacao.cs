@@ -17,7 +17,7 @@ namespace MVC_2020_Business.Models
         public int ClassificationId { get; set; }
         public DateTime ClassStartDate { get; set; }
         public DateTime ClassEndDate { get; set; }
-        public float Fraction { get; set; }
+        public double Fraction { get; set; }
 
         //Table OrgUnit_Identifier
         public int IdentifierId { get; set; }
@@ -28,7 +28,7 @@ namespace MVC_2020_Business.Models
         //Table OrgUnit_OrgUnit
         public int OrgUnitId2 { get; set; }
         public int OG2ClassId { get; set; }
-        public float OG2Fraction { get; set; }
+        public double OG2Fraction { get; set; }
         public DateTime OG2StartDate { get; set; }
         public DateTime OG2EndDate { get; set; }
 

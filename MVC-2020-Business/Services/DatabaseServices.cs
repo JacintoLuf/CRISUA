@@ -902,6 +902,7 @@ namespace MVC_2020_Business.Services
             var OrgUnit = _db.OrgUnit.Find(orgUnitId);
             if(OrgUnit != null)
             {
+                ui.OrgUnitId = OrgUnit.OrgUnitId;
                 ui.Acronym = OrgUnit.Acronym;
                 ui.URI = OrgUnit.URI;
             }
@@ -915,14 +916,13 @@ namespace MVC_2020_Business.Services
             //    ui.Fraction = Classification.Fraction;
             //}
 
-            var Identifier = _db.OrgUnit_Identifier.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
-            
-            if (Identifier != null)
+            var identifier = _db.OrgUnit_Identifier.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
+            if (identifier != null)
             {
-                ui.IdentifierId = Identifier.IdentifierId;
-                ui.Value = Identifier.Value;
-                ui.IDStartDate = Identifier.StartDate;
-                ui.IDEndDate = Identifier.EndDate;
+                ui.IdentifierId = identifier.IdentifierId;
+                ui.Value = identifier.Value;
+                ui.IDStartDate = identifier.StartDate;
+                ui.IDEndDate = identifier.EndDate;
             }
 
             var OU_OU = _db.OrgUnit_OrgUnit.FirstOrDefault(x => x.OrgUnitId1 == orgUnitId);
@@ -1599,7 +1599,7 @@ namespace MVC_2020_Business.Services
         }
 
         
-        public static void insertOrgUnit(MyDbContext _db, string acro, string uri, DateTime start, DateTime end, float fraction, string value, int orgUnitId2, int addressId, int langId, string activityText, string keywords, string name)
+        public static void insertOrgUnit(MyDbContext _db, string acro, string uri, DateTime start, DateTime end, double fraction, string value, int orgUnitId2, int addressId, int langId, string activityText, string keywords, string name)
         {
             var id = lastOrgUnit(_db) + 1;
             _db.Set<OrgUnit>().Add(new OrgUnit { OrgUnitId = id, Acronym = acro, URI = uri });
