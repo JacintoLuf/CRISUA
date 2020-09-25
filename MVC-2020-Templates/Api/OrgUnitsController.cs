@@ -36,9 +36,9 @@ namespace MVC_2020_Template.Api
 
         // GET: api/OrgUnits/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrgUnit>> GetOrgUnit(int id)
+        public async Task<ActionResult<UnidadeInvestigacao>> GetOrgUnit(int id)
         {
-            var orgUnit = await _context.OrgUnit.FindAsync(id);
+            var orgUnit = DatabaseServices.retrieveInfoUI(_context,id);
 
             if (orgUnit == null)
             {
