@@ -55,9 +55,35 @@ namespace MVC_2020_Template.Controllers
 
         public IActionResult Admin()
         {
+            var tempOrgUnit = _db.OrgUnit.ToList();
+            var listOrgUnit = new List<UnidadeInvestigacao>();
+            foreach (var temp in tempOrgUnit)
+            {
+
+                listOrgUnit.Add(DatabaseServices.retrieveInfoUI(_db, temp.OrgUnitId));
+
+            }
+            ViewBag.OrgUnits = listOrgUnit.ToList();
             return View();
         }
-        
+        [HttpPost]
+        public IActionResult Admin(string adicionar_bt, string cancelar_bt, string nome, string acronimo, string data_ini, string data_fim)  //dunno se as datas sao string ou outro type 
+        {
+            if (cancelar_bt == "cancel")
+            {
+                return RedirectToAction("Admin", "Home");
+            }
+
+            //Adiciona nova UI
+            if(adicionar_bt == "add")
+            {
+                //fazer funcao para adicionar Unidade de Investigação à BD
+                Console.WriteLine("New UI");
+            }
+
+            return RedirectToAction("Admin", "Home");
+        }
+
 
         [HttpGet]
         public IActionResult Perfil()

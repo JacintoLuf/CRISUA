@@ -1,3 +1,5 @@
+@using MVC_2020_Database.DataModels
+
 @{
     ViewData["Title"] = "Investigação";
     var listOrgUnit = ViewBag.OrgUnits;
@@ -63,7 +65,34 @@
         <p>Preencha os campos com os dados da unidade de investigação.</p>
 
         <form class="ui form">
-            <div class="field">
+
+            @*dropdown*@
+            <div class="grouped fields">
+                <label>Selecione a Unidade de Investigação a que trabalhou.</label>
+
+                <div class="field">
+                    <select>
+                        <option value="-1"></option>
+                        @if (listOrgUnit != null)
+                        {
+                            @foreach (MVC_2020_Business.Models.UnidadeInvestigacao orgUnit in listOrgUnit)
+                            {
+                                <option value="@orgUnit.OrgUnitId">@orgUnit.Name (@orgUnit.Acronym)</option>
+                            }
+                        }
+                        else
+                        {
+                            <option value="-1">Nenhuma Unidade de Investigação disponível.</option>
+                        }
+
+                    </select>
+                </div>
+
+            </div>
+            <br />
+
+            @*campos a preencher*@
+            @*<div class="field">
                 <label>Nome</label>
                 <input type="text" name="nome" placeholder="Nome">
             </div>
@@ -71,7 +100,7 @@
             <div class="field">
                 <label>Acrónimo</label>
                 <input type="text" name="acronimo" placeholder="Acrónimo">
-            </div>
+            </div>*@
 
             <div class="field">
                 <label>Data início</label>
@@ -116,7 +145,7 @@
                 <div class="event">
                     <div class="content">
                         <div class="summary">
-                            <a>Data início:</a> 01/01/1111
+                            <a>Morada</a>: rua da esquina
                         </div>
                     </div>
                 </div>
@@ -124,7 +153,7 @@
                 <div class="event">
                     <div class="content">
                         <div class="summary">
-                            <a>Data fim: </a> 01/01/1111
+                            <a>Dados:</a> bla bla
                         </div>
                     </div>
                 </div>
@@ -139,10 +168,10 @@
             </div>
         </div>
         <div class="extra content">
-            <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
+            <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Editar</button>
         </div>
     </div>
-    
+
 
     <div class="ui raised card" href="">
         <div class="content">
@@ -156,7 +185,7 @@
                 <div class="event">
                     <div class="content">
                         <div class="summary">
-                            <a>Data início:</a> 01/01/1111
+                            <a>Morada</a>: rua da esquina
                         </div>
                     </div>
                 </div>
@@ -164,7 +193,7 @@
                 <div class="event">
                     <div class="content">
                         <div class="summary">
-                            <a>Data fim: </a> 01/01/1111
+                            <a>Dados:</a> bla bla
                         </div>
                     </div>
                 </div>
@@ -179,12 +208,11 @@
             </div>
         </div>
         <div class="extra content">
-            <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
+            <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Editar</button>
         </div>
     </div>
 
 </div>
-
 
 <script>
     function toggleText() {
@@ -201,5 +229,11 @@
             .modal('show')
             ;
     }
+
+    //dropdown dentro do modal
+    $('select.dropdown')
+        .dropdown()
+        ;
+
 
 </script>
