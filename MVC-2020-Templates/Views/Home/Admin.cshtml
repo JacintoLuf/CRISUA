@@ -1,49 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Investigação";
+﻿
+@{
+    ViewData["Title"] = "Admin";
 }
 
-<h2>Unidades de Investigação</h2>
+<h2>Admin</h2>
 
+<div class="ui three item menu">
+    <a class="active item">Unidades de Investigação</a>
+    <a class="item">Perfis</a>
+    <a class="item">Upcoming Features</a>
+</div>
+
+<br />
 
 <!--primeira coluna-->
 <div class="ui grid">
     <div class="six wide column">
-        <button type="button" class="ui primary button" onclick="openModal()">Entrar</button>
-    </div>
-
-    <div class="two wide column"></div>
-
-    <div class="five wide column">
-        <div class="ui category search">
-            <div class="ui icon input">
-                <input id="myInput" class="prompt" type="text" placeholder="Procurar...">
-                <i class="search icon"></i>
-            </div>
-            <div class="results">
-            </div>
-        </div>
-    </div>
-
-    <div class="two wide column">
-        <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
+        <button type="button" class="ui primary button" onclick="openModal()">Criar</button>
     </div>
 </div>
 
-<!--menu ajuda-->
-<div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
-    <br />
-    <p>
-        &nbsp Utilize as setas
-        <i class="arrow alternate circle right icon"></i> e
-        <i class="arrow alternate circle left icon"></i> para escolher as publicações que quer colocar no RIA.
-    </p>
 
-    <p>
-        &nbsp Utilize o botão
-        <button class="ui primary button">Guardar</button> para confirmar e guardar a esolha das publicações. As  publicações irão para a página @Html.ActionLink("Detalhes", "Detail", "Home", null)
-    </p>
-    <br />
-</div>
 <br />
 <br />
 
@@ -51,7 +28,7 @@
 @*Modal*@
 <div class="ui modal">
     @*Header*@
-    <div class="header">Entrar em Unidade de Investigação</div>
+    <div class="header">Adicionar nova Unidade de Investigação</div>
     @*<div class="ui icon header">
             <i class="archive icon"></i>
             Archive Old Messages
@@ -59,7 +36,7 @@
 
     @*Content*@
     <div class="content">
-        <p>Preencha os campos com os dados da unidade de investigação.</p>
+        <p>Preencha os campos com os dados da nova unidade de investigação.</p>
 
         <form class="ui form">
             <div class="field">
@@ -73,6 +50,11 @@
             </div>
 
             <div class="field">
+                <label>Morada</label>
+                <input type="text" name="morada" placeholder="Morada">
+            </div>
+
+            <div class="field">
                 <label>Data início</label>
                 <input type="date" name="data_ini" placeholder="Data início">
             </div>
@@ -83,11 +65,11 @@
             </div>
 
             @*<div class="field">
-            <div class="ui checkbox">
-                <input type="checkbox" tabindex="0" class="hidden">
-                <label>I agree to the Terms and Conditions</label>
-            </div>
-        </div>*@
+                    <div class="ui checkbox">
+                        <input type="checkbox" tabindex="0" class="hidden">
+                        <label>I agree to the Terms and Conditions</label>
+                    </div>
+                </div>*@
 
             <div class="row">
                 <div class="col-md-4 pull-right btn-group">
@@ -115,7 +97,7 @@
                 <div class="event">
                     <div class="content">
                         <div class="summary">
-                            <a>Data início:</a> 01/01/1111
+                            <a>Morada</a>: rua da esquina
                         </div>
                     </div>
                 </div>
@@ -123,7 +105,7 @@
                 <div class="event">
                     <div class="content">
                         <div class="summary">
-                            <a>Data fim: </a> 01/01/1111
+                            <a>Dados:</a> bla bla
                         </div>
                     </div>
                 </div>
@@ -138,10 +120,10 @@
             </div>
         </div>
         <div class="extra content">
-            <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
+            <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Editar</button>
         </div>
     </div>
-    
+
 
     <div class="ui raised card" href="">
         <div class="content">
@@ -155,7 +137,7 @@
                 <div class="event">
                     <div class="content">
                         <div class="summary">
-                            <a>Data início:</a> 01/01/1111
+                            <a>Morada</a>: rua da esquina
                         </div>
                     </div>
                 </div>
@@ -163,7 +145,7 @@
                 <div class="event">
                     <div class="content">
                         <div class="summary">
-                            <a>Data fim: </a> 01/01/1111
+                            <a>Dados:</a> bla bla
                         </div>
                     </div>
                 </div>
@@ -178,7 +160,7 @@
             </div>
         </div>
         <div class="extra content">
-            <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
+            <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Editar</button>
         </div>
     </div>
 
@@ -201,4 +183,11 @@
             ;
     }
 
+    //Menu
+    $('.ui .item').on('click', function () {
+        $('.ui .item').removeClass('active');
+        $(this).addClass('active');
+    }); 
+
 </script>
+

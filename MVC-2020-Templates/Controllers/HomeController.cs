@@ -53,6 +53,10 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
+        public IActionResult Admin()
+        {
+            return View();
+        }
         
 
         [HttpGet]
