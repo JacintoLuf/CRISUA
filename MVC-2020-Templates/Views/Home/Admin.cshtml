@@ -19,33 +19,10 @@
 <!--primeira coluna-->
 <div class="ui grid">
     <div class="six wide column">
-        <button type="button" class="ui primary button" onclick="openModal()"><i class="plus circle icon"></i>Criar</button>
-    </div>
-
-    <div class="four wide column"></div>
-    <div class="two wide column"></div>
-
-    <div class="two wide column">
-        <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
+        <button type="button" class="ui primary button" onclick="openModal()">Criar</button>
     </div>
 </div>
 
-
-<!--menu ajuda-->
-<div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
-    <br />
-    <p>
-        &nbsp Utilize as setas
-        <i class="arrow alternate circle right icon"></i> e
-        <i class="arrow alternate circle left icon"></i> para escolher as publicações que quer colocar no RIA.
-    </p>
-
-    <p>
-        &nbsp Utilize o botão
-        <button class="ui primary button">Guardar</button> para confirmar e guardar a esolha das publicações. As  publicações irão para a página @Html.ActionLink("Detalhes", "Detail", "Home", null)
-    </p>
-    <br />
-</div>
 
 <br />
 <br />
@@ -126,11 +103,11 @@
             </div>
 
             @*<div class="field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" tabindex="0" class="hidden">
-                        <label>I agree to the Terms and Conditions</label>
-                    </div>
-                </div>*@
+            <div class="ui checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label>I agree to the Terms and Conditions</label>
+            </div>
+        </div>*@
 
             <div class="row">
                 <div class="col-md-4 pull-right btn-group">
@@ -147,88 +124,92 @@
 
 @if (listOrgUnit != null)
 {
-    <div class="ui two cards">
+<div class="ui two cards">
 
-        @foreach (MVC_2020_Business.Models.UnidadeInvestigacao orgUnit in listOrgUnit)
-        {
-            <div class="ui raised card" id="@orgUnit.OrgUnitId">
-                <div class="content">
-                    <div class="header">@orgUnit.Name (@orgUnit.Acronym)</div>
-                </div>
-                <div class="content">
-                    <h4 class="ui sub header">Resumo</h4>
+    @foreach (MVC_2020_Business.Models.UnidadeInvestigacao orgUnit in listOrgUnit)
+    {
+        <div class="ui raised card" id="@orgUnit.OrgUnitId">
+            <div class="content">
+                <div class="header">@orgUnit.Name (@orgUnit.Acronym)</div>
+            </div>
+            <div class="content">
+                <h4 class="ui sub header">Resumo</h4>
 
-                    <div class="ui feed">
+                <div class="ui feed">
 
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Data início:</a> 01/01/1111
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Data fim: </a> 01/01/1111
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Mais dados:</a> bla bla
-                                </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Data início:</a> 01/01/1111
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="extra content">
-                    <button class="ui primary button" onclick="openUIDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(orgUnit))">Mais detalhes</button>
+
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Data fim: </a> 01/01/1111
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Mais dados:</a> bla bla
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="extra content">
+                <button class="ui primary button" onclick="openDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(orgUnit))">Mais detalhes</button>
+            </div>
+        </div>
 
-        }
+    }
 
 
-        @*<div class="ui raised card" href="">
-                <div class="content">
-                    <div class="header">Instituto de Materiais de Aveiro (CICECO)</div>
-                </div>
-                <div class="content">
-                    <h4 class="ui sub header">Resumo</h4>
-                    <div class="ui feed">
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Data início:</a> 01/01/1111
-                                </div>
+    @*<div class="ui raised card" href="">
+            <div class="content">
+                <div class="header">Instituto de Materiais de Aveiro (CICECO)</div>
+            </div>
+            <div class="content">
+                <h4 class="ui sub header">Resumo</h4>
+
+                <div class="ui feed">
+
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Data início:</a> 01/01/1111
                             </div>
                         </div>
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Data fim: </a> 01/01/1111
-                                </div>
+                    </div>
+
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Data fim: </a> 01/01/1111
                             </div>
                         </div>
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Mais dados:</a> bla bla
-                                </div>
+                    </div>
+
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Mais dados:</a> bla bla
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="extra content">
-                    <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
-                </div>
-            </div>*@
+            </div>
+            <div class="extra content">
+                <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
+            </div>
+        </div>*@
 
-    </div>
+</div>
 }
 else
 {
@@ -252,8 +233,8 @@ else
             ;
     }
 
-    function openUIDetails(obj) {
-         $.post("UI_Details_Helper", { obj: JSON.stringify(obj) }, function (data) {
+    function openDetails(obj) {
+         $.post("Details_Helper", { obj: JSON.stringify(obj) }, function (data) {
             window.open(data,'_blank');
         });
         @* window.open('@Url.Action("Publication_details","Home")');*@
@@ -266,3 +247,4 @@ else
     });
 
 </script>
+

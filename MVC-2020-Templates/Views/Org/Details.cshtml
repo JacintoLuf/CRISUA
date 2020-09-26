@@ -1,6 +1,64 @@
 ﻿@{
     ViewData["Title"] = "Detalhes";
+    var dados = ViewBag.dados;
 }
 
-<h2>Detalhes da Unidade de Investigação</h2>
+<h2>Detalhes da Unidade de Investigação - @dados.Acronym</h2>
 <br />
+
+<div class="ui two item menu">
+    <a class="item">Editar</a>
+    <a class="item">Apagar</a>
+</div>
+
+<br />
+<br />
+
+<div>
+    <table class="ui very basic table">
+        <tbody>
+            <tr>
+                <th>Nome</th>
+                <td>@dados.Name</td>
+            </tr>
+            <tr>
+                <th>URI</th>
+                <td>@dados.URI</td>
+            </tr>
+            <tr>
+                <th>Data início</th>
+                <td>@dados.IDStartDate</td>
+            </tr>
+            <tr>
+                <th>Data fim</th>
+                <td>@dados.IDEndDate</td>
+            </tr>
+            <tr>
+                <th>Morada</th>
+                @if (dados.Address != null)
+                {
+                    <td>@dados.Address["Line1"]</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+            <tr>
+                <th>Atividade</th>
+                <td>@dados.Text</td>
+
+            </tr>
+            <tr>
+                <th>UIs Relacionadas</th>
+                <td>@dados.OrgUnitI2</td>
+            </tr>
+            <tr>
+                <th>Língua</th>
+                <td>@dados.ActLanguageId</td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+

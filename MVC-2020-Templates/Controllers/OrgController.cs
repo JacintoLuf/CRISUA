@@ -50,9 +50,12 @@ namespace MVC_2020_Template.Controllers
             return View();
         }
 
-        public IActionResult Details()
+        public IActionResult Details(String obj)
         {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
             return View();
         }
+
+        
     }
 }
