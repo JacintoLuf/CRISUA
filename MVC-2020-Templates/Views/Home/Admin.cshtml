@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Admin";
     var listOrgUnit = ViewBag.OrgUnits;
+    var countUI = 0;
 }
 
 <h2>Admin</h2>
@@ -123,91 +124,92 @@
 
 @if (listOrgUnit != null)
 {
-    <div class="ui two cards">
+<div class="ui two cards">
 
-        @foreach (MVC_2020_Business.Models.UnidadeInvestigacao orgUnit in listOrgUnit)
-        {
-            <div class="ui raised card" id="@orgUnit.OrgUnitId">
-                <div class="content">
-                    <div class="header">@orgUnit.Name (@orgUnit.Acronym)</div>
-                </div>
-                <div class="content">
-                    <h4 class="ui sub header">Resumo</h4>
+    @foreach (MVC_2020_Business.Models.UnidadeInvestigacao orgUnit in listOrgUnit)
+    {
+        <div class="ui raised card" id="@orgUnit.OrgUnitId">
+            <div class="content">
+                <div class="header">@orgUnit.Name (@orgUnit.Acronym)</div>
+            </div>
+            <div class="content">
+                <h4 class="ui sub header">Resumo</h4>
 
-                    <div class="ui feed">
+                <div class="ui feed">
 
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Data início:</a> 01/01/1111
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Data fim: </a> 01/01/1111
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Mais dados:</a> bla bla
-                                </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Data início:</a> 01/01/1111
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="extra content">
-                    <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
+
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Data fim: </a> 01/01/1111
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Mais dados:</a> bla bla
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        }
+            <div class="extra content">
+                <button class="ui primary button" onclick="openDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(orgUnit))">Mais detalhes</button>
+            </div>
+        </div>
+
+    }
 
 
-        @*<div class="ui raised card" href="">
-                <div class="content">
-                    <div class="header">Instituto de Materiais de Aveiro (CICECO)</div>
-                </div>
-                <div class="content">
-                    <h4 class="ui sub header">Resumo</h4>
+    @*<div class="ui raised card" href="">
+            <div class="content">
+                <div class="header">Instituto de Materiais de Aveiro (CICECO)</div>
+            </div>
+            <div class="content">
+                <h4 class="ui sub header">Resumo</h4>
 
-                    <div class="ui feed">
+                <div class="ui feed">
 
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Data início:</a> 01/01/1111
-                                </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Data início:</a> 01/01/1111
                             </div>
                         </div>
+                    </div>
 
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Data fim: </a> 01/01/1111
-                                </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Data fim: </a> 01/01/1111
                             </div>
                         </div>
+                    </div>
 
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">
-                                    <a>Mais dados:</a> bla bla
-                                </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                                <a>Mais dados:</a> bla bla
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="extra content">
-                    <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
-                </div>
-            </div>*@
+            </div>
+            <div class="extra content">
+                <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
+            </div>
+        </div>*@
 
-    </div>
+</div>
 }
 else
 {
@@ -229,6 +231,13 @@ else
         $('.ui.modal')
             .modal('show')
             ;
+    }
+
+    function openDetails(obj) {
+         $.post("Details_Helper", { obj: JSON.stringify(obj) }, function (data) {
+            window.open(data,'_blank');
+        });
+        @* window.open('@Url.Action("Publication_details","Home")');*@
     }
 
     //Menu
