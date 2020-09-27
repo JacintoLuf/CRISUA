@@ -79,7 +79,6 @@ namespace MVC_2020_Template.Controllers
             //Adiciona nova UI
             if(adicionar_bt == "add")
             {
-                //fazer funcao para adicionar Unidade de Investigação à BD
                 Console.WriteLine("New UI");
                 DatabaseServices.insertOrgUnit(DB(), acronimo, uri, data_ini, data_fim, fraction,
                                 value, orgUnitId2, addressId, langId, activityText, keywords, nome);
@@ -89,10 +88,37 @@ namespace MVC_2020_Template.Controllers
             return RedirectToAction("Admin", "Home");
         }
 
-        public IActionResult Details_Helper(String obj)
+        public IActionResult UI_Details(String obj)
         {
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
-            return Json(Url.Action("Details", "Org", new { obj = obj }));
+            return View();
+        }
+        [HttpPost]
+        public IActionResult UI_Details(string org, string guardar_bt, string cancelar_bt, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
+                                    string uri, double fraction, string value, int orgUnitId2, int addressId, int langId,
+                                    string activityText, string keywords)
+        {
+            if (cancelar_bt == "cancel")
+            {
+                return RedirectToAction("UI_Details", "Home", new { obj = org } );
+            }
+
+            //Guarda dados editados na BD
+            if (guardar_bt == "guardar")
+            {
+                Console.WriteLine("Edited UI");
+                //DatabaseServices.editOrgUnit(DB(), acronimo, uri, data_ini, data_fim, fraction,
+                //                value, orgUnitId2, addressId, langId, activityText, keywords, nome);
+
+            }
+
+            return RedirectToAction("UI_Details", "Home", new { obj = org });
+        }
+
+        public IActionResult UI_Details_Helper(String obj)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
+            return Json(Url.Action("UI_Details", "Home", new { obj = obj }));
         }
 
 

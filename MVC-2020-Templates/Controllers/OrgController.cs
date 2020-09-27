@@ -46,16 +46,19 @@ namespace MVC_2020_Template.Controllers
 
             }
             ViewBag.OrgUnits = listOrgUnit.ToList();
-            //ViewBag.OrgUnits = DatabaseServices.retrieveInfoUI(_db,1);
             return View();
         }
 
-        public IActionResult Details(String obj)
+        public IActionResult Details(/*string org*/)
         {
-            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
+            //ViewBag.org = @Newtonsoft.Json.JsonConvert.DeserializeObject(org);
             return View();
         }
 
-        
+        public IActionResult Details_Helper(string org)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(org);
+            return Json(Url.Action("Details", "Org", new { org = org }));
+        }
     }
 }
