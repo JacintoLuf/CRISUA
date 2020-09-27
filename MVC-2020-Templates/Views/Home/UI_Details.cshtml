@@ -61,6 +61,9 @@
             <p>Preencha os campos com os novos dados da unidade de investigação.</p>
 
             <form class="ui form" method="post">
+
+               
+
                 <div class="field">
                     <label>Nome</label>
                     <input type="text" name="nome" placeholder="@dados.Name" value="@dados.Name">
@@ -72,16 +75,16 @@
                 </div>
 
                 @*<div class="field">
-                    <label>Morada</label>
-                    @if (dados.Address["Line1"] != null)
-                    {
-                        <input type="text" name="morada" placeholder="Morada" value="@dados.Address["Line1"]">
-                    }
-                    else
-                    {
-                        <input type="text" name="morada" placeholder="Morada">
-                    }
-                </div>*@
+            <label>Morada</label>
+            @if (dados.Address["Line1"] != null)
+            {
+                <input type="text" name="morada" placeholder="Morada" value="@dados.Address["Line1"]">
+            }
+            else
+            {
+                <input type="text" name="morada" placeholder="Morada">
+            }
+        </div>*@
 
                 <div class="field">
                     <label>Data início</label>
@@ -129,17 +132,18 @@
                 </div>
 
                 @*<div class="field">
-                        <div class="ui checkbox">
-                            <input type="checkbox" tabindex="0" class="hidden">
-                            <label>I agree to the Terms and Conditions</label>
-                        </div>
-                    </div>*@
+            <div class="ui checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label>I agree to the Terms and Conditions</label>
+            </div>
+        </div>*@
 
                 <div class="row">
                     <div class="col-md-4 pull-right btn-group">
                         <button class="ui button" type="submit" name="cancelar_bt" value="cancel">Cancelar</button>
                         <button class="ui primary button" type="submit" name="guardar_bt" value="guardar">Guardar</button>
                         <input type="hidden" name="org" value="@Newtonsoft.Json.JsonConvert.SerializeObject(dados)" />
+                        <input type="hidden" name="id" value="@dados.OrgUnitId" />
                     </div>
                     <br>
                 </div>
