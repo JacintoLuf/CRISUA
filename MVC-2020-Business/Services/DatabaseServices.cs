@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 //using System.Data.Entity.ModelConfiguration.Conventions;
 using System.IO;
 using System.Linq;
@@ -1356,6 +1357,81 @@ namespace MVC_2020_Business.Services
             l.Add(data);
 
             return l.Concat(data.Split("/").ToList()).ToList(); /*e.g ["1/2/3333", "1", "2", "3333"]*/
+        }
+
+        public static void updateOrgUnit(MyDbContext _db, int orgUnitId, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
+                                    string uri, double fraction, string value, int orgUnitId2, int addressId, int langId,
+                                    string activityText, string keywords)
+        {
+            var id = orgUnitId;
+            
+
+            var orgUnit = _db.OrgUnit.Find(id);
+            orgUnit.Acronym = acronimo;
+            orgUnit.URI = uri;
+            _db.Entry(orgUnit).State = EntityState.Modified;
+            _db.SaveChanges();
+
+            var identifier = _db.OrgUnit_Identifier.FirstOrDefault(x => x.OrgUnitId == id);
+            if (identifier != null)
+            {
+                //identifier.IdentifierId = ;
+                identifier.Value = value;
+                identifier.StartDate = data_ini;
+                identifier.EndDate = data_fim;
+                _db.Entry(identifier).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+
+            var OU_OU = _db.OrgUnit_OrgUnit.FirstOrDefault(x => x.OrgUnitId1 == id);
+
+            if (OU_OU != null)
+            {
+                OU_OU.OrgUnitId2 = orgUnitId2;
+                //OU_OU.StartDate = ;
+                //OU_OU.EndDate = ;
+                //OU_OU.ClassificationID = ;
+                OU_OU.Fraction = fraction;
+                _db.Entry(OU_OU).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+
+            var PAddress = _db.OrgUnit_PAddress.FirstOrDefault(x => x.OrgUnitId == id);
+            if (PAddress != null)
+            {
+                PAddress.PAddressId = addressId;
+                //PAddress.StartDate = ;
+                //PAddress.EndDate = ;
+                _db.Entry(PAddress).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+
+            //ui.Address = _db.PAddress.FirstOrDefault(x => x.PAddressId == addressId);
+
+
+            var Activity = _db.OrgUnitActivity.FirstOrDefault(x => x.OrgUnitId == id);
+            if (Activity != null)
+            {
+                Activity.LanguageId = langId;
+                Activity.Text = activityText;
+                _db.Entry(Activity).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+
+            //ui.Keywords = null;
+            //ui.KwLanguageId = 2; //???
+
+            var Name = _db.OrgUnitName.FirstOrDefault(x => x.OrgUnitId == id);
+            if (Name != null)
+            {
+                //Name.LanguageId = ;
+                Name.Name = nome;
+                _db.Entry(Name).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+
+
+            _db.SaveChanges();
         }
 
         public static void updatePub(MyDbContext _db, int id, string info, string valor)

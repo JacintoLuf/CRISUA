@@ -66,6 +66,7 @@ namespace MVC_2020_Template.Controllers
             ViewBag.OrgUnits = listOrgUnit.ToList();
             return View();
         }
+
         [HttpPost]
         public IActionResult Admin(string adicionar_bt, string cancelar_bt, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
                                     string uri, double fraction, string value, int orgUnitId2, int addressId, int langId, 
@@ -91,7 +92,7 @@ namespace MVC_2020_Template.Controllers
 
         public IActionResult Details_Helper(String obj)
         {
-            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
+            ViewBag.orgUnit = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
             return Json(Url.Action("Details", "Org", new { obj = obj }));
         }
 
