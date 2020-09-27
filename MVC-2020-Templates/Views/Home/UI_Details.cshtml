@@ -1,0 +1,222 @@
+﻿
+@{
+    ViewData["Title"] = "UI_Details";
+    var dados = ViewBag.dados;
+}
+
+@*verificar se dados != null*@
+
+@if (dados != null)
+{
+    <h2>Detalhes da Unidade de Investigação - @dados.Acronym</h2>
+    <br />
+
+    <!--primeira coluna-->
+    <div class="ui grid">
+        <div class="six wide column">
+            <button type="button" class="ui primary button" onclick="openModal()"><i class="edit circle icon"></i>Editar</button>
+        </div>
+
+        <div class="four wide column"></div>
+
+        <div class="two wide column">
+            <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
+        </div>
+
+        <div class="three wide column">
+            <button type="button" class="ui primary button" onclick="toggleText()"><i class="trash circle icon"></i>Eliminar</button>
+        </div>
+
+    </div>
+
+    <!--menu ajuda-->
+    <div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
+        <br />
+        <p>
+            &nbsp Utilize as setas
+            <i class="arrow alternate circle right icon"></i> e
+            <i class="arrow alternate circle left icon"></i> para escolher as publicações que quer colocar no RIA.
+        </p>
+
+        <p>
+            &nbsp Utilize o botão
+            <button class="ui primary button">Guardar</button> para confirmar e guardar a esolha das publicações. As  publicações irão para a página @Html.ActionLink("Detalhes", "Detail", "Home", null)
+        </p>
+        <br />
+    </div>
+    <br />
+    <br />
+
+    @*Modal*@
+    <div class="ui modal">
+        @*Header*@
+        <div class="header">Atualizar dados da Unidade de Investigação</div>
+        @*<div class="ui icon header">
+                <i class="archive icon"></i>
+                Archive Old Messages
+            </div>*@
+
+        @*Content*@
+        <div class="content">
+            <p>Preencha os campos com os novos dados da unidade de investigação.</p>
+
+            <form class="ui form" method="post">
+                <div class="field">
+                    <label>Nome</label>
+                    <input type="text" name="nome" placeholder="@dados.Name" value="@dados.Name">
+                </div>
+
+                <div class="field">
+                    <label>Acrónimo</label>
+                    <input type="text" name="acronimo" placeholder="@dados.Acronym" value="@dados.Acronym">
+                </div>
+
+                @*<div class="field">
+                    <label>Morada</label>
+                    @if (dados.Address["Line1"] != null)
+                    {
+                        <input type="text" name="morada" placeholder="Morada" value="@dados.Address["Line1"]">
+                    }
+                    else
+                    {
+                        <input type="text" name="morada" placeholder="Morada">
+                    }
+                </div>*@
+
+                <div class="field">
+                    <label>Data início</label>
+                    <input type="date" name="data_ini" placeholder="Data início" value="@dados.IDStartDate">
+                </div>
+
+                <div class="field">
+                    <label>Data fim</label>
+                    <input type="date" name="data_fim" placeholder="Data fim" value="@dados.IDEndDate">
+                </div>
+
+                <div class="field">
+                    <label>Uri</label>
+                    <input type="text" name="uri" placeholder="Uri" value="@dados.URI">
+                </div>
+
+                <div class="field">
+                    <label>Fraction</label>
+                    <input type="number" min="" max="" name="fraction" placeholder="Fraction" value="@dados.Fraction">
+                </div>
+
+                <div class="field">
+                    <label>orgUnitId2</label>
+                    <input type="number" min="" max="" name="orgUnitId2" placeholder="orgUnitId2" value="@dados.OrgUnitI2">
+                </div>
+
+                <div class="field">
+                    <label>value</label>
+                    <input type="text" name="value" placeholder="value" value="@dados.Value">
+                </div>
+
+                <div class="field">
+                    <label>langId</label>
+                    <input type="number" min="" max="" name="langId" placeholder="langId" value="@dados.ActLanguageId">
+                </div>
+
+                <div class="field">
+                    <label>activityText</label>
+                    <input type="text" name="activityText" placeholder="activityText" value="@dados.Text">
+                </div>
+
+                <div class="field">
+                    <label>Keywords</label>
+                    <input type="text" name="keywords" placeholder="Keywords" value="@dados.Keywords">
+                </div>
+
+                @*<div class="field">
+                        <div class="ui checkbox">
+                            <input type="checkbox" tabindex="0" class="hidden">
+                            <label>I agree to the Terms and Conditions</label>
+                        </div>
+                    </div>*@
+
+                <div class="row">
+                    <div class="col-md-4 pull-right btn-group">
+                        <button class="ui button" type="submit" name="cancelar_bt" value="cancel">Cancelar</button>
+                        <button class="ui primary button" type="submit" name="guardar_bt" value="guardar">Guardar</button>
+                        <input type="hidden" name="org" value="@Newtonsoft.Json.JsonConvert.SerializeObject(dados)" />
+                    </div>
+                    <br>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <table class="ui very basic table">
+            <tbody>
+                <tr>
+                    <th>Nome</th>
+                    <td>@dados.Name</td>
+                </tr>
+                <tr>
+                    <th>URI</th>
+                    <td>@dados.URI</td>
+                </tr>
+                <tr>
+                    <th>Data início</th>
+                    <td>@dados.IDStartDate</td>
+                </tr>
+                <tr>
+                    <th>Data fim</th>
+                    <td>@dados.IDEndDate</td>
+                </tr>
+                <tr>
+                    <th>Morada</th>
+                    @if (dados.Address != null)
+                    {
+                        <td>@dados.Address["Line1"]</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                </tr>
+                <tr>
+                    <th>Atividade</th>
+                    <td>@dados.Text</td>
+
+                </tr>
+                <tr>
+                    <th>UIs Relacionadas</th>
+                    <td>@dados.OrgUnitI2</td>
+                </tr>
+                <tr>
+                    <th>Língua</th>
+                    <td>@dados.ActLanguageId</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+}
+else
+{
+    <p>Algo correu mal. Não foi possível encontrar informação sobre a Unidade de Investigação selecionada.</p>
+}
+
+
+<script>
+    function toggleText() {
+        var text = document.getElementById("hidden_info");
+        if (text.style.display === "none") {
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+        }
+    }
+
+    function openModal() {
+        $('.ui.modal')
+            .modal('show')
+            ;
+    }
+
+</script>

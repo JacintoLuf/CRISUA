@@ -46,38 +46,19 @@ namespace MVC_2020_Template.Controllers
 
             }
             ViewBag.OrgUnits = listOrgUnit.ToList();
-            //ViewBag.OrgUnits = DatabaseServices.retrieveInfoUI(_db,1);
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Details(String obj)
+        public IActionResult Details(/*string org*/)
         {
-            ViewBag.orgUnit = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
+            //ViewBag.org = @Newtonsoft.Json.JsonConvert.DeserializeObject(org);
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Details(String obj,int orgUnitId, string? adicionar_bt, string? cancelar_bt, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
-                                    string uri, double fraction, string value, int orgUnitId2, int addressId, int langId,
-                                    string activityText, string keywords)
+        public IActionResult Details_Helper(string org)
         {
-
-            if (cancelar_bt == "cancel")
-            {
-                ViewBag.orgUnit = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
-                return View();
-            }
-
-            //Edita  UI
-            if (adicionar_bt == "add")
-            {
-                DatabaseServices.updateOrgUnit(_db,orgUnitId, nome, acronimo, data_ini,data_fim,uri,fraction,value,
-                    orgUnitId2,addressId,langId,activityText,keywords);
-            }
-
-            ViewBag.orgUnit = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
-            return View();
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(org);
+            return Json(Url.Action("Details", "Org", new { org = org }));
         }
     }
 }
