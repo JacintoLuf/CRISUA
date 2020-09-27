@@ -94,8 +94,9 @@ namespace MVC_2020_Template.Controllers
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
             return View();
         }
+
         [HttpPost]
-        public IActionResult UI_Details(string org, string guardar_bt, string cancelar_bt, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
+        public IActionResult UI_Details(string org,int id, string guardar_bt, string cancelar_bt, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
                                     string uri, double fraction, string value, int orgUnitId2, int addressId, int langId,
                                     string activityText, string keywords)
         {
@@ -108,8 +109,10 @@ namespace MVC_2020_Template.Controllers
             if (guardar_bt == "guardar")
             {
                 Console.WriteLine("Edited UI");
-                //DatabaseServices.editOrgUnit(DB(), acronimo, uri, data_ini, data_fim, fraction,
-                //                value, orgUnitId2, addressId, langId, activityText, keywords, nome);
+                DatabaseServices.updateOrgUnit(DB(),id, nome, acronimo,  data_ini, data_fim, uri, fraction,
+                                value, orgUnitId2, addressId, langId, activityText, keywords);
+
+
 
             }
 
