@@ -1736,13 +1736,14 @@ namespace MVC_2020_Business.Services
             _db.SaveChanges();
         }
 
-        public static void deleteOrgUnit(MyDbContext _db, string nome)
+        public static void deleteOrgUnit(MyDbContext _db, int id)
         {
-            var orga = _db.OrgUnitName.FirstOrDefault(x => x.Name == nome);
-            var id = 0;
+            //var orga = ui;
+            //var id = 0;
+            var orga = _db.OrgUnit.FirstOrDefault(x => x.OrgUnitId== id);
             if(orga != null)
             {
-                id = orga.OrgUnitId;
+                //id = orga.OrgUnitId;
                 var act = _db.Set<OrgUnitActivity>().FirstOrDefault(x => x.OrgUnitId == id);
                 if (act != null) _db.Set<OrgUnitActivity>().Remove(act);
 
