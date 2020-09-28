@@ -8,10 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using MVC_2020_Business.Models;
 using MVC_2020_Business.Models.Orcid;
+using MVC_2020_Business.Models.Authenticus;
 using MVC_2020_Database;
 using MVC_2020_Database.DataModels;
 using Newtonsoft.Json;
 using RestSharp;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace MVC_2020_Business.Services
 {
@@ -299,6 +302,138 @@ namespace MVC_2020_Business.Services
             works.AddRange(juntos); //adicionar a lista de publicações em que se fez o merge às outras
             //Console.WriteLine("Final works count: " + works.Count);
             return works;
+        }
+
+        public static T DeserializeXML<T>(string xmlContent)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xmlContent));
+            return (T)serializer.Deserialize(memStream);
+        }
+
+        public static async Task<page> getResearchersAuthenticus(string institution)
+        {
+            HttpClient client = new HttpClient();
+            // Institution needs to be validated at some point
+            client.BaseAddress = new Uri("https://www.authenticus.pt/api/v2.0/institutions/" + institution + "/");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "gnrqOxEs7Aa5o6K47P6xmEQEs5URIC6avQ0N");
+
+            HttpResponseMessage queryResult = client.GetAsync("researchers").Result;
+
+            if (!queryResult.IsSuccessStatusCode)
+            {
+                Console.WriteLine(queryResult.StatusCode);
+                return null;
+            }
+            else
+            {
+                string resultXml = await queryResult.Content.ReadAsStringAsync();
+                page resultObject = DeserializeXML<page>(resultXml);
+
+                return resultObject;
+            }
+        }
+
+        public static async Task<page> getAuthPubsAuthenticus(string authID)
+        {
+            HttpClient client = new HttpClient();
+            // authID needs to be validated at some point
+            client.BaseAddress = new Uri("https://www.authenticus.pt/api/v2.0/researchers/" + authID + "/");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "gnrqOxEs7Aa5o6K47P6xmEQEs5URIC6avQ0N");
+
+            HttpResponseMessage queryResult = client.GetAsync("publications").Result;
+
+            if (!queryResult.IsSuccessStatusCode)
+            {
+                Console.WriteLine(queryResult.StatusCode);
+                return null;
+            }
+            else
+            {
+                string resultXml = await queryResult.Content.ReadAsStringAsync();
+                page resultObject = DeserializeXML<page>(resultXml);
+
+                return resultObject;
+            }
+        }
+
+        public static async Task<publication> getPubDataAuthenticus(string pubID)
+        {
+            HttpClient client = new HttpClient();
+            // Institution needs to be validated at some point
+            client.BaseAddress = new Uri("https://www.authenticus.pt/api/v2.0/publications/" + pubID);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "gnrqOxEs7Aa5o6K47P6xmEQEs5URIC6avQ0N");
+
+            HttpResponseMessage queryResult = client.GetAsync("").Result;
+
+            if (!queryResult.IsSuccessStatusCode)
+            {
+                Console.WriteLine(queryResult.StatusCode);
+                return null;
+            }
+            else
+            {
+                string resultXml = await queryResult.Content.ReadAsStringAsync();
+                publication resultObject = DeserializeXML<publication>(resultXml);
+
+                return resultObject;
+            }
+        }
+
+        public static void printPublicationAuthenticus(publication pub)
+        {
+            Console.WriteLine("type :" + pub.type[0].Value);
+            Console.WriteLine("title :" + pub.title);
+            foreach (publicationAuthor item in pub.Items)
+            {
+                Console.WriteLine("author :" + item.name);
+            }
+            Console.WriteLine("year: " + pub.year);
+            Console.WriteLine("abstract :" + pub.@abstract);
+            Console.WriteLine("doi :" + pub.doi);
+            Console.WriteLine("source-title :" + pub.sourcetitle);
+            Console.WriteLine("issn :" + pub.issn);
+            Console.WriteLine("volume :" + pub.volume);
+            return;
+        }
+        public static async Task<researcher> getResearcherInfoAuthenticus(string authID)
+        {
+            HttpClient client = new HttpClient();
+            // authID needs to be validated at some point
+            client.BaseAddress = new Uri("https://www.authenticus.pt/api/v2.0/researchers/" + authID);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "gnrqOxEs7Aa5o6K47P6xmEQEs5URIC6avQ0N");
+
+            HttpResponseMessage queryResult = client.GetAsync("").Result;
+
+            if (!queryResult.IsSuccessStatusCode)
+            {
+                Console.WriteLine(queryResult.StatusCode);
+                return null;
+            }
+            else
+            {
+                string resultXml = await queryResult.Content.ReadAsStringAsync();
+                researcher resultObject = DeserializeXML<researcher>(resultXml);
+                Console.WriteLine("Researcher: " + authID + " has orcid: " + resultObject.externalid[0].Value);
+                return resultObject;
+            }
+        }
+
+
+        public static List<publication> allResearchersPubsAuthenticus(string authID)
+        {
+            // authID needs to be validated at some point
+            page authPubs = getAuthPubsAuthenticus(authID).Result;
+            List<publication> allPubs = new List<publication>();
+
+            foreach (filteredResource item in authPubs.items)
+                allPubs.Add(getPubDataAuthenticus(item.id).Result);
+
+            return allPubs;
         }
     }
 }
