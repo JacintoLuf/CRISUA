@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Admin";
     var listOrgUnit = ViewBag.OrgUnits;
+    var countUI = 0;
 }
 
 <h2>Admin</h2>
@@ -18,10 +19,33 @@
 <!--primeira coluna-->
 <div class="ui grid">
     <div class="six wide column">
-        <button type="button" class="ui primary button" onclick="openModal()">Criar</button>
+        <button type="button" class="ui primary button" onclick="openModal()"><i class="plus circle icon"></i>Criar</button>
+    </div>
+
+    <div class="four wide column"></div>
+    <div class="two wide column"></div>
+
+    <div class="two wide column">
+        <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
     </div>
 </div>
 
+
+<!--menu ajuda-->
+<div class="ui grid" id="hidden_info" style="display:none; background-color:lightgray;border-radius:5px">
+    <br />
+    <p>
+        &nbsp Utilize as setas
+        <i class="arrow alternate circle right icon"></i> e
+        <i class="arrow alternate circle left icon"></i> para escolher as publicações que quer colocar no RIA.
+    </p>
+
+    <p>
+        &nbsp Utilize o botão
+        <button class="ui primary button">Guardar</button> para confirmar e guardar a esolha das publicações. As  publicações irão para a página @Html.ActionLink("Detalhes", "Detail", "Home", null)
+    </p>
+    <br />
+</div>
 
 <br />
 <br />
@@ -64,6 +88,41 @@
             <div class="field">
                 <label>Data fim</label>
                 <input type="date" name="data_fim" placeholder="Data fim">
+            </div>
+
+            <div class="field">
+                <label>Uri</label>
+                <input type="text" name="uri" placeholder="Uri">
+            </div>
+
+            <div class="field">
+                <label>Fraction</label>
+                <input type="number" min="" max="" name="fraction" placeholder="Fraction">
+            </div>
+
+            <div class="field">
+                <label>orgUnitId2</label>
+                <input type="number" min="" max="" name="orgUnitId2" placeholder="orgUnitId2">
+            </div>
+
+            <div class="field">
+                <label>value</label>
+                <input type="text" name="value" placeholder="value">
+            </div>
+
+            <div class="field">
+                <label>langId</label>
+                <input type="number" min="" max="" name="langId" placeholder="langId">
+            </div>
+
+            <div class="field">
+                <label>activityText</label>
+                <input type="text" name="activityText" placeholder="activityText">
+            </div>
+
+            <div class="field">
+                <label>Keywords</label>
+                <input type="text" name="keywords" placeholder="Keywords">
             </div>
 
             @*<div class="field">
@@ -127,9 +186,10 @@
                     </div>
                 </div>
                 <div class="extra content">
-                    <button class="ui primary button" onclick="window.open('@Url.Action("Details", "Org", new { target = "_blank" })')">Mais detalhes</button>
+                    <button class="ui primary button" onclick="openUIDetails(@Newtonsoft.Json.JsonConvert.SerializeObject(orgUnit))">Mais detalhes</button>
                 </div>
             </div>
+
         }
 
 
@@ -139,9 +199,7 @@
                 </div>
                 <div class="content">
                     <h4 class="ui sub header">Resumo</h4>
-
                     <div class="ui feed">
-
                         <div class="event">
                             <div class="content">
                                 <div class="summary">
@@ -149,7 +207,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="event">
                             <div class="content">
                                 <div class="summary">
@@ -157,7 +214,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="event">
                             <div class="content">
                                 <div class="summary">
@@ -196,6 +252,13 @@ else
             ;
     }
 
+    function openUIDetails(obj) {
+         $.post("UI_Details_Helper", { obj: JSON.stringify(obj) }, function (data) {
+            window.open(data,'_blank');
+        });
+        @* window.open('@Url.Action("Publication_details","Home")');*@
+    }
+
     //Menu
     $('.ui .item').on('click', function () {
         $('.ui .item').removeClass('active');
@@ -203,4 +266,3 @@ else
     });
 
 </script>
-
