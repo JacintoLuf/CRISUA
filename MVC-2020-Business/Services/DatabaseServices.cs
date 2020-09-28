@@ -1735,5 +1735,45 @@ namespace MVC_2020_Business.Services
 
             _db.SaveChanges();
         }
+
+        public static void deleteOrgUnit(MyDbContext _db, string nome)
+        {
+            var orga = _db.OrgUnitName.FirstOrDefault(x => x.Name == nome);
+            var id = 0;
+            if(orga != null)
+            {
+                id = orga.OrgUnitId;
+                var act = _db.Set<OrgUnitActivity>().FirstOrDefault(x => x.OrgUnitId == id);
+                if (act != null) _db.Set<OrgUnitActivity>().Remove(act);
+
+                var classi = _db.OrgUnit_Classification.FirstOrDefault(x => x.OrgUnitId == id);
+                if (classi != null) _db.Set<OrgUnit_Classification>().Remove(classi);
+
+                var identi = _db.OrgUnit_Identifier.FirstOrDefault(x => x.OrgUnitId == id);
+                if (identi != null) _db.Set<OrgUnit_Identifier>().Remove(identi);
+
+                var addr = _db.OrgUnit_PAddress.FirstOrDefault(x => x.OrgUnitId == id);
+                if (addr != null) _db.Set<OrgUnit_PAddress>().Remove(addr);
+
+                var orP = _db.OrgUnit_Publication.FirstOrDefault(x => x.OrgUnitId == id);
+                if (orP != null) _db.Set<OrgUnit_Publication>().Remove(orP);
+
+                var oName = _db.OrgUnitName.FirstOrDefault(x => x.OrgUnitId == id);
+                if (oName != null) _db.Set<OrgUnitName>().Remove(oName);
+                _db.SaveChanges();
+
+                var queryOO = from tmp in _db.OrgUnit_OrgUnit
+                              where tmp.OrgUnitId1 == id || tmp.OrgUnitId2 == id
+                              select tmp;
+                var a = queryOO.ToList();
+                if (a != null)
+                    _db.Set<OrgUnit_OrgUnit>().RemoveRange(a); //N SEI SE DÁ
+                _db.SaveChanges();
+
+                _db.Set<OrgUnit>().Remove(_db.OrgUnit.FirstOrDefault(x => x.OrgUnitId == id));
+                _db.SaveChanges();
+            }
+
+        }
     }
 }
