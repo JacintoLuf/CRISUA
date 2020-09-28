@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ServiceStack;
 using MVC_2020_Business.Services;
+using ServiceStack.OrmLite.Converters;
 
 namespace MVC_2020_Template.Controllers 
 {
@@ -130,8 +131,10 @@ namespace MVC_2020_Template.Controllers
         public IActionResult DeleteUI_Helper(string org)
 
         {
-
+            
             //chamar funcao delete da ui
+            var id = Int32.Parse(@Newtonsoft.Json.JsonConvert.DeserializeObject(org).ToString());
+            DatabaseServices.deleteOrgUnit(_db,id);
             Console.WriteLine(org);
             return View("Close");
 
