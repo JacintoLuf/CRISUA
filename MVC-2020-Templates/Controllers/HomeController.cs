@@ -52,6 +52,10 @@ namespace MVC_2020_Template.Controllers
             return File("~/Doxygen/html/index.html", "text/html");
         }
 
+        public IActionResult Admin()
+        {
+            return View();
+        }
 
         [HttpGet]
         public IActionResult Perfil()
