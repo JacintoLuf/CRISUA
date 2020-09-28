@@ -112,11 +112,13 @@ namespace MVC_2020_Template.Controllers
                 DatabaseServices.updateOrgUnit(DB(),id, nome, acronimo,  data_ini, data_fim, uri, fraction,
                                 value, orgUnitId2, addressId, langId, activityText, keywords);
 
+                var orgunitUpdate = DatabaseServices.retrieveInfoUI(_db,id);
 
+                return RedirectToAction("UI_Details", "Home", new { obj = JsonConvert.SerializeObject(orgunitUpdate) });
 
             }
 
-            return RedirectToAction("UI_Details", "Home", new { obj = org });
+            return RedirectToAction("UI_Details", "Home", new { obj = org});
         }
 
         public IActionResult UI_Details_Helper(String obj)
