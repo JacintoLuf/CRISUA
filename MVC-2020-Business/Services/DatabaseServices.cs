@@ -9,6 +9,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlTypes;
+using System.Globalization;
 //using System.Data.Entity.ModelConfiguration.Conventions;
 using System.IO;
 using System.Linq;
@@ -1032,26 +1034,26 @@ namespace MVC_2020_Business.Services
                 //}
                 //else
                 //{
-                var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID == tipoPortalID.ID).NomePortal;
+                    var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID == tipoPortalID.ID).NomePortal;
 
-                if (tipo is null)
-                {
-                    tipo = "RIA";
-                }
-                var index = pubsPorTipo.FindIndex(x => x.id == tipoPortalID.ID);
+                    if (tipo is null)
+                    {
+                        tipo = "RIA";
+                    }
+                    var index = pubsPorTipo.FindIndex(x => x.id == tipoPortalID.ID);
 
-                if (index != -1)
-                {
-                    pubsPorTipo.ElementAt(index).publications.Add(pub);
-                }
-                else
-                {
-                    Tipo type = new Tipo();
-                    type.title = tipoPortal;
-                    type.id = tipoPortalID.ID;
-                    type.publications = new List<PublicationPortal> { pub };
-                    pubsPorTipo.Add(type);
-                }
+                    if (index != -1)
+                    {
+                        pubsPorTipo.ElementAt(index).publications.Add(pub);
+                    }
+                    else
+                    {
+                        Tipo type = new Tipo();
+                        type.title = tipoPortal;
+                        type.id = tipoPortalID.ID;
+                        type.publications = new List<PublicationPortal> { pub };
+                        pubsPorTipo.Add(type);
+                    }
                 //}
 
                 //if (allPubs.ContainsKey(tipo))
@@ -1358,20 +1360,19 @@ namespace MVC_2020_Business.Services
             return l.Concat(data.Split("/").ToList()).ToList(); /*e.g ["1/2/3333", "1", "2", "3333"]*/
         }
 
-
         public static void updateOrgUnit(MyDbContext _db, int orgUnitId, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
-                            string uri, double fraction, string value, int orgUnitId2, int addressId, int langId,
-                            string activityText, string keywords)
+                                    string uri, double fraction, string value, int orgUnitId2, int addressId, int langId,
+                                    string activityText, string keywords)
         {
             var id = orgUnitId;
-
+            
 
             var orgUnit = _db.OrgUnit.Find(id);
             orgUnit.Acronym = acronimo;
             orgUnit.URI = uri;
             _db.Entry(orgUnit).State = EntityState.Modified;
             _db.SaveChanges();
-
+                                               
             var identifier = _db.OrgUnit_Identifier.FirstOrDefault(x => x.OrgUnitId == id);
             if (identifier != null)
             {
@@ -1380,8 +1381,23 @@ namespace MVC_2020_Business.Services
                 identifier.StartDate = data_ini;
                 identifier.EndDate = data_fim;
                 _db.Entry(identifier).State = EntityState.Modified;
-                _db.SaveChanges();
+                
             }
+            else
+            {
+                if (data_ini < SqlDateTime.MinValue.Value )
+                {
+                    data_ini = DateTime.Now;
+                }
+                if (data_fim < SqlDateTime.MinValue.Value)
+                {
+                    data_fim = DateTime.MaxValue;
+                }
+
+                _db.Set<OrgUnit_Identifier>().Add(new OrgUnit_Identifier { OrgUnitId = id, EndDate = data_fim, StartDate = data_ini, IdentifierId = 4, Value = value });
+            }
+            _db.SaveChanges();
+
 
             var OU_OU = _db.OrgUnit_OrgUnit.FirstOrDefault(x => x.OrgUnitId1 == id);
 
@@ -1393,19 +1409,29 @@ namespace MVC_2020_Business.Services
                 //OU_OU.ClassificationID = ;
                 OU_OU.Fraction = fraction;
                 _db.Entry(OU_OU).State = EntityState.Modified;
-                _db.SaveChanges();
+                
             }
+            else
+            {
+                _db.Set<OrgUnit_OrgUnit>().Add(new OrgUnit_OrgUnit { ClassificationID = 5, EndDate = DateTime.MaxValue, Fraction = fraction, OrgUnitId1 = id, OrgUnitId2 = orgUnitId2, StartDate = DateTime.Now });
+            }
+            _db.SaveChanges();
 
             var PAddress = _db.OrgUnit_PAddress.FirstOrDefault(x => x.OrgUnitId == id);
+
             if (PAddress != null)
             {
                 PAddress.PAddressId = addressId;
                 //PAddress.StartDate = ;
                 //PAddress.EndDate = ;
                 _db.Entry(PAddress).State = EntityState.Modified;
-                _db.SaveChanges();
+                
             }
-
+            else
+            {
+                _db.Set<OrgUnit_PAddress>().Add(new OrgUnit_PAddress { StartDate = DateTime.Now, EndDate = DateTime.MaxValue, OrgUnitId = id, PAddressId = addressId });
+            }
+            _db.SaveChanges();
             //ui.Address = _db.PAddress.FirstOrDefault(x => x.PAddressId == addressId);
 
 
@@ -1415,8 +1441,13 @@ namespace MVC_2020_Business.Services
                 Activity.LanguageId = langId;
                 Activity.Text = activityText;
                 _db.Entry(Activity).State = EntityState.Modified;
-                _db.SaveChanges();
+                
             }
+            else
+            {
+                _db.Set<OrgUnitActivity>().Add(new OrgUnitActivity { LanguageId = langId, OrgUnitId = id, Text = activityText });
+            }
+            _db.SaveChanges();
 
             //ui.Keywords = null;
             //ui.KwLanguageId = 2; //???
@@ -1426,8 +1457,10 @@ namespace MVC_2020_Business.Services
             {
                 //Name.LanguageId = ;
                 Name.Name = nome;
-                _db.Entry(Name).State = EntityState.Modified;
-                _db.SaveChanges();
+                _db.Entry(Name).State = EntityState.Modified;            }
+            else
+            {
+                _db.Set<OrgUnitName>().Add(new OrgUnitName { OrgUnitId = id, LanguageId = 2, Name = nome });
             }
 
 
