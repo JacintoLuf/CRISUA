@@ -1516,5 +1516,10 @@ namespace MVC_2020_Business.Services
         {
             _db.Database.ExecuteSqlRaw("exec [UA\\dario.matos].clearBD");
         }
+
+        public static void insertOrgUnit(MyDbContext _db)
+        {
+
+        }
     }
 }
