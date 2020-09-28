@@ -90,6 +90,12 @@ namespace MVC_2020_Template.Controllers
             return RedirectToAction("Admin", "Home");
         }
 
+        public IActionResult Details_Helper(String obj)
+        {
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
+            return Json(Url.Action("Details", "Org", new { obj = obj }));
+        }
+
         [HttpGet]
         public IActionResult Perfil()
         {
