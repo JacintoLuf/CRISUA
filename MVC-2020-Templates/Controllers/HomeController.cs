@@ -127,6 +127,21 @@ namespace MVC_2020_Template.Controllers
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
             return Json(Url.Action("UI_Details", "Home", new { obj = obj }));
         }
+        public IActionResult DeleteUI_Helper(string org)
+
+        {
+
+            //chamar funcao delete da ui
+            Console.WriteLine(org);
+            return View("Close");
+
+        }
+
+        public IActionResult Close()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         public IActionResult Perfil()
