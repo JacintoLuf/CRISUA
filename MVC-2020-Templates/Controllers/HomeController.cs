@@ -128,15 +128,14 @@ namespace MVC_2020_Template.Controllers
             return Json(Url.Action("UI_Details", "Home", new { obj = obj }));
         }
 
-        public IActionResult DeleteUI_Helper(string org)
+        public void DeleteUI_Helper(string org)
 
         {
-            
             //chamar funcao delete da ui
             var id = Int32.Parse(@Newtonsoft.Json.JsonConvert.DeserializeObject(org).ToString());
             DatabaseServices.deleteOrgUnit(_db,id);
             Console.WriteLine(org);
-            return View("Close");
+            //return RedirectToAction("Admin", "Home");
 
         }
 

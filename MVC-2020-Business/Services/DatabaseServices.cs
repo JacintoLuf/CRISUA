@@ -897,6 +897,11 @@ namespace MVC_2020_Business.Services
             return pub;
         }
 
+        public static List<PAddress> getAddresses(MyDbContext _db)
+        {
+            return _db.PAddress.ToList();
+        }
+
         public static UnidadeInvestigacao retrieveInfoUI(MyDbContext _db, int orgUnitId)
         {
             UnidadeInvestigacao ui = new UnidadeInvestigacao();
@@ -946,7 +951,7 @@ namespace MVC_2020_Business.Services
                 ui.AddEndDate = PAddress.EndDate;
             }
 
-             ui.Address = _db.PAddress.FirstOrDefault(x => x.PAddressId == ui.PAddressId);
+             //ui.Address = _db.PAddress.FirstOrDefault(x => x.PAddressId == ui.PAddressId);
             
 
             var Activity = _db.OrgUnitActivity.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
@@ -1748,6 +1753,7 @@ namespace MVC_2020_Business.Services
                 if (act != null) _db.Set<OrgUnitActivity>().Remove(act);
 
                 var classi = _db.OrgUnit_Classification.FirstOrDefault(x => x.OrgUnitId == id);
+                //var classi = _db.OrgUnit_Classification.FirstOrDefault(x => x.OrgUnitId == id);
                 if (classi != null) _db.Set<OrgUnit_Classification>().Remove(classi);
 
                 var identi = _db.OrgUnit_Identifier.FirstOrDefault(x => x.OrgUnitId == id);

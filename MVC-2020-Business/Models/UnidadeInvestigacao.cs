@@ -34,7 +34,7 @@ namespace MVC_2020_Business.Models
 
         //Table OrgUnit_PAddress
         public int PAddressId { get; set; }
-        public PAddress Address { get; set; }
+        //public PAddress Address { get; set; }
         public DateTime AddStartDate { get; set; }
         public DateTime AddEndDate { get; set; }
 

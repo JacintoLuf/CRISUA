@@ -48,7 +48,7 @@
                 </div>
 
                 <button type="button" class="negative ui button" onclick="deleteUI(@Newtonsoft.Json.JsonConvert.SerializeObject(dados.OrgUnitId))"><i class="trash circle icon"></i>Eliminar</button>
-
+                @*<p style="text-align:center">Se apagar atualize a página do Administrador</p>*@
             </div>
 
         </div>
@@ -134,7 +134,7 @@
 
                 <div class="field">
                     <label>orgUnitId2</label>
-                    <input type="number" min="" max="" name="orgUnitId2" placeholder="orgUnitId2" value="@dados.OrgUnitI2">
+                    <input type="number" min="" max="" name="orgUnitId2" placeholder="orgUnitId2" value="@dados.OrgUnitId2">
                 </div>
 
                 <div class="field">
@@ -280,7 +280,7 @@ else
 
     function deleteUI(org) {
 
-        $.post("DeleteUI_Helper", { org: JSON.stringify(org) });
+        $.post("DeleteUI_Helper", { org: JSON.stringify(org) }, function (data) { window.opener.location.reload(true); window.close(); })
 
     }
 
