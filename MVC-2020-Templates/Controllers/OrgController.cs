@@ -17,6 +17,10 @@ namespace MVC_2020_Template.Controllers
         private static MyDbContext _db;// acesso db
         private IHostingEnvironment _hostingEnvironment;
 
+        private string iupi = "66c74f1f-8c45-4f43-9a85-be4975eecc09";
+        private string nome = "José Manuel Neto Vieira";
+        private string orcid = "0000-0002-4356-4522";
+
         public OrgController(ILogger<OrgController> logger, MyDbContext db, IHostingEnvironment hosting)// acesso db
         {
             _logger = logger;
@@ -35,28 +39,61 @@ namespace MVC_2020_Template.Controllers
         //}
 
         [HttpGet]
-        public IActionResult Index(int orgUnitId)
+        public IActionResult Index()
         {
-            var tempOrgUnit = _db.OrgUnit.ToList();
+            //var tempOrgUnit = _db.OrgUnit.ToList();
+            var person = _db.Person_Identifier.FirstOrDefault(x => x.Value.Equals(iupi/*Session.IUPI.ToString()*/));
+            var personId = 0;
+            var associatedOrgUnits = new List<Person_OrgUnit>();
+            if (person != null)
+            {
+                personId = person.PersonID;
+                var tempOrgUnits = _db.Person_OrgUnit.ToList();
+                foreach(var a in tempOrgUnits)
+                {
+                    if (a.PersonID == personId)
+                    {
+                        associatedOrgUnits.Add(a);
+                    }
+                    
+                }
+            }
             var listOrgUnit = new List<UnidadeInvestigacao>();
-            foreach (var temp in tempOrgUnit)
+            var listAddresses = DatabaseServices.getAddresses(_db);
+            foreach (var temp in associatedOrgUnits)
             {
 
                 listOrgUnit.Add(DatabaseServices.retrieveInfoUI(_db, temp.OrgUnitId));
 
             }
             ViewBag.OrgUnits = listOrgUnit.ToList();
+            ViewBag.Adresses = listAddresses;
             return View();
         }
 
-        public IActionResult Details(/*string org*/)
+        [HttpPost]
+        public IActionResult Index(string cancelar_bt, string adicionar_bt, int org, DateTime data_ini, DateTime data_fim)
         {
-            //ViewBag.org = @Newtonsoft.Json.JsonConvert.DeserializeObject(org);
-            return View();
+            //Guarda dados editados na BD
+            if (adicionar_bt == "add")
+            {
+                //var id = @Newtonsoft.Json.JsonConvert.DeserializeObject<UnidadeInvestigacao>(org).OrgUnitId;
+                DatabaseServices.AssociatePersonOrgUnit(_db, org, data_ini, data_fim, iupi/*Session.IUPI.ToString()*/);
+               
+            }
+            return RedirectToAction("Index", "Org");
         }
 
-        public IActionResult Details_Helper(string org)
+        public IActionResult Details(String org)
         {
+            ViewBag.Address = DatabaseServices.getAddresses(_db).Find(x => x.PAddressId == @Newtonsoft.Json.JsonConvert.DeserializeObject<UnidadeInvestigacao>(org).PAddressId);
+            ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(org);
+            return View();
+        }
+           
+        public IActionResult Details_Helper(String org)
+        {
+            //ViewBag.Address = DatabaseServices.getAddresses(_db).Find(x => x.PAddressId == @Newtonsoft.Json.JsonConvert.DeserializeObject<UnidadeInvestigacao>(org).PAddressId);
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(org);
             return Json(Url.Action("Details", "Org", new { org = org }));
         }

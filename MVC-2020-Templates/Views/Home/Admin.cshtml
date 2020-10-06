@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Admin";
     var listOrgUnit = ViewBag.OrgUnits;
+    var listAddresses = ViewBag.Adresses;
     var countUI = 0;
 }
 
@@ -74,11 +75,16 @@
                 <label>Acrónimo</label>
                 <input type="text" name="acronimo" placeholder="Acrónimo">
             </div>
-
+           
+            
             <div class="field">
                 <label>Morada</label>
-                <input type="text" name="morada" placeholder="Morada">
+                <div class="fields">
+                    <div class="twelve wide field"> <input type="text" placeholder="Endereço" name="line" /> </div>
+                    <div class="four wide field"> <input type="text" placeholder="Código Postal" name="postCode" /> </div>
+                </div>
             </div>
+
 
             <div class="field">
                 <label>Data início</label>
@@ -126,11 +132,11 @@
             </div>
 
             @*<div class="field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" tabindex="0" class="hidden">
-                        <label>I agree to the Terms and Conditions</label>
-                    </div>
-                </div>*@
+            <div class="ui checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label>I agree to the Terms and Conditions</label>
+            </div>
+        </div>*@
 
             <div class="row">
                 <div class="col-md-4 pull-right btn-group">
@@ -151,6 +157,13 @@
 
         @foreach (MVC_2020_Business.Models.UnidadeInvestigacao orgUnit in listOrgUnit)
         {
+            var morada="";
+            foreach (PAddress add in listAddresses)
+            {
+                if (orgUnit.PAddressId == add.PAddressId)
+                    morada = add.Line1 + " " + add.PostCode;
+            }
+
             <div class="ui raised card" id="@orgUnit.OrgUnitId">
                 <div class="content">
                     <div class="header">@orgUnit.Name (@orgUnit.Acronym)</div>
@@ -176,20 +189,15 @@
                             </div>
                         </div>
 
-                        @*<div class="event">
+                        <div class="event">
                             <div class="content">
                                 <div class="summary">
-                                    <a>Morada:</a> @if (orgUnit.Address != null)
-                                    {
-                                        @orgUnit.Address.Line1
-                                    }
-                                    else
-                                    {
-                                        
-                                    }
+                                    
+                                    <a>Morada:</a> @morada
+
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
                     </div>
                 </div>
                 <div class="extra content">
@@ -255,6 +263,10 @@ else
         } else {
             text.style.display = "none";
         }
+    }
+
+    function newAddress() {
+
     }
 
     function openModal() {

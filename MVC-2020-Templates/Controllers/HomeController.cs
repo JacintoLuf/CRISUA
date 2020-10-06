@@ -59,18 +59,21 @@ namespace MVC_2020_Template.Controllers
         {
             var tempOrgUnit = _db.OrgUnit.ToList();
             var listOrgUnit = new List<UnidadeInvestigacao>();
+            var listAddresses = DatabaseServices.getAddresses(_db);
             foreach (var temp in tempOrgUnit)
             {
 
                 listOrgUnit.Add(DatabaseServices.retrieveInfoUI(_db, temp.OrgUnitId));
             }
             ViewBag.OrgUnits = listOrgUnit.ToList();
+            ViewBag.Adresses = listAddresses;
+            
             return View();
         }
 
         [HttpPost]
         public IActionResult Admin(string adicionar_bt, string cancelar_bt, string nome, string acronimo, DateTime data_ini, DateTime data_fim,
-                                    string uri, double fraction, string value, int orgUnitId2, int addressId, int langId, 
+                                    string uri, double fraction, string value, int orgUnitId2, string line, string postCode, int langId, 
                                     string activityText, string keywords)
         {
             if (cancelar_bt == "cancel")
@@ -83,7 +86,7 @@ namespace MVC_2020_Template.Controllers
             {
                 Console.WriteLine("New UI");
                 DatabaseServices.insertOrgUnit(DB(), acronimo, uri, data_ini, data_fim, fraction,
-                                value, orgUnitId2, addressId, langId, activityText, keywords, nome);
+                                value, orgUnitId2, line, postCode, langId, activityText, keywords, nome);
 
             }
 
@@ -92,6 +95,7 @@ namespace MVC_2020_Template.Controllers
 
         public IActionResult UI_Details(String obj)
         {
+            ViewBag.Address = DatabaseServices.getAddresses(_db).Find(x => x.PAddressId == @Newtonsoft.Json.JsonConvert.DeserializeObject<UnidadeInvestigacao>(obj).PAddressId);
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
             return View();
         }

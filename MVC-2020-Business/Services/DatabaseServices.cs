@@ -251,6 +251,13 @@ namespace MVC_2020_Business.Services
             return a.OrgUnitId;
         }
 
+        public static int lastAddress(MyDbContext _db)
+        {
+            var a = _db.PAddress.OrderByDescending(p => p.PAddressId).FirstOrDefault();
+            if (a == null) return 0;
+            return a.PAddressId;
+        }
+
         public static void insertLoginPerson(MyDbContext _db, string nome, string orcid, string iupi)
         {
             var person_ids = new List<Person_Identifier>();
@@ -1713,9 +1720,10 @@ namespace MVC_2020_Business.Services
         }
 
         
-        public static void insertOrgUnit(MyDbContext _db, string acro, string uri, DateTime start, DateTime end, double fraction, string value, int orgUnitId2, int addressId, int langId, string activityText, string keywords, string name)
+        public static void insertOrgUnit(MyDbContext _db, string acro, string uri, DateTime start, DateTime end, double fraction, string value, int orgUnitId2, string line, string postCode, int langId, string activityText, string keywords, string name)
         {
             var id = lastOrgUnit(_db) + 1;
+            
             _db.Set<OrgUnit>().Add(new OrgUnit { OrgUnitId = id, Acronym = acro, URI = uri });
             _db.SaveChanges();
 
@@ -1728,11 +1736,14 @@ namespace MVC_2020_Business.Services
 
             if(orgUnitId2!=0 )
                 _db.Set<OrgUnit_OrgUnit>().Add(new OrgUnit_OrgUnit { ClassificationID = 5, EndDate = end, Fraction = fraction, OrgUnitId1 = id, OrgUnitId2 = orgUnitId2, StartDate = start });
-            
-            if (addressId != 0)
-                _db.Set<OrgUnit_PAddress>().Add(new OrgUnit_PAddress { StartDate = start, EndDate = end, OrgUnitId = id, PAddressId = addressId });
 
-            if(activityText!=null)
+            
+            _db.Set<PAddress>().Add(new PAddress { Line1=line, Line2=null, Line3=null, CityTown=null, PostCode=postCode, StateOfCountry=null, CountryId=1});
+            _db.SaveChanges();
+            var addressId = lastAddress(_db);
+            _db.Set<OrgUnit_PAddress>().Add(new OrgUnit_PAddress { StartDate = start, EndDate = end, OrgUnitId = id, PAddressId = addressId });
+            
+            if (activityText!=null)
                 _db.Set<OrgUnitActivity>().Add(new OrgUnitActivity { LanguageId = 2, OrgUnitId = id, Text = activityText });
 
             _db.Set<OrgUnitName>().Add(new OrgUnitName { OrgUnitId = id, LanguageId = 2, Name = name });
@@ -1781,6 +1792,19 @@ namespace MVC_2020_Business.Services
                 _db.SaveChanges();
             }
 
+        }
+
+        public static void AssociatePersonOrgUnit(MyDbContext _db,int orgUnitId, DateTime data_ini, DateTime data_fim, string iupi)
+        {
+            var person = _db.Person_Identifier.FirstOrDefault(x => x.Value.Equals(iupi));
+            var personId = 0;
+            if (person != null)
+            {
+                personId = person.PersonID;
+                _db.Set<Person_OrgUnit>().Add(new Person_OrgUnit { PersonID = personId, OrgUnitId = orgUnitId, ClassificationId = 5 /*???*/, StartDate = data_ini, EndDate = data_fim, Fraction = 1 /*???*/, VisibilityId = 2 });
+            }
+
+            _db.SaveChanges();
         }
     }
 }

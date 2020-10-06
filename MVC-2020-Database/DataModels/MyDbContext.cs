@@ -31,18 +31,21 @@ namespace MVC_2020_Database.DataModels
         public virtual DbSet<OrgUnitName> OrgUnitName { get; set; }
         public virtual DbSet<OrgUnit_PAddress> OrgUnit_PAddress { get; set; }
         public virtual DbSet<Person_Identifier> Person_Identifier { get; set; }
+        public virtual DbSet<Person_OrgUnit> Person_OrgUnit { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OrgUnit_Publication>().HasKey(c => new { c.PublicationId, c.OrgUnitId });
             modelBuilder.Entity<Publication_Identifier>().HasKey(c => new { c.PublicationId, c.IdentifierId });
             modelBuilder.Entity<Person_Publication>().HasKey(c => new { c.PersonId, c.PublicationId});
             modelBuilder.Entity<Person_Identifier>().HasKey(c => new { c.PersonID, c.IdentifierId});
+            modelBuilder.Entity<Person_OrgUnit>().HasKey(c => new { c.PersonID, c.OrgUnitId });
             modelBuilder.Entity<OrgUnit_Classification>().HasKey(c => new { c.OrgUnitId, c.ClassificationID});
             modelBuilder.Entity<OrgUnit_Identifier>().HasKey(c => new { c.OrgUnitId, c.IdentifierId});
             modelBuilder.Entity<OrgUnit_OrgUnit>().HasKey(c => new { c.OrgUnitId1, c.OrgUnitId2, c.ClassificationID});
             modelBuilder.Entity<OrgUnit_PAddress>().HasKey(c => new { c.OrgUnitId, c.PAddressId});
             modelBuilder.Entity<OrgUnitActivity>().HasKey(c => new { c.OrgUnitId, c.LanguageId});
             modelBuilder.Entity<OrgUnitName>().HasKey(c => new { c.OrgUnitId, c.LanguageId});
+           
 
         }
 

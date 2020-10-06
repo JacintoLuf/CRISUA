@@ -1,7 +1,60 @@
 ﻿@{
     ViewData["Title"] = "Detalhes";
-    var org = ViewBag.org;
+    var dados = ViewBag.dados;
+    var Address = ViewBag.Address;
+    var morada = "";
 }
 
-<h2>Detalhes da Unidade de Investigação</h2>
-<br />
+
+@if (dados != null)
+{
+    <h2>Detalhes da Unidade de Investigação - @dados.Acronym</h2>
+    <br />
+
+    <div>
+        <table class="ui very basic table">
+            <tbody>
+                <tr>
+                    <th>Nome</th>
+                    <td>@dados.Name</td>
+                </tr>
+                <tr>
+                    <th>URI</th>
+                    <td>@dados.URI</td>
+                </tr>
+                <tr>
+                    <th>Data início</th>
+                    <td>@dados.IDStartDate</td>
+                </tr>
+                <tr>
+                    <th>Data fim</th>
+                    <td>@dados.IDEndDate</td>
+                </tr>
+                <tr>
+                    @if (Address != null) morada = Address.Line1 + " " + Address.PostCode;
+                    <th>Morada</th>
+                    <td>@morada</td>
+                </tr>
+                <tr>
+                    <th>Atividade</th>
+                    <td>@dados.Text</td>
+
+                </tr>
+                <tr>
+                    <th>UIs Relacionadas</th>
+                    <td>@dados.OrgUnitI2</td>
+                </tr>
+                <tr>
+                    <th>Língua</th>
+                    <td>@dados.ActLanguageId</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+}
+else
+{
+    <p>Algo correu mal. Não foi possível encontrar informação sobre a Unidade de Investigação selecionada.</p>
+}

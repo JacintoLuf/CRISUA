@@ -70,7 +70,8 @@ namespace MVC_2020_Template.Api
 
             foreach (UnidadeInvestigacao ui in lista)
             {
-                DatabaseServices.insertOrgUnit(_context,ui.Acronym,ui.URI,ui.ClassStartDate,ui.ClassEndDate,ui.Fraction,ui.Value,ui.OrgUnitId2,ui.PAddressId,ui.ActLanguageId,ui.Text,ui.Keywords,ui.Name);   
+                var morada = _context.PAddress.FirstOrDefault(x => x.PAddressId == ui.PAddressId);
+                DatabaseServices.insertOrgUnit(_context,ui.Acronym,ui.URI,ui.ClassStartDate,ui.ClassEndDate,ui.Fraction,ui.Value,ui.OrgUnitId2,morada.Line1,morada.PostCode,ui.ActLanguageId,ui.Text,ui.Keywords,ui.Name);   
             }
 
             return lista;

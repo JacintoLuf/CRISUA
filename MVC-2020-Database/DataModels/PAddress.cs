@@ -19,6 +19,7 @@ namespace MVC_2020_Database.DataModels
         public string PostCode { get; set; }
         public string CityTown { get; set; }
         public string StateOfCountry { get; set; }
+        public int CountryId { get; set; }
 
         
     }

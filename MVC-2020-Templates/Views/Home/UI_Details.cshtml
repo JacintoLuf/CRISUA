@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "UI_Details";
     var dados = ViewBag.dados;
+    var Address = ViewBag.Address;
+    var morada = "";
 }
 
 @*verificar se dados != null*@
@@ -101,15 +103,7 @@
                 </div>
 
                 @*<div class="field">
-                        <label>Morada</label>
-                        @if (dados.Address["Line1"] != null)
-                        {
-                            <input type="text" name="morada" placeholder="Morada" value="@dados.Address["Line1"]">
-                        }
-                        else
-                        {
-                            <input type="text" name="morada" placeholder="Morada">
-                        }
+                        <label>Morada</label> 
                     </div>*@
 
                 <div class="field">
@@ -203,15 +197,9 @@
                     <td>@dados.IDEndDate</td>
                 </tr>
                 <tr>
+                    @if (Address != null) morada = Address.Line1 + " " + Address.PostCode;
                     <th>Morada</th>
-                    @if (dados.Address != null)
-                    {
-                        <td>@dados.Address["Line1"]</td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
+                    <td>@morada</td>
                 </tr>
                 <tr>
                     <th>Atividade</th>
