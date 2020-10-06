@@ -59,6 +59,14 @@ namespace MVC_2020_Business.Services
             if (!queryResult.IsSuccessStatusCode || queryResult.Content == null) { return new List<Product>(); }
 
             //DatabaseServices.deleteOrgUnit(_db, "Teste criacao na edicao");
+            var listaPubs = allResearchersPubsAuthenticus("R-000-8N5");
+            var listaAUsar = new List<publication>();
+            foreach (var p in listaPubs)
+            {
+                listaAUsar.Add(getPubDataAuthenticus(p.id).Result);
+            }
+
+            DatabaseServices.insertPublicationsAuthenticus(_db, "ababab", listaPubs);
             var desPub = JsonConvert.DeserializeObject<List<Product>>(queryResult.Content.ReadAsStringAsync().Result);
             DatabaseServices.insertPublicationsRIA(_db, desPub, nome);// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
 
