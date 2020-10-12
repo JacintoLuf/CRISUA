@@ -96,6 +96,7 @@ namespace MVC_2020_Template.Controllers
         public IActionResult UI_Details(String obj)
         {
             ViewBag.Address = DatabaseServices.getAddresses(_db).Find(x => x.PAddressId == @Newtonsoft.Json.JsonConvert.DeserializeObject<UnidadeInvestigacao>(obj).PAddressId);
+            ViewBag.Pessoas = DatabaseServices.getPeople(_db);
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
             return View();
         }
@@ -126,6 +127,17 @@ namespace MVC_2020_Template.Controllers
             return RedirectToAction("UI_Details", "Home", new { obj = org});
         }
 
+        [HttpPost]
+        public IActionResult Add_Researchers_To_UI(string ui, string adicionar_bt, string cancelar_bt, int org_id, int person_id, DateTime data_ini, DateTime data_fim)
+        {
+            if(adicionar_bt == "add")
+            {
+                DatabaseServices.AssociatePersonOrgUnit(_db, org_id, data_ini, data_fim, person_id);
+            }
+
+            return RedirectToAction("UI_Details", "Home", new { obj = ui });
+        }
+
         public IActionResult UI_Details_Helper(String obj)
         {
             ViewBag.dados = @Newtonsoft.Json.JsonConvert.DeserializeObject(obj);
@@ -141,6 +153,28 @@ namespace MVC_2020_Template.Controllers
             Console.WriteLine(org);
             //return RedirectToAction("Admin", "Home");
 
+        }
+
+        [HttpGet]
+        public IActionResult Projects()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public IActionResult Projects(string cancelar_bt, string adicionar_bt, IFormCollection form)
+        {
+            return RedirectToAction("Projects", "Home");
+        }
+
+ 
+
+        [HttpGet]
+        public IActionResult ProjectDetails()
+        {
+            return View();
         }
 
         public IActionResult Close()

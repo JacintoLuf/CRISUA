@@ -4,6 +4,7 @@
     var dados = ViewBag.dados;
     var Address = ViewBag.Address;
     var morada = "";
+    var pessoas = ViewBag.Pessoas;
 }
 
 @*verificar se dados != null*@
@@ -20,6 +21,10 @@
         </div>
 
         <div class="four wide column"></div>
+
+        <div class="six wide column">
+            <button type="button" class="ui primary button" onclick="openAddResearchersModal()">Adicionar investigadores</button>
+        </div>
 
         <div class="two wide column">
             <button type="button" class="ui primary button" style="width:100px" onclick="toggleText()"><i class="info circle icon"></i>Ajuda</button>
@@ -75,7 +80,7 @@
     <br />
     <br />
 
-    @*Modal*@
+    @*Modal to edit OrgUnit*@
     <div class="ui modal" id="createUIModal">
         @*Header*@
         <div class="header">Atualizar dados da Unidade de Investigação</div>
@@ -103,7 +108,7 @@
                 </div>
 
                 @*<div class="field">
-                        <label>Morada</label> 
+                        <label>Morada</label>
                     </div>*@
 
                 <div class="field">
@@ -169,6 +174,69 @@
                         <button class="ui primary button" type="submit" name="guardar_bt" value="guardar" onclick="showLoadingButton()">Guardar</button>
                         <input type="hidden" name="org" value="@Newtonsoft.Json.JsonConvert.SerializeObject(dados)" />
                         <input type="hidden" name="id" value="@dados.OrgUnitId" />
+                    </div>
+                    <br>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    @*Modal to add researchers to OrgUnit*@
+    <div class="ui modal" id="addResearchers">
+        @*Header*@
+        <div class="header">Adicionar investigador à Unidade de Investigação</div>
+
+        @*Content*@
+        <div class="content">
+            @*<p>Preencha os campos com os dados da unidade de investigação.</p>*@
+
+            <form class="ui form" method="post" asp-controller="Home" asp-action="Add_Researchers_To_UI">
+
+                @*dropdown*@
+                <div class="grouped fields">
+                    <label>Selecione a Unidade de Investigação a que trabalhou.</label>
+
+                    <div class="field">
+                        <select name="person_id">
+                            <option value="-1"></option>
+                            @*mudar para lista de pessoas*@
+                            @if (pessoas != null)
+                            {
+                                @foreach (MVC_2020_Database.DataModels.PersonName pessoa in pessoas)
+                                {
+                                    <option value="@pessoa.PersonId">@pessoa.Name</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="-1">Nenhum investigador disponível.</option>
+                            }
+
+                        </select>
+                    </div>
+
+                </div>
+                <br />
+
+                <div class="field">
+                    <label>Data início</label>
+                    <input type="date" name="data_ini" placeholder="Data início">
+                </div>
+
+                <div class="field">
+                    <label>Data fim</label>
+                    <input type="date" name="data_fim" placeholder="Data fim">
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 pull-right btn-group">
+                        <button class="ui button" type="submit" name="cancelar_bt" value="cancel">Cancelar</button>
+                        <button class="ui primary button" type="submit" name="adicionar_bt" value="add">Adicionar</button>
+                        <input type="hidden" name="org_id" value="@dados.OrgUnitId" />
+                        <input type="hidden" name="ui" value="@Newtonsoft.Json.JsonConvert.SerializeObject(dados)" />
                     </div>
                     <br>
                 </div>
@@ -262,6 +330,11 @@ else
 
             ;
 
+    }
+
+    function openAddResearchersModal() {
+        $('#addResearchers')
+            .modal('show');
     }
 
 

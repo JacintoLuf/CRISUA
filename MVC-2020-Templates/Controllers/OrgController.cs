@@ -49,13 +49,13 @@ namespace MVC_2020_Template.Controllers
             {
                 personId = person.PersonID;
                 var tempOrgUnits = _db.Person_OrgUnit.ToList();
-                foreach(var a in tempOrgUnits)
+                foreach (var a in tempOrgUnits)
                 {
                     if (a.PersonID == personId)
                     {
                         associatedOrgUnits.Add(a);
                     }
-                    
+
                 }
             }
             var listOrgUnit = new List<UnidadeInvestigacao>();
@@ -78,8 +78,8 @@ namespace MVC_2020_Template.Controllers
             if (adicionar_bt == "add")
             {
                 //var id = @Newtonsoft.Json.JsonConvert.DeserializeObject<UnidadeInvestigacao>(org).OrgUnitId;
-                DatabaseServices.AssociatePersonOrgUnit(_db, org, data_ini, data_fim, iupi/*Session.IUPI.ToString()*/);
-               
+               // DatabaseServices.AssociatePersonOrgUnit(_db, org, data_ini, data_fim, iupi/*Session.IUPI.ToString()*/);
+
             }
             return RedirectToAction("Index", "Org");
         }

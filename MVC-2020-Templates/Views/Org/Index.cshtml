@@ -11,9 +11,9 @@
 
 <!--primeira coluna-->
 <div class="ui grid">
-    <div class="six wide column">
-        <button type="button" class="ui primary button" onclick="openModal()">Entrar</button>
-    </div>
+    <div class="two wide column"></div>
+
+    <div class="two wide column"></div>
 
     <div class="two wide column"></div>
 
@@ -51,65 +51,6 @@
 <br />
 <br />
 
-
-@*Modal*@
-<div class="ui modal">
-    @*Header*@
-    <div class="header">Entrar em Unidade de Investigação</div>
-
-    @*Content*@
-    <div class="content">
-        @*<p>Preencha os campos com os dados da unidade de investigação.</p>*@
-
-        <form class="ui form" method="post">
-
-            @*dropdown*@
-            <div class="grouped fields">
-                <label>Selecione a Unidade de Investigação a que trabalhou.</label>
-
-                <div class="field">
-                    <select name="org">
-                        <option value="-1"></option>
-                        @if (listOrgUnit != null)
-                        {
-                            @foreach (MVC_2020_Business.Models.UnidadeInvestigacao orgUnit in listOrgUnit)
-                            {
-                                <option value="@orgUnit.OrgUnitId">@orgUnit.Name (@orgUnit.Acronym)</option>
-                            }
-                        }
-                        else
-                        {
-                            <option value="-1">Nenhuma Unidade de Investigação disponível.</option>
-                        }
-
-                    </select>
-                </div>
-
-            </div>
-            <br />
-
-            <div class="field">
-                <label>Data início</label>
-                <input type="date" name="data_ini" placeholder="Data início">
-            </div>
-
-            <div class="field">
-                <label>Data fim</label>
-                <input type="date" name="data_fim" placeholder="Data fim">
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-4 pull-right btn-group">
-                    <button class="ui button" type="submit" name="cancelar_bt" value="cancel">Cancelar</button>
-                    <button class="ui primary button" type="submit" name="adicionar_bt" value="add">Entrar</button>
-                </div>
-                <br>
-            </div>
-
-        </form>
-    </div>
-</div>
 
 @if (listOrgUnit != null)
 {
@@ -223,12 +164,6 @@ else
         } else {
             text.style.display = "none";
         }
-    }
-
-    function openModal() {
-        $('.ui.modal')
-            .modal('show')
-            ;
     }
 
     //dropdown dentro do modal

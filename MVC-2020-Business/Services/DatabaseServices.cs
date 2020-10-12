@@ -910,6 +910,11 @@ namespace MVC_2020_Business.Services
             return _db.PAddress.ToList();
         }
 
+        public static List<PersonName> getPeople(MyDbContext _db)
+        {
+            return _db.PersonName.ToList();
+        }
+
         public static UnidadeInvestigacao retrieveInfoUI(MyDbContext _db, int orgUnitId)
         {
             UnidadeInvestigacao ui = new UnidadeInvestigacao();
@@ -1795,15 +1800,9 @@ namespace MVC_2020_Business.Services
 
         }
 
-        public static void AssociatePersonOrgUnit(MyDbContext _db,int orgUnitId, DateTime data_ini, DateTime data_fim, string iupi)
+        public static void AssociatePersonOrgUnit(MyDbContext _db,int orgUnitId, DateTime data_ini, DateTime data_fim, int personId)
         {
-            var person = _db.Person_Identifier.FirstOrDefault(x => x.Value.Equals(iupi));
-            var personId = 0;
-            if (person != null)
-            {
-                personId = person.PersonID;
-                _db.Set<Person_OrgUnit>().Add(new Person_OrgUnit { PersonID = personId, OrgUnitId = orgUnitId, ClassificationId = 5 /*???*/, StartDate = data_ini, EndDate = data_fim, Fraction = 1 /*???*/, VisibilityId = 2 });
-            }
+            _db.Set<Person_OrgUnit>().Add(new Person_OrgUnit { PersonID = personId, OrgUnitId = orgUnitId, ClassificationId = 5 /*???*/, StartDate = data_ini, EndDate = data_fim, Fraction = 1 /*???*/, VisibilityId = 2 });
 
             _db.SaveChanges();
         }
