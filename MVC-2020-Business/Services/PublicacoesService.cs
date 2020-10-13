@@ -66,9 +66,9 @@ namespace MVC_2020_Business.Services
                 listaAUsar.Add(getPubDataAuthenticus(p.id).Result);
             }
 
-            DatabaseServices.insertPublicationsAuthenticus(_db, "ababab", listaPubs);
             var desPub = JsonConvert.DeserializeObject<List<Product>>(queryResult.Content.ReadAsStringAsync().Result);
             DatabaseServices.insertPublicationsRIA(_db, desPub, nome);// ------ INSERIR PUBLICAÇÕES DO RIA NA BD
+
 
 
 
@@ -159,6 +159,14 @@ namespace MVC_2020_Business.Services
                 var ls = JsonConvert.DeserializeObject<List<Work>>(resultado);
                 ls = RemoveDuplicates(ls, full_name.Split(" ").Last());
                 DatabaseServices.insertPublicationsPTCRIS(_db, full_name, ls, orcidID, iupi ); //-----   INSERIR PUBLICAÇÕES VINDAS DO PTCRIS NA BD
+
+                var listaPubs = allResearchersPubsAuthenticus("R-000-8N5");
+                var listaAUsar = new List<publication>();
+                foreach (var p in listaPubs)
+                {
+                    listaAUsar.Add(getPubDataAuthenticus(p.id).Result);
+                }
+                DatabaseServices.insertPublicationsAuthenticus(_db, "ababab", listaPubs);
                 return ls;
             }
             else

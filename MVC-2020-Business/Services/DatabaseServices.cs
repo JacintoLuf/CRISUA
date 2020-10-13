@@ -59,8 +59,7 @@ namespace MVC_2020_Business.Services
                         go = 1;
 
 
-                        var queryP = from tit in _db.PublicationTitle where tit.Title == inp.Title select tit.Title;
-                        if (!(queryP.FirstOrDefault() is null))
+                        if (existsRIA(_db, inp))
                         {
                             go = 0;
                         }
@@ -197,24 +196,27 @@ namespace MVC_2020_Business.Services
 
                     foreach (var title in arr)
                     {
-                        var qId = from pub in _db.PublicationTitle where pub.Title == (string)title select pub.PublicationId;
-                        var id = qId.FirstOrDefault();
-                        if (id != 0)
+                        //var qId = from pub in _db.PublicationTitle where pub.Title == (string)title select pub.PublicationId;
+                        var idT = _db.PublicationTitle.FirstOrDefault(x => x.Title == (string)title);
+                        var id = idT.PublicationId;
+
+                        var trig = _db.Person_Publication.FirstOrDefault(x => x.PublicationId == id);
+                        if (trig == null)
                         {
-                            var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
-                            var trig = qTest.FirstOrDefault();
+                            //var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
+                            //var trig = qTest.FirstOrDefault();
 
-                            if (trig == 0)
-                            {
+                            //if (trig == 0)
+                            //{
 
-                                var authorName = from p in _db.PersonName where p.Name == nome select p.PersonNameId;
-                                var author = from p in _db.PersonName where p.Name == nome select p.PersonId;
-                                var pp = author.FirstOrDefault();
-                                var ppName = authorName.FirstOrDefault();
+                            var authorName = from p in _db.PersonName where p.Name == nome select p.PersonNameId;
+                            var author = from p in _db.PersonName where p.Name == nome select p.PersonId;
+                            var pp = author.FirstOrDefault();
+                            var ppName = authorName.FirstOrDefault();
 
-                                _db.Set<Person_Publication>().Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = pp, PersonNameId = ppName });
+                            _db.Set<Person_Publication>().Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = pp, PersonNameId = ppName });
 
-                            }
+                            //}
                         }
                     }
                     _db.SaveChanges();
@@ -235,7 +237,7 @@ namespace MVC_2020_Business.Services
         public static int lastPublication(MyDbContext _db)
         {
             var a = _db.Publication.OrderByDescending(p => p.PublicationId).FirstOrDefault();
-            if (a == null) return 0;
+            if (a == null) return 1;
             return a.PublicationId;
         }
         public static int lastName(MyDbContext _db)
@@ -386,8 +388,8 @@ namespace MVC_2020_Business.Services
 
                         //PUBLICACOES      
 
-                        var queryP = from tit in _db.PublicationTitle where tit.Title == inp.title.title select tit.Title;
-                        if (!(queryP.FirstOrDefault() is null))
+                        //var queryP = from tit in _db.PublicationTitle where tit.Title == inp.title.title select tit.Title;
+                        if (existsPubOrcid(_db, inp)) //!(queryP.FirstOrDefault() is null))
                         {
                             go = 0;
                         }
@@ -576,16 +578,16 @@ namespace MVC_2020_Business.Services
 
                     foreach (var inp in lista)
                     {
-                        if (!(inp.contributors is null))
+                        if (!(inp.contributors is null) && existsPubOrcid(_db, inp))
                         {
 
-                            var qId = from pub in _db.PublicationTitle where pub.Title == inp.title.title select pub.PublicationId;
-                            var id = qId.FirstOrDefault();
+                            //var qId = from pub in _db.PublicationTitle where pub.Title == inp.title.title select pub.PublicationId;
+                            var idT = _db.PublicationTitle.FirstOrDefault(x => x.Title == inp.title.title);
+                            var id = idT.PublicationId;
+                            //var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
+                            var trig = _db.Person_Publication.FirstOrDefault(x => x.PublicationId == id);
 
-                            var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
-                            var trig = qTest.FirstOrDefault();
-
-                            if (trig == 0)
+                            if (trig == null)
                             {
 
                                 var contri = inp.contributors.contributor.Select(x => x.creditName.value).ToList();
@@ -920,7 +922,7 @@ namespace MVC_2020_Business.Services
             UnidadeInvestigacao ui = new UnidadeInvestigacao();
 
             var OrgUnit = _db.OrgUnit.Find(orgUnitId);
-            if(OrgUnit != null)
+            if (OrgUnit != null)
             {
                 ui.OrgUnitId = OrgUnit.OrgUnitId;
                 ui.Acronym = OrgUnit.Acronym;
@@ -946,8 +948,8 @@ namespace MVC_2020_Business.Services
             }
 
             var OU_OU = _db.OrgUnit_OrgUnit.FirstOrDefault(x => x.OrgUnitId1 == orgUnitId);
-            
-            if(OU_OU != null)
+
+            if (OU_OU != null)
             {
                 ui.OrgUnitId2 = OU_OU.OrgUnitId2;
                 ui.OG2StartDate = OU_OU.StartDate;
@@ -964,11 +966,11 @@ namespace MVC_2020_Business.Services
                 ui.AddEndDate = PAddress.EndDate;
             }
 
-             //ui.Address = _db.PAddress.FirstOrDefault(x => x.PAddressId == ui.PAddressId);
-            
+            //ui.Address = _db.PAddress.FirstOrDefault(x => x.PAddressId == ui.PAddressId);
+
 
             var Activity = _db.OrgUnitActivity.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
-            if(Activity != null)
+            if (Activity != null)
             {
                 ui.ActLanguageId = Activity.LanguageId;
                 ui.Text = Activity.Text;
@@ -978,7 +980,7 @@ namespace MVC_2020_Business.Services
             ui.KwLanguageId = 2; //???
 
             var Name = _db.OrgUnitName.FirstOrDefault(x => x.OrgUnitId == orgUnitId);
-            if(Name != null)
+            if (Name != null)
             {
                 ui.NameLanguageId = Name.LanguageId;
                 ui.Name = Name.Name;
@@ -1052,26 +1054,26 @@ namespace MVC_2020_Business.Services
                 //}
                 //else
                 //{
-                    var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID == tipoPortalID.ID).NomePortal;
+                var tipoPortal = _db.PortalIdentifier.FirstOrDefault(x => x.ID == tipoPortalID.ID).NomePortal;
 
-                    if (tipo is null)
-                    {
-                        tipo = "RIA";
-                    }
-                    var index = pubsPorTipo.FindIndex(x => x.id == tipoPortalID.ID);
+                if (tipo is null)
+                {
+                    tipo = "RIA";
+                }
+                var index = pubsPorTipo.FindIndex(x => x.id == tipoPortalID.ID);
 
-                    if (index != -1)
-                    {
-                        pubsPorTipo.ElementAt(index).publications.Add(pub);
-                    }
-                    else
-                    {
-                        Tipo type = new Tipo();
-                        type.title = tipoPortal;
-                        type.id = tipoPortalID.ID;
-                        type.publications = new List<PublicationPortal> { pub };
-                        pubsPorTipo.Add(type);
-                    }
+                if (index != -1)
+                {
+                    pubsPorTipo.ElementAt(index).publications.Add(pub);
+                }
+                else
+                {
+                    Tipo type = new Tipo();
+                    type.title = tipoPortal;
+                    type.id = tipoPortalID.ID;
+                    type.publications = new List<PublicationPortal> { pub };
+                    pubsPorTipo.Add(type);
+                }
                 //}
 
                 //if (allPubs.ContainsKey(tipo))
@@ -1383,14 +1385,14 @@ namespace MVC_2020_Business.Services
                                     string activityText, string keywords)
         {
             var id = orgUnitId;
-            
+
 
             var orgUnit = _db.OrgUnit.Find(id);
             orgUnit.Acronym = acronimo;
             orgUnit.URI = uri;
             _db.Entry(orgUnit).State = EntityState.Modified;
             _db.SaveChanges();
-                                               
+
             var identifier = _db.OrgUnit_Identifier.FirstOrDefault(x => x.OrgUnitId == id);
             if (identifier != null)
             {
@@ -1399,11 +1401,11 @@ namespace MVC_2020_Business.Services
                 identifier.StartDate = data_ini;
                 identifier.EndDate = data_fim;
                 _db.Entry(identifier).State = EntityState.Modified;
-                
+
             }
             else
             {
-                if (data_ini < SqlDateTime.MinValue.Value )
+                if (data_ini < SqlDateTime.MinValue.Value)
                 {
                     data_ini = DateTime.Now;
                 }
@@ -1427,7 +1429,7 @@ namespace MVC_2020_Business.Services
                 //OU_OU.ClassificationID = ;
                 OU_OU.Fraction = fraction;
                 _db.Entry(OU_OU).State = EntityState.Modified;
-                
+
             }
             else
             {
@@ -1443,7 +1445,7 @@ namespace MVC_2020_Business.Services
                 //PAddress.StartDate = ;
                 //PAddress.EndDate = ;
                 _db.Entry(PAddress).State = EntityState.Modified;
-                
+
             }
             else
             {
@@ -1459,7 +1461,7 @@ namespace MVC_2020_Business.Services
                 Activity.LanguageId = langId;
                 Activity.Text = activityText;
                 _db.Entry(Activity).State = EntityState.Modified;
-                
+
             }
             else
             {
@@ -1475,7 +1477,8 @@ namespace MVC_2020_Business.Services
             {
                 //Name.LanguageId = ;
                 Name.Name = nome;
-                _db.Entry(Name).State = EntityState.Modified;            }
+                _db.Entry(Name).State = EntityState.Modified;
+            }
             else
             {
                 _db.Set<OrgUnitName>().Add(new OrgUnitName { OrgUnitId = id, LanguageId = 2, Name = nome });
@@ -1725,11 +1728,11 @@ namespace MVC_2020_Business.Services
             _db.Database.ExecuteSqlRaw("exec [UA\\dario.matos].clearBD");
         }
 
-        
+
         public static void insertOrgUnit(MyDbContext _db, string acro, string uri, DateTime start, DateTime end, double fraction, string value, int orgUnitId2, string line, string postCode, int langId, string activityText, string keywords, string name)
         {
             var id = lastOrgUnit(_db) + 1;
-            
+
             _db.Set<OrgUnit>().Add(new OrgUnit { OrgUnitId = id, Acronym = acro, URI = uri });
             _db.SaveChanges();
 
@@ -1737,19 +1740,19 @@ namespace MVC_2020_Business.Services
             //Bruh wtf is this
             //_db.Set<OrgUnit_Classification>().Add(new OrgUnit_Classification { ClassificationID = 5, EndDate = end, StartDate = start,  OrgUnitId = id });
 
-            if(value!=null)
-                _db.Set<OrgUnit_Identifier>().Add(new OrgUnit_Identifier { OrgUnitId = id, EndDate = end, StartDate = start, IdentifierId = 4, Value = value});
+            if (value != null)
+                _db.Set<OrgUnit_Identifier>().Add(new OrgUnit_Identifier { OrgUnitId = id, EndDate = end, StartDate = start, IdentifierId = 4, Value = value });
 
-            if(orgUnitId2!=0 )
+            if (orgUnitId2 != 0)
                 _db.Set<OrgUnit_OrgUnit>().Add(new OrgUnit_OrgUnit { ClassificationID = 5, EndDate = end, Fraction = fraction, OrgUnitId1 = id, OrgUnitId2 = orgUnitId2, StartDate = start });
 
-            
-            _db.Set<PAddress>().Add(new PAddress { Line1=line, Line2=null, Line3=null, CityTown=null, PostCode=postCode, StateOfCountry=null, CountryId=1});
+
+            _db.Set<PAddress>().Add(new PAddress { Line1 = line, Line2 = null, Line3 = null, CityTown = null, PostCode = postCode, StateOfCountry = null, CountryId = 1 });
             _db.SaveChanges();
             var addressId = lastAddress(_db);
             _db.Set<OrgUnit_PAddress>().Add(new OrgUnit_PAddress { StartDate = start, EndDate = end, OrgUnitId = id, PAddressId = addressId });
-            
-            if (activityText!=null)
+
+            if (activityText != null)
                 _db.Set<OrgUnitActivity>().Add(new OrgUnitActivity { LanguageId = 2, OrgUnitId = id, Text = activityText });
 
             _db.Set<OrgUnitName>().Add(new OrgUnitName { OrgUnitId = id, LanguageId = 2, Name = name });
@@ -1762,8 +1765,8 @@ namespace MVC_2020_Business.Services
         {
             //var orga = ui;
             //var id = 0;
-            var orga = _db.OrgUnit.FirstOrDefault(x => x.OrgUnitId== id);
-            if(orga != null)
+            var orga = _db.OrgUnit.FirstOrDefault(x => x.OrgUnitId == id);
+            if (orga != null)
             {
                 //id = orga.OrgUnitId;
                 var act = _db.Set<OrgUnitActivity>().FirstOrDefault(x => x.OrgUnitId == id);
@@ -1800,16 +1803,107 @@ namespace MVC_2020_Business.Services
 
         }
 
-        public static void AssociatePersonOrgUnit(MyDbContext _db,int orgUnitId, DateTime data_ini, DateTime data_fim, int personId)
+        public static void AssociatePersonOrgUnit(MyDbContext _db, int orgUnitId, DateTime data_ini, DateTime data_fim, int personId)
         {
             _db.Set<Person_OrgUnit>().Add(new Person_OrgUnit { PersonID = personId, OrgUnitId = orgUnitId, ClassificationId = 5 /*???*/, StartDate = data_ini, EndDate = data_fim, Fraction = 1 /*???*/, VisibilityId = 2 });
 
             _db.SaveChanges();
         }
 
+
+        public static bool existsRIA(MyDbContext _db, Product publicacao)
+        {
+            var result = false;
+            if (publicacao.Doi != null)
+            {
+                if (_db.Publication_Identifier.FirstOrDefault(x => x.Value == publicacao.Doi) != null)
+                    result = true;
+            }
+
+            if (publicacao.Handle != null)
+            {
+                if (_db.Publication_Identifier.FirstOrDefault(x => x.Value == publicacao.Handle) != null)
+                    result = true;
+            }
+
+
+            //if(publicacao.Issn != null)
+            //{
+            //    if (_db.Publication_Identifier.FirstOrDefault(x => x.Value == publicacao.Issn) != null)
+            //        result = true;
+            //}
+
+            if (publicacao.Title != null)
+            {
+                if (_db.Publication_Identifier.FirstOrDefault(x => x.Value == publicacao.Title) != null)
+                    result = true;
+            }
+
+            return result;
+        }
+
+        public static bool existsPubOrcid(MyDbContext _db, Work publicacao)
+        {
+            var result = false;
+
+            foreach (var ex in publicacao.externalIds.externalId)
+            {
+                if (ex.externalIdType.EqualsIgnoreCase("DOI"))
+                {
+                    if (_db.Publication_Identifier.FirstOrDefault(x => x.Value == ex.externalIdValue) != null)
+                        result = true;
+                }
+
+                if (ex.externalIdType.EqualsIgnoreCase("Handle"))
+                {
+                    if (_db.Publication_Identifier.FirstOrDefault(x => x.Value == ex.externalIdValue) != null)
+                        result = true;
+                }
+
+                //if (ex.externalIdType.EqualsIgnoreCase("ISSN"))
+                //{
+                //    if (_db.Publication_Identifier.FirstOrDefault(x => x.Value == ex.externalIdValue) != null)
+                //        result = true;
+                //}
+            }
+
+            if (publicacao.title != null)
+            {
+                if (_db.PublicationTitle.FirstOrDefault(x => x.Title == publicacao.title.title) != null)
+                    return true;
+            }
+
+            return result;
+        }
+        public static bool existsPubAuth(MyDbContext _db, publication publicacao)
+        {
+            var result = false;
+
+            if (publicacao.doi != null)
+            {
+                if (_db.Publication_Identifier.FirstOrDefault(x => x.Value == publicacao.doi) != null)
+                    result = true;
+            }
+
+            //if (publicacao.issn != null)
+            //{
+            //    if (_db.PublicationDetail.FirstOrDefault(x => x.ISSN == publicacao.issn) != null)
+            //        return true;
+            //}
+
+            if (publicacao.title != null)
+            {
+                if (_db.PublicationTitle.FirstOrDefault(x => x.Title == publicacao.title) != null)
+                    return true;
+            }
+
+            return result;
+        }
+
         public static void insertPublicationsAuthenticus(MyDbContext _db, string nome, List<publication> lista)
         {
             nome = "José Manuel Neto Vieira";
+            var listaExclusiva = new List<publication>(); 
 
             //var researcher= PublicacoesService.getResearcherInfoAuthenticus("R-002-20T");
             //nome= researcher.
@@ -1854,7 +1948,9 @@ namespace MVC_2020_Business.Services
                 go = 1;
                 max = 0;
                 String principal = "";
-
+                //var ASSD = 0;
+                //if (inp.issn!= null && inp.issn.Contains("1520"))// title.Contains("Designing")) 
+                //    ASSD = 3;
                 //PESSOAS
                 if (!(inp.Items is null))
                 {
@@ -1898,8 +1994,8 @@ namespace MVC_2020_Business.Services
 
                 //PUBLICACOES      
 
-                var queryP = from tit in _db.PublicationTitle where tit.Title == inp.title select tit.Title;
-                if (!(queryP.FirstOrDefault() is null) || titulosStatic.Contains(inp.title.ToLower().Trim()))
+                //var queryP = from tit in _db.PublicationTitle where tit.Title == inp.title select tit.Title;
+                if (existsPubAuth(_db, inp) || titulosStatic.Contains(inp.title.ToLower().Trim()))
                 {
                     go = 0;
                 }
@@ -1908,6 +2004,7 @@ namespace MVC_2020_Business.Services
 
                 if (go == 1)
                 {
+                    listaExclusiva.Add(inp);
                     //contPub++;
                     if (inp.date != null)
                     {
@@ -1929,20 +2026,25 @@ namespace MVC_2020_Business.Services
                     contPub = lastPublication(_db);
 
                     //IDENTIFIERS
-                    if (inp.externalidentifier != null)
-                    {
-                        foreach (var ex in inp.externalidentifier)
-                        {
-                            if (ex.type.ToString().EqualsIgnoreCase("DOI"))
-                                idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PublicationId = contPub, StartDate = DateTime.Now, Value = ex.Value });
-                            else if (ex.type.ToString().EqualsIgnoreCase("issn"))
-                            {
-                                var testeISSN = ex.Value;
-                                //issn = ex.Value;
-                            };
-                        }
-                    }
+                    //if (inp.externalidentifier != null)
+                    //{
+                    //    foreach (var ex in inp.externalidentifier)
+                    //    {
+                    //        if (ex.type.ToString().EqualsIgnoreCase("DOI"))
+                    //            idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PublicationId = contPub, StartDate = DateTime.Now, Value = ex.Value });
+                    //        else if (ex.type.ToString().EqualsIgnoreCase("issn"))
+                    //        {
+                    //            var testeISSN = ex.Value;
+                    //            //issn = ex.Value;
+                    //        };
+                    //    }
+                    //}
 
+                    if(inp.doi != null)
+                    {
+                        idents.Add(new Publication_Identifier() { EndDate = DateTime.MaxValue, IdentifierId = 1, PublicationId = contPub, StartDate = DateTime.Now, Value = inp.doi });
+
+                    }
 
                     //TITULOS
                     if (!titulosStatic.Contains(inp.title.ToLower().Trim()))
@@ -2115,18 +2217,21 @@ namespace MVC_2020_Business.Services
             //////
 
 
-            foreach (var inp in lista)
+            foreach (var inp in listaExclusiva)
             {
-                if (!(inp.Items is null))
+                var ta = "ansjknd";
+                if (!(inp.Items is null) && existsPubAuth(_db, inp))
                 {
 
-                    var qId = from pub in _db.PublicationTitle where pub.Title == inp.title select pub.PublicationId;
-                    var id = qId.FirstOrDefault();
+                    //var qId = from pub in _db.PublicationTitle where pub.Title == inp.title select pub.PublicationId;
+                    //var id = qId.FirstOrDefault();
 
-                    var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
-                    var trig = qTest.FirstOrDefault();
-
-                    if (trig == 0 && !titulosStatic.Contains(inp.title.ToLower().Trim()))
+                    var idT = _db.PublicationTitle.FirstOrDefault(x => x.Title == inp.title);
+                    var id = idT.PublicationId;
+                    //var qTest = from data in _db.Person_Publication where data.PublicationId == id select data.PersonId;
+                    //var trig = qTest.FirstOrDefault();
+                    var trig = _db.Person_Publication.FirstOrDefault(x => x.PublicationId == id);
+                    if (trig == null)//&& !titulosStatic.Contains(inp.title.ToLower().Trim()))
                     {
 
                         var contri = inp.Items.Select(x => x.name).ToList();
@@ -2137,7 +2242,7 @@ namespace MVC_2020_Business.Services
                                 var qp = from p in _db.PersonName where p.Name == c select p.PersonNameId;
                                 var ppName = qp.FirstOrDefault();
 
-                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = checkReal(_db, c), PersonNameId = ppName });
+                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = idT.PublicationId, startDate = DateTime.Now, VisibilityId = 2, PersonId = checkReal(_db, c), PersonNameId = ppName });
 
                             }
                             else
@@ -2149,7 +2254,9 @@ namespace MVC_2020_Business.Services
                                 var q2 = from p in _db.PersonName where p.Name == c select p.PersonNameId;
                                 var pName = q2.FirstOrDefault();
 
-                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = id, startDate = DateTime.Now, VisibilityId = 2, PersonId = per, PersonNameId = pName });
+                                pers_pub.Add(new Person_Publication() { ClassificationId = 2, Copyright = null, endDate = DateTime.MaxValue, Fraction = 100 / contri.Count, Order_1 = 1, PublicationId = idT.PublicationId, startDate = DateTime.Now, VisibilityId = 2, PersonId = per, PersonNameId = pName });
+                                if (idT.PublicationId == 7 && per == 15)
+                                    ta = "andjk";
                             }
                         }
                     }
